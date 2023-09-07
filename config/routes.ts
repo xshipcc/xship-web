@@ -1,4 +1,5 @@
 ﻿export default [
+  // 登录
   {
     path: '/user',
     layout: false,
@@ -25,22 +26,10 @@
     component: './Welcome',
   },
   {
-    path: '/admin',
-    name: 'admin',
-    icon: 'crown',
-    access: 'canAdmin',
-    component: './Admin',
-    routes: [
-      {
-        path: '/admin/sub-page',
-        name: 'sub-page',
-        icon: 'smile',
-        component: './Welcome',
-      },
-      {
-        component: './404',
-      },
-    ],
+    name: '智能告警',
+    icon: 'table',
+    path: '/AIalert/list',
+    component: './AIalert',
   },
   {
     name: 'list.table-list',
@@ -58,47 +47,23 @@
     icon: 'crown',
     routes: [
       {
-        name: '用户列表',
+        name: '管理员列表',
         icon: 'table',
-        path: '/system/user/list',
-        component: './system/user',
+        path: '/system/admin/list',
+        component: './system/admin',
       },
       {
-        name: '角色列表',
+        name: '访客列表',
         icon: 'table',
-        path: '/system/role/list',
-        component: './system/role',
+        path: '/system/visitor/list',
+        component: './system/visitor',
       },
       {
-        name: '菜单列表',
+        name: '操作员列表',
         icon: 'table',
-        path: '/system/menu/list',
-        component: './system/menu',
+        path: '/system/operator/list',
+        component: './system/operator',
       },
-      {
-        name: '机构列表',
-        icon: 'table',
-        path: '/system/dept/list',
-        component: './system/dept',
-      },
-      {
-        name: '字典列表',
-        icon: 'table',
-        path: '/system/dict/list',
-        component: './system/dict',
-      },
-      {
-        name: '职位列表',
-        icon: 'table',
-        path: '/system/job/list',
-        component: './system/job',
-      },
-      // {
-      //   name: '参数管理',
-      //   icon: 'table',
-      //   path: '/system/param/list',
-      //   component: './system/param',
-      // },
     ],
   },
   {
@@ -125,7 +90,6 @@
     name: '商品管理',
     icon: 'crown',
     routes: [
-
       {
         name: '品牌管理',
         icon: 'table',
@@ -152,12 +116,6 @@
         component: './oms/order_setting',
       },
       {
-        name: '退货申请',
-        icon: 'table',
-        path: '/oms/orderReturnApply/list',
-        component: './oms/order_return_apply',
-      },
-      {
         name: '退货原因',
         icon: 'table',
         path: '/oms/orderReturnReason/list',
@@ -175,30 +133,6 @@
         icon: 'table',
         path: '/sms/flashPromotion/list',
         component: './sms/flash_promotion',
-      },
-      {
-        name: '品牌推荐',
-        icon: 'table',
-        path: '/sms/homeBrand/list',
-        component: './sms/home_brand',
-      },
-      {
-        name: '新品推荐',
-        icon: 'table',
-        path: '/sms/homeNewProduct/list',
-        component: './sms/home_new_product',
-      },
-      {
-        name: '人气推荐',
-        icon: 'table',
-        path: '/sms/homeRecommendProduct/list',
-        component: './sms/home_recommend_product',
-      },
-      {
-        name: '专题推荐',
-        icon: 'table',
-        path: '/sms/homeRecommendSubject/list',
-        component: './sms/home_recommend_subject',
       },
       {
         name: '广告列表',

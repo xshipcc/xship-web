@@ -1,3 +1,14 @@
+<!--
+ * @Author: weiaodi 1635654853@qq.com
+ * @Date: 2023-09-07 13:21:31
+ * @LastEditors: weiaodi 1635654853@qq.com
+ * @LastEditTime: 2023-09-07 14:55:31
+ * @FilePath: \zero-admin-ui-master\mindmap.md
+ * @Description:
+ *
+ * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
+-->
+
 # 项目结构
 
 - 系统管理
@@ -8,7 +19,11 @@
 
   - 访客管理
 
-  - 执飞员管理
+  - 操作日志
+
+- 日志管理
+
+  - 登录日志
 
   - 操作日志
 
@@ -38,13 +53,15 @@
 
   - department
 
-  - flightAdmin
+  - operator
 
   - vistor
 
-  - pilot
+- log
 
-  - operationlogrecord
+  - loginLog
+
+  - sysLog
 
 - drone
 
