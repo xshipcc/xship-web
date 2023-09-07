@@ -21,7 +21,7 @@
     "openapi": "umi openapi",
     "playwright": "playwright install && playwright test",
     "precommit": "lint-staged",
-    "gitcommit": "lint-staged && git-cz",
+    "gitcommit": "git add . && lint-staged && git-cz",
     "prettier": "prettier -c --write \"src/**/*\"",
     "serve": "umi-serve",
     "start": "cross-env UMI_ENV=dev umi dev",
@@ -113,5 +113,10 @@
   },
   "gitHooks": {
     "commit-msg": "fabric verify-commit"
+  },
+    "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
