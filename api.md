@@ -1,248 +1,106 @@
 # login
 
 ```json
+/api/currentUser
 {
-  "timestamp": 1693981108,
-  "code": "200",
-  "status": 200,
-  "message": "登录成功",
-  "result": {
-    "id": "1582631698900717568",
-    "dept_id": "1574566521848467456",
-    "nick_name": "jinpu",
-    "role": 0,
-    "menu": [
-      {
-        "name": "地图",
-        "path": "/map",
-        "icon": "icon-ditu",
-        "menu_render": 2,
-        "header_render": 2,
-        "component": "./Welcome"
-      },
-      {
-        "name": "统计分析",
-        "path": "/statistical-analysis",
-        "icon": "icon-dashboard3",
-        "component": "./StatisticalAnalysis"
-      },
-      {
-        "name": "矿场管理",
-        "path": "/company",
-        "icon": "icon-kuang1",
-        "component": "./Company"
-      },
-      {
-        "name": "车辆管理",
-        "path": "/car",
-        "icon": "icon-car",
-        "component": "./Cars"
-      },
-      {
-        "name": "车辆预警",
-        "path": "/warring",
-        "icon": "icon-car",
-        "hide_in_menu": 1,
-        "component": "./EarlyWarring"
-      },
-      {
-        "name": "蓝牙卡管理",
-        "path": "/bluetooth",
-        "icon": "icon-bluetooth1",
-        "routes": [
-          {
-            "name": "蓝牙卡管理",
-            "path": "/bluetooth/bluetooth",
-            "component": "./BluetoothCard"
-          },
-          {
-            "name": "蓝牙卡历史",
-            "path": "/bluetooth/blue-card-record",
-            "component": "./BluetoothCardHistory"
-          }
-        ]
-      },
-      {
-        "name": "报表管理",
-        "path": "/report",
-        "icon": "icon-dashborad1",
-        "component": "./Report"
-      },
-      {
-        "name": "监控管理",
-        "path": "/monitor",
-        "icon": "icon-monitor",
-        "component": "./Monitor"
-      },
-      {
-        "name": "AI监管",
-        "path": "/regulation",
-        "icon": "icon-ai1",
-        "routes": [
-          {
-            "name": "车辆记录",
-            "path": "/regulation/car",
-            "component": "./record/CarRecord"
-          },
-          {
-            "name": "抓拍记录",
-            "path": "/regulation/capture",
-            "component": "./record/Capture"
-          },
-          {
-            "name": "异常报警",
-            "path": "/regulation/abnormal-alarm",
-            "component": "./record/AbnormalAlarm"
-          },
-          {
-            "name": "车辆日志",
-            "path": "/regulation/abnormal-car",
-            "component": "./record/AbnormalCarLog"
-          },
-          {
-            "name": "场地异常",
-            "path": "/regulation/site-anomaly",
-            "component": "./record/SiteAnomaly"
-          }
-        ]
-      },
-      {
-        "name": "系统管理",
-        "path": "/system",
-        "icon": "icon-system",
-        "routes": [
-          {
-            "name": "组织机构管理",
-            "path": "/system/dept",
-            "component": "./system/dept"
-          },
-          {
-            "name": "菜单管理",
-            "path": "/system/menu",
-            "component": "./system/menu"
-          },
-          {
-            "name": "角色管理",
-            "path": "/system/role",
-            "component": "./system/role"
-          },
-          {
-            "name": "用户管理",
-            "path": "/system/user",
-            "component": "./system/user"
-          }
-        ]
-      },
-      {
-        "name": "视频列表",
-        "path": "/video-list/:id",
-        "hide_in_menu": 1,
-        "menu_render": 2,
-        "header_render": 2,
-        "component": "/VideoList"
-      },
-      {
-        "name": "视频播放",
-        "path": "/video-info",
-        "hide_in_menu": 1,
-        "menu_render": 2,
-        "header_render": 2,
-        "component": "./VideoInfo"
-      },
-      {
-        "name": "视频历史",
-        "path": "/video-history/:mid",
-        "hide_in_menu": 1,
-        "menu_render": 2,
-        "header_render": 2,
-        "component": "./VideoHistory"
-      },
-      {
-        "name": "操作日志",
-        "path": "/operationlogrecord",
-        "icon": "icon-cao2",
-        "component": "./OperationLogRecord"
-      }
-    ],
-    "menu_name_list": [
-      "地图",
-      "车辆记录",
-      "组织机构管理",
-      "蓝牙卡管理",
-      "统计分析",
-      "抓拍记录",
-      "菜单管理",
-      "蓝牙卡历史",
-      "矿场管理",
-      "角色管理",
-      "车辆管理",
-      "异常报警",
-      "车辆预警",
-      "用户管理",
-      "车辆日志",
-      "蓝牙卡管理",
-      "场地异常",
-      "报表管理",
-      "监控管理",
-      "AI监管",
-      "系统管理",
-      "视频列表",
-      "视频播放",
-      "视频历史",
-      "操作日志"
-    ],
-    "perms": [],
-    "is_bottom": 0,
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkZXB0TmFtZSI6IjE1ODUxODQ5MTk5ODQ4MDM4NDAiLCJleHAiOjE2OTQwNjc1MDgsImlhdCI6MTY5Mzk4MTEwOCwibmlja05hbWUiOiJqaW5wdSIsInVzZXJJZCI6IjE1ODI2MzE2OTg5MDA3MTc1NjgifQ.61z5-w-Or49qN5M0LDBIHtR1t7zxf36iDBc5hWo4s0U",
-    "ids": [
-      "1574581815186821120",
-      "1574589158070947840",
-      "1574589356671242240",
-      "1578586447387037696",
-      "1578631625103642624",
-      "1578631865206575104",
-      "1578632189375942656",
-      "1579317455702986752",
-      "1579322376351387648",
-      "1579322931777900544",
-      "1579323277178834944",
-      "1579405641343045632",
-      "1580394334862184448"
-    ],
-    "accessExpire": 1694067508,
-    "refreshAfter": 1694024308
-  }
-}
-
-tree
-{
-    "timestamp": 1693981108,
-    "code": "1000200",
-    "status": 200,
-    "message": "",
-    "result": [
+      code: '000000',
+      message: '获取个人信息成功',
+      avatar: 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',
+      name: 'admin',
+      menuTree: [
         {
-            "value": "1574566271876337664",
-            "title": "超级管理员",
-            "pid": "0",
-            "children": [
-                {
-                    "value": "1574566521848467456",
-                    "title": "德泰",
-                    "pid": "1574566271876337664",
-                    "children": [
-                        {
-                            "value": "1583341911320563712",
-                            "title": "3eeee",
-                            "pid": "1574566521848467456",
-                            "children": []
-                        }
-                    ]
-                }
-            ]
-        }
-    ]
-}
+          id: 1,
+          path: '/welcome',
+          name: '无人机巡检大屏',
+          parentId: 0,
+          icon: 'SmileOutlined',
+        },
+        {
+          id: 30,
+          path: '/AIalert/list',
+          name: '智能告警',
+          parentId: 0,
+          icon: 'SmileOutlined',
+        },
+        {
+          id: 2,
+          path: '/system',
+          name: '系统管理',
+          parentId: 0,
+          icon: 'SettingOutlined',
+        },
+        {
+          id: 3,
+          path: '/system/admin/list',
+          name: '管理员列表',
+          parentId: 2,
+          icon: '1',
+        },
+        {
+          id: 4,
+          path: '/system/operator/list',
+          name: '操作员列表',
+          parentId: 2,
+          icon: '',
+        },
+        {
+          id: 7,
+          path: '/system/visitor/list',
+          name: '访客列表',
+          parentId: 2,
+          icon: '',
+        },
+        {
+          id: 8,
+          path: '/log',
+          name: '日志管理',
+          parentId: 0,
+          icon: 'DeleteOutlined',
+        },
+        {
+          id: 9,
+          path: '/log/loginLog/list',
+          name: '登录日志',
+          parentId: 8,
+          icon: '',
+        },
+        {
+          id: 10,
+          path: '/log/sysLog/list',
+          name: '操作日志',
+          parentId: 8,
+          icon: '',
+        },
+        {
+          id: 16,
+          path: '/drone',
+          name: '无人机管理',
+          parentId: 0,
+          icon: 'GiftOutlined',
+        },
+        {
+          id: 18,
+          path: '/drone/device/list',
+          name: '设备管理',
+          parentId: 16,
+          icon: '',
+        },
+        {
+          id: 18,
+          path: '/drone/task/list',
+          name: '任务管理',
+          parentId: 16,
+          icon: '',
+        },
+        {
+          id: 18,
+          path: '/drone/taskInfo/list',
+          name: '信息库管理',
+          parentId: 16,
+          icon: '',
+        },
+      ],
+    }
 ```
 
 # 查询字典
@@ -883,5 +741,231 @@ log/sysLog/list
     "pageSize": 10,
     "success": true,
     "total": 27769
+}
+
+drone/device/list
+{
+    "current": 1,
+    "data": [
+        {
+            "id": 1,
+            "name": "万和",
+            "firstLetter": "W",
+            "sort": 0,
+            "factoryStatus": 1,
+            "showStatus": 1,
+            "productCount": 100,
+            "productCommentCount": 100,
+            "logo": "http://macro-oss.oss-cn-shenzhen.aliyuncs.com/mall/images/20180607/timg(5).jpg",
+            "bigPic": "12",
+            "brandStory": "Victoria's Secret的故事"
+        },
+        {
+            "id": 2,
+            "name": "三星",
+            "firstLetter": "S",
+            "sort": 100,
+            "factoryStatus": 1,
+            "showStatus": 1,
+            "productCount": 100,
+            "productCommentCount": 100,
+            "logo": "http://macro-oss.oss-cn-shenzhen.aliyuncs.com/mall/images/20180607/timg (1).jpg",
+            "bigPic": " ",
+            "brandStory": "三星的故事"
+        },
+        {
+            "id": 3,
+            "name": "华为",
+            "firstLetter": "H",
+            "sort": 100,
+            "factoryStatus": 1,
+            "showStatus": 0,
+            "productCount": 100,
+            "productCommentCount": 100,
+            "logo": "http://macro-oss.oss-cn-shenzhen.aliyuncs.com/mall/images/20180607/timg (2).jpg",
+            "bigPic": " ",
+            "brandStory": "Victoria's Secret的故事"
+        },
+        {
+            "id": 4,
+            "name": "格力",
+            "firstLetter": "G",
+            "sort": 30,
+            "factoryStatus": 1,
+            "showStatus": 0,
+            "productCount": 100,
+            "productCommentCount": 100,
+            "logo": "http://macro-oss.oss-cn-shenzhen.aliyuncs.com/mall/images/20180607/timg (3).jpg",
+            "bigPic": " ",
+            "brandStory": "Victoria's Secret的故事"
+        },
+        {
+            "id": 5,
+            "name": "方太",
+            "firstLetter": "F",
+            "sort": 20,
+            "factoryStatus": 1,
+            "showStatus": 0,
+            "productCount": 100,
+            "productCommentCount": 100,
+            "logo": "http://macro-oss.oss-cn-shenzhen.aliyuncs.com/mall/images/20180607/timg (4).jpg",
+            "bigPic": " ",
+            "brandStory": "Victoria's Secret的故事"
+        },
+        {
+            "id": 6,
+            "name": "小米",
+            "firstLetter": "M",
+            "sort": 500,
+            "factoryStatus": 1,
+            "showStatus": 1,
+            "productCount": 100,
+            "productCommentCount": 100,
+            "logo": "http://macro-oss.oss-cn-shenzhen.aliyuncs.com/mall/images/20180518/5a912944N474afb7a.png",
+            "bigPic": "http://macro-oss.oss-cn-shenzhen.aliyuncs.com/mall/images/20180518/5afd7778Nf7800b75.jpg",
+            "brandStory": "小米手机的故事"
+        },
+        {
+            "id": 21,
+            "name": "OPPO",
+            "firstLetter": "O",
+            "sort": 0,
+            "factoryStatus": 1,
+            "showStatus": 1,
+            "productCount": 88,
+            "productCommentCount": 500,
+            "logo": "http://macro-oss.oss-cn-shenzhen.aliyuncs.com/mall/images/20180607/timg(6).jpg",
+            "bigPic": "",
+            "brandStory": "string"
+        },
+        {
+            "id": 49,
+            "name": "七匹狼",
+            "firstLetter": "S",
+            "sort": 200,
+            "factoryStatus": 1,
+            "showStatus": 1,
+            "productCount": 77,
+            "productCommentCount": 400,
+            "logo": "http://macro-oss.oss-cn-shenzhen.aliyuncs.com/mall/images/20180518/1522738681.jpg",
+            "bigPic": " ",
+            "brandStory": "BOOB的故事"
+        },
+        {
+            "id": 50,
+            "name": "海澜之家",
+            "firstLetter": "H",
+            "sort": 200,
+            "factoryStatus": 1,
+            "showStatus": 1,
+            "productCount": 66,
+            "productCommentCount": 300,
+            "logo": "http://macro-oss.oss-cn-shenzhen.aliyuncs.com/mall/images/20180607/LOGO1024.png",
+            "bigPic": "",
+            "brandStory": "海澜之家的故事"
+        },
+        {
+            "id": 51,
+            "name": "苹果",
+            "firstLetter": "A",
+            "sort": 200,
+            "factoryStatus": 1,
+            "showStatus": 1,
+            "productCount": 55,
+            "productCommentCount": 200,
+            "logo": "http://macro-oss.oss-cn-shenzhen.aliyuncs.com/mall/images/20180607/timg.jpg",
+            "bigPic": " ",
+            "brandStory": "苹果的故事"
+        }
+    ],
+    "pageSize": 10,
+    "success": true,
+    "total": 11,
+    "code": "000000",
+    "message": "查询商品品牌成功"
+}
+drone/task/list
+drone/taskInfo/list
+{
+    "code": "000000",
+    "message": "查询限时购表成功",
+    "current": 1,
+    "data": [
+        {
+            "id": 2,
+            "title": "春季家电家具疯狂秒杀1",
+            "startDate": "2018-11-12",
+            "endDate": "2018-11-23",
+            "status": 1,
+            "createTime": "2018-11-16 11:12:13"
+        },
+        {
+            "id": 3,
+            "title": "手机特卖",
+            "startDate": "2018-11-03",
+            "endDate": "2018-11-10",
+            "status": 1,
+            "createTime": "2018-11-16 11:11:31"
+        },
+        {
+            "id": 4,
+            "title": "春季家电家具疯狂秒杀3",
+            "startDate": "2018-11-24",
+            "endDate": "2018-11-25",
+            "status": 1,
+            "createTime": "2018-11-16 11:12:19"
+        },
+        {
+            "id": 5,
+            "title": "春季家电家具疯狂秒杀4",
+            "startDate": "2018-11-16",
+            "endDate": "2018-11-16",
+            "status": 1,
+            "createTime": "2018-11-16 11:12:24"
+        },
+        {
+            "id": 6,
+            "title": "春季家电家具疯狂秒杀5",
+            "startDate": "2018-11-16",
+            "endDate": "2018-11-16",
+            "status": 1,
+            "createTime": "2018-11-16 11:12:31"
+        },
+        {
+            "id": 7,
+            "title": "春季家电家具疯狂秒杀6",
+            "startDate": "2018-11-16",
+            "endDate": "2018-11-16",
+            "status": 1,
+            "createTime": "2018-11-16 11:12:35"
+        },
+        {
+            "id": 8,
+            "title": "春季家电家具疯狂秒杀7",
+            "startDate": "2018-11-16",
+            "endDate": "2018-11-16",
+            "status": 0,
+            "createTime": "2018-11-16 11:12:39"
+        },
+        {
+            "id": 9,
+            "title": "春季家电家具疯狂秒杀8",
+            "startDate": "2018-11-16",
+            "endDate": "2018-11-16",
+            "status": 0,
+            "createTime": "2018-11-16 11:12:42"
+        },
+        {
+            "id": 13,
+            "title": "测试",
+            "startDate": "2018-11-01",
+            "endDate": "2018-11-30",
+            "status": 1,
+            "createTime": "2018-11-19 10:34:24"
+        }
+    ],
+    "pageSize": 10,
+    "success": true,
+    "total": 9
 }
 ```
