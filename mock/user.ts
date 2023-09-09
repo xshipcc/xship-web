@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
-
+import fs from 'fs';
+import path from 'path';
 const waitTime = (time: number = 100) => {
   return new Promise((resolve) => {
     setTimeout(() => {
@@ -38,7 +39,7 @@ export default {
       menuTree: [
         {
           id: 1,
-          path: '/welcome',
+          path: '/dashboard',
           name: '无人机巡检大屏',
           parentId: 0,
           icon: 'SmileOutlined',
@@ -146,6 +147,18 @@ export default {
     });
   },
 
+  'GET /srctiff': (req: Request, res: Response) => {
+    const filePath = path.resolve(__dirname, '../public/tif/luquan.tif'); // 指定图片文件路径
+    fs.readFile(filePath, (err, data) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send('Internal Server Error');
+      } else {
+        res.setHeader('Content-Type', 'image/tiff');
+        res.send(data);
+      }
+    });
+  },
   //#region    -----------------------------------------------------------------------
   /**
    *  @file user.ts

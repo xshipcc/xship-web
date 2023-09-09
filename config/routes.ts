@@ -20,10 +20,10 @@
     ],
   },
   {
-    path: '/welcome',
-    name: 'welcome',
+    path: '/dashboard',
+    name: '可视化大屏',
     icon: 'smile',
-    component: './Welcome',
+    component: './dashboard',
   },
   {
     name: '智能告警',
