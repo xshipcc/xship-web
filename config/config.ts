@@ -5,10 +5,20 @@ import { join } from 'path';
 import defaultSettings from './defaultSettings';
 import proxy from './proxy';
 import routes from './routes';
-
+import path from 'path';
 const { REACT_APP_ENV } = process.env;
+const cesiumSource = 'node_modules/cesium/Source';
+const cesiumWorkers = '../Build/Cesium/Workers';
 
 export default defineConfig({
+  copy: [
+    { from: path.join(cesiumSource, cesiumWorkers), to: 'Workers' },
+    { from: path.join(cesiumSource, 'Assets'), to: 'Assets' },
+    { from: path.join(cesiumSource, 'Widgets'), to: 'Widgets' },
+  ],
+  define: {
+    CESIUM_BASE_URL: '/', //cesium默认路径地址配置，没改好,这个地址相对于路由
+  },
   hash: true,
   antd: {},
   dva: {

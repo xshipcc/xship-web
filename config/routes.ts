@@ -21,7 +21,8 @@
   },
   {
     path: '/dashboard',
-    name: '可视化大屏',
+    name: '无人机巡检大屏',
+    layout: false,
     icon: 'smile',
     component: './dashboard',
   },

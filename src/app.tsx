@@ -1,12 +1,22 @@
-import {Settings as LayoutSettings, MenuDataItem} from '@ant-design/pro-layout';
-import {SettingDrawer} from '@ant-design/pro-layout';
-import {PageLoading} from '@ant-design/pro-layout';
-import {RunTimeLayoutConfig} from 'umi';
-import {history} from 'umi';
+// @ts-nocheck
+/*
+ * @Author: weiaodi 1635654853@qq.com
+ * @Date: 2023-09-07 11:45:31
+ * @LastEditors: weiaodi 1635654853@qq.com
+ * @LastEditTime: 2023-09-10 16:24:30
+ * @FilePath: \zero-admin-ui-master\src\app.tsx
+ * @Description:
+ *
+ * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
+ */
+import type { Settings as LayoutSettings, MenuDataItem } from '@ant-design/pro-layout';
+import { PageLoading } from '@ant-design/pro-layout';
+import type { RunTimeLayoutConfig } from 'umi';
+import { history } from 'umi';
 import RightContent from '@/components/RightContent';
-import {currentUser as queryCurrentUser} from './services/ant-design-pro/api';
+import { currentUser as queryCurrentUser } from './services/ant-design-pro/api';
 import defaultSettings from '../config/defaultSettings';
-import {tree} from "@/utils/utils";
+import { tree } from '@/utils/utils';
 import {
   SmileOutlined,
   HeartOutlined,
@@ -17,27 +27,26 @@ import {
   DollarCircleOutlined,
   AlertOutlined,
 } from '@ant-design/icons';
-import {RequestConfig,} from "@@/plugin-request/request";
-import {RequestInterceptor, RequestOptionsInit} from 'umi-request';
-import {notification} from "antd";
+import type { RequestConfig } from '@@/plugin-request/request';
+import type { RequestInterceptor, RequestOptionsInit } from 'umi-request';
+import { notification } from 'antd';
 
 const IconMap = {
-  SmileOutlined: <SmileOutlined/>,
-  HeartOutlined: <HeartOutlined/>,
-  SettingOutlined: <SettingOutlined/>,
-  DeleteOutlined: <DeleteOutlined/>,
-  FrownOutlined: <FrownOutlined/>,
-  GiftOutlined: <GiftOutlined/>,
-  DollarCircleOutlined: <DollarCircleOutlined/>,
-  AlertOutlined: <AlertOutlined/>,
+  SmileOutlined: <SmileOutlined />,
+  HeartOutlined: <HeartOutlined />,
+  SettingOutlined: <SettingOutlined />,
+  DeleteOutlined: <DeleteOutlined />,
+  FrownOutlined: <FrownOutlined />,
+  GiftOutlined: <GiftOutlined />,
+  DollarCircleOutlined: <DollarCircleOutlined />,
+  AlertOutlined: <AlertOutlined />,
 };
-
 
 const loginPath = '/user/login';
 
 /** 获取用户信息比较慢的时候会展示一个 loading */
 export const initialStateConfig = {
-  loading: <PageLoading/>,
+  loading: <PageLoading />,
 };
 
 /**
@@ -63,9 +72,9 @@ export async function getInitialState(): Promise<{
   if (history.location.pathname !== loginPath) {
     const currentUser = await fetchUserInfo();
     return {
+      settings: defaultSettings,
       fetchUserInfo,
       currentUser,
-      settings: defaultSettings,
     };
   }
   return {
@@ -74,71 +83,51 @@ export async function getInitialState(): Promise<{
   };
 }
 
-// ProLayout 支持的api https://procomponents.ant.design/components/layout
-export const layout: RunTimeLayoutConfig = ({initialState, setInitialState}) => {
-  return {
-    rightContentRender: () => <RightContent/>,
-    disableContentMargin: false,
-    waterMarkProps: {
-      content: initialState?.currentUser?.name,
-    },
-    menuDataRender: () => menuDataRender(),
-    onPageChange: () => {
-      const {location} = history;
-      // 如果没有登录，重定向到 login
-      if (!initialState?.currentUser && location.pathname !== loginPath) {
-        history.push(loginPath);
-      }
-    },
-    menu: {
-      locale: false
-    },
-    menuHeaderRender: undefined,
-    // 自定义 403 页面
-    // unAccessible: <div>unAccessible</div>,
-    // 增加一个 loading 的状态
-    childrenRender: (children, props) => {
-      // if (initialState?.loading) return <PageLoading />;
-      return (
-        <>
-          {children}
-          {!props.location?.pathname?.includes('/login') && (
-            <SettingDrawer
-              enableDarkTheme
-              settings={initialState?.settings}
-              onSettingChange={(settings) => {
-                setInitialState((preInitialState) => ({
-                  ...preInitialState,
-                  settings,
-                }));
-              }}
-            />
-          )}
-        </>
-      );
-    },
-    ...initialState?.settings,
-  };
-};
-
-const menuDataRender: any = () => {
-  let item = localStorage.getItem('menuTree') + '';
-
-  console.log(loopMenuItem(tree(JSON.parse(item), 0, 'parentId')));
-
-  return loopMenuItem(tree(JSON.parse(item), 0, 'parentId'));
-
-  // return tree(JSON.parse(item), 0, "parent_id");
-};
-
 const loopMenuItem = (menus: any[]): MenuDataItem[] =>
-  menus.map(({icon, children, ...item}) => {
+  menus.map(({ icon, children, ...item }) => {
     return {
       ...item,
       icon: icon && IconMap[icon as string],
       children: children && loopMenuItem(children),
     };
   });
+
+const menuDataRender: any = () => {
+  const item = localStorage.getItem('menuTree') + '';
+
+  // console.log(loopMenuItem(tree(JSON.parse(item), 0, 'parentId')));
+
+  return loopMenuItem(tree(JSON.parse(item), 0, 'parentId'));
+
+  // return tree(JSON.parse(item), 0, "parent_id");
+};
+
+// ProLayout 支持的api https://procomponents.ant.design/components/layout
+export const layout: RunTimeLayoutConfig = ({ initialState }) => {
+  return {
+    rightContentRender: () => <RightContent />,
+    disableContentMargin: false,
+    waterMarkProps: {
+      content: initialState?.currentUser?.name,
+    },
+    menuDataRender: () => menuDataRender(),
+    onPageChange: () => {
+      const { location } = history;
+      // 如果没有登录，重定向到 login
+      if (!initialState?.currentUser && location.pathname !== loginPath) {
+        history.push(loginPath);
+      }
+    },
+    menu: {
+      locale: false,
+    },
+    menuHeaderRender: undefined,
+    // 自定义 403 页面
+    // unAccessible: <div>unAccessible</div>,
+    // 增加一个 loading 的状态
+    ...initialState?.settings,
+  };
+};
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -163,10 +152,10 @@ const codeMessage = {
  * 异常处理程序
  */
 const errorHandler = (error: any) => {
-  const {response} = error;
+  const { response } = error;
   if (response && response.status) {
     const errorText = codeMessage[response.status] || response.statusText;
-    const {status, url} = response;
+    const { status, url } = response;
 
     notification.error({
       message: `请求错误 ${status}: ${url}`,
@@ -182,7 +171,6 @@ const errorHandler = (error: any) => {
   }
   throw error;
 };
-
 
 const addToken: RequestInterceptor = (url: string, options: RequestOptionsInit) => {
   options.headers = {
