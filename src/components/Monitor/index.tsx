@@ -2,8 +2,8 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-12 00:40:14
- * @FilePath: \zero-admin-ui-master\src\components\awareness\index.tsx
+ * @LastEditTime: 2023-09-11 14:00:38
+ * @FilePath: \zero-admin-ui-master\src\pages\Welcome.tsx
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
@@ -12,11 +12,11 @@ import { Button, Result } from 'antd';
 import React from 'react';
 import { history } from 'umi';
 
-const Analysis: React.FC = () => (
+const Monitor: React.FC = () => (
   <Result
     status="404"
-    title="Analysis"
-    subTitle="Analysis."
+    title="Monitor"
+    subTitle="Monitor."
     extra={
       <Button type="primary" onClick={() => history.push('/')}>
         Back Home
@@ -25,4 +25,4 @@ const Analysis: React.FC = () => (
   />
 );
 
-export default Analysis;
+export default Monitor;

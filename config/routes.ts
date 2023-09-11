@@ -26,13 +26,7 @@
     icon: 'smile',
     component: './dashboard',
   },
-  {
-    path: '/analysis',
-    name: '统计分析',
-    layout: false,
-    icon: 'smile',
-    component: './analysis',
-  },
+
   {
     name: '智能告警',
     icon: 'table',

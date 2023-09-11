@@ -54,13 +54,6 @@ export default {
           parentId: 0,
           icon: 'SmileOutlined',
         },
-        {
-          id: 111,
-          path: '/analysis',
-          name: '统计分析',
-          parentId: 0,
-          icon: 'SmileOutlined',
-        },
 
         {
           id: 30,

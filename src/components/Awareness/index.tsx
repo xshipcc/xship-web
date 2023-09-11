@@ -12,11 +12,11 @@ import { Button, Result } from 'antd';
 import React from 'react';
 import { history } from 'umi';
 
-const Analysis: React.FC = () => (
+const Awareness: React.FC = () => (
   <Result
     status="404"
-    title="Analysis"
-    subTitle="Analysis."
+    title="Awareness"
+    subTitle="Awareness."
     extra={
       <Button type="primary" onClick={() => history.push('/')}>
         Back Home
@@ -25,4 +25,4 @@ const Analysis: React.FC = () => (
   />
 );
 
-export default Analysis;
+export default Awareness;
