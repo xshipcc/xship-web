@@ -44,6 +44,7 @@ export default {
           parentId: 0,
           icon: 'SmileOutlined',
         },
+
         {
           id: 30,
           path: '/AIalert/list',
