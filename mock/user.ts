@@ -1,3 +1,13 @@
+/*
+ * @Author: weiaodi 1635654853@qq.com
+ * @Date: 2023-09-07 13:46:28
+ * @LastEditors: weiaodi 1635654853@qq.com
+ * @LastEditTime: 2023-09-11 13:54:25
+ * @FilePath: \zero-admin-ui-master\mock\user.ts
+ * @Description:
+ *
+ * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
+ */
 import { Request, Response } from 'express';
 import fs from 'fs';
 import path from 'path';
@@ -41,6 +51,13 @@ export default {
           id: 1,
           path: '/dashboard',
           name: '无人机巡检大屏',
+          parentId: 0,
+          icon: 'SmileOutlined',
+        },
+        {
+          id: 111,
+          path: '/analysis',
+          name: '统计分析',
           parentId: 0,
           icon: 'SmileOutlined',
         },
