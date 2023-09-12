@@ -1,3 +1,13 @@
+/*
+ * @Author: weiaodi 1635654853@qq.com
+ * @Date: 2023-09-07 13:46:28
+ * @LastEditors: weiaodi 1635654853@qq.com
+ * @LastEditTime: 2023-09-12 10:50:27
+ * @FilePath: \zero-admin-ui-master\config\config.ts
+ * @Description:
+ *
+ * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
+ */
 // https://umijs.org/config/
 import { defineConfig } from 'umi';
 import { join } from 'path';

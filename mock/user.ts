@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-11 13:54:25
+ * @LastEditTime: 2023-09-12 11:18:31
  * @FilePath: \zero-admin-ui-master\mock\user.ts
  * @Description:
  *
@@ -166,6 +166,30 @@ export default {
         res.status(500).send('Internal Server Error');
       } else {
         res.setHeader('Content-Type', 'image/tiff');
+        res.send(data);
+      }
+    });
+  },
+  'GET /czml': (req: Request, res: Response) => {
+    const filePath = path.resolve(__dirname, '../public/SampleData/sampleFlight.czml'); // 指定图片文件路径
+    fs.readFile(filePath, (err, data) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send('Internal Server Error');
+      } else {
+        res.setHeader('Content-Type', 'text');
+        res.send(data);
+      }
+    });
+  },
+  'GET /model': (req: Request, res: Response) => {
+    const filePath = path.resolve(__dirname, '../public/SampleData/Models/CesiumDrone.gltf'); // 指定图片文件路径
+    fs.readFile(filePath, (err, data) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send('Internal Server Error');
+      } else {
+        res.setHeader('Content-Type', 'gltf');
         res.send(data);
       }
     });
