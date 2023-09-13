@@ -2,22 +2,82 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-13 18:41:41
- * @FilePath: \zero-admin-ui-master\src\components\Analysis\index.tsx
+ * @LastEditTime: 2023-09-13 23:24:38
+ * @FilePath: \zero-admin-ui-master\src\components\Analysis\left.tsx
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
 import { Col, Row } from 'antd';
 import React, { useEffect, useState } from 'react';
-import styles from './index.less';
-import { Area } from '@ant-design/plots';
+import styles from './left.less';
+import { Area, Pie } from '@ant-design/plots';
+
+const DemoPie = () => {
+  const data = [
+    {
+      type: '分类一',
+      value: 27,
+    },
+    {
+      type: '分类二',
+      value: 25,
+    },
+    {
+      type: '分类三',
+      value: 18,
+    },
+    {
+      type: '分类四',
+      value: 15,
+    },
+  ];
+  const config = {
+    appendPadding: 0.1,
+    data,
+    angleField: 'value',
+    colorField: 'type',
+    radius: 0.8,
+    innerRadius: 0.8,
+    label: {
+      type: 'inner',
+      offset: '-50%',
+      content: '{value}',
+      style: {
+        textAlign: 'center',
+        fontSize: 8,
+      },
+    },
+    interactions: [
+      {
+        type: 'element-selected',
+      },
+      {
+        type: 'element-active',
+      },
+    ],
+    statistic: {
+      title: false,
+      content: {
+        style: {
+          whiteSpace: 'pre-wrap',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+        },
+        content: '',
+      },
+    },
+  };
+  // @ts-ignore
+  return <Pie {...config} />;
+};
+
 const Analysis: React.FC = () => {
   //#region    -----------------------------------------------------------------------
   /**
    *  @file index.tsx
    *  @time 2023/09/13
-   * @category :
+   * @category :area
    * @function :
    */
 
@@ -47,12 +107,24 @@ const Analysis: React.FC = () => {
    */
   //#endregion -----------------------------------------------------------------------
 
+  //#region    -----------------------------------------------------------------------
+  /**
+   *  @file left.tsx
+   *  @time 2023/09/13
+   * @category :
+   * @function :
+   */
+
+  /**
+   * @end
+   */
+  //#endregion -----------------------------------------------------------------------
   return (
     <>
       <div className={styles.content}>
         <Row>
-          <Col span={4} className={styles.arrow} />
-          <Col span={20} className={styles.title}>
+          <Col span={2} className={styles.arrow} />
+          <Col span={22} className={styles.title}>
             无人机数量
           </Col>
         </Row>
@@ -71,22 +143,21 @@ const Analysis: React.FC = () => {
             异常
           </Col>
         </Row>
-        {/*  */}
         <Row>
           <Col span={8} className={styles.text}>
-            col-8
+            11111
           </Col>
           <Col span={8} className={styles.text}>
-            col-8
+            1111
           </Col>
           <Col span={8} className={styles.textRed}>
-            col-8
+            111
           </Col>
         </Row>
         {/*  */}
         <Row>
-          <Col span={4} className={styles.arrow} />
-          <Col span={20} className={styles.title}>
+          <Col span={2} className={styles.arrow} />
+          <Col span={22} className={styles.title}>
             无人机巡检时长
           </Col>
         </Row>
@@ -95,47 +166,47 @@ const Analysis: React.FC = () => {
         </Row>
         {/*  */}
         <Row>
-          <Col span={3} className={styles.ring} />
-          <Col span={3} className={styles.text}>
-            col-6
+          <Col span={4} className={styles.ring} />
+          <Col span={3} className={styles.textwhite}>
+            总数
           </Col>
-          <Col span={4} className={styles.text}>
-            col-6
+          <Col span={4} className={styles.textyellow}>
+            222
           </Col>
-          <Col span={3} className={styles.text}>
-            col-6
+          <Col span={3} className={styles.textwhite}>
+            完成
           </Col>
-          <Col span={4} className={styles.text}>
-            col-6
+          <Col span={3} className={styles.textgreen}>
+            555
           </Col>
-          <Col span={3} className={styles.text}>
-            col-6
+          <Col span={4} className={styles.textwhite}>
+            处理率
           </Col>
-          <Col span={4} className={styles.text}>
-            col-6
-          </Col>
-        </Row>
-        {/*  */}
-        <Row>
-          <Col span={12} className={styles.text}>
-            col-6
-          </Col>
-          <Col span={12} className={styles.text}>
-            col-6
-          </Col>
-        </Row>
-        <Row>
-          <Col span={12} className={styles.text}>
-            col-6
-          </Col>
-          <Col span={12} className={styles.text}>
-            col-6
+          <Col span={3} className={styles.textgreen}>
+            55
           </Col>
         </Row>
         {/*  */}
         <Row>
-          <Col span={4} className={styles.arrow} />
-          <Col span={20} className={styles.title}>
+          <Col span={12} className={styles.pie}>
+            {DemoPie()}
+          </Col>
+          <Col span={12} className={styles.pie}>
+            {DemoPie()}
+          </Col>
+        </Row>
+        <Row>
+          <Col span={12} className={styles.pie}>
+            {DemoPie()}
+          </Col>
+          <Col span={12} className={styles.pie}>
+            {DemoPie()}
+          </Col>
+        </Row>
+        {/*  */}
+        <Row>
+          <Col span={2} className={styles.arrow} />
+          <Col span={22} className={styles.title}>
             历史巡检告警趋势
           </Col>
         </Row>

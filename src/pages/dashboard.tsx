@@ -19,8 +19,8 @@ import { Button, Col, Row } from 'antd';
 import Monitor from '@/components/Monitor';
 import Routemark from '@/components/Routemark';
 import Awareness from '@/components/Awareness';
-import Analysis from '@/components/Analysis';
-
+import Analysis from '@/components/Analysis/left';
+import AnalysisRight from '@/components/Analysis/right';
 const Dashboard: React.FC = () => {
   //#region    -----------------------------------------------------------------------
   /**
@@ -168,16 +168,16 @@ const Dashboard: React.FC = () => {
     }
   };
   const renderComponentLeft = () => {
-    // switch (componets) {
-    //   case 'Awareness':
-    //     return <Awareness />;
-    //   case 'Monitor':
-    //     return <Monitor />;
-    //   case 'Routemark':
-    //     return <Routemark />;
-    //   default:
-    //     return <Analysis />;
-    // }
+    switch (componets) {
+      case 'Awareness':
+        return <Awareness />;
+      case 'Monitor':
+        return <Monitor />;
+      case 'Routemark':
+        return <Routemark />;
+      default:
+        return <AnalysisRight />;
+    }
   };
 
   /**
@@ -252,7 +252,7 @@ const Dashboard: React.FC = () => {
           {renderComponent()}
         </Col>
         <Col span={5} offset={14} className={styles.right}>
-          无人机自动巡检系统
+          {renderComponentLeft()}
         </Col>
       </Row>
       {/* content */}
