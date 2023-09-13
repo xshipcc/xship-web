@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-09 20:12:31
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-12 22:26:03
+ * @LastEditTime: 2023-09-13 20:57:46
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard.tsx
  * @Description:
  *
@@ -15,49 +15,53 @@ import styles from './dashboard.less';
 import 'cesium/Source/Widgets/widgets.css';
 import TIFFImageryProvider from 'tiff-imagery-provider';
 import proj4 from 'proj4-fully-loaded';
-import { Button } from 'antd';
-
+import { Button, Col, Row } from 'antd';
 import Monitor from '@/components/Monitor';
 import Routemark from '@/components/Routemark';
 import Awareness from '@/components/Awareness';
 import Analysis from '@/components/Analysis';
 
 const Dashboard: React.FC = () => {
-  const divRef = useRef<HTMLDivElement>(null);
-  // const viewer = useRef<Cesium.Viewer>();
-  // const custom = new Cesium.ArcGisMapServerImageryProvider({
-  //   url: 'http://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer',
-  // });
-  //
-  const addTiffImageryLayer = async (viewerInstance: Cesium.Viewer, url: string): Promise<void> => {
-    try {
-      const provider: any = await TIFFImageryProvider.fromUrl(url, {
-        enablePickFeatures: true,
-        projFunc: (code) => {
-          if (![4326, 3857, 900913].includes(code)) {
-            try {
-              const prj = proj4('EPSG:4326', `EPSG:${code}`);
-              if (prj)
-                return {
-                  project: prj.forward,
-                  unproject: prj.inverse,
-                };
-            } catch (e) {
-              console.error(e);
-            }
-          }
-          return undefined;
-        },
-      });
+  //#region    -----------------------------------------------------------------------
+  /**
+   *  @file dashboard.tsx
+   *  @time 2023/09/13
+   * @category :
+   * @function :
+   */
 
-      const imageryLayer = viewerInstance.imageryLayers.addImageryProvider(provider);
-      // await viewerInstance.flyTo(imageryLayer, {
-      //   duration: 1,
-      // });
-    } catch (error) {
-      console.error(error);
-    }
+  const [date, setDate] = useState('');
+  const [time, setTime] = useState('');
+  const getNewDate = () => {
+    const timeStamp = new Date();
+    const year = timeStamp.getFullYear(); //年
+    const month = timeStamp.getMonth() + 1; //月
+    const day = timeStamp.getDate(); //日
+    const hour = timeStamp.getHours(); //时
+    const minutes = timeStamp.getMinutes(); //分
+    const s = timeStamp.getSeconds(); //秒
+    const seconds = s <= 9 ? '0' + s : s;
+    const d = year + '年' + month + '月' + day + '日';
+    const t = hour + ':' + minutes + ':' + seconds;
+    setDate(d);
+    setTime(t);
   };
+  setInterval(getNewDate, 1000);
+
+  /**
+   * @end
+   */
+  //#endregion -----------------------------------------------------------------------
+
+  //#region    -----------------------------------------------------------------------
+  /**
+   *  @file dashboard.tsx
+   *  @time 2023/09/13
+   * @category :
+   * @function :
+   */
+  const divRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     // 创建Viewer实例
     const viewer = new Cesium.Viewer(divRef.current as Element, {
@@ -99,11 +103,52 @@ const Dashboard: React.FC = () => {
 
     // addTiffImageryLayer(viewer, '/srctiff');
   }, []);
-  //
 
-  //
+  const addTiffImageryLayer = async (viewerInstance: Cesium.Viewer, url: string): Promise<void> => {
+    try {
+      const provider: any = await TIFFImageryProvider.fromUrl(url, {
+        enablePickFeatures: true,
+        projFunc: (code) => {
+          if (![4326, 3857, 900913].includes(code)) {
+            try {
+              const prj = proj4('EPSG:4326', `EPSG:${code}`);
+              if (prj)
+                return {
+                  project: prj.forward,
+                  unproject: prj.inverse,
+                };
+            } catch (e) {
+              console.error(e);
+            }
+          }
+          return undefined;
+        },
+      });
 
-  //
+      const imageryLayer = viewerInstance.imageryLayers.addImageryProvider(provider);
+      // await viewerInstance.flyTo(imageryLayer, {
+      //   duration: 1,
+      // });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // useEffect(() => {
+  //   addTiffImageryLayer(viewer.current as Cesium.Viewer, '/luquan.tif');
+  // }, []);
+  /**
+   * @end
+   */
+  //#endregion -----------------------------------------------------------------------
+
+  //#region    -----------------------------------------------------------------------
+  /**
+   *  @file dashboard.tsx
+   *  @time 2023/09/13
+   * @category :
+   * @function :
+   */
   const [componets, setComponets] = useState<string>('analysis');
 
   const ShowComponent = (name: string) => {
@@ -122,75 +167,95 @@ const Dashboard: React.FC = () => {
         return <Analysis />;
     }
   };
+  const renderComponentLeft = () => {
+    // switch (componets) {
+    //   case 'Awareness':
+    //     return <Awareness />;
+    //   case 'Monitor':
+    //     return <Monitor />;
+    //   case 'Routemark':
+    //     return <Routemark />;
+    //   default:
+    //     return <Analysis />;
+    // }
+  };
 
-  // useEffect(() => {
-  //   addTiffImageryLayer(viewer.current as Cesium.Viewer, '/luquan.tif');
-  // }, []);
+  /**
+   * @end
+   */
+  //#endregion -----------------------------------------------------------------------
 
   return (
     <div className={styles.screen}>
-      {/* 头部 start*/}
-      <div className={styles.screen_header}>
-        {/* 标题 start */}
-        <div className={styles.title}>
-          <div className={styles.image} />
-          <div className={styles.text}>
-            <p className={styles.textbig}>无人机自动巡检系统</p>
-            <p className={styles.textsmall}>UAV Automated Inspection System</p>
-          </div>
-        </div>
-        {/* 标题 start */}
-        {/* 导航栏 start */}
-        <Button
-          type="text"
-          className={styles.button}
-          onClick={() => {
-            ShowComponent('analysis');
-          }}
-        >
-          analysis
-        </Button>
-        <Button
-          type="text"
-          className={styles.button}
-          onClick={() => {
-            ShowComponent('Awareness');
-          }}
-        >
-          Awareness
-        </Button>
-        <Button
-          type="text"
-          className={styles.button}
-          onClick={() => {
-            ShowComponent('Monitor');
-          }}
-        >
-          Monitor
-        </Button>
-        <Button
-          type="text"
-          className={styles.button}
-          onClick={() => {
-            ShowComponent('Routemark');
-          }}
-        >
-          Routemark
-        </Button>
-        {/* 导航栏 end */}
-        <div className={styles.close}>关闭</div>
-      </div>
-      {/* 头部 end */}
-      {/* 组件 start */}
-      <div className={styles.parentcontent}>
-        <div className={styles.contentleft}>{renderComponent()}</div>
-        <div className={styles.contentright}></div>
-      </div>
-
-      {/* 组件 start */}
-      {/* 地图 start*/}
+      {/* map  */}
       <div ref={divRef} className={styles.map} />
-      {/* 地图 start*/}
+      {/* map  */}
+      {/* time */}
+      <div className={styles.date}>{date}</div>
+      <div className={styles.time}>{time}</div>
+      {/* home */}
+      <div className={styles.home} />
+      <div className={styles.logo} />
+      {/* time */}
+      {/* header */}
+      <Row className={styles.header}>
+        {/* <Col span={1} className={styles.logo} /> */}
+        <Col span={4} offset={1} className={styles.text}>
+          {/* <div className={styles.text}> */}
+          <p className={styles.textbig}>无人机自动巡检系统</p>
+          <p className={styles.textsmall}>UAV Automated Inspection System</p>
+          {/* </div> */}
+        </Col>
+        <Col span={19} className={styles.rightheader}>
+          <Button
+            type="text"
+            className={styles.button}
+            onClick={() => {
+              ShowComponent('analysis');
+            }}
+          >
+            analysis
+          </Button>
+          <Button
+            type="text"
+            className={styles.button}
+            onClick={() => {
+              ShowComponent('Awareness');
+            }}
+          >
+            Awareness
+          </Button>
+          <Button
+            type="text"
+            className={styles.button}
+            onClick={() => {
+              ShowComponent('Monitor');
+            }}
+          >
+            Monitor
+          </Button>
+          <Button
+            type="text"
+            className={styles.button}
+            onClick={() => {
+              ShowComponent('Routemark');
+            }}
+          >
+            Routemark
+          </Button>
+        </Col>
+      </Row>
+      {/* header */}
+      {/* content */}
+      <Row className={styles.content} gutter={[0, 200]}>
+        <Col span={5} className={styles.left}>
+          {renderComponent()}
+        </Col>
+        <Col span={5} offset={14} className={styles.right}>
+          无人机自动巡检系统
+        </Col>
+      </Row>
+      {/* content */}
     </div>
   );
 };
