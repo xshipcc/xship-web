@@ -2,8 +2,8 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-14 11:56:40
- * @FilePath: \zero-admin-ui-master\src\components\Analysis\right.tsx
+ * @LastEditTime: 2023-09-14 11:58:51
+ * @FilePath: \zero-admin-ui-master\src\components\Awareness\right.tsx
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
@@ -11,73 +11,10 @@
 import { Col, Row } from 'antd';
 import React, { useEffect, useState } from 'react';
 import styles from './right.less';
-import { Pie } from '@ant-design/plots';
 import VirtualList from 'rc-virtual-list';
 import { Avatar, List, message } from 'antd';
 
-const AnalysisRight: React.FC = () => {
-  //#region    -----------------------------------------------------------------------
-  /**
-   *  @file index.tsx
-   *  @time 2023/09/13
-   * @category :
-   * @function :
-   */
-
-  const DemoPie = () => {
-    const data = [
-      {
-        type: '分类一',
-        value: 27,
-      },
-      {
-        type: '分类二',
-        value: 25,
-      },
-      {
-        type: '分类三',
-        value: 18,
-      },
-      {
-        type: '分类四',
-        value: 15,
-      },
-      {
-        type: '分类五',
-        value: 10,
-      },
-      {
-        type: '其他',
-        value: 5,
-      },
-    ];
-    const config = {
-      appendPadding: 10,
-      data,
-      angleField: 'value',
-      colorField: 'type',
-      radius: 0.8,
-      label: {
-        type: 'outer',
-        content: '{name} {percentage}',
-      },
-      interactions: [
-        {
-          type: 'pie-legend-active',
-        },
-        {
-          type: 'element-active',
-        },
-      ],
-    };
-    return <Pie {...config} />;
-  };
-
-  /**
-   * @end
-   */
-  //#endregion -----------------------------------------------------------------------
-
+const AwarenessRight: React.FC = () => {
   //#region    -----------------------------------------------------------------------
   /**
    *  @file right.tsx
@@ -104,7 +41,7 @@ const AnalysisRight: React.FC = () => {
 
   const fakeDataUrl =
     'https://randomuser.me/api/?results=20&inc=name,gender,email,nat,picture&noinfo';
-  const ContainerHeight = 200;
+  const ContainerHeight = 500;
 
   const AlertList = () => {
     const [data, setData] = useState<UserItem[]>([]);
@@ -167,40 +104,7 @@ const AnalysisRight: React.FC = () => {
         <Row>
           <Col span={2} className={styles.arrow} />
           <Col span={22} className={styles.title}>
-            巡检数
-          </Col>
-        </Row>
-        <Row>
-          <Col span={24} className={styles.titleLine} />
-        </Row>
-        {/*  */}
-        <Row>
-          <Col span={8} className={styles.text}>
-            今日巡逻
-          </Col>
-          <Col span={8} className={styles.text}>
-            异常次数
-          </Col>
-          <Col span={8} className={styles.text}>
-            告警次数
-          </Col>
-        </Row>
-        <Row>
-          <Col span={8} className={styles.text}>
-            11111
-          </Col>
-          <Col span={8} className={styles.text}>
-            1111
-          </Col>
-          <Col span={8} className={styles.textRed}>
-            111
-          </Col>
-        </Row>
-        {/*  */}
-        <Row>
-          <Col span={2} className={styles.arrow} />
-          <Col span={22} className={styles.title}>
-            即时告警
+            告警情况
           </Col>
         </Row>
         <Row>
@@ -231,25 +135,9 @@ const AnalysisRight: React.FC = () => {
             {AlertList()}
           </Col>
         </Row>
-        {/*  */}
-        <Row>
-          <Col span={2} className={styles.arrow} />
-          <Col span={22} className={styles.title}>
-            严重报警比例
-          </Col>
-        </Row>
-        <Row>
-          <Col span={24} className={styles.titleLine} />
-        </Row>
-        {/*  */}
-        <Row>
-          <Col span={24} className={styles.chart}>
-            {DemoPie()}
-          </Col>
-        </Row>
       </div>
     </>
   );
 };
 
-export default AnalysisRight;
+export default AwarenessRight;

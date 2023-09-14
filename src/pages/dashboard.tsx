@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-09 20:12:31
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-13 20:57:46
+ * @LastEditTime: 2023-09-14 11:24:24
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard.tsx
  * @Description:
  *
@@ -18,9 +18,10 @@ import proj4 from 'proj4-fully-loaded';
 import { Button, Col, Row } from 'antd';
 import Monitor from '@/components/Monitor';
 import Routemark from '@/components/Routemark';
-import Awareness from '@/components/Awareness';
+import AwarenessRight from '@/components/Awareness/right';
 import Analysis from '@/components/Analysis/left';
 import AnalysisRight from '@/components/Analysis/right';
+import AnalysisCenter from '@/components/Analysis/center';
 const Dashboard: React.FC = () => {
   //#region    -----------------------------------------------------------------------
   /**
@@ -158,7 +159,7 @@ const Dashboard: React.FC = () => {
   const renderComponent = () => {
     switch (componets) {
       case 'Awareness':
-        return <Awareness />;
+        return <div />;
       case 'Monitor':
         return <Monitor />;
       case 'Routemark':
@@ -167,16 +168,30 @@ const Dashboard: React.FC = () => {
         return <Analysis />;
     }
   };
-  const renderComponentLeft = () => {
+  const renderComponentRight = () => {
     switch (componets) {
       case 'Awareness':
-        return <Awareness />;
+        return <AwarenessRight />;
       case 'Monitor':
         return <Monitor />;
       case 'Routemark':
         return <Routemark />;
       default:
         return <AnalysisRight />;
+    }
+  };
+  const renderComponentCenter = () => {
+    switch (componets) {
+      case 'Awareness':
+        return <div />;
+      case 'analysis':
+        return <AnalysisCenter />;
+      case 'Monitor':
+        return <Monitor />;
+      case 'Routemark':
+        return <Routemark />;
+      default:
+        return <div />;
     }
   };
 
@@ -251,8 +266,11 @@ const Dashboard: React.FC = () => {
         <Col span={5} className={styles.left}>
           {renderComponent()}
         </Col>
-        <Col span={5} offset={14} className={styles.right}>
-          {renderComponentLeft()}
+        <Col span={14} className={styles.center}>
+          {renderComponentCenter()}
+        </Col>
+        <Col span={5} className={styles.right}>
+          {renderComponentRight()}
         </Col>
       </Row>
       {/* content */}
