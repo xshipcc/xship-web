@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-09 20:12:31
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-14 17:05:49
+ * @LastEditTime: 2023-09-15 10:39:50
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard.tsx
  * @Description:
  *
@@ -96,21 +96,21 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     // 创建Viewer实例
     const viewer = new Cesium.Viewer(divRef.current as Element, {
-      animation: true, //左下角的动画仪表盘
+      animation: false, //左下角的动画仪表盘
       baseLayerPicker: false, //右上角的图层选择按钮
       geocoder: false, //搜索框
       homeButton: false, //home按钮
       sceneModePicker: false, //模式切换按钮
-      timeline: true, //底部的时间轴
+      timeline: false, //底部的时间轴
       navigationHelpButton: false, //右上角的帮助按钮，
-      fullscreenButton: true, //右下角的全屏按钮
+      fullscreenButton: false, //右下角的全屏按钮
       infoBox: false, //小弹窗
       selectionIndicator: true,
       zoomIndicatorContainer: false,
       terrain: Cesium.Terrain.fromWorldTerrain(),
     });
 
-    addTiffImageryLayer(viewer, '/srctiff');
+    // addTiffImageryLayer(viewer, '/srctiff');
 
     const dronePromise = Cesium.CzmlDataSource.load(' /czml');
     console.log('onMounted -> dronePromise:', dronePromise);
@@ -159,39 +159,55 @@ const Dashboard: React.FC = () => {
   const renderComponent = () => {
     switch (componets) {
       case 'Awareness':
-        return <Awareness />;
+        return (
+          <>
+            <div className={styles.awarenesstimeLine} />;
+            <Row className={styles.content}>
+              <Col span={5} className={styles.awarenessleft}>
+                <Awareness />;
+              </Col>
+              <Col span={5} offset={14} className={styles.right}>
+                <AwarenessRight />;
+              </Col>
+            </Row>
+          </>
+        );
       case 'Monitor':
-        return <div />;
+        return (
+          <>
+            <div className={styles.monitortimeLine} />;
+            <Row>
+              <Col span={24} className={styles.monitorContent}>
+                <Monitor />;
+              </Col>
+            </Row>
+          </>
+        );
       case 'Routemark':
-        return <div />;
+        return (
+          <Row className={styles.content}>
+            {/* <Col span={19} className={styles.timeline}>
+            1111
+          </Col> */}
+            <Col span={5} offset={19} className={styles.left}>
+              <Routemark />;
+            </Col>
+          </Row>
+        );
       default:
-        return <Analysis />;
-    }
-  };
-  const renderComponentRight = () => {
-    switch (componets) {
-      case 'Awareness':
-        return <AwarenessRight />;
-      case 'Monitor':
-        return <div />;
-      case 'Routemark':
-        return <Routemark />;
-      default:
-        return <AnalysisRight />;
-    }
-  };
-  const renderComponentCenter = () => {
-    switch (componets) {
-      case 'Awareness':
-        return <div />;
-      case 'analysis':
-        return <AnalysisCenter />;
-      case 'Monitor':
-        return <Monitor />;
-      case 'Routemark':
-        return <div />;
-      default:
-        return <div />;
+        return (
+          <Row className={styles.content}>
+            <Col span={5} className={styles.left}>
+              <Analysis />;
+            </Col>
+            <Col span={12} offset={1} className={styles.center}>
+              <AnalysisCenter />;
+            </Col>
+            <Col span={5} offset={1} className={styles.right}>
+              <AnalysisRight />;
+            </Col>
+          </Row>
+        );
     }
   };
 
@@ -229,7 +245,7 @@ const Dashboard: React.FC = () => {
               ShowComponent('analysis');
             }}
           >
-            analysis
+            统计分析
           </Button>
           <Button
             type="text"
@@ -238,7 +254,7 @@ const Dashboard: React.FC = () => {
               ShowComponent('Awareness');
             }}
           >
-            Awareness
+            态势感知
           </Button>
           <Button
             type="text"
@@ -247,7 +263,7 @@ const Dashboard: React.FC = () => {
               ShowComponent('Monitor');
             }}
           >
-            Monitor
+            监控查看
           </Button>
           <Button
             type="text"
@@ -256,32 +272,13 @@ const Dashboard: React.FC = () => {
               ShowComponent('Routemark');
             }}
           >
-            Routemark
+            路径规划
           </Button>
         </Col>
       </Row>
       {/* header */}
       {/* content */}
-      {componets === 'Monitor' ? (
-        <Row>
-          <Col span={24} className={styles.monitorContent}>
-            {renderComponentCenter()}
-          </Col>
-        </Row>
-      ) : (
-        <Row className={styles.content} gutter={[0, 200]}>
-          <Col span={5} className={styles.left}>
-            {renderComponent()}
-          </Col>
-          <Col span={14} className={styles.center}>
-            {renderComponentCenter()}
-          </Col>
-          <Col span={5} className={styles.right}>
-            {renderComponentRight()}
-          </Col>
-        </Row>
-      )}
-
+      {renderComponent()}
       {/* content */}
     </div>
   );

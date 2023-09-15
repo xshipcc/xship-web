@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-13 23:24:38
+ * @LastEditTime: 2023-09-15 11:59:11
  * @FilePath: \zero-admin-ui-master\src\components\Analysis\left.tsx
  * @Description:
  *
@@ -144,14 +144,14 @@ const Analysis: React.FC = () => {
           </Col>
         </Row>
         <Row>
-          <Col span={8} className={styles.text}>
-            11111
+          <Col span={8} className={styles.textnumber}>
+            66
           </Col>
-          <Col span={8} className={styles.text}>
-            1111
+          <Col span={8} className={styles.textnumber}>
+            77
           </Col>
           <Col span={8} className={styles.textRed}>
-            111
+            88
           </Col>
         </Row>
         {/*  */}
@@ -165,8 +165,8 @@ const Analysis: React.FC = () => {
           <Col span={24} className={styles.titleLine} />
         </Row>
         {/*  */}
-        <Row>
-          <Col span={4} className={styles.ring} />
+        <Row className={styles.textRow}>
+          <Col span={3} className={styles.ring} />
           <Col span={3} className={styles.textwhite}>
             总数
           </Col>

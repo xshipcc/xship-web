@@ -11,31 +11,33 @@ const Monitor: React.FC = () => {
    * @category :
    * @function :
    */
-
+  const style: React.CSSProperties = { background: '' };
   const VideoList = () => {
     const columns = React.useMemo(() => {
       return Array.from({ length: 3 }, (_, i) => (
-        <Col key={i} span={8} className={styles.video}>
-          <Row>
-            <Col span={2} className={styles.arrow} />
-            <Col span={22} className={styles.title}>
-              监控画面 {i + 1}
+        <Col key={i} span={8}>
+          <div style={style} className={styles.video}>
+            <Row>
+              <Col span={2} className={styles.arrow} />
+              <Col span={22} className={styles.title}>
+                监控画面 {i + 1}
+              </Col>
+            </Row>
+            <Row>
+              <Col span={24} className={styles.titleLine} />
+            </Row>
+            <Col className={styles.videocontent} span={24}>
+              Video {i + 1}
             </Col>
-          </Row>
-          <Row>
-            <Col span={24} className={styles.titleLine} />
-          </Row>
-          <Col className={styles.videocontent} span={24}>
-            Video {i + 1}
-          </Col>
+          </div>
         </Col>
       ));
     }, []);
 
     return (
       <div>
-        <Row>{columns}</Row>
-        <Row>{columns}</Row>
+        <Row gutter={[30, 30]}>{columns}</Row>
+        <Row gutter={[30, 30]}>{columns}</Row>
       </div>
     );
   };
@@ -71,6 +73,7 @@ const Monitor: React.FC = () => {
             </Row>
           </Col>
         </Row>
+        {/*  */}
       </div>
     </>
   );

@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-14 13:47:37
+ * @LastEditTime: 2023-09-15 16:03:38
  * @FilePath: \zero-admin-ui-master\src\components\Awareness\right.tsx
  * @Description:
  *
@@ -66,27 +66,24 @@ const AwarenessRight: React.FC = () => {
     };
 
     return (
-      <List className={styles.lists}>
+      <List className={styles.lists} bordered={false} split={false}>
         <VirtualList
           data={data}
           height={ContainerHeight}
-          itemHeight={60}
+          itemHeight={10}
           itemKey="email"
           onScroll={onScroll}
         >
           {(item: UserItem) => (
             <List.Item key={item.email} className={styles.listItem}>
               <Row className={styles.listinfo}>
-                <Col span={2} className={styles.alert} />
-                <Col span={22} className={styles.alerttext}>
+                <Col span={2} offset={2} className={styles.alert} />
+                <Col span={19} offset={1} className={styles.alerttext}>
                   无人机巡检告警
                 </Col>
               </Row>
-              <Row>
-                <Col span={24} className={styles.title}>
-                  11111111
-                </Col>
-              </Row>
+              <div className={styles.textlist}>{item.gender}</div>
+              <div className={styles.textlist}>{item.nat}</div>
             </List.Item>
           )}
         </VirtualList>
@@ -141,38 +138,43 @@ const AwarenessRight: React.FC = () => {
         </Row>
         {/*  */}
         <Row>
-          <Button
-            type="text"
-            className={styles.button}
-            onClick={() => {
-              ShowList('analysis');
-            }}
-          >
-            即时告警
-          </Button>
-          <Button
-            type="text"
-            className={styles.button}
-            onClick={() => {
-              ShowList('Awareness');
-            }}
-          >
-            历史查看
-          </Button>
+          <Col span={12} className={styles.title}>
+            <Button
+              type="text"
+              className={styles.button}
+              onClick={() => {
+                ShowList('analysis');
+              }}
+            >
+              即时告警
+            </Button>
+          </Col>
+          <Col span={12} className={styles.title}>
+            <Button
+              type="text"
+              className={styles.button}
+              onClick={() => {
+                ShowList('Awareness');
+              }}
+            >
+              历史查看
+            </Button>
+          </Col>
         </Row>
+        {/*  */}
         <Row>
           <Col span={11} offset={1} className={styles.timepicker}>
             <Row>
-              <Col span={3} offset={3} className={styles.calendar} />
-              <Col span={17} className={styles.calendartext}>
+              <Col span={3} offset={7} className={styles.calendar} />
+              <Col span={14} className={styles.calendartext}>
                 全部
               </Col>
             </Row>
           </Col>
           <Col span={11} offset={1} className={styles.timepicker}>
             <Row>
-              <Col span={3} offset={3} className={styles.calendar} />
-              <Col span={17} className={styles.calendartext}>
+              <Col span={3} offset={7} className={styles.calendar} />
+              <Col span={14} className={styles.calendartext}>
                 30分钟内
               </Col>
             </Row>

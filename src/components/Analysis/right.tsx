@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-14 11:56:40
+ * @LastEditTime: 2023-09-15 13:20:09
  * @FilePath: \zero-admin-ui-master\src\components\Analysis\right.tsx
  * @Description:
  *
@@ -104,7 +104,7 @@ const AnalysisRight: React.FC = () => {
 
   const fakeDataUrl =
     'https://randomuser.me/api/?results=20&inc=name,gender,email,nat,picture&noinfo';
-  const ContainerHeight = 200;
+  const ContainerHeight = 160;
 
   const AlertList = () => {
     const [data, setData] = useState<UserItem[]>([]);
@@ -129,27 +129,24 @@ const AnalysisRight: React.FC = () => {
     };
 
     return (
-      <List className={styles.lists}>
+      <List className={styles.lists} bordered={false} split={false}>
         <VirtualList
           data={data}
           height={ContainerHeight}
-          itemHeight={60}
+          itemHeight={10}
           itemKey="email"
           onScroll={onScroll}
         >
           {(item: UserItem) => (
             <List.Item key={item.email} className={styles.listItem}>
               <Row className={styles.listinfo}>
-                <Col span={2} className={styles.alert} />
-                <Col span={22} className={styles.alerttext}>
+                <Col span={2} offset={2} className={styles.alert} />
+                <Col span={19} offset={1} className={styles.alerttext}>
                   无人机巡检告警
                 </Col>
               </Row>
-              <Row>
-                <Col span={24} className={styles.title}>
-                  11111111
-                </Col>
-              </Row>
+              <div className={styles.textlist}>{item.gender}</div>
+              <div className={styles.textlist}>{item.nat}</div>
             </List.Item>
           )}
         </VirtualList>
@@ -176,7 +173,7 @@ const AnalysisRight: React.FC = () => {
         {/*  */}
         <Row>
           <Col span={8} className={styles.text}>
-            今日巡逻
+            今日巡检
           </Col>
           <Col span={8} className={styles.text}>
             异常次数
@@ -186,14 +183,14 @@ const AnalysisRight: React.FC = () => {
           </Col>
         </Row>
         <Row>
-          <Col span={8} className={styles.text}>
-            11111
+          <Col span={8} className={styles.textnumber}>
+            66
           </Col>
-          <Col span={8} className={styles.text}>
-            1111
+          <Col span={8} className={styles.textnumber}>
+            77
           </Col>
           <Col span={8} className={styles.textRed}>
-            111
+            88
           </Col>
         </Row>
         {/*  */}
@@ -210,16 +207,16 @@ const AnalysisRight: React.FC = () => {
         <Row>
           <Col span={11} offset={1} className={styles.timepicker}>
             <Row>
-              <Col span={3} offset={3} className={styles.calendar} />
-              <Col span={17} className={styles.calendartext}>
+              <Col span={3} offset={7} className={styles.calendar} />
+              <Col span={14} className={styles.calendartext}>
                 全部
               </Col>
             </Row>
           </Col>
           <Col span={11} offset={1} className={styles.timepicker}>
             <Row>
-              <Col span={3} offset={3} className={styles.calendar} />
-              <Col span={17} className={styles.calendartext}>
+              <Col span={3} offset={7} className={styles.calendar} />
+              <Col span={14} className={styles.calendartext}>
                 30分钟内
               </Col>
             </Row>
@@ -227,9 +224,7 @@ const AnalysisRight: React.FC = () => {
         </Row>
         {/*  */}
         <Row>
-          <Col span={24} className={styles.listcontent}>
-            {AlertList()}
-          </Col>
+          <Col span={24}>{AlertList()}</Col>
         </Row>
         {/*  */}
         <Row>

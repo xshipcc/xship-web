@@ -37,8 +37,8 @@
 
   .logo {
     position: absolute;
-    top: 1vh;
-    left: 2vh;
+    top: 1.7vh;
+    left: 3vh;
     z-index: 2;
     width: 4.5vh;
     height: 4.5vh;
@@ -67,7 +67,7 @@
         height: 30px;
         margin: 1px;
         color: rgb(255, 255, 255);
-        font-size: 20px;
+        font-size: 24px;
       }
       .textsmall {
         height: 10px;
@@ -85,7 +85,7 @@
       background-repeat: no-repeat; //不重复
       background-size: 100% 100%; // 满屏
       .button {
-        margin-top: 1vh; /* 上外边距 */
+        margin-top: 2vh; /* 上外边距 */
         margin-right: 3vh; /* 右外边距 */
         //  margin-bottom: 25px; /* 下外边距 */
         margin-left: 3vh; /* 左外边距 */
@@ -94,7 +94,11 @@
         text-align: center;
       }
       .button:hover {
-        background-image: url('../assets/dashboard/logo.png');
+        color: aqua;
+        background-image: url('../assets/dashboard/arrowTwo.png');
+        background-repeat: no-repeat; //不重复
+        background-position: center bottom;
+        background-size: 100% 55%; // 满屏
       }
     }
   }
@@ -106,29 +110,72 @@
     padding-right: 2vh;
     padding-left: 2vh;
     .left {
+      height: 80vh;
+      background-color: rgba(7, 19, 28, 0.886);
       background-image: url('../assets/dashboard/leftcontent.png');
-      border-radius: 1vh;
+      border: 1px solid;
+      border-radius: 0.1vh;
+      border-image: linear-gradient(to bottom, rgb(10, 22, 33), rgb(38, 96, 118)) 1;
     }
     .right {
+      height: 80vh;
+      background-color: rgba(7, 19, 28, 0.886);
       background-image: url('../assets/dashboard/leftcontent.png');
-      border-radius: 1vh;
+      border: 1px solid;
+      border-radius: 0.1vh;
+      border-image: linear-gradient(to bottom, rgb(10, 22, 33), rgb(38, 96, 118)) 1;
     }
     .center {
-      height: 33vh;
-      margin-top: 50vh; /* 上外边距 */
+      height: 35vh;
+      margin-top: 45vh; /* 上外边距 */
       padding-right: 2vh;
       padding-left: 2vh;
+      background-color: rgba(7, 19, 28, 0.886);
       background-image: url('../assets/dashboard/leftcontent.png');
-      border-radius: 1vh;
+      border: 1px solid;
+      border-radius: 0.1vh;
+      border-image: linear-gradient(to bottom, rgb(10, 22, 33), rgb(38, 96, 118)) 1;
     }
   }
 }
 .monitorContent {
   width: 100%;
   height: 100%;
+  // background-color: rgba(7, 19, 28, 0.886);
   // margin-top: 10vh; /* 上外边距 */
   // margin-right: 20vh;
   // margin-left: 20vh;
+}
+.monitortimeLine {
+  position: absolute;
+  width: 130vh;
+  height: 1vh;
+  margin-top: 84vh; /* 上外边距 */
+  margin-left: 30vh; /* 上外边距 */
+  // background-color: rgba(7, 19, 28, 0.886);
+  background-image: url('../assets/dashboard/greenRect.png');
+  background-repeat: no-repeat; //不重复
+  background-size: 100% 100%; // 满屏
+  // border-radius: 0.1vh;
+}
 
-  border-radius: 1vh;
+.awarenessleft {
+  height: 50vh;
+  background-color: rgba(7, 19, 28, 0.886);
+  background-image: url('../assets/dashboard/leftcontent.png');
+  border: 1px solid;
+  border-radius: 0.1vh;
+  border-image: linear-gradient(to bottom, rgb(10, 22, 33), rgb(38, 96, 118)) 1;
+}
+.awarenesstimeLine {
+  position: absolute;
+  width: 130vh;
+  height: 1vh;
+  margin-top: 79vh; /* 上外边距 */
+  margin-left: 5vh; /* 上外边距 */
+  // background-color: rgba(7, 19, 28, 0.886);
+  background-image: url('../assets/dashboard/greenRect.png');
+  background-repeat: no-repeat; //不重复
+  background-size: 100% 100%; // 满屏
+  // border-radius: 0.1vh;
 }
