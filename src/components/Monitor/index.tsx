@@ -1,28 +1,79 @@
-/*
- * @Author: weiaodi 1635654853@qq.com
- * @Date: 2023-09-07 13:46:28
- * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-11 14:00:38
- * @FilePath: \zero-admin-ui-master\src\pages\Welcome.tsx
- * @Description:
- *
- * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
- */
-import { Button, Result } from 'antd';
-import React from 'react';
-import { history } from 'umi';
+import { DualAxes } from '@ant-design/plots';
+import { Col, Row } from 'antd';
+import React, { useEffect, useState } from 'react';
+import styles from './index.less';
 
-const Monitor: React.FC = () => (
-  <Result
-    status="404"
-    title="Monitor"
-    subTitle="Monitor."
-    extra={
-      <Button type="primary" onClick={() => history.push('/')}>
-        Back Home
-      </Button>
-    }
-  />
-);
+const Monitor: React.FC = () => {
+  //#region    -----------------------------------------------------------------------
+  /**
+   *  @file index.tsx
+   *  @time 2023/09/14
+   * @category :
+   * @function :
+   */
+
+  const VideoList = () => {
+    const columns = React.useMemo(() => {
+      return Array.from({ length: 3 }, (_, i) => (
+        <Col key={i} span={8} className={styles.video}>
+          <Row>
+            <Col span={2} className={styles.arrow} />
+            <Col span={22} className={styles.title}>
+              监控画面 {i + 1}
+            </Col>
+          </Row>
+          <Row>
+            <Col span={24} className={styles.titleLine} />
+          </Row>
+          <Col className={styles.videocontent} span={24}>
+            Video {i + 1}
+          </Col>
+        </Col>
+      ));
+    }, []);
+
+    return (
+      <div>
+        <Row>{columns}</Row>
+        <Row>{columns}</Row>
+      </div>
+    );
+  };
+
+  /**
+   * @end
+   */
+  //#endregion -----------------------------------------------------------------------
+
+  return (
+    <>
+      <div className={styles.content}>
+        {/*  */}
+        <Row>
+          <Col span={24}>{VideoList()}</Col>
+        </Row>
+        {/*  */}
+        <Row className={styles.dateButton}>
+          <Col span={11} offset={1} className={styles.timepicker}>
+            <Row>
+              <Col span={3} offset={3} className={styles.calendar} />
+              <Col span={17} className={styles.calendartext}>
+                全部
+              </Col>
+            </Row>
+          </Col>
+          <Col span={11} offset={1} className={styles.timepicker}>
+            <Row>
+              <Col span={3} offset={3} className={styles.calendar} />
+              <Col span={17} className={styles.calendartext}>
+                30分钟内
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+      </div>
+    </>
+  );
+};
 
 export default Monitor;

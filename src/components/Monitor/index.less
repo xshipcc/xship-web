@@ -1,8 +1,74 @@
-@import (reference) '~antd/es/style/themes/index';
+.arrow {
+  width: 3vh;
+  height: 3.5vh;
+  background-image: url('../../assets/dashboard/arrow.png');
+  background-repeat: no-repeat; //不重复
+  background-size: 100% 100%; // 满屏1
+  cursor: pointer;
+}
+.title {
+  height: 20px;
+  color: rgb(255, 255, 255);
+  font-size: 15px;
+}
+.content {
+  // width: 120vh;
+  height: 90vh;
+  // margin-top: 10vh; /* 上外边距 */
+  // margin-right: 10vh;
+  // margin-left: 10vh;
+  // background-color: rgb(255, 5, 5);
+  // background-image: url('../../assets/dashboard/monitorContent.png');
+  // background-repeat: no-repeat; //不重复
+  // background-size: 100% 100%; // 满屏
+  border-radius: 1vh;
+}
+.video {
+  // width: 25vh;
+  height: 25vh;
+  margin-top: 5vh;
+  margin-bottom: 5vh;
+  // margin-right: 5vh;
+  // margin-left: 5vh;
+  // background-color: rgb(255, 255, 255);
+  background-image: url('../../assets/dashboard/monitor.png');
+  background-repeat: no-repeat; //不重复
+  background-size: 100% 100%; // 满屏
+}
+.videocontent {
+  width: 25vh;
+  height: 15vh;
+  margin-top: 5vh;
+  margin-bottom: 5vh;
+  background-color: rgb(255, 255, 255);
+}
+.timepicker {
+  height: 5vh;
+  // margin-right: 0.6vh;
+  // margin-left: 0.3vh;
+  margin-top: 1.2vh;
+  background-image: url('../../assets/dashboard/timepicker.png');
+  background-repeat: no-repeat; //不重复
+  background-size: 80% 80%; // 满屏1
+}
 
-.pre {
-  margin: 12px 0;
-  padding: 12px 20px;
-  background: @input-bg;
-  box-shadow: @card-shadow;
+.calendar {
+  width: 1.5vh;
+  height: 2vh;
+  margin-top: 1vh;
+  // margin-left: 0.05vh;
+  background-image: url('../../assets/dashboard/calendar.png');
+  background-repeat: no-repeat; //不重复
+  background-size: 100% 100%; // 满屏1
+}
+.calendartext {
+  padding-top: 0.8vh;
+  padding-left: 1vh;
+  color: rgb(255, 255, 255);
+  font-size: 1.5vh;
+  text-align: left; /* 设置文本水平对齐方式为居中 */
+}
+.dateButton {
+  width: 40vh;
+  height: 5vh;
 }

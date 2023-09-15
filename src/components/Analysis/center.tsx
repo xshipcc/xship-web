@@ -1,3 +1,13 @@
+/*
+ * @Author: weiaodi 1635654853@qq.com
+ * @Date: 2023-09-14 08:59:17
+ * @LastEditors: weiaodi 1635654853@qq.com
+ * @LastEditTime: 2023-09-14 14:26:45
+ * @FilePath: \zero-admin-ui-master\src\components\Analysis\center.tsx
+ * @Description:
+ *
+ * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
+ */
 import { DualAxes } from '@ant-design/plots';
 import { Col, Row } from 'antd';
 import React, { useEffect, useState } from 'react';

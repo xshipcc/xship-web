@@ -2,13 +2,13 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-14 11:58:51
+ * @LastEditTime: 2023-09-14 13:47:37
  * @FilePath: \zero-admin-ui-master\src\components\Awareness\right.tsx
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
-import { Col, Row } from 'antd';
+import { Button, Col, Row } from 'antd';
 import React, { useEffect, useState } from 'react';
 import styles from './right.less';
 import VirtualList from 'rc-virtual-list';
@@ -41,7 +41,7 @@ const AwarenessRight: React.FC = () => {
 
   const fakeDataUrl =
     'https://randomuser.me/api/?results=20&inc=name,gender,email,nat,picture&noinfo';
-  const ContainerHeight = 500;
+  const ContainerHeight = 400;
 
   const AlertList = () => {
     const [data, setData] = useState<UserItem[]>([]);
@@ -98,6 +98,35 @@ const AwarenessRight: React.FC = () => {
    * @end
    */
   //#endregion -----------------------------------------------------------------------
+
+  //#region    -----------------------------------------------------------------------
+  /**
+   *  @file right.tsx
+   *  @time 2023/09/14
+   * @category :
+   * @function :
+   */
+
+  const [AlertLists, setAlertLists] = useState<string>('analysis');
+
+  const ShowList = (name: string) => {
+    setAlertLists(name);
+  };
+
+  const renderLisit = () => {
+    // switch (AlertLists) {
+    //   case 'Awareness':
+    //     return <Awareness />;
+    //   default:
+    //     return <Analysis />;
+    // }
+  };
+
+  /**
+   * @end
+   */
+  //#endregion -----------------------------------------------------------------------
+
   return (
     <>
       <div className={styles.content}>
@@ -111,6 +140,26 @@ const AwarenessRight: React.FC = () => {
           <Col span={24} className={styles.titleLine} />
         </Row>
         {/*  */}
+        <Row>
+          <Button
+            type="text"
+            className={styles.button}
+            onClick={() => {
+              ShowList('analysis');
+            }}
+          >
+            即时告警
+          </Button>
+          <Button
+            type="text"
+            className={styles.button}
+            onClick={() => {
+              ShowList('Awareness');
+            }}
+          >
+            历史查看
+          </Button>
+        </Row>
         <Row>
           <Col span={11} offset={1} className={styles.timepicker}>
             <Row>
