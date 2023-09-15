@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-15 13:20:09
+ * @LastEditTime: 2023-09-15 19:07:07
  * @FilePath: \zero-admin-ui-master\src\components\Analysis\right.tsx
  * @Description:
  *
@@ -133,7 +133,7 @@ const AnalysisRight: React.FC = () => {
         <VirtualList
           data={data}
           height={ContainerHeight}
-          itemHeight={10}
+          itemHeight={1}
           itemKey="email"
           onScroll={onScroll}
         >

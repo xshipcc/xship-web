@@ -48,9 +48,7 @@
     text-align: left; /* 设置文本水平对齐方式为居中 */
   }
 }
-
 .lists {
-  margin-top: 1vh;
   // height: 25vh;
   margin-right: 2vh;
   margin-bottom: 1vh;
@@ -63,7 +61,7 @@
     // margin-right: 1vh;
     // margin-bottom: 1vh;
     // margin-left: 2vh;
-    background-image: url('../../assets/dashboard/alertinfo.png');
+    // background-image: url('../../assets/dashboard/alertinfo.png');
     background-repeat: no-repeat; //不重复
     background-size: 100% 100%; // 满屏1
     // background-color: rgb(255, 2, 2);
@@ -74,6 +72,8 @@
     }
     .listinfo {
       width: 100%;
+      background-color: rgb(11, 35, 51);
+      border-radius: 0.04vh;
       .alert {
         width: 2.5vh;
         height: 2.5vh;
@@ -85,7 +85,7 @@
         cursor: pointer;
       }
       .alerttext {
-        margin-top: 0.4vh;
+        margin-top: 0.2vh;
         color: rgb(255, 255, 255);
         // font-weight: bold;
         font-size: 2vh;
@@ -104,10 +104,11 @@
   font-size: 16px;
   text-align: center;
 }
+
 .button:hover {
   color: aqua;
   background-image: url('../../assets/dashboard/arrowTwo.png');
   background-repeat: no-repeat; //不重复
-  background-position: center bottom;
-  background-size: 100% 55%; // 满屏
+  background-position: center 55%;
+  background-size: 100% 35%; // 满屏
 }
