@@ -64,6 +64,7 @@
     "commitizen": "^4.2.4",
     "lodash": "^4.17.0",
     "moment": "^2.29.0",
+    "nanoid": "3.1.32",
     "omit.js": "^2.0.2",
     "proj4-fully-loaded": "^0.2.0",
     "rc-menu": "^9.1.0",

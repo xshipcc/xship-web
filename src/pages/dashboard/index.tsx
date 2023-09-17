@@ -3,8 +3,8 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-09 20:12:31
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-15 10:39:50
- * @FilePath: \zero-admin-ui-master\src\pages\dashboard.tsx
+ * @LastEditTime: 2023-09-16 21:56:02
+ * @FilePath: \zero-admin-ui-master\src\pages\dashboard\index.tsx
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
@@ -18,12 +18,28 @@ import proj4 from 'proj4-fully-loaded';
 import { Button, Col, Row } from 'antd';
 import Monitor from '@/components/Monitor';
 import Routemark from '@/components/Routemark';
-import AwarenessRight from '@/components/Awareness/right';
 import Awareness from '@/components/Awareness/left';
+import AwarenessRight from '@/components/Awareness/right';
 import Analysis from '@/components/Analysis/left';
 import AnalysisRight from '@/components/Analysis/right';
 import AnalysisCenter from '@/components/Analysis/center';
+// import { useSelector, useDispatch } from 'umi';
 const Dashboard: React.FC = () => {
+  //#region    -----------------------------------------------------------------------
+  /**
+   *  @file index.tsx
+   *  @time 2023/09/16
+   * @category :
+   * @function :
+   */
+  // const initView = useSelector((state: any) => state.companyModel.company);
+  // const dispatch = useDispatch();
+
+  /**
+   * @end
+   */
+  //#endregion -----------------------------------------------------------------------
+
   //#region    -----------------------------------------------------------------------
   /**
    *  @file dashboard.tsx
@@ -109,7 +125,7 @@ const Dashboard: React.FC = () => {
       zoomIndicatorContainer: false,
       terrain: Cesium.Terrain.fromWorldTerrain(),
     });
-
+    viewer._cesiumWidget._creditContainer.style.display = 'none';
     // addTiffImageryLayer(viewer, '/srctiff');
 
     const dronePromise = Cesium.CzmlDataSource.load(' /czml');
@@ -200,10 +216,10 @@ const Dashboard: React.FC = () => {
             <Col span={5} className={styles.left}>
               <Analysis />;
             </Col>
-            <Col span={12} offset={1} className={styles.center}>
+            <Col span={14} className={styles.center}>
               <AnalysisCenter />;
             </Col>
-            <Col span={5} offset={1} className={styles.right}>
+            <Col span={5} className={styles.right}>
               <AnalysisRight />;
             </Col>
           </Row>

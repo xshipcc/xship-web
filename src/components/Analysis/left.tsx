@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-15 11:59:11
+ * @LastEditTime: 2023-09-16 23:29:46
  * @FilePath: \zero-admin-ui-master\src\components\Analysis\left.tsx
  * @Description:
  *
@@ -37,8 +37,11 @@ const DemoPie = () => {
     data,
     angleField: 'value',
     colorField: 'type',
-    radius: 0.8,
-    innerRadius: 0.8,
+    radius: 0.9,
+    legend: {
+      position: 'right-top',
+    },
+    innerRadius: 0.7,
     label: {
       type: 'inner',
       offset: '-50%',
@@ -187,22 +190,25 @@ const Analysis: React.FC = () => {
           </Col>
         </Row>
         {/*  */}
-        <Row>
-          <Col span={12} className={styles.pie}>
-            {DemoPie()}
-          </Col>
-          <Col span={12} className={styles.pie}>
-            {DemoPie()}
-          </Col>
-        </Row>
-        <Row>
-          <Col span={12} className={styles.pie}>
-            {DemoPie()}
-          </Col>
-          <Col span={12} className={styles.pie}>
-            {DemoPie()}
-          </Col>
-        </Row>
+        <div style={{ margin: '2vh' }}>
+          <Row>
+            <Col span={12} className={styles.pie}>
+              {DemoPie()}
+            </Col>
+            <Col span={12} className={styles.pie}>
+              {DemoPie()}
+            </Col>
+          </Row>
+          <Row>
+            <Col span={12} className={styles.pie}>
+              {DemoPie()}
+            </Col>
+            <Col span={12} className={styles.pie}>
+              {DemoPie()}
+            </Col>
+          </Row>
+        </div>
+
         {/*  */}
         <Row>
           <Col span={2} className={styles.arrow} />

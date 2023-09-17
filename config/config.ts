@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-12 10:50:27
+ * @LastEditTime: 2023-09-16 22:18:23
  * @FilePath: \zero-admin-ui-master\config\config.ts
  * @Description:
  *
@@ -33,6 +33,7 @@ export default defineConfig({
   antd: {},
   dva: {
     hmr: true,
+    immer: true,
   },
   layout: {
     // https://umijs.org/zh-CN/plugins/plugin-layout

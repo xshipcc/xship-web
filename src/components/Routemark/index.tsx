@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-15 15:47:29
+ * @LastEditTime: 2023-09-15 19:57:40
  * @FilePath: \zero-admin-ui-master\src\components\Routemark\index.tsx
  * @Description:
  *
@@ -11,11 +11,11 @@
 import { Col, Row } from 'antd';
 import React, { useEffect, useState } from 'react';
 import styles from './index.less';
-import { Pie } from '@ant-design/plots';
-import VirtualList from 'rc-virtual-list';
-import { Avatar, List, message } from 'antd';
+import TreeDemo from '@/components/TreeList/index';
 
-const AnalysisRight: React.FC = () => {
+// export default App;
+
+const Routemark: React.FC = () => {
   //#region    -----------------------------------------------------------------------
   /**
    *  @file right.tsx
@@ -74,9 +74,10 @@ const AnalysisRight: React.FC = () => {
           <Col span={24} className={styles.titleLine} />
         </Row>
         {/*  */}
+        <TreeDemo />
       </div>
     </>
   );
 };
 
-export default AnalysisRight;
+export default Routemark;

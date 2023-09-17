@@ -166,6 +166,7 @@ const AnalysisCenter: React.FC = () => {
         {
           geometry: 'line',
           seriesField: 'name',
+          //
           lineStyle: ({ name }) => {
             if (name === 'a') {
               return {

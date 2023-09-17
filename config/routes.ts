@@ -24,7 +24,7 @@
     name: '无人机巡检大屏',
     layout: false,
     icon: 'smile',
-    component: './dashboard',
+    component: './dashboard/',
   },
 
   {
