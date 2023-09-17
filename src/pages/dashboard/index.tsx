@@ -3,18 +3,15 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-09 20:12:31
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-16 21:56:02
+ * @LastEditTime: 2023-09-17 14:57:04
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\index.tsx
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
 import React, { useEffect, useRef, useState } from 'react';
-import * as Cesium from 'cesium';
 import styles from './dashboard.less';
 import 'cesium/Source/Widgets/widgets.css';
-import TIFFImageryProvider from 'tiff-imagery-provider';
-import proj4 from 'proj4-fully-loaded';
 import { Button, Col, Row } from 'antd';
 import Monitor from '@/components/Monitor';
 import Routemark from '@/components/Routemark';
@@ -22,159 +19,37 @@ import Awareness from '@/components/Awareness/left';
 import AwarenessRight from '@/components/Awareness/right';
 import Analysis from '@/components/Analysis/left';
 import AnalysisRight from '@/components/Analysis/right';
+import Timer from '@/components/Timer/time';
+import Map from '@/components/Map/map';
 import AnalysisCenter from '@/components/Analysis/center';
-// import { useSelector, useDispatch } from 'umi';
+import NoFoundPage from '@/pages/404';
+import { useSelector, useDispatch } from 'umi';
+
 const Dashboard: React.FC = () => {
   //#region    -----------------------------------------------------------------------
   /**
-   *  @file index.tsx
-   *  @time 2023/09/16
-   * @category :
-   * @function :
-   */
-  // const initView = useSelector((state: any) => state.companyModel.company);
-  // const dispatch = useDispatch();
-
-  /**
-   * @end
-   */
-  //#endregion -----------------------------------------------------------------------
-
-  //#region    -----------------------------------------------------------------------
-  /**
    *  @file dashboard.tsx
    *  @time 2023/09/13
-   * @category :
+   * @category :数据初始化
    * @function :
    */
-
-  const [date, setDate] = useState('');
-  const [time, setTime] = useState('');
-  const getNewDate = () => {
-    const timeStamp = new Date();
-    const year = timeStamp.getFullYear(); //年
-    const month = timeStamp.getMonth() + 1; //月
-    const day = timeStamp.getDate(); //日
-    const hour = timeStamp.getHours(); //时
-    const minutes = timeStamp.getMinutes(); //分
-    const s = timeStamp.getSeconds(); //秒
-    const seconds = s <= 9 ? '0' + s : s;
-    const d = year + '年' + month + '月' + day + '日';
-    const t = hour + ':' + minutes + ':' + seconds;
-    setDate(d);
-    setTime(t);
-  };
-  setInterval(getNewDate, 1000);
-
-  /**
-   * @end
-   */
-  //#endregion -----------------------------------------------------------------------
-
-  //#region    -----------------------------------------------------------------------
-  /**
-   *  @file dashboard.tsx
-   *  @time 2023/09/13
-   * @category :
-   * @function :
-   */
-  const divRef = useRef<HTMLDivElement>(null);
-
-  const addTiffImageryLayer = async (viewerInstance: Cesium.Viewer, url: string): Promise<void> => {
-    try {
-      const provider: any = await TIFFImageryProvider.fromUrl(url, {
-        enablePickFeatures: true,
-        projFunc: (code) => {
-          if (![4326, 3857, 900913].includes(code)) {
-            try {
-              const prj = proj4('EPSG:4326', `EPSG:${code}`);
-              if (prj)
-                return {
-                  project: prj.forward,
-                  unproject: prj.inverse,
-                };
-            } catch (e) {
-              console.error(e);
-            }
-          }
-          return undefined;
-        },
-      });
-
-      const imageryLayer = viewerInstance.imageryLayers.addImageryProvider(provider);
-      await viewerInstance.flyTo(imageryLayer, {
-        duration: 1,
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
-  useEffect(() => {
-    // 创建Viewer实例
-    const viewer = new Cesium.Viewer(divRef.current as Element, {
-      animation: false, //左下角的动画仪表盘
-      baseLayerPicker: false, //右上角的图层选择按钮
-      geocoder: false, //搜索框
-      homeButton: false, //home按钮
-      sceneModePicker: false, //模式切换按钮
-      timeline: false, //底部的时间轴
-      navigationHelpButton: false, //右上角的帮助按钮，
-      fullscreenButton: false, //右下角的全屏按钮
-      infoBox: false, //小弹窗
-      selectionIndicator: true,
-      zoomIndicatorContainer: false,
-      terrain: Cesium.Terrain.fromWorldTerrain(),
-    });
-    viewer._cesiumWidget._creditContainer.style.display = 'none';
-    // addTiffImageryLayer(viewer, '/srctiff');
-
-    const dronePromise = Cesium.CzmlDataSource.load(' /czml');
-    console.log('onMounted -> dronePromise:', dronePromise);
-
-    //无人机实体
-
-    dronePromise.then((dataSource) => {
-      viewer.dataSources.add(dataSource);
-      const drone = dataSource.entities.getById('Aircraft/Aircraft1');
-      console.log('dronePromise.then -> drone:', drone);
-      drone.model = {
-        uri: 'src/assets/SampleData/Models/CesiumDrone.gltf',
-        minimumPixelSize: 128,
-        maximumScale: 1000,
-        silhouetteColor: Cesium.Color.WHITE,
-        silhouetteSize: 2,
-      };
-      console.log('dronePromise.then ->  drone.model:', drone.model);
-      drone.orientation = new Cesium.VelocityOrientationProperty(drone.position);
-      drone.viewFrom = new Cesium.Cartesian3(0, -30, 30);
-      viewer.clock.shouldAnimate = true;
-    });
-  }, []);
-
-  // useEffect(() => {
-  //   addTiffImageryLayer(viewer.current as Cesium.Viewer, '/luquan.tif');
-  // }, []);
-  /**
-   * @end
-   */
-  //#endregion -----------------------------------------------------------------------
-
-  //#region    -----------------------------------------------------------------------
-  /**
-   *  @file dashboard.tsx
-   *  @time 2023/09/13
-   * @category :
-   * @function :
-   */
-  const [componets, setComponets] = useState<string>('analysis');
+  const [components, setcomponents] = useState<string>('analysis');
+  const dispatch = useDispatch();
+  const initData = useSelector((state: any) => {
+    return state.dashboardModel.dashboardInfo;
+  });
 
   const ShowComponent = (name: string) => {
-    setComponets(name);
+    setcomponents(name);
   };
 
   const renderComponent = () => {
-    switch (componets) {
+    switch (components) {
       case 'Awareness':
+        dispatch({
+          type: 'dashboardModel/fetchDashboardInfo',
+          payload: { components },
+        });
         return (
           <>
             <div className={styles.awarenesstimeLine} />;
@@ -189,6 +64,10 @@ const Dashboard: React.FC = () => {
           </>
         );
       case 'Monitor':
+        dispatch({
+          type: 'dashboardModel/fetchDashboardInfo',
+          payload: { components },
+        });
         return (
           <>
             <div className={styles.monitortimeLine} />;
@@ -200,6 +79,10 @@ const Dashboard: React.FC = () => {
           </>
         );
       case 'Routemark':
+        dispatch({
+          type: 'dashboardModel/fetchDashboardInfo',
+          payload: { components },
+        });
         return (
           <Row className={styles.content}>
             {/* <Col span={19} className={styles.timeline}>
@@ -210,7 +93,11 @@ const Dashboard: React.FC = () => {
             </Col>
           </Row>
         );
-      default:
+      case 'analysis':
+        dispatch({
+          type: 'dashboardModel/fetchDashboardInfo',
+          payload: { components },
+        });
         return (
           <Row className={styles.content}>
             <Col span={5} className={styles.left}>
@@ -224,6 +111,8 @@ const Dashboard: React.FC = () => {
             </Col>
           </Row>
         );
+      default:
+        return <NoFoundPage />;
     }
   };
 
@@ -235,11 +124,10 @@ const Dashboard: React.FC = () => {
   return (
     <div className={styles.screen}>
       {/* map  */}
-      <div ref={divRef} className={styles.map} />
+      <Map />
       {/* map  */}
       {/* time */}
-      <div className={styles.date}>{date}</div>
-      <div className={styles.time}>{time}</div>
+      <Timer />
       {/* home */}
       <div className={styles.home} />
       <div className={styles.logo} />

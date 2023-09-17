@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-15 09:48:03
+ * @LastEditTime: 2023-09-17 09:48:16
  * @FilePath: \zero-admin-ui-master\src\components\Analysis\center.tsx
  * @Description:
  *
@@ -100,56 +100,6 @@ const AnalysisCenter: React.FC = () => {
         time: '2019-07',
         count: 220,
         name: 'a',
-      },
-      {
-        time: '2019-03',
-        count: 750,
-        name: 'b',
-      },
-      {
-        time: '2019-04',
-        count: 650,
-        name: 'b',
-      },
-      {
-        time: '2019-05',
-        count: 450,
-        name: 'b',
-      },
-      {
-        time: '2019-06',
-        count: 400,
-        name: 'b',
-      },
-      {
-        time: '2019-07',
-        count: 320,
-        name: 'b',
-      },
-      {
-        time: '2019-03',
-        count: 900,
-        name: 'c',
-      },
-      {
-        time: '2019-04',
-        count: 600,
-        name: 'c',
-      },
-      {
-        time: '2019-05',
-        count: 450,
-        name: 'c',
-      },
-      {
-        time: '2019-06',
-        count: 300,
-        name: 'c',
-      },
-      {
-        time: '2019-07',
-        count: 200,
-        name: 'c',
       },
     ];
     const config = {

@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-16 18:51:52
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-16 20:36:05
+ * @LastEditTime: 2023-09-17 14:03:49
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\service.ts
  * @Description:
  *
@@ -10,12 +10,11 @@
  */
 // API
 import { request } from 'umi';
+import type { ComponentParam } from './typings';
 
-// 获取用户数据
-export const getDashboardInfo = async ({ params }: { params: any }) => {
-  return request('/api/dashboard' + params.component, {
+export const getDashboardInfo = async (params: ComponentParam) => {
+  return request('/api/dashboard/' + params.components, {
     method: 'get',
-    params,
   });
 };
 

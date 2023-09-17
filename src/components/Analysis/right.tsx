@@ -13,7 +13,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './right.less';
 import { Pie } from '@ant-design/plots';
 import VirtualList from 'rc-virtual-list';
-import { Avatar, List, message } from 'antd';
+import { List } from 'antd';
 
 const AnalysisRight: React.FC = () => {
   //#region    -----------------------------------------------------------------------
