@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-09 20:12:31
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-17 14:57:04
+ * @LastEditTime: 2023-09-17 23:42:07
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\index.tsx
  * @Description:
  *
@@ -22,9 +22,9 @@ import AnalysisRight from '@/components/Analysis/right';
 import Timer from '@/components/Timer/time';
 import Map from '@/components/Map/map';
 import AnalysisCenter from '@/components/Analysis/center';
+import useDashboardComponent from '@/pages/dashboard/hook';
 import NoFoundPage from '@/pages/404';
 import { useSelector, useDispatch } from 'umi';
-
 const Dashboard: React.FC = () => {
   //#region    -----------------------------------------------------------------------
   /**
@@ -33,23 +33,69 @@ const Dashboard: React.FC = () => {
    * @category :数据初始化
    * @function :
    */
-  const [components, setcomponents] = useState<string>('analysis');
+  const [components, setcomponents] = useState<string>('Analysis');
+
   const dispatch = useDispatch();
-  const initData = useSelector((state: any) => {
-    return state.dashboardModel.dashboardInfo;
-  });
+
+  const initView = useSelector((state: any) => state.dashboardModel.dashboardInfo);
+  // useEffect(() => {
+  //   dispatch({
+  //     type: 'dashboardModel/fetchDashboardInfo',
+  //     payload: { name: 'Analysis' },
+  //   });
+  //   console.log('initView:', initView);
+  // }, []);
+
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await dispatch({
+          type: 'dashboardModel/fetchDashboardInfo',
+          payload: { name: 'Analysis' },
+        });
+        setData(response); // 在异步操作完成后更新数据状态
+      } catch (error) {
+        // 处理错误
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const ShowComponent = (name: string) => {
+    // 在初始化时进行dispatch
+    dispatch({
+      type: 'dashboardModel/fetchDashboardInfo',
+      payload: { name },
+    });
     setcomponents(name);
+    console.log('initData -> initData:', initView);
   };
 
-  const renderComponent = () => {
+  const RenderComponent = () => {
+    if (data === null) {
+      return <div />; // 在数据加载完成前显示加载中
+    }
     switch (components) {
+      case 'Analysis':
+        return (
+          <>
+            <Row className={styles.content}>
+              <Col span={5} className={styles.left}>
+                <Analysis value={initView} />;
+              </Col>
+              <Col span={14} className={styles.center}>
+                <AnalysisCenter value={initView} />;
+              </Col>
+              <Col span={5} className={styles.right}>
+                <AnalysisRight value={initView} />;
+              </Col>
+            </Row>
+          </>
+        );
       case 'Awareness':
-        dispatch({
-          type: 'dashboardModel/fetchDashboardInfo',
-          payload: { components },
-        });
         return (
           <>
             <div className={styles.awarenesstimeLine} />;
@@ -64,10 +110,6 @@ const Dashboard: React.FC = () => {
           </>
         );
       case 'Monitor':
-        dispatch({
-          type: 'dashboardModel/fetchDashboardInfo',
-          payload: { components },
-        });
         return (
           <>
             <div className={styles.monitortimeLine} />;
@@ -79,10 +121,6 @@ const Dashboard: React.FC = () => {
           </>
         );
       case 'Routemark':
-        dispatch({
-          type: 'dashboardModel/fetchDashboardInfo',
-          payload: { components },
-        });
         return (
           <Row className={styles.content}>
             {/* <Col span={19} className={styles.timeline}>
@@ -90,24 +128,6 @@ const Dashboard: React.FC = () => {
           </Col> */}
             <Col span={5} offset={19} className={styles.left}>
               <Routemark />;
-            </Col>
-          </Row>
-        );
-      case 'analysis':
-        dispatch({
-          type: 'dashboardModel/fetchDashboardInfo',
-          payload: { components },
-        });
-        return (
-          <Row className={styles.content}>
-            <Col span={5} className={styles.left}>
-              <Analysis />;
-            </Col>
-            <Col span={14} className={styles.center}>
-              <AnalysisCenter />;
-            </Col>
-            <Col span={5} className={styles.right}>
-              <AnalysisRight />;
             </Col>
           </Row>
         );
@@ -146,7 +166,7 @@ const Dashboard: React.FC = () => {
             type="text"
             className={styles.button}
             onClick={() => {
-              ShowComponent('analysis');
+              ShowComponent('Analysis');
             }}
           >
             统计分析
@@ -182,10 +202,10 @@ const Dashboard: React.FC = () => {
       </Row>
       {/* header */}
       {/* content */}
-      {renderComponent()}
+      {RenderComponent()}
       {/* content */}
     </div>
   );
 };
 
-export default React.memo(Dashboard);
+export default Dashboard;

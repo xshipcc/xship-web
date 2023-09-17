@@ -10,7 +10,7 @@ export default {
    */
 
   'get /api/dashboard/analysis': (req: Request, res: Response) => {
-    res.json(
+    res.send(
       Mock.mock({
         code: '000000',
         result: {
@@ -19,7 +19,7 @@ export default {
             'online|0-100': 1,
             'breakdown|0-100': 1,
           },
-          nspection: {
+          inspection: {
             'total|0-200': 5,
             'complete|0-100': 1,
             'rate|0-100': 1,
@@ -140,6 +140,15 @@ export default {
       }),
     );
   },
+
+  // 'get /api/dashboard/analysis': (req: Request, res: Response) => {
+  //   res.json(
+  //     Mock.mock({
+  //       code: '11',
+
+  //     }),
+  //   );
+  // },
 
   'get /api/dashboard/monitor': (req: Request, res: Response) => {
     res.json(

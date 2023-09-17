@@ -53,5 +53,5 @@ export interface DashboardInfoType {
   }[];
 }
 export type ComponentParam = {
-  components: string;
+  name: string;
 };

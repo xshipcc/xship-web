@@ -2,13 +2,13 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-16 18:32:55
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-17 14:27:17
+ * @LastEditTime: 2023-09-17 23:43:46
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\model.ts
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
-import type { Effect, ImmerReducer, Subscription } from 'umi';
+import type { Effect, ImmerReducer } from 'umi';
 import { getDashboardInfo } from './service';
 import type { DashboardInfoType } from './typings';
 export interface DashboardState {
@@ -20,13 +20,12 @@ export interface CompanyModelType {
   namespace: 'dashboardModel';
   state: DashboardState;
   reducers: {
-    // 启用 immer 之后
     saveCheckedCompanyID: ImmerReducer<string> | any;
     saveEnterpriseOptions: ImmerReducer<string> | any;
     saveDashboardInfo: ImmerReducer<string> | any;
   };
   effects: {
-    fetchEnterpriseOptions: Effect;
+    // fetchEnterpriseOptions: Effect;
     fetchDashboardInfo: Effect;
   };
 }
@@ -63,26 +62,31 @@ const CompanyModel: CompanyModelType = {
       state.enterpriseOptions = action.payload;
     },
     saveDashboardInfo(state: DashboardState, action: { payload: DashboardInfoType }) {
-      console.log('saveDashboardInfo -> payload:', action.payload);
+      // console.log('saveDashboardInfo -> payload:', action.payload);
       state.dashboardInfo = action.payload;
     },
   },
   effects: {
-    *fetchEnterpriseOptions({ payload }, { call, put }) {
-      // @ts-ignore
-      const response = yield call(getDashboardInfo, payload);
-      const { code, result } = response;
-      if (code === '10001') {
-        yield put({ type: 'saveEnterpriseOptions', payload: result ?? [] });
-      }
-    },
+    // *fetchEnterpriseOptions({ payload }, { call, put }) {
+
+    //   const response = yield call(getDashboardInfo, payload);
+    //   const { code, result } = response;
+    //   if (code === '10001') {
+    //     yield put({ type: 'saveEnterpriseOptions', payload: result ?? [] });
+    //   }
+    // },
     *fetchDashboardInfo({ payload }, { call, put }) {
-      // @ts-ignore
-      const response = yield call(getDashboardInfo, payload);
-      console.log('*fetchDashboardInfo -> response:', response);
-      const { code, result } = response;
-      if (code === '000000') {
-        yield put({ type: 'saveDashboardInfo', payload: result ?? [] });
+      try {
+        // @ts-ignore
+        const response = yield call(getDashboardInfo, payload);
+        // console.log('*fetchDashboardInfo -> response:', response);
+        const { code, result } = response;
+        // console.log('getData', res);
+        if (code === '000000') {
+          yield put({ type: 'saveDashboardInfo', payload: result ?? [] });
+        }
+      } catch (error) {
+        console.log('catch getData:', error);
       }
     },
   },

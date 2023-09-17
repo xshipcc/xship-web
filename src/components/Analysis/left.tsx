@@ -2,17 +2,17 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-16 23:29:46
+ * @LastEditTime: 2023-09-17 18:53:30
  * @FilePath: \zero-admin-ui-master\src\components\Analysis\left.tsx
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
 import { Col, Row } from 'antd';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styles from './left.less';
 import { Area, Pie } from '@ant-design/plots';
-
+import type { DashboardInfoType } from '@/pages/dashboard/typings';
 const DemoPie = () => {
   const data = [
     {
@@ -75,7 +75,9 @@ const DemoPie = () => {
   return <Pie {...config} />;
 };
 
-const Analysis: React.FC = () => {
+const Analysis: React.FC = (props) => {
+  const [value] = useState<DashboardInfoType>(props.value);
+
   //#region    -----------------------------------------------------------------------
   /**
    *  @file index.tsx
@@ -85,18 +87,18 @@ const Analysis: React.FC = () => {
    */
 
   const [data, setData] = useState([]);
-  const asyncFetch = () => {
-    fetch('https://gw.alipayobjects.com/os/bmw-prod/b21e7336-0b3e-486c-9070-612ede49284e.json')
-      .then((response) => response.json())
-      .then((json) => setData(json))
-      .catch((error) => {
-        console.log('fetch data failed', error);
-      });
-  };
+  // const asyncFetch = () => {
+  //   fetch('https://gw.alipayobjects.com/os/bmw-prod/b21e7336-0b3e-486c-9070-612ede49284e.json')
+  //     .then((response) => response.json())
+  //     .then((json) => setData(json))
+  //     .catch((error) => {
+  //       console.log('fetch data failed', error);
+  //     });
+  // };
 
-  useEffect(() => {
-    asyncFetch();
-  }, []);
+  // useEffect(() => {
+  //   asyncFetch();
+  // }, []);
 
   const config = {
     data,
@@ -148,13 +150,13 @@ const Analysis: React.FC = () => {
         </Row>
         <Row>
           <Col span={8} className={styles.textnumber}>
-            66
+            {value.drone.total}
           </Col>
           <Col span={8} className={styles.textnumber}>
-            77
+            {value.drone.online}
           </Col>
           <Col span={8} className={styles.textRed}>
-            88
+            {value.drone.breakdown}
           </Col>
         </Row>
         {/*  */}
@@ -174,19 +176,19 @@ const Analysis: React.FC = () => {
             总数
           </Col>
           <Col span={4} className={styles.textyellow}>
-            222
+            {value.inspection.total}
           </Col>
           <Col span={3} className={styles.textwhite}>
             完成
           </Col>
           <Col span={3} className={styles.textgreen}>
-            555
+            {value.inspection.complete}
           </Col>
           <Col span={4} className={styles.textwhite}>
             处理率
           </Col>
           <Col span={3} className={styles.textgreen}>
-            55
+            {value.inspection.rate}%
           </Col>
         </Row>
         {/*  */}

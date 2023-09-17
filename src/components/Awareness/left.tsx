@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-14 13:23:25
+ * @LastEditTime: 2023-09-17 15:39:03
  * @FilePath: \zero-admin-ui-master\src\components\Awareness\left.tsx
  * @Description:
  *
@@ -11,7 +11,6 @@
 import { Col, Row } from 'antd';
 import React, { useEffect, useState } from 'react';
 import styles from './left.less';
-import { Area } from '@ant-design/plots';
 
 const Awareness: React.FC = () => {
   //#region    -----------------------------------------------------------------------

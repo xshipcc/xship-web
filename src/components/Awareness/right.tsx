@@ -12,7 +12,7 @@ import { Button, Col, Row } from 'antd';
 import React, { useEffect, useState } from 'react';
 import styles from './right.less';
 import VirtualList from 'rc-virtual-list';
-import { Avatar, List, message } from 'antd';
+import { List } from 'antd';
 
 const AwarenessRight: React.FC = () => {
   //#region    -----------------------------------------------------------------------
