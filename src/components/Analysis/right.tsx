@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-15 19:07:07
+ * @LastEditTime: 2023-09-18 08:40:15
  * @FilePath: \zero-admin-ui-master\src\components\Analysis\right.tsx
  * @Description:
  *
@@ -14,8 +14,11 @@ import styles from './right.less';
 import { Pie } from '@ant-design/plots';
 import VirtualList from 'rc-virtual-list';
 import { List } from 'antd';
+import type { DashboardInfoType } from '@/pages/dashboard/typings';
+const AnalysisRight: React.FC = (props) => {
+  // @ts-ignore
+  const [value] = useState<DashboardInfoType>(props.initValue);
 
-const AnalysisRight: React.FC = () => {
   //#region    -----------------------------------------------------------------------
   /**
    *  @file index.tsx
@@ -24,38 +27,30 @@ const AnalysisRight: React.FC = () => {
    * @function :
    */
 
-  const DemoPie = () => {
-    const data = [
-      {
-        type: '分类一',
-        value: 27,
-      },
-      {
-        type: '分类二',
-        value: 25,
-      },
-      {
-        type: '分类三',
-        value: 18,
-      },
-      {
-        type: '分类四',
-        value: 15,
-      },
-      {
-        type: '分类五',
-        value: 10,
-      },
-      {
-        type: '其他',
-        value: 5,
-      },
-    ];
+  const DemoPie = (data: any[]) => {
+    // const data = [
+    //   {
+    //     type: '分类一',
+    //     value: 27,
+    //   },
+    //   {
+    //     type: '分类二',
+    //     value: 25,
+    //   },
+    //   {
+    //     type: '分类三',
+    //     value: 18,
+    //   },
+    //   {
+    //     type: '分类四',
+    //     value: 15,
+    //   },
+    // ];
     const config = {
       appendPadding: 10,
       data,
       angleField: 'value',
-      colorField: 'type',
+      colorField: 'title',
       radius: 0.8,
       label: {
         type: 'outer',
@@ -184,13 +179,13 @@ const AnalysisRight: React.FC = () => {
         </Row>
         <Row>
           <Col span={8} className={styles.textnumber}>
-            66
+            {value.inspection.today}
           </Col>
           <Col span={8} className={styles.textnumber}>
-            77
+            {value.inspection.breakdown}
           </Col>
           <Col span={8} className={styles.textRed}>
-            88
+            {value.inspection.warning}
           </Col>
         </Row>
         {/*  */}
@@ -239,7 +234,7 @@ const AnalysisRight: React.FC = () => {
         {/*  */}
         <Row>
           <Col span={24} className={styles.chart}>
-            {DemoPie()}
+            {DemoPie(value.alarmPie)}
           </Col>
         </Row>
       </div>

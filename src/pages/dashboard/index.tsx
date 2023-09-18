@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-09 20:12:31
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-17 23:42:07
+ * @LastEditTime: 2023-09-18 09:37:30
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\index.tsx
  * @Description:
  *
@@ -22,9 +22,9 @@ import AnalysisRight from '@/components/Analysis/right';
 import Timer from '@/components/Timer/time';
 import Map from '@/components/Map/map';
 import AnalysisCenter from '@/components/Analysis/center';
-import useDashboardComponent from '@/pages/dashboard/hook';
 import NoFoundPage from '@/pages/404';
 import { useSelector, useDispatch } from 'umi';
+import { history } from 'umi';
 const Dashboard: React.FC = () => {
   //#region    -----------------------------------------------------------------------
   /**
@@ -53,23 +53,22 @@ const Dashboard: React.FC = () => {
       try {
         const response = await dispatch({
           type: 'dashboardModel/fetchDashboardInfo',
-          payload: { name: 'Analysis' },
+          payload: { name: 'dashboardInfo' },
         });
         setData(response); // 在异步操作完成后更新数据状态
       } catch (error) {
         // 处理错误
       }
     };
-
     fetchData();
   }, []);
 
   const ShowComponent = (name: string) => {
     // 在初始化时进行dispatch
-    dispatch({
-      type: 'dashboardModel/fetchDashboardInfo',
-      payload: { name },
-    });
+    // dispatch({
+    //   type: 'dashboardModel/fetchDashboardInfo',
+    //   payload: { name },
+    // });
     setcomponents(name);
     console.log('initData -> initData:', initView);
   };
@@ -84,13 +83,13 @@ const Dashboard: React.FC = () => {
           <>
             <Row className={styles.content}>
               <Col span={5} className={styles.left}>
-                <Analysis value={initView} />;
+                <Analysis initValue={initView} />;
               </Col>
               <Col span={14} className={styles.center}>
-                <AnalysisCenter value={initView} />;
+                <AnalysisCenter initValue={initView} />;
               </Col>
               <Col span={5} className={styles.right}>
-                <AnalysisRight value={initView} />;
+                <AnalysisRight initValue={initView} />;
               </Col>
             </Row>
           </>
@@ -101,10 +100,10 @@ const Dashboard: React.FC = () => {
             <div className={styles.awarenesstimeLine} />;
             <Row className={styles.content}>
               <Col span={5} className={styles.awarenessleft}>
-                <Awareness />;
+                <Awareness initValue={initView} />;
               </Col>
               <Col span={5} offset={14} className={styles.right}>
-                <AwarenessRight />;
+                <AwarenessRight initValue={initView} />;
               </Col>
             </Row>
           </>
@@ -115,7 +114,7 @@ const Dashboard: React.FC = () => {
             <div className={styles.monitortimeLine} />;
             <Row>
               <Col span={24} className={styles.monitorContent}>
-                <Monitor />;
+                <Monitor initValue={initView} />;
               </Col>
             </Row>
           </>
@@ -127,7 +126,7 @@ const Dashboard: React.FC = () => {
             1111
           </Col> */}
             <Col span={5} offset={19} className={styles.left}>
-              <Routemark />;
+              <Routemark initValue={initView} />;
             </Col>
           </Row>
         );
@@ -149,7 +148,7 @@ const Dashboard: React.FC = () => {
       {/* time */}
       <Timer />
       {/* home */}
-      <div className={styles.home} />
+      <div className={styles.home} onClick={() => history.push('/')} />
       <div className={styles.logo} />
       {/* time */}
       {/* header */}

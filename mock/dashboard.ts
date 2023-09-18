@@ -9,7 +9,7 @@ export default {
    * @function :
    */
 
-  'get /api/dashboard/analysis': (req: Request, res: Response) => {
+  'get /api/dashboard/dashboardInfo': (req: Request, res: Response) => {
     res.send(
       Mock.mock({
         code: '000000',
@@ -45,91 +45,87 @@ export default {
               'value|0-100': 1,
             },
           ],
-          DualAxes: [
-            {
-              uvBillData: [
-                {
-                  time: '2019-03',
-                  value: 350,
-                  type: 'uv',
-                },
-                {
-                  time: '2019-04',
-                  value: 900,
-                  type: 'uv',
-                },
-                {
-                  time: '2019-05',
-                  value: 300,
-                  type: 'uv',
-                },
-                {
-                  time: '2019-06',
-                  value: 450,
-                  type: 'uv',
-                },
-                {
-                  time: '2019-07',
-                  value: 470,
-                  type: 'uv',
-                },
-                {
-                  time: '2019-03',
-                  value: 220,
-                  type: 'bill',
-                },
-                {
-                  time: '2019-04',
-                  value: 300,
-                  type: 'bill',
-                },
-                {
-                  time: '2019-05',
-                  value: 250,
-                  type: 'bill',
-                },
-                {
-                  time: '2019-06',
-                  value: 220,
-                  type: 'bill',
-                },
-                {
-                  time: '2019-07',
-                  value: 362,
-                  type: 'bill',
-                },
-              ],
-            },
-            {
-              transformData: [
-                {
-                  time: '2019-03',
-                  count: 800,
-                  name: 'a',
-                },
-                {
-                  time: '2019-04',
-                  count: 600,
-                  name: 'a',
-                },
-                {
-                  time: '2019-05',
-                  count: 400,
-                  name: 'a',
-                },
-                {
-                  time: '2019-06',
-                  count: 380,
-                  name: 'a',
-                },
-                {
-                  time: '2019-07',
-                  count: 220,
-                  name: 'a',
-                },
-              ],
-            },
-          ],
+          DualAxes: {
+            uvBillData: [
+              {
+                time: '2019-03',
+                value: 350,
+                type: 'uv',
+              },
+              {
+                time: '2019-04',
+                value: 900,
+                type: 'uv',
+              },
+              {
+                time: '2019-05',
+                value: 300,
+                type: 'uv',
+              },
+              {
+                time: '2019-06',
+                value: 450,
+                type: 'uv',
+              },
+              {
+                time: '2019-07',
+                value: 470,
+                type: 'uv',
+              },
+              {
+                time: '2019-03',
+                value: 220,
+                type: 'bill',
+              },
+              {
+                time: '2019-04',
+                value: 300,
+                type: 'bill',
+              },
+              {
+                time: '2019-05',
+                value: 250,
+                type: 'bill',
+              },
+              {
+                time: '2019-06',
+                value: 220,
+                type: 'bill',
+              },
+              {
+                time: '2019-07',
+                value: 362,
+                type: 'bill',
+              },
+            ],
+            transformData: [
+              {
+                time: '2019-03',
+                count: 800,
+                name: 'a',
+              },
+              {
+                time: '2019-04',
+                count: 600,
+                name: 'a',
+              },
+              {
+                time: '2019-05',
+                count: 400,
+                name: 'a',
+              },
+              {
+                time: '2019-06',
+                count: 380,
+                name: 'a',
+              },
+              {
+                time: '2019-07',
+                count: 220,
+                name: 'a',
+              },
+            ],
+          },
           'alarmPie|4': [
             {
               title: '@cname',
@@ -141,15 +137,28 @@ export default {
     );
   },
 
-  // 'get /api/dashboard/analysis': (req: Request, res: Response) => {
-  //   res.json(
-  //     Mock.mock({
-  //       code: '11',
-
-  //     }),
-  //   );
-  // },
-
+  'get /api/dashboard/analysis': (req: Request, res: Response) => {
+    res.json(
+      Mock.mock({
+        'data|10': [
+          {
+            'id|+1': 1,
+            'companyId|0-1': 1,
+            'isFalse|0-1': 1,
+            title: '@ctitle',
+            'deciveId|0-10': 1,
+            deciceName: '@ctitle',
+            'level|0-3': 1,
+            'status|0-1': 1,
+            screenshot: 'xxx/a.png',
+            createTimeAt: '@datetime',
+            handleTimeAt: '@datetime',
+            handler: '@cname',
+          },
+        ],
+      }),
+    );
+  },
   'get /api/dashboard/monitor': (req: Request, res: Response) => {
     res.json(
       Mock.mock({
@@ -172,7 +181,6 @@ export default {
       }),
     );
   },
-
   'get /api/dashboard/awareness': (req: Request, res: Response) => {
     res.json(
       Mock.mock({
@@ -195,10 +203,10 @@ export default {
       }),
     );
   },
-
   'get /api/dashboard/routemark': (req: Request, res: Response) => {
     res.json(
       Mock.mock({
+        code: '000000',
         inspection: {
           'total|0-200': 5,
           'complete|0-100': 1,

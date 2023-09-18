@@ -31,22 +31,18 @@ export interface DashboardInfoType {
     date: number;
     value: number;
   }[];
-  DualAxes: (
-    | {
-        uvBillData: {
-          time: string;
-          value: number;
-          type: string;
-        }[];
-      }
-    | {
-        transformData: {
-          time: string;
-          count: number;
-          name: string;
-        }[];
-      }
-  )[];
+  DualAxes: {
+    uvBillData: {
+      time: string;
+      value: number;
+      type: string;
+    }[];
+    transformData: {
+      time: string;
+      count: number;
+      name: string;
+    }[];
+  };
   alarmPie: {
     title: string;
     value: number;

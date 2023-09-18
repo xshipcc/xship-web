@@ -2,20 +2,25 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-15 19:57:40
+ * @LastEditTime: 2023-09-18 09:30:09
  * @FilePath: \zero-admin-ui-master\src\components\Routemark\index.tsx
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
 import { Col, Row } from 'antd';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styles from './index.less';
 import TreeDemo from '@/components/TreeList/index';
 
 // export default App;
 
-const Routemark: React.FC = () => {
+const Routemark: React.FC = (props) => {
+  // @ts-ignore
+  const [value] = useState<DashboardInfoType>(props.initValue);
+  // console.log('value:', value)
+  // const initView = useSelector((state: any) => state.dashboardModel.dashboardInfo);
+
   //#region    -----------------------------------------------------------------------
   /**
    *  @file right.tsx
@@ -54,13 +59,13 @@ const Routemark: React.FC = () => {
         </Row>
         <Row>
           <Col span={8} className={styles.textnumber}>
-            66
+            {value.inspection.today}
           </Col>
           <Col span={8} className={styles.textnumber}>
-            77
+            {value.inspection.breakdown}
           </Col>
           <Col span={8} className={styles.textRed}>
-            88
+            {value.inspection.warning}
           </Col>
         </Row>
         {/*  */}

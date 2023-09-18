@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-17 09:48:16
+ * @LastEditTime: 2023-09-18 09:29:21
  * @FilePath: \zero-admin-ui-master\src\components\Analysis\center.tsx
  * @Description:
  *
@@ -10,10 +10,12 @@
  */
 import { DualAxes } from '@ant-design/plots';
 import { Col, Row } from 'antd';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styles from './center.less';
-
-const AnalysisCenter: React.FC = () => {
+import type { DashboardInfoType } from '@/pages/dashboard/typings';
+const AnalysisCenter: React.FC = (props) => {
+  // @ts-ignore
+  const [value] = useState<DashboardInfoType>(props.initValue);
   //#region    -----------------------------------------------------------------------
   /**
    *  @file index.tsx
@@ -23,87 +25,87 @@ const AnalysisCenter: React.FC = () => {
    */
 
   const DemoDualAxes = () => {
-    const uvBillData = [
-      {
-        time: '2019-03',
-        value: 350,
-        type: 'uv',
-      },
-      {
-        time: '2019-04',
-        value: 900,
-        type: 'uv',
-      },
-      {
-        time: '2019-05',
-        value: 300,
-        type: 'uv',
-      },
-      {
-        time: '2019-06',
-        value: 450,
-        type: 'uv',
-      },
-      {
-        time: '2019-07',
-        value: 470,
-        type: 'uv',
-      },
-      {
-        time: '2019-03',
-        value: 220,
-        type: 'bill',
-      },
-      {
-        time: '2019-04',
-        value: 300,
-        type: 'bill',
-      },
-      {
-        time: '2019-05',
-        value: 250,
-        type: 'bill',
-      },
-      {
-        time: '2019-06',
-        value: 220,
-        type: 'bill',
-      },
-      {
-        time: '2019-07',
-        value: 362,
-        type: 'bill',
-      },
-    ];
-    const transformData = [
-      {
-        time: '2019-03',
-        count: 800,
-        name: 'a',
-      },
-      {
-        time: '2019-04',
-        count: 600,
-        name: 'a',
-      },
-      {
-        time: '2019-05',
-        count: 400,
-        name: 'a',
-      },
-      {
-        time: '2019-06',
-        count: 380,
-        name: 'a',
-      },
-      {
-        time: '2019-07',
-        count: 220,
-        name: 'a',
-      },
-    ];
+    // const uvBillData = [
+    //   {
+    //     time: '2019-03',
+    //     value: 350,
+    //     type: 'uv',
+    //   },
+    //   {
+    //     time: '2019-04',
+    //     value: 900,
+    //     type: 'uv',
+    //   },
+    //   {
+    //     time: '2019-05',
+    //     value: 300,
+    //     type: 'uv',
+    //   },
+    //   {
+    //     time: '2019-06',
+    //     value: 450,
+    //     type: 'uv',
+    //   },
+    //   {
+    //     time: '2019-07',
+    //     value: 470,
+    //     type: 'uv',
+    //   },
+    //   {
+    //     time: '2019-03',
+    //     value: 220,
+    //     type: 'bill',
+    //   },
+    //   {
+    //     time: '2019-04',
+    //     value: 300,
+    //     type: 'bill',
+    //   },
+    //   {
+    //     time: '2019-05',
+    //     value: 250,
+    //     type: 'bill',
+    //   },
+    //   {
+    //     time: '2019-06',
+    //     value: 220,
+    //     type: 'bill',
+    //   },
+    //   {
+    //     time: '2019-07',
+    //     value: 362,
+    //     type: 'bill',
+    //   },
+    // ];
+    // const transformData = [
+    //   {
+    //     time: '2019-03',
+    //     count: 800,
+    //     name: 'a',
+    //   },
+    //   {
+    //     time: '2019-04',
+    //     count: 600,
+    //     name: 'a',
+    //   },
+    //   {
+    //     time: '2019-05',
+    //     count: 400,
+    //     name: 'a',
+    //   },
+    //   {
+    //     time: '2019-06',
+    //     count: 380,
+    //     name: 'a',
+    //   },
+    //   {
+    //     time: '2019-07',
+    //     count: 220,
+    //     name: 'a',
+    //   },
+    // ];
     const config = {
-      data: [uvBillData, transformData],
+      data: [value.DualAxes.uvBillData, value.DualAxes.transformData],
       xField: 'time',
       yField: ['value', 'count'],
       geometryOptions: [
@@ -116,7 +118,7 @@ const AnalysisCenter: React.FC = () => {
         {
           geometry: 'line',
           seriesField: 'name',
-          //
+          // @ts-ignore
           lineStyle: ({ name }) => {
             if (name === 'a') {
               return {

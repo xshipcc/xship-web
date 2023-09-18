@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-17 18:53:30
+ * @LastEditTime: 2023-09-18 09:21:20
  * @FilePath: \zero-admin-ui-master\src\components\Analysis\left.tsx
  * @Description:
  *
@@ -13,30 +13,31 @@ import React, { useState } from 'react';
 import styles from './left.less';
 import { Area, Pie } from '@ant-design/plots';
 import type { DashboardInfoType } from '@/pages/dashboard/typings';
-const DemoPie = () => {
-  const data = [
-    {
-      type: '分类一',
-      value: 27,
-    },
-    {
-      type: '分类二',
-      value: 25,
-    },
-    {
-      type: '分类三',
-      value: 18,
-    },
-    {
-      type: '分类四',
-      value: 15,
-    },
-  ];
+import { useSelector } from 'umi';
+const DemoPie = (data: any[]) => {
+  // const data = [
+  //   {
+  //     type: '分类一',
+  //     value: 27,
+  //   },
+  //   {
+  //     type: '分类二',
+  //     value: 25,
+  //   },
+  //   {
+  //     type: '分类三',
+  //     value: 18,
+  //   },
+  //   {
+  //     type: '分类四',
+  //     value: 15,
+  //   },
+  // ];
   const config = {
     appendPadding: 0.1,
     data,
     angleField: 'value',
-    colorField: 'type',
+    colorField: 'title',
     radius: 0.9,
     legend: {
       position: 'right-top',
@@ -76,8 +77,9 @@ const DemoPie = () => {
 };
 
 const Analysis: React.FC = (props) => {
-  const [value] = useState<DashboardInfoType>(props.value);
-
+  // @ts-ignore
+  const [value] = useState<DashboardInfoType>(props.initValue);
+  console.log('props:', props);
   //#region    -----------------------------------------------------------------------
   /**
    *  @file index.tsx
@@ -86,7 +88,7 @@ const Analysis: React.FC = (props) => {
    * @function :
    */
 
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(value.line);
   // const asyncFetch = () => {
   //   fetch('https://gw.alipayobjects.com/os/bmw-prod/b21e7336-0b3e-486c-9070-612ede49284e.json')
   //     .then((response) => response.json())
@@ -104,7 +106,7 @@ const Analysis: React.FC = (props) => {
     data,
     xField: 'date',
     yField: 'value',
-    seriesField: 'country',
+    seriesField: 'type',
   };
 
   /**
@@ -195,18 +197,18 @@ const Analysis: React.FC = (props) => {
         <div style={{ margin: '2vh' }}>
           <Row>
             <Col span={12} className={styles.pie}>
-              {DemoPie()}
+              {DemoPie(value.pie)}
             </Col>
             <Col span={12} className={styles.pie}>
-              {DemoPie()}
+              {DemoPie(value.pie)}
             </Col>
           </Row>
           <Row>
             <Col span={12} className={styles.pie}>
-              {DemoPie()}
+              {DemoPie(value.pie)}
             </Col>
             <Col span={12} className={styles.pie}>
-              {DemoPie()}
+              {DemoPie(value.pie)}
             </Col>
           </Row>
         </div>

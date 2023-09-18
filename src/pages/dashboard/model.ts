@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-16 18:32:55
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-17 23:43:46
+ * @LastEditTime: 2023-09-18 08:26:56
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\model.ts
  * @Description:
  *
@@ -48,7 +48,10 @@ const CompanyModel: CompanyModelType = {
       },
       pie: [],
       line: [],
-      DualAxes: [],
+      DualAxes: {
+        uvBillData: [],
+        transformData: [],
+      },
       alarmPie: [],
     },
     checkedCompanyId: undefined,
