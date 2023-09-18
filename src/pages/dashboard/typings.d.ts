@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-16 18:56:46
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-17 13:34:46
+ * @LastEditTime: 2023-09-18 12:11:31
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\typings.d.ts
  * @Description:
  *
@@ -32,12 +32,12 @@ export interface DashboardInfoType {
     value: number;
   }[];
   DualAxes: {
-    uvBillData: {
+    histgram: {
       time: string;
       value: number;
       type: string;
     }[];
-    transformData: {
+    linegram: {
       time: string;
       count: number;
       name: string;

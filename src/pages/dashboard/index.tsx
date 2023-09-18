@@ -23,7 +23,7 @@ import Timer from '@/components/Timer/time';
 import Map from '@/components/Map/map';
 import AnalysisCenter from '@/components/Analysis/center';
 import NoFoundPage from '@/pages/404';
-import { useSelector, useDispatch } from 'umi';
+import { useSelector, useDispatch, useModel } from 'umi';
 import { history } from 'umi';
 const Dashboard: React.FC = () => {
   //#region    -----------------------------------------------------------------------
@@ -34,6 +34,8 @@ const Dashboard: React.FC = () => {
    * @function :
    */
   const [components, setcomponents] = useState<string>('Analysis');
+  const { initialState } = useModel('@@initialState');
+  console.log('initialState:', initialState);
 
   const dispatch = useDispatch();
 

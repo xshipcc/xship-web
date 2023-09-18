@@ -1,3 +1,13 @@
+/*
+ * @Author: weiaodi 1635654853@qq.com
+ * @Date: 2023-09-07 13:46:28
+ * @LastEditors: weiaodi 1635654853@qq.com
+ * @LastEditTime: 2023-09-18 14:30:57
+ * @FilePath: \zero-admin-ui-master\src\services\ant-design-pro\api.ts
+ * @Description:
+ *
+ * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
+ */
 // @ts-ignore
 /* eslint-disable */
 import { request } from 'umi';
@@ -6,7 +16,7 @@ import { request } from 'umi';
 export async function currentUser(options?: { [key: string]: any }) {
   return request<{
     data: API.CurrentUser;
-  }>('/api/currentUser', {
+  }>('/api/sys/user/currentUser', {
     method: 'GET',
     ...(options || {}),
   });
@@ -14,7 +24,7 @@ export async function currentUser(options?: { [key: string]: any }) {
 
 /** 退出登录接口 POST /api/login/outLogin */
 export async function outLogin(options?: { [key: string]: any }) {
-  return request<Record<string, any>>('/api/login/outLogin', {
+  return request<Record<string, any>>(' /api/login/outLogin', {
     method: 'POST',
     ...(options || {}),
   });
@@ -22,7 +32,7 @@ export async function outLogin(options?: { [key: string]: any }) {
 
 /** 登录接口 POST /api/sys/user/login */
 export async function login(body: API.LoginParams, options?: { [key: string]: any }) {
-  return request<API.LoginResult>('/api/login', {
+  return request<API.LoginResult>(' /api/sys/user/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

@@ -46,7 +46,7 @@ export default {
             },
           ],
           DualAxes: {
-            uvBillData: [
+            histgram: [
               {
                 time: '2019-03',
                 value: 350,
@@ -98,7 +98,7 @@ export default {
                 type: 'bill',
               },
             ],
-            transformData: [
+            linegram: [
               {
                 time: '2019-03',
                 count: 800,

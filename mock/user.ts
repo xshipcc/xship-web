@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-16 15:45:33
+ * @LastEditTime: 2023-09-18 13:59:11
  * @FilePath: \zero-admin-ui-master\mock\user.ts
  * @Description:
  *
@@ -40,7 +40,7 @@ let access = ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION === 'site' ? 'adm
 // 代码中会兼容本地 service mock 以及部署站点的静态数据
 export default {
   // 支持值为 Object 和 Array
-  'GET /api/currentUser': (req: Request, res: Response) => {
+  'GET /api/sys/user/currentUser': (req: Request, res: Response) => {
     res.send({
       code: '000000',
       message: '获取个人信息成功',
@@ -143,13 +143,11 @@ export default {
     });
   },
   //
-  'POST /api/login': (req: Request, res: Response) => {
+  'POST /api/sys/user/login': (req: Request, res: Response) => {
     res.send({
-      code: '000000',
       message: '登录成功',
       status: 'ok',
       currentAuthority: 'admin',
-      id: 1,
       userName: 'admin',
       token:
         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2OTQxNDU5MDksImlhdCI6MTY5NDA1OTUwOSwidXNlcklkIjoxLCJ1c2VyTmFtZSI6ImFkbWluIn0.aEZznffgsD50rNQmLYSjwjfCA_m3CiWtcTLI4LF0zzI',

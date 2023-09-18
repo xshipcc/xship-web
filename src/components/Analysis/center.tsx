@@ -105,7 +105,7 @@ const AnalysisCenter: React.FC = (props) => {
     //   },
     // ];
     const config = {
-      data: [value.DualAxes.uvBillData, value.DualAxes.transformData],
+      data: [value.DualAxes.histgram, value.DualAxes.linegram],
       xField: 'time',
       yField: ['value', 'count'],
       geometryOptions: [
