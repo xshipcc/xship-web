@@ -6,7 +6,7 @@
 .arrow {
   width: 3vh;
   height: 3.5vh;
-  background-image: url('../../assets/dashboard/arrow.png');
+  background-image: url('../../../assets/dashboard/arrow.png');
   background-repeat: no-repeat; //不重复
   background-size: 100% 100%; // 满屏1
   cursor: pointer;
@@ -18,44 +18,17 @@
   font-size: 15px;
 }
 .titleLine {
-  background-image: url('../../assets/dashboard/titleline.png');
+  background-image: url('../../../assets/dashboard/titleline.png');
   background-repeat: no-repeat; //不重复
   background-size: 100% 100%; // 满屏1
 }
-.chart {
-  width: 100%;
-  height: 30vh;
-}
 
-//
-.text {
-  padding-top: 1.7vh;
-  color: rgb(255, 255, 255);
-  font-size: 1.5vh;
-  text-align: center; /* 设置文本水平对齐方式为居中 */
-}
-.textnumber {
-  padding-right: 1vh;
-  padding-bottom: 2.7vh;
-  color: rgb(255, 255, 255);
-  font-size: 2.5vh;
-  text-align: center; /* 设置文本水平对齐方式为居中 */
-}
-.textRed {
-  padding-right: 1vh;
-  padding-bottom: 2.7vh;
-  // padding-right: 2vh;
-  color: rgb(252, 1, 1);
-  font-size: 2.5vh;
-  text-align: center; /* 设置文本水平对齐方式为居中 */
-}
-//
 .timepicker {
   height: 5vh;
   // margin-right: 0.6vh;
   // margin-left: 0.3vh;
-  margin-top: 1.2vh;
-  background-image: url('../../assets/dashboard/timepicker.png');
+  margin-top: 4vh;
+  background-image: url('../../../assets/dashboard/timepicker.png');
   background-repeat: no-repeat; //不重复
   background-size: 90% 80%; // 满屏1
   .calendar {
@@ -63,7 +36,7 @@
     height: 2vh;
     margin-top: 1vh;
     margin-left: 3vh;
-    background-image: url('../../assets/dashboard/calendar.png');
+    background-image: url('../../../assets/dashboard/calendar.png');
     background-repeat: no-repeat; //不重复
     background-size: 100% 100%; // 满屏1
   }
@@ -75,7 +48,6 @@
     text-align: left; /* 设置文本水平对齐方式为居中 */
   }
 }
-
 .lists {
   // height: 25vh;
   margin-right: 2vh;
@@ -107,7 +79,7 @@
         height: 2.5vh;
         margin-top: 0.8vh;
         // margin-left: 1vh;
-        background-image: url('../../assets/dashboard/alert.png');
+        background-image: url('../../../assets/dashboard/alert.png');
         background-repeat: no-repeat; //不重复
         background-size: 100% 100%; // 满屏1
         cursor: pointer;
@@ -121,4 +93,22 @@
       }
     }
   }
+}
+
+.button {
+  margin-top: 1vh; /* 上外边距 */
+  margin-right: 3vh; /* 右外边距 */
+  margin-bottom: 5vh; /* 下外边距 */
+  margin-left: 3vh; /* 左外边距 */
+  color: rgb(255, 255, 255);
+  font-size: 16px;
+  text-align: center;
+}
+
+.button:hover {
+  color: aqua;
+  background-image: url('../../../assets/dashboard/arrowTwo.png');
+  background-repeat: no-repeat; //不重复
+  background-position: center 55%;
+  background-size: 100% 35%; // 满屏
 }

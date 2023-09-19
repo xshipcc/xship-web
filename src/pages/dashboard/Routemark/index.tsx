@@ -2,8 +2,8 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-18 09:30:09
- * @FilePath: \zero-admin-ui-master\src\components\Routemark\index.tsx
+ * @LastEditTime: 2023-09-19 10:15:12
+ * @FilePath: \zero-admin-ui-master\src\pages\dashboard\Routemark\index.tsx
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
@@ -11,28 +11,14 @@
 import { Col, Row } from 'antd';
 import React, { useState } from 'react';
 import styles from './index.less';
-import TreeDemo from '@/components/TreeList/index';
+import TreeDemo from '@/pages/dashboard/TreeList/index';
 
 // export default App;
 
 const Routemark: React.FC = (props) => {
   // @ts-ignore
   const [value] = useState<DashboardInfoType>(props.initValue);
-  // console.log('value:', value)
-  // const initView = useSelector((state: any) => state.dashboardModel.dashboardInfo);
 
-  //#region    -----------------------------------------------------------------------
-  /**
-   *  @file right.tsx
-   *  @time 2023/09/14
-   * @category :
-   * @function :
-   */
-
-  /**
-   * @end
-   */
-  //#endregion -----------------------------------------------------------------------
   return (
     <>
       <div className={styles.content}>
