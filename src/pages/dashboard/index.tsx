@@ -58,6 +58,7 @@ const Dashboard: React.FC = () => {
           payload: { name: 'dashboardInfo' },
         });
         setData(response); // 在异步操作完成后更新数据状态
+        // console.log('fetchData -> response:', response);
       } catch (error) {
         // 处理错误
       }

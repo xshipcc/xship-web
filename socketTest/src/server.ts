@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-19 22:04:08
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-19 22:13:45
+ * @LastEditTime: 2023-09-20 00:21:31
  * @FilePath: \zero-admin-ui-master\socketTest\src\server.ts
  * @Description:
  *
@@ -36,13 +36,43 @@ class App {
       console.log('App -> this.io.on -> socket:', socket);
       console.log(`${socket.id} join session`);
 
-      socket.emit('alert_msg', '这是来自服务器的消息');
+      let alertMsg = {
+        results: [
+          {
+            id: '0',
+            name: {
+              type: 'Ms',
+              time: 'Ava',
+              info: 'Dumas',
+              coordinate: ['111', '111'],
+              last: 'Dumas',
+            },
+          },
+        ],
+      };
+      // 执行十遍
+      function executeTenTimes(fn: () => void) {
+        let count = 0;
+        const intervalId = setInterval(() => {
+          fn();
+          count++;
+          if (count === 100) {
+            clearInterval(intervalId);
+          }
+        }, 5000);
+      }
+      function test() {
+        socket.emit('alert_msg', JSON.stringify(alertMsg));
+      }
+
+      executeTenTimes(test);
+      // socket.on('alert_msg', (msg) => {
+      //   // console.log(`message: ${msg}`);
+      //   this.io.emit('alert_msg', msg);
+      // });
+
       socket.on('disconnect', () => {
         console.log(`${socket.id} leave session`);
-      });
-      socket.on('alert_msg', (msg) => {
-        console.log(`message: ${msg}`);
-        this.io.emit('alert_msg', msg);
       });
     });
   }

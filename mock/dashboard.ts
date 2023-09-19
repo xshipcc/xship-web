@@ -219,6 +219,26 @@ export default {
     );
   },
 
+  'get /api/dashboard/alertList': (req: Request, res: Response) => {
+    res.json(
+      Mock.mock({
+        result: {
+          'results|5': [
+            {
+              'id|+1': 2400,
+              alert: {
+                type: 'Ms',
+                time: '@datetime',
+                info: '@ctitle',
+                coordinate: ['111', '111'],
+              },
+            },
+          ],
+        },
+      }),
+    );
+  },
+
   /**
    * @end
    */

@@ -11,12 +11,12 @@
 import { Server } from 'socket.io';
 
 interface ServerToClientEvents {
-  alert_msg: (msg: string) => void;
+  alert_msg: (msg: {}) => void;
   server: () => void;
 }
 
 interface ClientToServerEvents {
-  alert_msg: (msg: string) => void;
+  alert_msg: (msg: {}) => void;
   client: () => void;
 }
 

@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-16 18:32:55
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-18 12:06:05
+ * @LastEditTime: 2023-09-20 00:42:37
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\model.ts
  * @Description:
  *
@@ -10,11 +10,13 @@
  */
 import type { Effect, ImmerReducer } from 'umi';
 import { getDashboardInfo } from './service';
+import { getAlertList } from './service';
 import type { DashboardInfoType } from './typings';
 export interface DashboardState {
   dashboardInfo: DashboardInfoType;
   checkedCompanyId: string | undefined;
   enterpriseOptions: string[];
+  alertList: string[];
 }
 export interface CompanyModelType {
   namespace: 'dashboardModel';
@@ -23,10 +25,12 @@ export interface CompanyModelType {
     saveCheckedCompanyID: ImmerReducer<string> | any;
     saveEnterpriseOptions: ImmerReducer<string> | any;
     saveDashboardInfo: ImmerReducer<string> | any;
+    saveAlertList: ImmerReducer<string> | any;
   };
   effects: {
     // fetchEnterpriseOptions: Effect;
     fetchDashboardInfo: Effect;
+    fetchAlertList: Effect;
   };
 }
 const CompanyModel: CompanyModelType = {
@@ -56,6 +60,7 @@ const CompanyModel: CompanyModelType = {
     },
     checkedCompanyId: undefined,
     enterpriseOptions: [],
+    alertList: [],
   },
   reducers: {
     saveCheckedCompanyID(state: DashboardState, action: { payload: string }) {
@@ -67,6 +72,10 @@ const CompanyModel: CompanyModelType = {
     saveDashboardInfo(state: DashboardState, action: { payload: DashboardInfoType }) {
       // console.log('saveDashboardInfo -> payload:', action.payload);
       state.dashboardInfo = action.payload;
+    },
+    saveAlertList(state: DashboardState, action: { payload: [] }) {
+      state.alertList = action.payload;
+      console.log('saveAlertList ->    state.alertList :', state.alertList);
     },
   },
   effects: {
@@ -88,6 +97,18 @@ const CompanyModel: CompanyModelType = {
         if (code === '000000') {
           yield put({ type: 'saveDashboardInfo', payload: result ?? [] });
         }
+      } catch (error) {
+        console.log('catch getData:', error);
+      }
+    },
+    *fetchAlertList({ payload }, { call, put }) {
+      try {
+        // @ts-ignore
+        const response = yield call(getAlertList, payload);
+        const { result } = response;
+        // console.log('getData', res);
+
+        yield put({ type: 'saveAlertList', payload: result ?? [] });
       } catch (error) {
         console.log('catch getData:', error);
       }

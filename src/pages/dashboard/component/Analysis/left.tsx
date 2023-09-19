@@ -79,7 +79,7 @@ const DemoPie = (data: any[]) => {
 const Analysis: React.FC = (props) => {
   // @ts-ignore
   const [value] = useState<DashboardInfoType>(props.initValue);
-  console.log('props:', props);
+  // console.log('props:', props);
   //#region    -----------------------------------------------------------------------
   /**
    *  @file index.tsx

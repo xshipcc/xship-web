@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-16 18:51:52
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-17 18:21:57
+ * @LastEditTime: 2023-09-20 00:35:55
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\service.ts
  * @Description:
  *
@@ -15,6 +15,13 @@ import type { ComponentParam } from './typings';
 export const getDashboardInfo = async (params: ComponentParam) => {
   // console.log('getDashboardInfo -> params.components:', params.name)
   return request('/api/dashboard/' + params.name, {
+    method: 'get',
+  });
+};
+
+export const getAlertList = async () => {
+  // console.log('getDashboardInfo -> params.components:', params.name)
+  return request('/api/dashboard/alertList', {
     method: 'get',
   });
 };
