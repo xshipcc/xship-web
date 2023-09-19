@@ -1,4 +1,3 @@
-import { DualAxes } from '@ant-design/plots';
 import { Col, Row } from 'antd';
 import React, { useEffect, useState } from 'react';
 import styles from './index.less';

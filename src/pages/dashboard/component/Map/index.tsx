@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef } from 'react';
 import * as Cesium from 'cesium';
-import styles from './map.less';
+import styles from './index.less';
 import 'cesium/Source/Widgets/widgets.css';
 import TIFFImageryProvider from 'tiff-imagery-provider';
 

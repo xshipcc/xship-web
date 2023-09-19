@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-09 20:12:31
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-19 10:16:27
+ * @LastEditTime: 2023-09-19 22:18:47
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\index.tsx
  * @Description:
  *
@@ -13,15 +13,15 @@ import React, { useEffect, useState } from 'react';
 import styles from './dashboard.less';
 import 'cesium/Source/Widgets/widgets.css';
 import { Button, Col, Row } from 'antd';
-import Monitor from '@/pages/dashboard/Monitor';
-import Routemark from '@/pages/dashboard/Routemark';
-import Awareness from '@/pages/dashboard/Awareness/left';
-import AwarenessRight from '@/pages/dashboard/Awareness/right';
-import Analysis from '@/pages/dashboard/Analysis/left';
-import AnalysisRight from '@/pages/dashboard/Analysis/right';
-import Timer from '@/pages/dashboard/Timer/time';
-import Map from '@/pages/dashboard/Map/map';
-import AnalysisCenter from '@/pages/dashboard/Analysis/center';
+import Monitor from '@/pages/dashboard/component/Monitor';
+import Routemark from '@/pages/dashboard/component/Routemark';
+import Awareness from '@/pages/dashboard/component/Awareness/left';
+import AwarenessRight from '@/pages/dashboard/component/Awareness/right';
+import Analysis from '@/pages/dashboard/component/Analysis/left';
+import AnalysisRight from '@/pages/dashboard/component/Analysis/right';
+import Timer from '@/pages/dashboard/component/Timer';
+import Map from '@/pages/dashboard/component/Map';
+import AnalysisCenter from '@/pages/dashboard/component/Analysis/center';
 import NoFoundPage from '@/pages/404';
 import { useSelector, useDispatch, useModel } from 'umi';
 import { history } from 'umi';
@@ -63,7 +63,7 @@ const Dashboard: React.FC = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [dispatch]);
 
   const ShowComponent = (name: string) => {
     // 在初始化时进行dispatch

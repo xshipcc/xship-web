@@ -11,7 +11,7 @@
 import { Col, Row } from 'antd';
 import React, { useState } from 'react';
 import styles from './index.less';
-import TreeDemo from '@/pages/dashboard/TreeList/index';
+import TreeDemo from '@/pages/dashboard/component/TreeList/index';
 
 // export default App;
 
