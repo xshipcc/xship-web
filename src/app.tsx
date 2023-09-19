@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 11:45:31
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-10 16:24:30
+ * @LastEditTime: 2023-09-19 08:13:28
  * @FilePath: \zero-admin-ui-master\src\app.tsx
  * @Description:
  *
@@ -61,6 +61,7 @@ export async function getInitialState(): Promise<{
   const fetchUserInfo = async () => {
     try {
       const msg = await queryCurrentUser();
+      console.log('fetchUserInfo -> msg:', msg);
       localStorage.setItem('menuTree', JSON.stringify(msg.menuTree));
       return msg;
     } catch (error) {

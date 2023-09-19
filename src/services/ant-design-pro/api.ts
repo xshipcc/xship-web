@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-18 14:30:57
+ * @LastEditTime: 2023-09-19 08:09:16
  * @FilePath: \zero-admin-ui-master\src\services\ant-design-pro\api.ts
  * @Description:
  *
@@ -14,6 +14,7 @@ import { request } from 'umi';
 
 /** 获取当前的用户 GET /api/sys/user/currentUser */
 export async function currentUser(options?: { [key: string]: any }) {
+  console.log('currentUser -> options:', options);
   return request<{
     data: API.CurrentUser;
   }>('/api/sys/user/currentUser', {
