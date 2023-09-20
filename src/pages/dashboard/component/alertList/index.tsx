@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-19 16:30:18
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-20 10:17:16
+ * @LastEditTime: 2023-09-20 19:08:50
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\alertList\index.tsx
  * @Description:
  *
@@ -79,7 +79,6 @@ const AlertList: React.FC<AlertListType> = (props: AlertListType) => {
       setData(data.concat(JSON.parse(msg).results));
       // console.log('socket.on -> msg:', JSON.parse(msg).results);
     });
-
     // 错误处理
     socket.on('error', (error) => {
       console.error('Socket error:', error);

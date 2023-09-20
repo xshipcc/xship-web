@@ -8,4 +8,5 @@ dist
 mock
 # js包
 /src/utils/js
+/src/utils/plugin
 /socketTest
