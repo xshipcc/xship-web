@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-19 16:30:18
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-20 01:02:53
+ * @LastEditTime: 2023-09-20 10:17:16
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\alertList\index.tsx
  * @Description:
  *
@@ -16,7 +16,8 @@ import VirtualList from 'rc-virtual-list';
 import { List } from 'antd';
 import { io } from 'socket.io-client';
 import type { SocketType } from './socket';
-import { useDispatch } from 'umi';
+import { useSelector, useDispatch, useModel } from 'umi';
+
 const socket: SocketType = io('http://localhost:3000');
 
 interface AlertType {
@@ -55,30 +56,28 @@ const AlertList: React.FC<AlertListType> = (props: AlertListType) => {
   //#region -------------------------------------------------------------------------
   // @ts-ignore
   const [containerHeight] = useState(props.height);
-  const [data, setData] = useState(null);
+  const initView = useSelector((state: any) => state.dashboardModel.alertList);
   const dispatch = useDispatch();
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await dispatch({
-          type: 'dashboardModel/fetchAlertList',
-          payload: { name: 'dashboardInfo' },
-        });
-        setData(response);
-        // console.log('fetchData -> response:', response);
-      } catch (error) {
-        // 处理错误
-      }
-    };
-    fetchData();
-  }, [dispatch]);
+    dispatch({
+      type: 'dashboardModel/fetchAlertList',
+      payload: { name: 'dashboardInfo' },
+    });
+  }, []);
+
+  const [data, setData] = useState([]);
 
   useEffect(() => {
-    socket.emit('alert_msg', '11111');
+    console.log('initView:', initView.results);
+    if (initView.results !== undefined) {
+      setData(initView.results);
+    }
+  }, [initView]);
 
+  useEffect(() => {
     socket.on('alert_msg', (msg) => {
       setData(data.concat(JSON.parse(msg).results));
-      // console.log('socket.on -> msg:', msg);
+      // console.log('socket.on -> msg:', JSON.parse(msg).results);
     });
 
     // 错误处理
@@ -97,16 +96,8 @@ const AlertList: React.FC<AlertListType> = (props: AlertListType) => {
    * @end
    */
 
-  if (data === null) {
-    return <div />; // 在数据加载完成前显示加载中
-  }
-  setTimeout(() => {
-    console.log('data:', data);
-  }, 8000);
-
   return (
     // <></>
-
     <List className={styles.lists} bordered={false} split={false}>
       <VirtualList data={data} height={containerHeight} itemHeight={1} itemKey="id">
         {(item: AlertType) => (
@@ -117,8 +108,14 @@ const AlertList: React.FC<AlertListType> = (props: AlertListType) => {
                 无人机巡检告警{item.id}
               </Col>
             </Row>
-            <div className={styles.textlist}>巡检时间:{item.alert.time}</div>
-            <div className={styles.textlist}>报警内容:{item.alert.info}</div>
+            <Row className={styles.textInfo}>
+              <Col span={7}>巡检时间:</Col>
+              <Col span={17}>{item.alert.time}</Col>
+            </Row>
+            <Row className={styles.textInfo}>
+              <Col span={7}>报警内容:</Col>
+              <Col span={17}>{item.alert.info}</Col>
+            </Row>
           </List.Item>
         )}
       </VirtualList>

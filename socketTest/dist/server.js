@@ -9,7 +9,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-19 22:04:08
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-20 00:21:31
+ * @LastEditTime: 2023-09-20 10:10:41
  * @FilePath: \zero-admin-ui-master\socketTest\src\server.ts
  * @Description:
  *
@@ -18,6 +18,42 @@ Object.defineProperty(exports, '__esModule', { value: true });
 const express_1 = __importDefault(require('express'));
 const http_1 = __importDefault(require('http'));
 const socket_io_1 = require('socket.io');
+function generateRandomTime() {
+  const hours = Math.floor(Math.random() * 24);
+  const minutes = Math.floor(Math.random() * 60);
+  const seconds = Math.floor(Math.random() * 60);
+  return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds
+    .toString()
+    .padStart(2, '0')}`;
+}
+function generateRandomString(length) {
+  let result = '';
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    result += characters.charAt(randomIndex);
+  }
+  return result;
+}
+const randomString = generateRandomString(4);
+function generateData() {
+  const randomNum = Math.floor(Math.random() * 996) + 5;
+  const randomString = randomNum.toString();
+  const data = { results: [] };
+  for (let i = 0; i < 4; i++) {
+    const result = {
+      id: randomString,
+      alert: {
+        type: 'server',
+        time: generateRandomTime(),
+        info: generateRandomString(Math.floor(Math.random() * 10)),
+        coordinate: ['111', '111'],
+      },
+    };
+    data.results.push(result);
+  }
+  return data;
+}
 class App {
   constructor(port) {
     this.app = (0, express_1.default)();
@@ -41,12 +77,11 @@ class App {
         results: [
           {
             id: '0',
-            name: {
+            alert: {
               type: 'Ms',
-              time: 'Ava',
+              time: '1111',
               info: 'Dumas',
               coordinate: ['111', '111'],
-              last: 'Dumas',
             },
           },
         ],
@@ -63,7 +98,9 @@ class App {
         }, 5000);
       }
       function test() {
-        socket.emit('alert_msg', JSON.stringify(alertMsg));
+        const generatedData = generateData();
+        // console.log(generatedData);
+        socket.emit('alert_msg', JSON.stringify(generatedData));
       }
       executeTenTimes(test);
       // socket.on('alert_msg', (msg) => {

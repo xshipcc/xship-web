@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-16 18:32:55
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-20 00:42:37
+ * @LastEditTime: 2023-09-20 01:10:55
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\model.ts
  * @Description:
  *
@@ -106,6 +106,7 @@ const CompanyModel: CompanyModelType = {
         // @ts-ignore
         const response = yield call(getAlertList, payload);
         const { result } = response;
+        console.log('*fetchAlertList -> result:', result);
         // console.log('getData', res);
 
         yield put({ type: 'saveAlertList', payload: result ?? [] });

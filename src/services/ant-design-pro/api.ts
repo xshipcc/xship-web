@@ -14,7 +14,7 @@ import { request } from 'umi';
 
 /** 获取当前的用户 GET /api/sys/user/currentUser */
 export async function currentUser(options?: { [key: string]: any }) {
-  console.log('currentUser -> options:', options);
+  // console.log('currentUser -> options:', options);
   return request<{
     data: API.CurrentUser;
   }>('/api/sys/user/currentUser', {

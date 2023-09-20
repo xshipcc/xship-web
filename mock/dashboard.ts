@@ -225,7 +225,7 @@ export default {
         result: {
           'results|5': [
             {
-              'id|+1': 2400,
+              'id|1-10': '2',
               alert: {
                 type: 'Ms',
                 time: '@datetime',

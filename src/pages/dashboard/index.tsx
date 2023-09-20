@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-09 20:12:31
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-19 22:18:47
+ * @LastEditTime: 2023-09-20 08:15:35
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\index.tsx
  * @Description:
  *
@@ -34,19 +34,12 @@ const Dashboard: React.FC = () => {
    * @function :
    */
   const [components, setcomponents] = useState<string>('Analysis');
-  const { initialState } = useModel('@@initialState');
-  console.log('initialState:', initialState);
+  // const { initialState } = useModel('@@initialState');
+  // console.log('initialState:', initialState);
 
   const dispatch = useDispatch();
 
   const initView = useSelector((state: any) => state.dashboardModel.dashboardInfo);
-  // useEffect(() => {
-  //   dispatch({
-  //     type: 'dashboardModel/fetchDashboardInfo',
-  //     payload: { name: 'Analysis' },
-  //   });
-  //   console.log('initView:', initView);
-  // }, []);
 
   const [data, setData] = useState(null);
 
@@ -58,20 +51,14 @@ const Dashboard: React.FC = () => {
           payload: { name: 'dashboardInfo' },
         });
         setData(response); // 在异步操作完成后更新数据状态
-        // console.log('fetchData -> response:', response);
       } catch (error) {
         // 处理错误
       }
     };
     fetchData();
-  }, [dispatch]);
+  }, []);
 
   const ShowComponent = (name: string) => {
-    // 在初始化时进行dispatch
-    // dispatch({
-    //   type: 'dashboardModel/fetchDashboardInfo',
-    //   payload: { name },
-    // });
     setcomponents(name);
     console.log('initData -> initData:', initView);
   };
