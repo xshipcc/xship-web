@@ -9,6 +9,7 @@ import util from '@/utils/js/util';
 import Track from '../../../../utils/js/track';
 import TIFFImageryProvider from 'tiff-imagery-provider';
 import Tool from '@/utils/js/measure/measureTool';
+import { useSelector, useDispatch, useModel } from 'umi';
 import S_Measure from '@/utils/js/measure';
 const Map: React.FC = () => {
   //#region    -----------------------------------------------------------------------
@@ -49,7 +50,11 @@ const Map: React.FC = () => {
   };
   const divRef = useRef<HTMLDivElement>(null);
   const MeasureTools = useRef(null);
-
+  const dispatch = useDispatch();
+  const trackList = useSelector((state: any) => state.trackModel.trackList);
+  console.log('trackList:', trackList);
+  const editSignal = useSelector((state: any) => state.trackModel.editSignal);
+  console.log('editSignal:', editSignal);
   useEffect(() => {
     // const viewer = new Cesium.Viewer(divRef.current as Element, {
     //   imageryProvider: new Cesium.ArcGisMapServerImageryProvider({
@@ -238,6 +243,19 @@ const Map: React.FC = () => {
      */
   }, []);
 
+  useEffect(() => {
+    if (editSignal[0]) {
+      console.log('useEffect -> editSignal[0]:', editSignal[0]);
+      MeasureTools.current.measurePolyLine(function () {
+        //测量完成回调函数
+      }); //直线距离量测
+    }
+    if (editSignal[1]) {
+      MeasureTools.current.destroy(function () {
+        //测量完成回调函数
+      }); //清除量算结果
+    }
+  }, [editSignal]);
   /**
    * @end
    */
@@ -245,7 +263,7 @@ const Map: React.FC = () => {
 
   return (
     <>
-      <Button
+      {/* <Button
         className={styles.button}
         type="text"
         onClick={() => {
@@ -254,9 +272,20 @@ const Map: React.FC = () => {
           }); //直线距离量测
         }}
       >
-        空间距离
+        距离
       </Button>
       <Button
+        className={styles.button4}
+        type="text"
+        onClick={() => {
+          MeasureTools.current.destroy(function () {
+            //测量完成回调函数
+          }); //清除量算结果
+        }}
+      >
+        删除
+      </Button> */}
+      {/* <Button
         type="text"
         className={styles.button1}
         onClick={() => {
@@ -288,18 +317,8 @@ const Map: React.FC = () => {
         }}
       >
         面积测量
-      </Button>
-      <Button
-        className={styles.button4}
-        type="text"
-        onClick={() => {
-          MeasureTools.current.destroy(function () {
-            //测量完成回调函数
-          }); //清除量算结果
-        }}
-      >
-        清除
-      </Button>
+      </Button> */}
+
       <div ref={divRef} className={styles.map} id="cesiumContainer" />
     </>
   );

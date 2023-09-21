@@ -1,230 +1,183 @@
 // @ts-nocheck
-import type { ReactNode } from 'react';
 import React, { useState } from 'react';
-import { Tree } from 'antd';
-import type { Key } from 'rc-tree/lib/interface';
-import {
-  EditOutlined,
-  PlusOutlined,
-  MinusOutlined,
-  CloseOutlined,
-  CheckOutlined,
-} from '@ant-design/icons';
-
-import { nanoid } from 'nanoid';
+import { Col, Row } from 'antd';
+import { useSelector, useDispatch, useModel } from 'umi';
 import styles from './index.less';
-const { TreeNode } = Tree;
-interface ITreeNode {
-  title?: ReactNode;
-  value: string;
-  defaultValue?: string;
-  key: Key;
-  parentKey?: Key;
-  isEditable?: boolean;
-  children?: ITreeNode[];
-}
-const treeData: ITreeNode[] = [
-  {
-    value: '东三北方五线',
-    defaultValue: '0',
-    key: '0',
-    parentKey: '0',
-    isEditable: false,
-    children: [
-      {
-        value: '0-1',
-        key: '0-1',
-        defaultValue: '0-1',
-        isEditable: false,
-      },
-    ],
-  },
-];
+import { CaretDownOutlined, CaretRightOutlined } from '@ant-design/icons';
+const App = () => {
+  const [data, setData] = useState([
+    { key: '0', name: 'Edwad', coord: '114.292, 38.067,100', stay: '1' },
+    { key: '1', name: 'Edwa', coord: '114.293, 38.067,100', stay: '2' },
+  ]);
 
-const expandedKeyArr: Key[] = ['0'];
-export default function TreeDemo() {
-  const [data, setData] = useState(treeData);
-  const [expandedKeys, setExpandedKeys] = useState<Key[]>(expandedKeyArr);
-
-  // eslint-disable-next-line @typescript-eslint/no-shadow
-  const onExpand = (expandedKeys: Key[]) => {
-    //记录折叠的key值
-    setExpandedKeys(expandedKeys);
+  const [editIndex, setEditIndex] = useState(-1);
+  const [editData, setEditData] = useState({});
+  const [collapse, setCollapse] = useState(true);
+  const [listIndex, setlistIndex] = useState(data.length);
+  // 获取全局的轨迹信息
+  const dispatch = useDispatch();
+  const trackList = useSelector((state: any) => state.trackModel.trackList);
+  const handleEdit = (index) => {
+    setEditIndex(index);
+    setEditData({ ...data[index] });
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-shadow
-  const editNode = (key: Key, data: ITreeNode[]) =>
-    data.forEach((item) => {
-      if (item.key === key) {
-        item.isEditable = true;
-      } else {
-        item.isEditable = false;
-      }
-      item.value = item.defaultValue!; // 当某节点处于编辑状态，并改变数据，点击编辑其他节点时，此节点变成不可编辑状态，value 需要回退到 defaultvalue
-      if (item.children) {
-        editNode(key, item.children);
-      }
-    });
-  const onEdit = (key: Key) => {
-    editNode(key, treeData);
-    setData(treeData.slice());
-  };
-
-  // eslint-disable-next-line @typescript-eslint/no-shadow
-  const addNode = (key: Key, data: ITreeNode[]) =>
-    data.forEach((item) => {
-      if (item.key === key) {
-        if (item.children) {
-          item.children.push({
-            value: 'default',
-            key: nanoid(), // 这个 key 应该是唯一的
-          });
-        } else {
-          item.children = [];
-          item.children.push({
-            value: 'default',
-            key: nanoid(),
-          });
-        }
-        return;
-      }
-      if (item.children) {
-        addNode(key, item.children);
-      }
-    });
-
-  const onAdd = (key: Key) => {
-    if (expandedKeys.indexOf(key) === -1) {
-      expandedKeyArr.push(key);
+  const handleSave = () => {
+    if (editIndex !== -1) {
+      const newData = [...data];
+      newData[editIndex] = editData;
+      setData(newData);
+      setEditIndex(-1);
+      setEditData({});
     }
-    setExpandedKeys(expandedKeyArr.slice());
-
-    addNode(key, treeData);
-    //useState里数据务必为immutable （不可赋值的对象），所以必须加上slice()返回一个新的数组对象
-    setData(treeData.slice());
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-shadow
-  const changeNode = (key: Key, value: string, data: ITreeNode[]) =>
-    data.forEach((item) => {
-      if (item.key === key) {
-        item.value = value;
-      }
-      if (item.children) {
-        changeNode(key, value, item.children);
-      }
+  const handleCancel = () => {
+    setEditIndex(-1);
+    setEditData({});
+  };
+  const editTrack = () => {
+    dispatch({
+      type: 'trackModel/changeEditSignal',
+      payload: [true, false],
     });
-
-  const onChange = (e: React.ChangeEvent<HTMLInputElement>, key: Key) => {
-    changeNode(key, e.target.value, treeData);
-    setData(treeData.slice());
   };
 
-  // eslint-disable-next-line @typescript-eslint/no-shadow
-  const saveNode = (key: Key, data: ITreeNode[]) =>
-    data.forEach((item) => {
-      if (item.key === key) {
-        item.defaultValue = item.value;
-      }
-      if (item.children) {
-        saveNode(key, item.children);
-      }
-      item.isEditable = false;
-    });
-
-  const onSave = (key: Key) => {
-    saveNode(key, treeData);
-    setData(treeData.slice());
+  const handleDelete = (index) => {
+    const newData = [...data];
+    newData.splice(index, 1);
+    setlistIndex(data.length - 1);
+    setData(newData);
   };
-  // eslint-disable-next-line @typescript-eslint/no-shadow
-  const closeNode = (key: Key, defaultValue: string, data: ITreeNode[]) =>
-    data.forEach((item) => {
-      item.isEditable = false;
-      if (item.key === key) {
-        item.value = defaultValue;
-      }
-      if (item.children) {
-        closeNode(key, defaultValue, item.children);
-      }
-    });
-
-  const onClose = (key: Key, defaultValue: string) => {
-    closeNode(key, defaultValue, treeData);
-    setData(treeData);
+  const handleDeleteWhole = () => {
+    setlistIndex(0);
+    setData([]);
   };
-
-  // eslint-disable-next-line @typescript-eslint/no-shadow
-  const deleteNode = (key: Key, data: ITreeNode[]) =>
-    data.forEach((item, index) => {
-      if (item.key === key) {
-        data.splice(index, 1);
-        return;
-      } else {
-        if (item.children) {
-          deleteNode(key, item.children);
-        }
-      }
-    });
-
-  const onDelete = (key: Key) => {
-    deleteNode(key, treeData);
-    setData(treeData.slice());
+  const handleAdd = () => {
+    const newData = [...data, { key: listIndex + '', name: '', coord: '', stay: '' }];
+    console.log('handleAdd -> newData:', newData);
+    // const newElement = { key: '2', name: '', coord: '', stay: '' };
+    // data.push(newElement);
+    setData(newData);
+    setlistIndex(newData.length);
   };
-
-  // eslint-disable-next-line @typescript-eslint/no-shadow
-  const renderTreeNodes = (data: ITreeNode[]) => {
-    const nodeArr = data.map((item) => {
-      if (item.isEditable) {
-        item.title = (
-          <div>
-            <input value={item.value || ''} onChange={(e) => onChange(e, item.key)} />
-
-            <CloseOutlined
-              style={{ marginLeft: 10 }}
-              onClick={() => onClose(item.key, item.defaultValue!)}
-            />
-
-            <CheckOutlined style={{ marginLeft: 10 }} onClick={() => onSave(item.key)} />
-          </div>
-        );
-      } else {
-        item.title = (
-          <div>
-            <span>{item.value}</span>
-            <span>
-              <EditOutlined
-                style={{ marginLeft: 10 }}
-                onClick={() => onEdit(item.key)}
-                className={styles.content}
-              />
-              <PlusOutlined style={{ marginLeft: 10 }} onClick={() => onAdd(item.key)} />
-              {item.parentKey === '0' ? null : (
-                <MinusOutlined style={{ marginLeft: 10 }} onClick={() => onDelete(item.key)} />
-              )}
-            </span>
-          </div>
-        );
-      }
-
-      if (item.children) {
-        return (
-          <TreeNode title={item.title} key={item.key}>
-            {renderTreeNodes(item.children)}
-          </TreeNode>
-        );
-      }
-
-      return <TreeNode title={item.title} key={item.key} />;
-    });
-
-    return nodeArr;
-  };
-
+  // const handleCollapse = (index) => {};
   return (
-    <div>
-      <Tree expandedKeys={expandedKeys} onExpand={onExpand} showLine={true} className={styles.tree}>
-        {renderTreeNodes(data)}
-      </Tree>
+    <div className={styles.content}>
+      <Row className={styles.header}>
+        <Col span={2}>
+          {collapse ? (
+            <CaretRightOutlined
+              className={styles.collpase}
+              onClick={() => {
+                setCollapse(false);
+              }}
+            />
+          ) : (
+            <CaretDownOutlined
+              className={styles.collpase}
+              onClick={() => {
+                setCollapse(true);
+              }}
+            />
+          )}
+        </Col>
+        <Col span={12} className={styles.headerTitle}>
+          东北五三线
+        </Col>
+        <Col span={5} className={styles.headerEdit} onClick={() => editTrack()}>
+          编辑
+        </Col>
+        <Col span={5} className={styles.headerDel} onClick={() => handleDeleteWhole()}>
+          删除
+        </Col>
+      </Row>
+
+      <table>
+        {collapse ? null : (
+          <>
+            <Row className={styles.title}>
+              <Col span={3}>序号</Col>
+              <Col span={5}>命名</Col>
+              <Col span={4}>坐标</Col>
+              <Col span={7}>停留时间</Col>
+              <Col span={5} className={styles.titleGreen} onClick={handleAdd}>
+                添加
+              </Col>
+            </Row>
+            {data.map((item, index) => (
+              <div
+                key={item.key}
+                className={styles.textRow}
+                style={{
+                  background: index % 2 === 0 ? 'rgb(9, 16, 23)' : 'rgb(56, 68, 76)',
+                }}
+              >
+                <div className={styles.textStyle}>{item.key}</div>
+                <div>
+                  {editIndex === index ? (
+                    <input
+                      type="text"
+                      className={styles.inputStyle}
+                      value={editData.name}
+                      onChange={(e) => setEditData({ ...editData, name: e.target.value })}
+                    />
+                  ) : (
+                    <div className={styles.textStyle}>{item.name}</div>
+                  )}
+                </div>
+                <div>
+                  {editIndex === index ? (
+                    <input
+                      type="text"
+                      className={styles.coordinput}
+                      value={editData.coord}
+                      onChange={(e) => setEditData({ ...editData, coord: e.target.value })}
+                    />
+                  ) : (
+                    <div className={styles.coord}>{item.coord}</div>
+                  )}
+                </div>
+                <div>
+                  {editIndex === index ? (
+                    <input
+                      type="text"
+                      className={styles.inputStyle}
+                      value={editData.stay}
+                      onChange={(e) => setEditData({ ...editData, stay: e.target.value })}
+                    />
+                  ) : (
+                    <div className={styles.textStyle}>{item.stay}</div>
+                  )}
+                </div>
+                <div>
+                  {editIndex === index ? (
+                    <>
+                      <text className={styles.textred} onClick={handleSave}>
+                        保存
+                      </text>
+                      <text className={styles.textblue} onClick={handleCancel}>
+                        取消
+                      </text>
+                    </>
+                  ) : (
+                    <>
+                      <text className={styles.textred} onClick={() => handleEdit(index)}>
+                        编辑
+                      </text>
+                      <text className={styles.textblue} onClick={() => handleDelete(index)}>
+                        删除
+                      </text>
+                    </>
+                  )}
+                </div>
+              </div>
+            ))}
+          </>
+        )}
+      </table>
     </div>
   );
-}
+};
+
+export default App;

@@ -2,22 +2,129 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-15 20:04:35
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-16 12:51:51
- * @FilePath: \zero-admin-ui-master\src\components\TreeList\index.less
+ * @LastEditTime: 2023-09-22 04:44:38
+ * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\TreeList\index.less
  * @Description: 
  * 
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved. 
  */
-.title {
-  // background: rgb(121, 242, 157);
-  background-color: rgba(7, 19, 28, 0.605);
+
+.textRow {
+  display: flex;
+  width: 35vh;
+  height: 6vh;
+  color: rgb(255, 255, 255);
+  font-size: 1vh;
+  text-align: center;
+  .textStyle {
+    width: 5vh;
+    height: 5vh;
+    padding-top: 1vh;
+    // background: rgb(121, 242, 157);
+    color: rgb(255, 255, 255);
+    text-align: center;
+  }
+  .coord {
+    // width: 30%;
+    width: 9vh;
+    height: 5vh;
+    // background: rgb(121, 242, 157);
+    color: rgb(255, 255, 255);
+    font-size: 1vh;
+    text-align: center;
+  }
+  .textred {
+    width: 15%;
+    height: 5vh;
+    padding-left: 1vh;
+    // background: rgb(121, 242, 157);
+    color: rgb(132, 90, 93);
+    text-align: center;
+    cursor: pointer;
+  }
+
+  .textblue {
+    width: 15%;
+    height: 5vh;
+    padding-left: 1vh;
+    // background: rgb(121, 242, 157);
+    color: rgb(123, 180, 200);
+    text-align: center;
+    cursor: pointer;
+  }
+  .inputStyle {
+    width: 5vh;
+    height: 5vh;
+    margin-right: 1vh;
+    margin-left: 1vh;
+    color: rgb(255, 255, 255);
+    background: transparent;
+    border: none;
+  }
+  .coordinput {
+    width: 9vh;
+    height: 5vh;
+    margin-left: 1vh;
+    // background: rgb(121, 242, 157);
+    color: rgb(255, 255, 255);
+    background: transparent;
+    border: none;
+  }
 }
-.tree {
-  height: 10vh;
-  color: rgb(140, 185, 210);
-  background-color: rgba(7, 19, 28, 0.605);
+
+.title {
+  width: 35vh;
+  height: 3vh;
+  color: rgb(255, 255, 255);
+  font-size: 1.5vh;
+  text-align: center;
+  background: rgb(43, 58, 69);
+  .titleGreen {
+    // background: rgb(121, 242, 157);
+    color: rgb(81, 229, 100);
+    cursor: pointer;
+  }
+}
+.header {
+  width: 35vh;
+  height: 8vh;
+  margin-bottom: 2vh;
+  padding-top: 2vh;
+  padding-left: 1vh;
+  // background: rgb(121, 242, 157);
+  color: rgb(255, 255, 255);
+  font-size: 2vh;
   background-image: url('../../../../assets/dashboard/treeList.png');
   background-repeat: no-repeat; //不重复
   background-size: 100% 100%; // 满屏
-  // transform: scale(2);
+  cursor: pointer;
+  .headerTitle {
+    // background: rgb(121, 242, 157);
+    padding-top: 0.5vh;
+    color: rgb(154, 203, 219);
+    font-size: 2.4vh;
+  }
+  .headerEdit {
+    padding-top: 1vh;
+    // background: rgb(121, 242, 157);
+    color: rgb(5, 203, 211);
+  }
+  .collpase {
+    padding-top: 1.4vh;
+    // background: rgb(121, 242, 157);
+    color: rgb(5, 203, 211);
+  }
+  .headerDel {
+    padding-top: 1vh;
+    // background: rgb(121, 242, 157);
+    color: rgb(180, 39, 17);
+  }
 }
+// width: 20vh;
+// height: 10vh;
+// color: rgb(140, 185, 210);
+// background-color: rgba(7, 19, 28, 0.605);
+// background-image: url('../../../../assets/dashboard/treeList.png');
+// background-repeat: no-repeat; //不重复
+// background-size: 100% 100%; // 满屏
+// transform: scale(2);

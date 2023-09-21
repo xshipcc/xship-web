@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-17 17:33:43
+ * @LastEditTime: 2023-09-21 23:11:02
  * @FilePath: \zero-admin-ui-master\config\config.ts
  * @Description:
  *
@@ -21,6 +21,7 @@ const cesiumSource = 'node_modules/cesium/Source';
 const cesiumWorkers = '../Build/Cesium/Workers';
 
 export default defineConfig({
+  antd: {},
   copy: [
     { from: path.join(cesiumSource, cesiumWorkers), to: 'Workers' },
     { from: path.join(cesiumSource, 'Assets'), to: 'Assets' },
@@ -30,7 +31,6 @@ export default defineConfig({
     CESIUM_BASE_URL: '/', //cesium默认路径地址配置，没改好,这个地址相对于路由
   },
   hash: true,
-  antd: {},
   dva: {
     hmr: true,
     immer: true,

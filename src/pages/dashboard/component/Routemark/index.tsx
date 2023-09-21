@@ -11,7 +11,7 @@
 import { Col, Row } from 'antd';
 import React, { useState } from 'react';
 import styles from './index.less';
-import TreeDemo from '@/pages/dashboard/component/TreeList/index';
+import TreeList from '@/pages/dashboard/component/TreeList/index';
 
 // export default App;
 
@@ -65,7 +65,7 @@ const Routemark: React.FC = (props) => {
           <Col span={24} className={styles.titleLine} />
         </Row>
         {/*  */}
-        <TreeDemo />
+        <TreeList />
       </div>
     </>
   );

@@ -100,7 +100,7 @@ const AwarenessRight: React.FC = () => {
         {/*  */}
         <Row>
           <Col span={24} className={styles.listcontent}>
-            <AlertList height={400} />
+            {/* <AlertList height={400} /> */}
           </Col>
         </Row>
       </div>
