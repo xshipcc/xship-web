@@ -181,7 +181,7 @@ export default {
     });
   },
   'GET /model': (req: Request, res: Response) => {
-    const filePath = path.resolve(__dirname, '../public/SampleData/Models/CesiumDrone.gltf'); // 指定图片文件路径
+    const filePath = path.resolve(__dirname, '../public/air.glb'); // 指定图片文件路径
     fs.readFile(filePath, (err, data) => {
       if (err) {
         console.error(err);

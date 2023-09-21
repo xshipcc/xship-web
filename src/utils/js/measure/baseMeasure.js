@@ -1,4 +1,3 @@
-import * as turf from '@turf/turf';
 import * as Cesium from 'cesium';
 /**
  * 量算基类
@@ -296,40 +295,6 @@ class BaseMeasure {
   getLength(c1, c2) {
     if (!c1 || !c2) return 0;
     return Cesium.Cartesian3.distance(c1, c2) || 0;
-  }
-
-  //调用第三方插件计算面积 turf
-  getAreaAndCenter(positions) {
-    if (!positions || positions.length < 1) return;
-    var cartographics = [];
-    var turfPoints = [];
-    for (var i = 0; i < positions.length; i++) {
-      var cartesian3 = positions[i];
-      var cartographic = Cesium.Cartographic.fromCartesian(cartesian3);
-      cartographics.push([
-        Cesium.Math.toDegrees(cartographic.longitude),
-        Cesium.Math.toDegrees(cartographic.latitude),
-      ]);
-      turfPoints.push(
-        turf.point([
-          Cesium.Math.toDegrees(cartographic.longitude),
-          Cesium.Math.toDegrees(cartographic.latitude),
-        ]),
-      );
-    }
-    if (!cartographics.length) return;
-    cartographics = cartographics.concat([cartographics[0]]);
-    var polygon = turf.polygon([cartographics]);
-    var area = turf.area(polygon);
-    //获取当前范围的中心点
-    var features = turf.featureCollection(turfPoints);
-    var turfCenter = turf.center(features);
-    var center = turfCenter.geometry.coordinates;
-
-    return {
-      area: area,
-      center: Cesium.Cartesian3.fromDegrees(center[0], center[1]),
-    };
   }
 
   // 构建控制点

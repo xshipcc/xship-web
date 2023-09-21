@@ -183,7 +183,7 @@ class Track {
       // 加载模型
       model: {
         // 模型路径
-        uri: '../../../../assets/air.glb',
+        uri: '/model',
         // 模型最小刻度
         minimumPixelSize: 64,
         maximumSize: 128,
