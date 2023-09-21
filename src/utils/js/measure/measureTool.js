@@ -1,3 +1,13 @@
+/*
+ * @Author: weiaodi 1635654853@qq.com
+ * @Date: 2023-09-13 22:00:39
+ * @LastEditors: weiaodi 1635654853@qq.com
+ * @LastEditTime: 2023-09-22 06:42:32
+ * @FilePath: \zero-admin-ui-master\src\utils\js\measure\measureTool.js
+ * @Description:
+ *
+ * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
+ */
 import MeasureSpaceDistance from './measureSpaceDistance';
 import MeasureHeight from './measureHeight';
 import MeasureLnglat from './measureLnglat';
@@ -54,6 +64,10 @@ class MeasureTool {
      * @property {Object} nowEditMeasureObj 当前编辑对象，编辑完成后为undifined
      */
     this.nowEditMeasureObj = undefined;
+    /**
+     * @property {Object} trackPosition 路径数据存储对象
+     */
+    this.trackPosition = [];
   }
 
   /**
@@ -81,44 +95,59 @@ class MeasureTool {
    * @param {Number} opt.type 量算类型（1~空间距离测量/2~贴地距离测量/3~空间面积测量/4~高度测量/5~三角测量/6~坐标量算/7~方位角测量/8~剖面测量/9~单点坡度）
    */
   start(opt) {
-    opt = opt || {};
-    if (!opt.type) return;
-    let ms;
-    this.endEdit();
-    if (
-      this.nowDrawMeasureObj &&
-      this.nowDrawMeasureObj.state != 'endCreate' &&
-      this.nowDrawMeasureObj.state != 'endEdit' &&
-      this.nowDrawMeasureObj.state != 'no'
-    )
-      return;
+    return new Promise((resolve, reject) => {
+      opt = opt || {};
+      if (!opt.type) {
+        reject('opt.type 不存在');
+        return;
+      }
 
-    switch (Number(opt.type)) {
-      case 1: // 空间距离测量
-        ms = new MeasureSpaceDistance(this.viewer, opt);
-        break;
-      case 6: // 坐标量算
-        ms = new MeasureLnglat(this.viewer, opt);
-        break;
-      default:
-        break;
-    }
-    this.nowDrawMeasureObj = ms;
-    let that = this;
-    if (ms) {
-      this.changeCursor(true);
-      ms.start(function (res) {
-        that.changeCursor(false);
-        if (that.intoEdit) {
-          ms.startEdit();
-          if (that.startEditFun) that.startEditFun(ms);
-        }
-        if (opt.success) opt.success(ms, res);
-        if (that.endCreateFun) that.endCreateFun(ms, res);
-        that.nowDrawMeasureObj = undefined;
-        that.measureObjArr.push(ms);
-      });
-    }
+      let ms;
+      this.endEdit();
+      if (
+        this.nowDrawMeasureObj &&
+        this.nowDrawMeasureObj.state != 'endCreate' &&
+        this.nowDrawMeasureObj.state != 'endEdit' &&
+        this.nowDrawMeasureObj.state != 'no'
+      ) {
+        reject('当前操作尚未完成');
+        return;
+      }
+
+      switch (Number(opt.type)) {
+        case 1: // 空间距离测量
+          ms = new MeasureSpaceDistance(this.viewer, opt);
+          break;
+        case 6: // 坐标量算
+          ms = new MeasureLnglat(this.viewer, opt);
+          break;
+        default:
+          break;
+      }
+
+      this.nowDrawMeasureObj = ms;
+      let that = this;
+
+      if (ms) {
+        this.changeCursor(true);
+        ms.start(function (res) {
+          that.changeCursor(false);
+          if (that.intoEdit) {
+            ms.startEdit();
+            if (that.startEditFun) that.startEditFun(ms);
+          }
+          if (opt.success) opt.success(ms, res);
+          if (that.endCreateFun) that.endCreateFun(ms, res);
+          that.nowDrawMeasureObj = undefined;
+          that.measureObjArr.push(ms);
+          ms.trackPosition;
+          that.trackPosition = ms.trackPosition;
+          resolve(ms.trackPosition);
+        });
+      } else {
+        reject('无效的 opt.type');
+      }
+    });
   }
 
   /**
@@ -170,6 +199,10 @@ class MeasureTool {
    */
   done() {
     if (this.nowEditMeasureObj) {
+      console.log(
+        'MeasureTool -> done ->    this.nowEditMeasureObj.trackPosition:',
+        this.nowEditMeasureObj.trackPosition,
+      );
       this.nowEditMeasureObj.done();
       if (this.endEditFun) this.endEditFun(this.nowEditMeasureObj);
       this.nowEditMeasureObj = undefined;

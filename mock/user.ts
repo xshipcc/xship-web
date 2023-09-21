@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-18 13:59:11
+ * @LastEditTime: 2023-09-22 06:51:26
  * @FilePath: \zero-admin-ui-master\mock\user.ts
  * @Description:
  *
@@ -168,6 +168,18 @@ export default {
       }
     });
   },
+  'GET /label': (req: Request, res: Response) => {
+    const filePath = path.resolve(__dirname, '../public/poi.png'); // 指定图片文件路径
+    fs.readFile(filePath, (err, data) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send('Internal Server Error');
+      } else {
+        res.setHeader('Content-Type', 'image/tiff');
+        res.send(data);
+      }
+    });
+  },
   'GET /czml': (req: Request, res: Response) => {
     const filePath = path.resolve(__dirname, '../public/SampleData/sampleFlight.czml'); // 指定图片文件路径
     fs.readFile(filePath, (err, data) => {
@@ -187,7 +199,7 @@ export default {
         console.error(err);
         res.status(500).send('Internal Server Error');
       } else {
-        res.setHeader('Content-Type', 'gltf');
+        res.setHeader('Content-Type', 'glb');
         res.send(data);
       }
     });

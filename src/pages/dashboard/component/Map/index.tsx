@@ -5,10 +5,11 @@ import * as Cesium from 'cesium';
 import styles from './index.less';
 import 'cesium/Source/Widgets/widgets.css';
 import { Button } from 'antd';
-import util from '@/utils/js/util';
+
 import Track from '../../../../utils/js/track';
 import TIFFImageryProvider from 'tiff-imagery-provider';
 import Tool from '@/utils/js/measure/measureTool';
+import util from '@/utils/js/util';
 import { useSelector, useDispatch, useModel } from 'umi';
 import S_Measure from '@/utils/js/measure';
 const Map: React.FC = () => {
@@ -103,8 +104,8 @@ const Map: React.FC = () => {
     viewer.scene.screenSpaceCameraController._minimumZoomRate = 5000; // 设置相机缩小时的速率
     viewer.scene.screenSpaceCameraController._maximumZoomRate = 5000; //设置相机放大时的速率
     viewer._cesiumWidget._creditContainer.style.display = 'none';
-    MeasureTools.current = new S_Measure(viewer); //测量类
-
+    // MeasureTools.current = new S_Measure(viewer); //测量类
+    MeasureTools.current = new Tool(viewer);
     // 测量
     util.setCameraView(
       {
@@ -130,112 +131,112 @@ const Map: React.FC = () => {
      */
     //#region -------------------------------------------------------------------------
 
-    // const b = [
-    //   {
-    //     shootId: 1, // 拍摄点ID
-    //     aircraftAltitude: 294.4321622812281, // 无人机高度
-    //     aircraftLatitude: 38.06337, // 无人机纬度
-    //     aircraftLongitude: 114.2937, // 无人机经度
-    //     gimbalPitchValue: -34.86589098646805, // 无人机云台俯仰角
-    //     gimbalYawValue: -141.52559172027878, // 无人机云台偏航角
-    //     isShoot: false, // 是否为拍摄点
-    //   },
-    //   {
-    //     shootId: 2,
-    //     aircraftAltitude: 296.4321622812281,
-    //     aircraftLatitude: 38.073379,
-    //     aircraftLongitude: 114.39379,
-    //     gimbalPitchValue: -29.77056379217234,
-    //     gimbalYawValue: -141.52559171972544,
-    //     isShoot: false,
-    //   },
-    //   {
-    //     shootId: 3,
-    //     aircraftAltitude: 296.4321622812281,
-    //     aircraftLatitude: 38.0633799,
-    //     aircraftLongitude: 114.293799,
-    //     gimbalPitchValue: -49.79999923706055,
-    //     gimbalYawValue: -143.6999969482422,
-    //     isShoot: true,
-    //   },
-    //   {
-    //     shootId: 4,
-    //     aircraftAltitude: 273.1146622812281,
-    //     aircraftLatitude: 38.06337999,
-    //     aircraftLongitude: 114.2937999,
-    //     gimbalPitchValue: 0,
-    //     gimbalYawValue: -96.52559172238325,
-    //     isShoot: true,
-    //   },
-    // ];
+    const b = [
+      {
+        shootId: 1, // 拍摄点ID
+        aircraftAltitude: 294.4321622812281, // 无人机高度
+        aircraftLatitude: 38.06337, // 无人机纬度
+        aircraftLongitude: 114.2937, // 无人机经度
+        gimbalPitchValue: -34.86589098646805, // 无人机云台俯仰角
+        gimbalYawValue: -141.52559172027878, // 无人机云台偏航角
+        isShoot: false, // 是否为拍摄点
+      },
+      {
+        shootId: 2,
+        aircraftAltitude: 296.4321622812281,
+        aircraftLatitude: 38.06337,
+        aircraftLongitude: 114.2938,
+        gimbalPitchValue: -29.77056379217234,
+        gimbalYawValue: -141.52559171972544,
+        isShoot: false,
+      },
+      {
+        shootId: 3,
+        aircraftAltitude: 296.4321622812281,
+        aircraftLatitude: 38.0633799,
+        aircraftLongitude: 114.293799,
+        gimbalPitchValue: -49.79999923706055,
+        gimbalYawValue: -143.6999969482422,
+        isShoot: true,
+      },
+      {
+        shootId: 4,
+        aircraftAltitude: 273.1146622812281,
+        aircraftLatitude: 38.06337999,
+        aircraftLongitude: 114.2937999,
+        gimbalPitchValue: 0,
+        gimbalYawValue: -96.52559172238325,
+        isShoot: true,
+      },
+    ];
 
-    // /**
-    //  * @param {*} viewer
-    //  * @param {*} options.speed 速度m/s
-    //  * @param {*} options.stayTime 拍摄点等待时间
-    //  * @param {*} options.Lines  点集合
-    //  * @param {*} options.frustumFar  视锥长度
-    //  * @param {*} options.shootCallback  拍摄点回调函数返回isShoot为true的shootId
-    //  * @memberof Track
-    //  */
-    // const roaming = new Track(viewer, {
-    //   Lines: b,
-    //   stayTime: 1,
-    //   speed: 3,
-    //   frustumFar: 10,
-    //   shootCallback: function (shootId) {
-    //     console.log(shootId);
-    //   },
-    // });
+    /**
+     * @param {*} viewer
+     * @param {*} options.speed 速度m/s
+     * @param {*} options.stayTime 拍摄点等待时间
+     * @param {*} options.Lines  点集合
+     * @param {*} options.frustumFar  视锥长度
+     * @param {*} options.shootCallback  拍摄点回调函数返回isShoot为true的shootId
+     * @memberof Track
+     */
+    const roaming = new Track(viewer, {
+      Lines: b,
+      stayTime: 1,
+      speed: 3,
+      frustumFar: 10,
+      shootCallback: function (shootId) {
+        console.log(shootId);
+      },
+    });
 
-    // setTimeout(function () {
-    //   /**
-    //    *航迹模拟开始飞行
-    //    * @memberof roaming.StartFlying()
-    //    */
+    setTimeout(function () {
+      /**
+       *航迹模拟开始飞行
+       * @memberof roaming.StartFlying()
+       */
 
-    //   roaming.StartFlying();
+      roaming.StartFlying();
 
-    //   /**
-    //    *航迹模拟的暂停和继续
-    //    *
-    //    * @param {*} state bool类型 false为暂停，ture为继续
-    //    * @memberof roaming.PauseOrContinue(state)
-    //    */
+      /**
+       *航迹模拟的暂停和继续
+       *
+       * @param {*} state bool类型 false为暂停，ture为继续
+       * @memberof roaming.PauseOrContinue(state)
+       */
 
-    //   //roaming.PauseOrContinue(true)//false为暂停，ture为继续
+      //roaming.PauseOrContinue(true)//false为暂停，ture为继续
 
-    //   /**
-    //    *改变飞行的速度
-    //    *
-    //    * @param {*} value  整数类型 建议（1-20）
-    //    * @memberof roaming.ChangeRoamingSpeed(value)
-    //    */
+      /**
+       *改变飞行的速度
+       *
+       * @param {*} value  整数类型 建议（1-20）
+       * @memberof roaming.ChangeRoamingSpeed(value)
+       */
 
-    //   roaming.ChangeRoamingSpeed(5);
+      roaming.ChangeRoamingSpeed(20);
 
-    //   /**
-    //    * 改变观看角度
-    //    *
-    //    * @param {*} name string
-    //    *
-    //    * ViewTopDown:顶视图
-    //    * ViewSide ：正视图
-    //    * trackedEntity：跟随模型
-    //    *
-    //    * @memberof ChangePerspective(name)
-    //    */
+      /**
+       * 改变观看角度
+       *
+       * @param {*} name string
+       *
+       * ViewTopDown:顶视图
+       * ViewSide ：正视图
+       * trackedEntity：跟随模型
+       *
+       * @memberof ChangePerspective(name)
+       */
 
-    //   // roaming.ChangePerspective('trackedEntity');
+      // roaming.ChangePerspective('trackedEntity');
 
-    //   /**
-    //    *取消航迹模拟
-    //    *
-    //    * @memberof roaming.EndRoaming()
-    //    */
+      /**
+       *取消航迹模拟
+       *
+       * @memberof roaming.EndRoaming()
+       */
 
-    //   // roaming.EndRoaming();
-    // }, 10000);
+      // roaming.EndRoaming();
+    }, 10000);
 
     //#endregion -----------------------------------------------------------------------
     /**
@@ -245,15 +246,44 @@ const Map: React.FC = () => {
 
   useEffect(() => {
     if (editSignal[0]) {
-      console.log('useEffect -> editSignal[0]:', editSignal[0]);
-      MeasureTools.current.measurePolyLine(function () {
-        //测量完成回调函数
-      }); //直线距离量测
+      const start = (item: any) => {
+        console.log('start -> item:', item);
+        if (!MeasureTools.current) return;
+        if (MeasureTools.current.nowDrawMeasureObj || MeasureTools.current.nowEditMeasureObj) {
+          alert('请结束当前量算');
+          return;
+        }
+        // 开始量算
+        MeasureTools.current
+          .start({
+            type: item.type,
+          })
+          .then((trackPosition) => {
+            console.log('trackPosition:', trackPosition);
+            // 在这里处理 trackPosition 的值
+          })
+          .catch((error) => {
+            console.error('发生错误:', error);
+            // 在这里处理错误
+          });
+        console.log(
+          'start -> MeasureTools.current.trackPosition:',
+          MeasureTools.current.trackPosition,
+        );
+        return MeasureTools.current.trackPosition;
+      };
+      start({
+        name: '空间距离',
+        type: '1',
+        unitType: 'dis',
+      });
     }
     if (editSignal[1]) {
-      MeasureTools.current.destroy(function () {
-        //测量完成回调函数
-      }); //清除量算结果
+      const clear = () => {
+        if (!measureTool) return;
+        measureTool.clear();
+      };
+      clear();
     }
   }, [editSignal]);
   /**
@@ -263,13 +293,11 @@ const Map: React.FC = () => {
 
   return (
     <>
-      {/* <Button
+      <Button
         className={styles.button}
         type="text"
         onClick={() => {
-          MeasureTools.current.measurePolyLine(function () {
-            //测量完成回调函数
-          }); //直线距离量测
+          MeasureTools.current.done(); //直线距离量测
         }}
       >
         距离
@@ -284,7 +312,7 @@ const Map: React.FC = () => {
         }}
       >
         删除
-      </Button> */}
+      </Button>
       {/* <Button
         type="text"
         className={styles.button1}

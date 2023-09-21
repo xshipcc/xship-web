@@ -1,4 +1,5 @@
 import * as Cesium from 'cesium';
+
 /**
  * 量算基类
  * @description 量算基类，一般不直接实例化，而实例化其子类（见下方Classes）
@@ -63,12 +64,12 @@ class BaseMeasure {
         }, false),
         show: true,
         material: new Cesium.PolylineOutlineMaterialProperty({
-          color: Cesium.Color.GOLD,
+          color: Cesium.Color.fromCssColorString('#4daefc'),
           outlineWidth: 1,
           outlineColor: Cesium.Color.BLACK,
         }),
         disableDepthTestDistance: Number.POSITIVE_INFINITY,
-        width: 3,
+        width: 5,
         clampToGround: clampToGround,
       },
     });
@@ -85,6 +86,16 @@ class BaseMeasure {
 
   createLabel(c, text) {
     if (!c) return;
+    this.viewer.entities.add({
+      position: c,
+      billboard: {
+        image: '/label', // 指定图片的路径
+        scale: 0.2, // 图片的缩放比例，默认为 1.0
+        disableDepthTestDistance: Number.POSITIVE_INFINITY, // 确保图像在其他对象之上
+        verticalOrigin: Cesium.VerticalOrigin.BOTTOM, // 设置垂直对齐方式，使图像底部与 position 对应
+        pixelOffset: new Cesium.Cartesian2(0, -40), // 可选，指定像素偏移量
+      },
+    });
     return this.viewer.entities.add({
       position: c,
       label: {

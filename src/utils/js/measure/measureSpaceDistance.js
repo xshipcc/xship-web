@@ -4,6 +4,7 @@ import BaseMeasure from './baseMeasure';
 import '../prompt/prompt.css';
 import Prompt from '../prompt/prompt.js';
 import * as Cesium from 'cesium';
+import util from '../util';
 /**
  * 空间距离测量类
  * @class
@@ -28,6 +29,10 @@ class MeasureSpaceDistance extends BaseMeasure {
     this.nextlabel = null; // 编辑时  下一个点的label
     this.lastPosition = null; // 编辑时   上一个点的坐标
     this.nextPosition = null; // 编辑时   下一个点的坐标
+    /**
+     * @property {Object} trackPosition 路径数据存储对象
+     */
+    this.trackPosition = [];
   }
 
   //开始测量
@@ -48,6 +53,8 @@ class MeasureSpaceDistance extends BaseMeasure {
       let label;
       if (that.positions.length == 0) {
         label = that.createLabel(cartesian, '起点');
+        var lnglat = util.cartesianToLnglat(cartesian, that.viewer);
+        that.trackPosition.push(lnglat);
         that.floatLable = that.createLabel(cartesian, '');
         that.floatLable.wz = 0;
         that.floatLable.show = false;
@@ -56,6 +63,9 @@ class MeasureSpaceDistance extends BaseMeasure {
         that.lastDistance = distance;
         that.allDistance += distance;
         let text = that.formateLength(distance, that.unit);
+        // TODO: 测试点
+        var lnglat = util.cartesianToLnglat(cartesian, that.viewer);
+        that.trackPosition.push(lnglat);
         label = that.createLabel(cartesian, text);
         label.wz = that.positions.length; // 和坐标点关联
         label.distance = distance;
@@ -142,6 +152,10 @@ class MeasureSpaceDistance extends BaseMeasure {
 
       that.movePush = false;
       that.endCreate();
+      console.log(
+        'MeasureSpaceDistance -> constructor ->  this.trackPosition:',
+        that.trackPosition,
+      );
       if (callback) callback();
     }, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
   }

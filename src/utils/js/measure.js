@@ -100,7 +100,7 @@ class S_Measure {
         this.addPoint(cartesian);
         this.addLine(positions);
         this.viewer.screenSpaceEventHandler.removeInputAction(
-          Cesium.ScreenSpaceEventType.LEFT_CLICK,
+          Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK,
         );
         this.viewer.screenSpaceEventHandler.removeInputAction(
           Cesium.ScreenSpaceEventType.MOUSE_MOVE,
@@ -109,7 +109,7 @@ class S_Measure {
           callback();
         }
       }
-    }, Cesium.ScreenSpaceEventType.LEFT_CLICK);
+    }, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
     // this.viewer.screenSpaceEventHandler.setInputAction((clickEvent) => {
 
     //     this.viewer.screenSpaceEventHandler.removeInputAction(Cesium.ScreenSpaceEventType.RIGHT_CLICK);
