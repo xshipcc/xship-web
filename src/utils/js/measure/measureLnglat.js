@@ -1,7 +1,7 @@
 //经纬度 测量js
 import BaseMeasure from './baseMeasure';
 import util from '../util';
-
+import * as Cesium from 'cesium';
 /**
  * 坐标测量类
  * @class
@@ -47,7 +47,8 @@ class MeasureLnglat extends BaseMeasure {
         lnglat[1].toFixed(6) +
         '\n高度：' +
         lnglat[2].toFixed(2) +
-        ' m';
+        console.log('MeasureLnglat ->   lnglat[2]:', lnglat[2]);
+      (' m');
     }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
   }
 

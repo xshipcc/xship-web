@@ -1,12 +1,7 @@
 import MeasureSpaceDistance from './measureSpaceDistance';
-import MeasureGroundDistance from './measureGroundDistance';
-import MeasureSpaceArea from './measureSpaceArea';
 import MeasureHeight from './measureHeight';
-import MeasureTriangle from './measureTriangle';
 import MeasureLnglat from './measureLnglat';
-import MeasureAzimutht from './measureAzimuth';
-import MeasureSection from './measureSection';
-
+import * as Cesium from 'cesium';
 /**
  * 量算控制类
  * @description 量算控制类，通过此类对象，可进行不同类型的量算操作，而不用多次new 不同类型的量算对象。
@@ -18,13 +13,15 @@ class MeasureTool {
    * @param {Object} obj 基础配置
    */
   constructor(viewer, obj) {
+    console.log('MeasureTool -> constructor -> viewer:', viewer);
+
     if (!viewer) {
       console.warn('缺少必要参数！--viewer');
       return;
     }
     obj = obj || {};
     this.viewer = viewer;
-
+    console.log('MeasureTool -> constructor -> viewer:', viewer);
     /**
      * @property {Object} nowDrawMeasureObj 当前测量对象
      */
@@ -100,35 +97,8 @@ class MeasureTool {
       case 1: // 空间距离测量
         ms = new MeasureSpaceDistance(this.viewer, opt);
         break;
-      case 2: // 贴地距离测量
-        ms = new MeasureGroundDistance(this.viewer, opt);
-        break;
-      case 3: // 空间面积测量
-        ms = new MeasureSpaceArea(this.viewer, opt);
-        break;
-      case 4: // 高度测量
-        ms = new MeasureHeight(this.viewer, opt);
-        break;
-      case 5: // 三角测量
-        ms = new MeasureTriangle(this.viewer, opt);
-        break;
       case 6: // 坐标量算
         ms = new MeasureLnglat(this.viewer, opt);
-        break;
-      case 7: // 方位角测量
-        ms = new MeasureAzimutht(this.viewer, opt);
-        break;
-      case 8: // 剖面测量
-        ms = new MeasureSection(this.viewer, opt);
-        break;
-      /* case 9: // 单点坡度
-				ms = new MeasureSlope(this.viewer, opt);
-				break; */
-      /* 	case 10: //贴模型距离
-					ms = new MeasureTilesetDistance(this.viewer);
-					break; */
-      case 11: // 单点坡度
-        ms = new MeasureSlopePolygon(this.viewer);
         break;
       default:
         break;
@@ -271,6 +241,7 @@ class MeasureTool {
    */
   changeCursor(isopen) {
     let body = document.getElementsByTagName('body');
+    console.log('MeasureTool -> changeCursor -> body:', body);
     body[0].style.cursor = isopen ? 'crosshair' : 'default';
   }
 

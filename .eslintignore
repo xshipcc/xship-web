@@ -9,4 +9,5 @@ mock
 # js包
 /src/utils/js
 /src/utils/plugin
+/src/pages/dashboard/component/Map/track
 /socketTest

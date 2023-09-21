@@ -1,3 +1,4 @@
+import * as Cesium from 'cesium';
 /**
  * 三维基础方法
  * @example util.getCameraView(viewer);

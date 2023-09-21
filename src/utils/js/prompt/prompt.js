@@ -1,3 +1,4 @@
+import * as Cesium from 'cesium';
 /**
  * 气泡窗类
  * @class

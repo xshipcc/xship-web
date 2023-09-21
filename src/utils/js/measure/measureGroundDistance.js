@@ -2,6 +2,7 @@
 import BaseMeasure from './baseMeasure';
 import '../prompt/prompt.css';
 import Prompt from '../prompt/prompt.js';
+import * as Cesium from 'cesium';
 /**
  * 贴地距离测量类
  * @class

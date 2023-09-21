@@ -1,4 +1,5 @@
 import * as turf from '@turf/turf';
+import * as Cesium from 'cesium';
 /**
  * 量算基类
  * @description 量算基类，一般不直接实例化，而实例化其子类（见下方Classes）

@@ -3,7 +3,7 @@ import MeasureGroundDistance from './measureGroundDistance';
 import BaseMeasure from './baseMeasure';
 import '../prompt/prompt.css';
 import Prompt from '../prompt/prompt.js';
-
+import * as Cesium from 'cesium';
 /**
  * 空间距离测量类
  * @class

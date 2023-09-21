@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-19 16:56:44
+ * @LastEditTime: 2023-09-21 10:50:14
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Analysis\right.tsx
  * @Description:
  *
@@ -138,9 +138,7 @@ const AnalysisRight: React.FC = (props) => {
         </Row>
         {/*  */}
         <Row>
-          <Col span={24}>
-            <AlertList height={160} />
-          </Col>
+          <Col span={24}>{/* <AlertList height={160} /> */}</Col>
         </Row>
         {/*  */}
         <Row>
