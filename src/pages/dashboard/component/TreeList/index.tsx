@@ -13,6 +13,8 @@ const App = () => {
   const [editIndex, setEditIndex] = useState(-1);
   const [editData, setEditData] = useState({});
   const [collapse, setCollapse] = useState(true);
+  const [editSignal, setEditSignal] = useState(true);
+
   const [listIndex, setlistIndex] = useState(data.length);
   // 获取全局的轨迹信息
   const dispatch = useDispatch();
@@ -36,10 +38,19 @@ const App = () => {
     setEditIndex(-1);
     setEditData({});
   };
+
   const editTrack = () => {
+    setEditSignal(false);
     dispatch({
       type: 'trackModel/changeEditSignal',
       payload: [true, false],
+    });
+  };
+  const editTrackOver = () => {
+    setEditSignal(true);
+    dispatch({
+      type: 'trackModel/changeEditSignal',
+      payload: [false, true],
     });
   };
 
@@ -85,9 +96,16 @@ const App = () => {
         <Col span={12} className={styles.headerTitle}>
           东北五三线
         </Col>
-        <Col span={5} className={styles.headerEdit} onClick={() => editTrack()}>
-          编辑
-        </Col>
+        {editSignal ? (
+          <Col span={5} className={styles.headerEdit} onClick={() => editTrack()}>
+            编辑
+          </Col>
+        ) : (
+          <Col span={5} className={styles.headerEdit} onClick={() => editTrackOver()}>
+            完成
+          </Col>
+        )}
+
         <Col span={5} className={styles.headerDel} onClick={() => handleDeleteWhole()}>
           删除
         </Col>

@@ -50,10 +50,10 @@ const Map: React.FC = () => {
     }
   };
   const divRef = useRef<HTMLDivElement>(null);
+  const viewer = useRef(null);
   const MeasureTools = useRef(null);
   const dispatch = useDispatch();
   const trackList = useSelector((state: any) => state.trackModel.trackList);
-  console.log('trackList:', trackList);
   const editSignal = useSelector((state: any) => state.trackModel.editSignal);
   console.log('editSignal:', editSignal);
   useEffect(() => {
@@ -76,7 +76,7 @@ const Map: React.FC = () => {
     //   homeButton: false,
     // });
 
-    const viewer = new Cesium.Viewer(divRef.current as Element, {
+    viewer.current = new Cesium.Viewer(divRef.current as Element, {
       animation: false, //左下角的动画仪表盘
       baseLayerPicker: false, //右上角的图层选择按钮
       geocoder: false, //搜索框
@@ -99,30 +99,27 @@ const Map: React.FC = () => {
         requestVertexNormals: true, // 开启水面特效
       }),
     });
-    viewer.scene.screenSpaceCameraController.maximumZoomDistance = 20000;
-    viewer.scene.screenSpaceCameraController.minimumZoomDistance = 100;
-    viewer.scene.screenSpaceCameraController._minimumZoomRate = 5000; // 设置相机缩小时的速率
-    viewer.scene.screenSpaceCameraController._maximumZoomRate = 5000; //设置相机放大时的速率
-    viewer._cesiumWidget._creditContainer.style.display = 'none';
+    viewer.current.scene.screenSpaceCameraController.maximumZoomDistance = 20000;
+    viewer.current.scene.screenSpaceCameraController.minimumZoomDistance = 100;
+    viewer.current.scene.screenSpaceCameraController._minimumZoomRate = 5000; // 设置相机缩小时的速率
+    viewer.current.scene.screenSpaceCameraController._maximumZoomRate = 5000; //设置相机放大时的速率
+    viewer.current._cesiumWidget._creditContainer.style.display = 'none';
     // MeasureTools.current = new S_Measure(viewer); //测量类
-    MeasureTools.current = new Tool(viewer);
-    // 测量
+    MeasureTools.current = new Tool(viewer.current);
     util.setCameraView(
       {
-        x: 114.2937,
-        y: 38.06337,
-        z: 55533.08874146516,
-        heading: 359.31730998394744,
-        pitch: -55.72609786048885,
-        roll: 359.97907544797624,
+        x: 114.40856,
+        y: 38.03867,
+        z: 2000.56,
+        heading: 270.31730998394744,
+        pitch: -20.72609786048885,
+        roll: 0.97907544797624,
         duration: 0,
       },
-      viewer,
+      viewer.current,
     );
-
     // // tiff数据加载
     // // addTiffImageryLayer(viewer, '/srctiff');
-
     /**
      *  @file index.tsx
      *  @time 2023/09/21
@@ -130,7 +127,52 @@ const Map: React.FC = () => {
      * @function :
      */
     //#region -------------------------------------------------------------------------
+  }, []);
+  useEffect(() => {
+    if (editSignal[0]) {
+      const start = (item: any) => {
+        console.log('start -> item:', item);
+        if (!MeasureTools.current) return;
+        if (MeasureTools.current.nowDrawMeasureObj || MeasureTools.current.nowEditMeasureObj) {
+          alert('请结束当前量算');
+          return;
+        }
+        // 开始量算
+        MeasureTools.current
+          .start({
+            type: item.type,
+          })
+          .then((trackPosition) => {
+            dispatch({
+              type: 'trackModel/saveTrackList',
+              payload: trackPosition,
+            });
+            console.log('trackPosition:', trackPosition);
+            // 在这里处理 trackPosition 的值
+          })
+          .catch((error) => {
+            console.error('发生错误:', error);
+            // 在这里处理错误
+          });
+        console.log(
+          'start -> MeasureTools.current.trackPosition:',
+          MeasureTools.current.trackPosition,
+        );
+        return MeasureTools.current.trackPosition;
+      };
+      // 调用
+      start({
+        name: '空间距离',
+        type: '1',
+        unitType: 'dis',
+      });
+    }
+    if (editSignal[1]) {
+      MeasureTools.current.clear();
+    }
+  }, [editSignal]);
 
+  useEffect(() => {
     const b = [
       {
         shootId: 1, // 拍摄点ID
@@ -169,123 +211,96 @@ const Map: React.FC = () => {
         isShoot: true,
       },
     ];
-
-    /**
-     * @param {*} viewer
-     * @param {*} options.speed 速度m/s
-     * @param {*} options.stayTime 拍摄点等待时间
-     * @param {*} options.Lines  点集合
-     * @param {*} options.frustumFar  视锥长度
-     * @param {*} options.shootCallback  拍摄点回调函数返回isShoot为true的shootId
-     * @memberof Track
-     */
-    const roaming = new Track(viewer, {
-      Lines: b,
-      stayTime: 1,
-      speed: 3,
-      frustumFar: 10,
-      shootCallback: function (shootId) {
-        console.log(shootId);
-      },
+    const transformedArray = trackList.map((item, index) => {
+      return {
+        shootId: index,
+        aircraftAltitude: item[2],
+        aircraftLatitude: item[1],
+        aircraftLongitude: item[0],
+        gimbalPitchValue: -34.86589098646805, // 无人机云台俯仰角
+        gimbalYawValue: -143.6999969482422,
+        isShoot: false,
+      };
     });
-
-    setTimeout(function () {
+    // 判断是否可以进行飞行
+    if (editSignal[1]) {
       /**
-       *航迹模拟开始飞行
-       * @memberof roaming.StartFlying()
+       * @param {*} viewer
+       * @param {*} options.speed 速度m/s
+       * @param {*} options.stayTime 拍摄点等待时间
+       * @param {*} options.Lines  点集合
+       * @param {*} options.frustumFar  视锥长度
+       * @param {*} options.shootCallback  拍摄点回调函数返回isShoot为true的shootId
+       * @memberof Track
        */
+      console.log('trackList:', trackList);
+      const roaming = new Track(viewer.current, {
+        Lines: transformedArray,
+        stayTime: 1,
+        speed: 3,
+        frustumFar: 10,
+        shootCallback: function (shootId) {
+          console.log(shootId);
+        },
+      });
 
-      roaming.StartFlying();
+      setTimeout(function () {
+        /**
+         *航迹模拟开始飞行
+         * @memberof roaming.StartFlying()
+         */
 
-      /**
-       *航迹模拟的暂停和继续
-       *
-       * @param {*} state bool类型 false为暂停，ture为继续
-       * @memberof roaming.PauseOrContinue(state)
-       */
+        roaming.StartFlying();
 
-      //roaming.PauseOrContinue(true)//false为暂停，ture为继续
+        /**
+         *航迹模拟的暂停和继续
+         *
+         * @param {*} state bool类型 false为暂停，ture为继续
+         * @memberof roaming.PauseOrContinue(state)
+         */
 
-      /**
-       *改变飞行的速度
-       *
-       * @param {*} value  整数类型 建议（1-20）
-       * @memberof roaming.ChangeRoamingSpeed(value)
-       */
+        //roaming.PauseOrContinue(true)//false为暂停，ture为继续
 
-      roaming.ChangeRoamingSpeed(20);
+        /**
+         *改变飞行的速度
+         *
+         * @param {*} value  整数类型 建议（1-20）
+         * @memberof roaming.ChangeRoamingSpeed(value)
+         */
 
-      /**
-       * 改变观看角度
-       *
-       * @param {*} name string
-       *
-       * ViewTopDown:顶视图
-       * ViewSide ：正视图
-       * trackedEntity：跟随模型
-       *
-       * @memberof ChangePerspective(name)
-       */
+        roaming.ChangeRoamingSpeed(4);
 
-      // roaming.ChangePerspective('trackedEntity');
+        /**
+         * 改变观看角度
+         *
+         * @param {*} name string
+         *
+         * ViewTopDown:顶视图
+         * ViewSide ：正视图
+         * trackedEntity：跟随模型
+         *
+         * @memberof ChangePerspective(name)
+         */
 
-      /**
-       *取消航迹模拟
-       *
-       * @memberof roaming.EndRoaming()
-       */
+        // roaming.ChangePerspective('trackedEntity');
 
-      // roaming.EndRoaming();
-    }, 10000);
+        /**
+         *取消航迹模拟
+         *
+         * @memberof roaming.EndRoaming()
+         */
+
+        // roaming.EndRoaming();
+      }, 1000);
+    }
+    // 飞行模拟数据
 
     //#endregion -----------------------------------------------------------------------
     /**
      * @end
      */
-  }, []);
+  }, [editSignal, trackList]);
 
-  useEffect(() => {
-    if (editSignal[0]) {
-      const start = (item: any) => {
-        console.log('start -> item:', item);
-        if (!MeasureTools.current) return;
-        if (MeasureTools.current.nowDrawMeasureObj || MeasureTools.current.nowEditMeasureObj) {
-          alert('请结束当前量算');
-          return;
-        }
-        // 开始量算
-        MeasureTools.current
-          .start({
-            type: item.type,
-          })
-          .then((trackPosition) => {
-            console.log('trackPosition:', trackPosition);
-            // 在这里处理 trackPosition 的值
-          })
-          .catch((error) => {
-            console.error('发生错误:', error);
-            // 在这里处理错误
-          });
-        console.log(
-          'start -> MeasureTools.current.trackPosition:',
-          MeasureTools.current.trackPosition,
-        );
-        return MeasureTools.current.trackPosition;
-      };
-      start({
-        name: '空间距离',
-        type: '1',
-        unitType: 'dis',
-      });
-    }
-    if (editSignal[1]) {
-      const clear = () => {
-        if (!measureTool) return;
-        measureTool.clear();
-      };
-      clear();
-    }
-  }, [editSignal]);
   /**
    * @end
    */
@@ -293,7 +308,7 @@ const Map: React.FC = () => {
 
   return (
     <>
-      <Button
+      {/* <Button
         className={styles.button}
         type="text"
         onClick={() => {
@@ -312,7 +327,7 @@ const Map: React.FC = () => {
         }}
       >
         删除
-      </Button>
+      </Button> */}
       {/* <Button
         type="text"
         className={styles.button1}
@@ -346,7 +361,6 @@ const Map: React.FC = () => {
       >
         面积测量
       </Button> */}
-
       <div ref={divRef} className={styles.map} id="cesiumContainer" />
     </>
   );

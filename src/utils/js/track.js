@@ -228,11 +228,11 @@ class Track {
   }
 
   SetLookCone(value) {
-    // this.RemovePrimitives()
+    // this.RemovePrimitives();
 
-    setTimeout(() => {
-      this.RemovePrimitives();
-    }, this.stayTime * 1000);
+    // setTimeout(() => {
+    //   this.RemovePrimitives();
+    // }, this.stayTime * 1000);
 
     value = this.Lines.filter(function (item) {
       return item.shootId == value;
@@ -396,7 +396,7 @@ class Track {
       this.viewer.dataSources.remove(this.dataSource);
     }
     this.viewer.clock.multiplier = 1;
-    this.RemovePrimitives();
+    // this.RemovePrimitives();
   }
 }
 export default Track;
