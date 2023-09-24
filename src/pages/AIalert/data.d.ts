@@ -1,32 +1,24 @@
-/*
- * @Author: weiaodi 1635654853@qq.com
- * @Date: 2023-09-07 15:20:21
- * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-18 22:39:31
- * @FilePath: \zero-admin-ui-master\src\pages\AIalert\data.d.ts
- * @Description:
- *
- * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
- */
-export interface DictListItem {
+export interface BrandListItem {
   id: number;
+  name: string;
 }
 
-export interface DictListPagination {
+export interface BrandListPagination {
   total: number;
   pageSize: number;
   current: number;
 }
 
-export interface DictListData {
-  list: DictListItem[];
-  pagination: Partial<DictListPagination>;
+export interface BrandListData {
+  list: BrandListItem[];
+  pagination: Partial<BrandListPagination>;
 }
 
-export interface DictListParams {
-  delFlag?: number;
+export interface BrandListParams {
+  factoryStatus?: number;
+  showStatus?: number;
   pageSize?: number;
   current?: number;
-  filter?: Record<string, any[]>;
-  sorter?: Record<string, any>;
+  filter?: { [key: string]: any[] };
+  sorter?: { [key: string]: any };
 }

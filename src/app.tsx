@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 11:45:31
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-19 08:13:28
+ * @LastEditTime: 2023-09-24 17:34:21
  * @FilePath: \zero-admin-ui-master\src\app.tsx
  * @Description:
  *
@@ -98,6 +98,7 @@ const menuDataRender: any = () => {
 
   // console.log(loopMenuItem(tree(JSON.parse(item), 0, 'parentId')));
 
+  console.log(tree(JSON.parse(item), 0, 'parentId'));
   return loopMenuItem(tree(JSON.parse(item), 0, 'parentId'));
 
   // return tree(JSON.parse(item), 0, "parent_id");

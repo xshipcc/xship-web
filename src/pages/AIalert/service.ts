@@ -1,11 +1,14 @@
 import { request } from 'umi';
-import { DictListParams, DictListItem } from './data.d';
+import { BrandListParams, BrandListItem } from './data.d';
 
-export async function queryDict(params: DictListParams) {
-  if (params.delFlag != null) {
-    params.delFlag = Number(params.delFlag);
+export async function queryBrand(params: BrandListParams) {
+  if (params.factoryStatus != null) {
+    params.factoryStatus = Number(params.factoryStatus);
   }
-  return request('/api/sys/dict/list', {
+  if (params.showStatus != null) {
+    params.showStatus = Number(params.showStatus);
+  }
+  return request('/api/product/brand/list', {
     method: 'POST',
     data: {
       ...params,
@@ -13,8 +16,8 @@ export async function queryDict(params: DictListParams) {
   });
 }
 
-export async function removeDict(params: { ids: number[] }) {
-  return request('/api/sys/dict/delete', {
+export async function removeBrand(params: { ids: number[] }) {
+  return request('/api/product/brand/delete', {
     method: 'POST',
     data: {
       ...params,
@@ -22,8 +25,8 @@ export async function removeDict(params: { ids: number[] }) {
   });
 }
 
-export async function addDict(params: DictListItem) {
-  return request('/api/sys/dict/add', {
+export async function addBrand(params: BrandListItem) {
+  return request('/api/product/brand/add', {
     method: 'POST',
     data: {
       ...params,
@@ -31,8 +34,8 @@ export async function addDict(params: DictListItem) {
   });
 }
 
-export async function updateDict(params: DictListItem) {
-  return request('/api/sys/dict/update', {
+export async function updateBrand(params: BrandListItem) {
+  return request('/api/product/brand/update', {
     method: 'POST',
     data: {
       ...params,

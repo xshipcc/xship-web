@@ -2,27 +2,13 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-22 06:51:26
+ * @LastEditTime: 2023-09-24 22:18:24
  * @FilePath: \zero-admin-ui-master\mock\user.ts
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
 import { Request, Response } from 'express';
-import fs from 'fs';
-import path from 'path';
-const waitTime = (time: number = 100) => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(true);
-    }, time);
-  });
-};
-
-async function getFakeCaptcha(req: Request, res: Response) {
-  await waitTime(2000);
-  return res.json('captcha-xxx');
-}
 
 const { ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION } = process.env;
 
@@ -39,7 +25,14 @@ let access = ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION === 'site' ? 'adm
 
 // 代码中会兼容本地 service mock 以及部署站点的静态数据
 export default {
-  // 支持值为 Object 和 Array
+  /**
+   *  @file user.ts
+   *  @time 2023/09/24
+   * @category :用户登陆信息获取
+   * @function :
+   */
+  //#region -------------------------------------------------------------------------
+
   'GET /api/sys/user/currentUser': (req: Request, res: Response) => {
     res.send({
       code: '000000',
@@ -54,9 +47,8 @@ export default {
           parentId: 0,
           icon: 'SmileOutlined',
         },
-
         {
-          id: 30,
+          id: 11,
           path: '/AIalert/list',
           name: '智能告警',
           parentId: 0,
@@ -71,22 +63,36 @@ export default {
         },
         {
           id: 3,
-          path: '/system/admin/list',
-          name: '管理员列表',
+          path: '/system/user/list',
+          name: '用户列表',
           parentId: 2,
           icon: '1',
         },
         {
           id: 4,
-          path: '/system/operator/list',
-          name: '操作员列表',
+          path: '/system/role/list',
+          name: '角色列表',
+          parentId: 2,
+          icon: '',
+        },
+        {
+          id: 5,
+          path: '/system/menu/list',
+          name: '菜单列表',
+          parentId: 2,
+          icon: '',
+        },
+        {
+          id: 6,
+          path: '/system/dept/list',
+          name: '机构列表',
           parentId: 2,
           icon: '',
         },
         {
           id: 7,
-          path: '/system/visitor/list',
-          name: '访客列表',
+          path: '/system/dict/list',
+          name: '字典列表',
           parentId: 2,
           icon: '',
         },
@@ -112,31 +118,38 @@ export default {
           icon: '',
         },
         {
-          id: 16,
+          id: 12,
           path: '/drone',
           name: '无人机管理',
           parentId: 0,
           icon: 'GiftOutlined',
         },
         {
-          id: 18,
+          id: 13,
           path: '/drone/device/list',
           name: '设备管理',
-          parentId: 16,
+          parentId: 12,
           icon: '',
         },
         {
-          id: 18,
+          id: 14,
           path: '/drone/task/list',
-          name: '任务管理',
-          parentId: 16,
+          name: '巡检计划',
+          parentId: 12,
           icon: '',
         },
         {
-          id: 18,
-          path: '/drone/taskInfo/list',
-          name: '信息库管理',
-          parentId: 16,
+          id: 15,
+          path: '/drone/history/list',
+          name: '巡检历史',
+          parentId: 12,
+          icon: '',
+        },
+        {
+          id: 16,
+          path: '/drone/routePlan/list',
+          name: '航线管理',
+          parentId: 12,
           icon: '',
         },
       ],
@@ -156,66 +169,14 @@ export default {
     });
   },
 
-  'GET /srctiff': (req: Request, res: Response) => {
-    const filePath = path.resolve(__dirname, '../public/tif/luquan.tif'); // 指定图片文件路径
-    fs.readFile(filePath, (err, data) => {
-      if (err) {
-        console.error(err);
-        res.status(500).send('Internal Server Error');
-      } else {
-        res.setHeader('Content-Type', 'image/tiff');
-        res.send(data);
-      }
-    });
-  },
-  'GET /label': (req: Request, res: Response) => {
-    const filePath = path.resolve(__dirname, '../public/poi.png'); // 指定图片文件路径
-    fs.readFile(filePath, (err, data) => {
-      if (err) {
-        console.error(err);
-        res.status(500).send('Internal Server Error');
-      } else {
-        res.setHeader('Content-Type', 'image/tiff');
-        res.send(data);
-      }
-    });
-  },
-  'GET /czml': (req: Request, res: Response) => {
-    const filePath = path.resolve(__dirname, '../public/SampleData/sampleFlight.czml'); // 指定图片文件路径
-    fs.readFile(filePath, (err, data) => {
-      if (err) {
-        console.error(err);
-        res.status(500).send('Internal Server Error');
-      } else {
-        res.setHeader('Content-Type', 'text');
-        res.send(data);
-      }
-    });
-  },
-  'GET /model': (req: Request, res: Response) => {
-    const filePath = path.resolve(__dirname, '../public/air.glb'); // 指定图片文件路径
-    fs.readFile(filePath, (err, data) => {
-      if (err) {
-        console.error(err);
-        res.status(500).send('Internal Server Error');
-      } else {
-        res.setHeader('Content-Type', 'glb');
-        res.send(data);
-      }
-    });
-  },
-
-  //#region    -----------------------------------------------------------------------
+  //#endregion -----------------------------------------------------------------------
   /**
-   *  @file user.ts
-   *  @time 2023/09/08
-   * @category :
-   * @function :
+   * @end
    */
 
-  'POST /api/login/account': async (req: Request, res: Response) => {
+  'POST /api/login/account': (req: Request, res: Response) => {
     const { password, username, type } = req.body;
-    await waitTime(2000);
+
     if (password === 'ant.design' && username === 'admin') {
       res.send({
         status: 'ok',
@@ -294,9 +255,4 @@ export default {
       path: '/base/category/list',
     });
   },
-
-  /**
-   * @end
-   */
-  //#endregion -----------------------------------------------------------------------
 };

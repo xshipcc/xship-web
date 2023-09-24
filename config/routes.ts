@@ -20,48 +20,69 @@
     ],
   },
   {
+    path: '/',
+    redirect: '/AIalert/list',
+  },
+  // 无人机巡检大屏
+  {
     path: '/dashboard',
     name: '无人机巡检大屏',
     layout: false,
     icon: 'smile',
     component: './dashboard/',
   },
-
+  // 智能告警
   {
     name: '智能告警',
     icon: 'table',
     path: '/AIalert/list',
     component: './AIalert',
   },
-  {
-    path: '/',
-    redirect: '/welcome',
-  },
+  // 系统管理
   {
     path: '/system',
     name: '系统管理',
     icon: 'crown',
     routes: [
       {
-        name: '管理员列表',
+        name: '用户列表',
         icon: 'table',
-        path: '/system/admin/list',
-        component: './system/admin',
+        path: '/system/user/list',
+        component: './system/user',
       },
       {
-        name: '访客列表',
+        name: '角色列表',
         icon: 'table',
-        path: '/system/visitor/list',
-        component: './system/visitor',
+        path: '/system/role/list',
+        component: './system/role',
       },
       {
-        name: '操作员列表',
+        name: '菜单列表',
         icon: 'table',
-        path: '/system/operator/list',
-        component: './system/operator',
+        path: '/system/menu/list',
+        component: './system/menu',
+      },
+      {
+        name: '机构列表',
+        icon: 'table',
+        path: '/system/dept/list',
+        component: './system/dept',
+      },
+      {
+        name: '字典列表',
+        icon: 'table',
+        path: '/system/dict/list',
+        component: './system/dict',
+      },
+      {
+        name: '职位列表',
+        icon: 'table',
+        path: '/system/job/list',
+        component: './system/job',
       },
     ],
   },
+  // 日志管理
   {
     path: '/log',
     name: '日志管理',
@@ -81,6 +102,7 @@
       },
     ],
   },
+  // 无人机管理
   {
     path: '/drone',
     name: '无人机管理',
@@ -93,19 +115,26 @@
         component: './drone/device',
       },
       {
-        name: '任务管理',
+        name: '巡检计划',
         icon: 'table',
         path: '/drone/task/list',
         component: './drone/task',
       },
       {
-        name: '信息库管理',
+        name: '巡检历史',
         icon: 'table',
-        path: '/drone/taskInfo/list',
-        component: './drone/taskInfo',
+        path: '/drone/history/list',
+        component: './drone/history',
+      },
+      {
+        name: '航线规划',
+        icon: 'table',
+        path: '/drone/routePlan/list',
+        component: './drone/routePlan',
       },
     ],
   },
+  //
   {
     component: './404',
   },

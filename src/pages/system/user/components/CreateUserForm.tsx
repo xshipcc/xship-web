@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Input, Modal, Radio, Select, TreeSelect } from 'antd';
-import type { JobList, RoleList, UserListItem } from '../data.d';
-import { querySelectAllData } from '@/pages/system/admin/service';
+import { JobList, RoleList, UserListItem } from '../data.d';
+import { querySelectAllData } from '@/pages/system/user/service';
 import { tree } from '@/utils/utils';
 
-export interface UpdateFormProps {
+export interface CreateFormProps {
   onCancel: () => void;
-  onSubmit: (values: UserListItem) => Promise<void>;
-  updateModalVisible: boolean;
-  values: Partial<UserListItem>;
+  onSubmit: (values: UserListItem) => void;
+  createModalVisible: boolean;
 }
 
 const FormItem = Form.Item;
@@ -18,16 +17,17 @@ const formLayout = {
   wrapperCol: { span: 13 },
 };
 
-const UpdateUserForm: React.FC<UpdateFormProps> = (props) => {
+const CreateUserForm: React.FC<CreateFormProps> = (props) => {
   const [form] = Form.useForm();
+
   const [roleConf, setRoleConf] = useState<RoleList[]>([]);
   const [jobConf, setJobConf] = useState<JobList[]>([]);
   const [deptConf, setDeptConf] = useState<JobList[]>([]);
 
-  const { onSubmit, onCancel, updateModalVisible, values } = props;
+  const { onSubmit, onCancel, createModalVisible } = props;
 
   useEffect(() => {
-    if (form && !updateModalVisible) {
+    if (form && !createModalVisible) {
       form.resetFields();
     } else {
       querySelectAllData({ pageSize: 100, current: 1 }).then((res) => {
@@ -36,34 +36,23 @@ const UpdateUserForm: React.FC<UpdateFormProps> = (props) => {
         setDeptConf(tree(res.deptAll, 0, 'parentId'));
       });
     }
-  }, [props.updateModalVisible]);
-
-  useEffect(() => {
-    if (values) {
-      form.setFieldsValue({
-        ...values,
-        deptId: values.deptId + '',
-      });
-    }
-  }, [props.values]);
+  }, [props.createModalVisible]);
 
   const handleSubmit = () => {
     if (!form) return;
     form.submit();
   };
 
-  const handleFinish = (item: { [key: string]: any }) => {
+  const handleFinish = (values: UserListItem) => {
     if (onSubmit) {
-      onSubmit(item as UserListItem);
+      // values.deptId=Number(selectedKey)
+      onSubmit(values);
     }
   };
 
   const renderContent = () => {
     return (
       <>
-        <FormItem name="id" label="主键" hidden>
-          <Input id="update-id" placeholder="请输入主键" />
-        </FormItem>
         <FormItem name="deptId" label="部门" rules={[{ required: true, message: '请选择部门' }]}>
           <TreeSelect
             style={{ width: '100%' }}
@@ -102,7 +91,12 @@ const UpdateUserForm: React.FC<UpdateFormProps> = (props) => {
         <FormItem name="email" label="邮箱" rules={[{ required: true, message: '请输入邮箱' }]}>
           <Input id="update-email" placeholder={'请输入邮箱'} />
         </FormItem>
-        <FormItem name="status" label="状态" rules={[{ required: true, message: '请选择状态' }]}>
+        <FormItem
+          name="status"
+          label="状态"
+          initialValue={1}
+          rules={[{ required: true, message: '请选择状态' }]}
+        >
           <Radio.Group id="status">
             <Radio value={0}>禁用</Radio>
             <Radio value={1}>启用</Radio>
@@ -115,7 +109,7 @@ const UpdateUserForm: React.FC<UpdateFormProps> = (props) => {
   const modalFooter = { okText: '保存', onOk: handleSubmit, onCancel };
 
   return (
-    <Modal forceRender destroyOnClose title="修改用户" open={updateModalVisible} {...modalFooter}>
+    <Modal forceRender destroyOnClose title="新建用户" open={createModalVisible} {...modalFooter}>
       <Form {...formLayout} form={form} onFinish={handleFinish}>
         {renderContent()}
       </Form>
@@ -123,4 +117,4 @@ const UpdateUserForm: React.FC<UpdateFormProps> = (props) => {
   );
 };
 
-export default UpdateUserForm;
+export default CreateUserForm;

@@ -1,14 +1,16 @@
 import { Request, Response } from 'express';
 import Mock from 'mockjs';
+import fs from 'fs';
+import path from 'path';
 export default {
-  //#region    -----------------------------------------------------------------------
   /**
    *  @file dashboard.ts
-   *  @time 2023/09/16
-   * @category :
+   *  @time 2023/09/24
+   * @category :大屏展示数据
    * @function :
    */
-
+  //#region -------------------------------------------------------------------------
+  // 大屏显示数据
   'get /api/dashboard/dashboardInfo': (req: Request, res: Response) => {
     res.send(
       Mock.mock({
@@ -136,7 +138,27 @@ export default {
       }),
     );
   },
-
+  // 告警列表数据
+  'get /api/dashboard/alertList': (req: Request, res: Response) => {
+    res.json(
+      Mock.mock({
+        result: {
+          'results|5': [
+            {
+              'id|1-10': '2',
+              alert: {
+                type: 'Ms',
+                time: '@datetime',
+                info: '@ctitle',
+                coordinate: ['111', '111'],
+              },
+            },
+          ],
+        },
+      }),
+    );
+  },
+  //
   'get /api/dashboard/analysis': (req: Request, res: Response) => {
     res.json(
       Mock.mock({
@@ -219,30 +241,74 @@ export default {
     );
   },
 
-  'get /api/dashboard/alertList': (req: Request, res: Response) => {
-    res.json(
-      Mock.mock({
-        result: {
-          'results|5': [
-            {
-              'id|1-10': '2',
-              alert: {
-                type: 'Ms',
-                time: '@datetime',
-                info: '@ctitle',
-                coordinate: ['111', '111'],
-              },
-            },
-          ],
-        },
-      }),
-    );
-  },
-
+  //#endregion -----------------------------------------------------------------------
   /**
    * @end
    */
+
+  /**
+   *  @file dashboard.ts
+   *  @time 2023/09/24
+   * @category :文件传输接口
+   * @function :
+   */
+  //#region -------------------------------------------------------------------------
+  // srctiff个数地图
+  'GET /srctiff': (req: Request, res: Response) => {
+    const filePath = path.resolve(__dirname, '../public/tif/luquan.tif'); // 指定图片文件路径
+    fs.readFile(filePath, (err, data) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send('Internal Server Error');
+      } else {
+        res.setHeader('Content-Type', 'image/tiff');
+        res.send(data);
+      }
+    });
+  },
+  // 路线规划标注点
+  'GET /label': (req: Request, res: Response) => {
+    const filePath = path.resolve(__dirname, '../public/poi.png'); // 指定图片文件路径
+    fs.readFile(filePath, (err, data) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send('Internal Server Error');
+      } else {
+        res.setHeader('Content-Type', 'image/tiff');
+        res.send(data);
+      }
+    });
+  },
+  'GET /czml': (req: Request, res: Response) => {
+    const filePath = path.resolve(__dirname, '../public/SampleData/sampleFlight.czml'); // 指定图片文件路径
+    fs.readFile(filePath, (err, data) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send('Internal Server Error');
+      } else {
+        res.setHeader('Content-Type', 'text');
+        res.send(data);
+      }
+    });
+  },
+  // 无人机模型
+  'GET /model': (req: Request, res: Response) => {
+    const filePath = path.resolve(__dirname, '../public/air.glb'); // 指定图片文件路径
+    fs.readFile(filePath, (err, data) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send('Internal Server Error');
+      } else {
+        res.setHeader('Content-Type', 'glb');
+        res.send(data);
+      }
+    });
+  },
+
   //#endregion -----------------------------------------------------------------------
+  /**
+   * @end
+   */
 };
 
 // function getAlarm

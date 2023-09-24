@@ -9,12 +9,11 @@ import React, { useState, useRef } from 'react';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
-import ProDescriptions from '@ant-design/pro-descriptions';
-import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
-import CreateDictForm from './components/CreateDictForm';
-import UpdateDictForm from './components/UpdateDictForm';
-import type { DictListItem } from './data.d';
-import { queryDict, updateDict, addDict, removeDict } from './service';
+import ProDescriptions, { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
+import CreateBrandForm from './components/CreateBrandForm';
+import UpdateBrandForm from './components/UpdateBrandForm';
+import type { BrandListItem } from './data.d';
+import { queryBrand, updateBrand, addBrand, removeBrand } from './service';
 
 const { confirm } = Modal;
 
@@ -22,10 +21,10 @@ const { confirm } = Modal;
  * 添加节点
  * @param fields
  */
-const handleAdd = async (fields: DictListItem) => {
+const handleAdd = async (fields: BrandListItem) => {
   const hide = message.loading('正在添加');
   try {
-    await addDict({ ...fields });
+    await addBrand({ ...fields });
     hide();
     message.success('添加成功');
     return true;
@@ -40,10 +39,10 @@ const handleAdd = async (fields: DictListItem) => {
  * 更新节点
  * @param fields
  */
-const handleUpdate = async (fields: DictListItem) => {
+const handleUpdate = async (fields: BrandListItem) => {
   const hide = message.loading('正在更新');
   try {
-    await updateDict(fields);
+    await updateBrand(fields);
     hide();
 
     message.success('更新成功');
@@ -59,11 +58,11 @@ const handleUpdate = async (fields: DictListItem) => {
  *  删除节点
  * @param selectedRows
  */
-const handleRemove = async (selectedRows: DictListItem[]) => {
+const handleRemove = async (selectedRows: BrandListItem[]) => {
   const hide = message.loading('正在删除');
   if (!selectedRows) return true;
   try {
-    await removeDict({
+    await removeBrand({
       ids: selectedRows.map((row) => row.id),
     });
     hide();
@@ -81,16 +80,16 @@ const TableList: React.FC = () => {
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
   const [showDetail, setShowDetail] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
-  const [currentRow, setCurrentRow] = useState<DictListItem>();
-  const [selectedRowsState, setSelectedRows] = useState<DictListItem[]>([]);
+  const [currentRow, setCurrentRow] = useState<BrandListItem>();
+  const [selectedRowsState, setSelectedRows] = useState<BrandListItem[]>([]);
 
-  const showDeleteConfirm = (item: DictListItem) => {
+  const showDeleteConfirm = (item: BrandListItem) => {
     confirm({
       title: '是否删除记录?',
       icon: <ExclamationCircleOutlined />,
       content: '删除的记录不能恢复,请确认!',
       onOk() {
-        handleRemove([item]).then(() => {
+        handleRemove([item]).then((r) => {
           actionRef.current?.reloadAndRest?.();
         });
       },
@@ -98,16 +97,15 @@ const TableList: React.FC = () => {
     });
   };
 
-  const columns: ProColumns<DictListItem>[] = [
+  const columns: ProColumns<BrandListItem>[] = [
     {
       title: '编号',
       dataIndex: 'id',
       hideInSearch: true,
     },
     {
-      title: '数据值',
-      dataIndex: 'value',
-      hideInSearch: true,
+      title: '品牌名',
+      dataIndex: 'name',
       render: (dom, entity) => {
         return (
           <a
@@ -122,19 +120,9 @@ const TableList: React.FC = () => {
       },
     },
     {
-      title: '标签名',
-      dataIndex: 'label',
-    },
-    {
-      title: '类型',
-      dataIndex: 'type',
-    },
-    {
-      title: '描述',
-      dataIndex: 'description',
-      valueType: 'textarea',
+      title: '首字母',
+      dataIndex: 'firstLetter',
       hideInSearch: true,
-      hideInTable: true,
     },
     {
       title: '排序',
@@ -142,42 +130,48 @@ const TableList: React.FC = () => {
       hideInSearch: true,
     },
     {
-      title: '状态',
-      dataIndex: 'delFlag',
+      title: '是否为品牌制造商',
+      dataIndex: 'factoryStatus',
       valueEnum: {
-        0: { text: '正常', status: 'Success' },
-        1: { text: '禁用', status: 'Error' },
+        0: { text: '否', status: 'Error' },
+        1: { text: '是', status: 'Success' },
       },
     },
     {
-      title: '备注',
-      dataIndex: 'remarks',
-      valueType: 'textarea',
-      hideInSearch: true,
-      hideInTable: true,
+      title: '是否显示',
+      dataIndex: 'showStatus',
+      valueEnum: {
+        0: { text: '否', status: 'Error' },
+        1: { text: '是', status: 'Success' },
+      },
     },
     {
-      title: '创建人',
-      dataIndex: 'createBy',
-      hideInSearch: true,
-    },
-    {
-      title: '创建时间',
-      dataIndex: 'createTime',
-      sorter: true,
-      valueType: 'dateTime',
+      title: '产品数量',
+      dataIndex: 'productCount',
       hideInSearch: true,
     },
     {
-      title: '更新人',
-      dataIndex: 'lastUpdateBy',
+      title: '产品评论数量',
+      dataIndex: 'productCommentCount',
       hideInSearch: true,
     },
     {
-      title: '更新时间',
-      dataIndex: 'lastUpdateTime',
-      sorter: true,
-      valueType: 'dateTime',
+      title: '品牌logo',
+      dataIndex: 'logo',
+      valueType: 'image',
+      fieldProps: { width: 100, height: 80 },
+      hideInSearch: true,
+    },
+    {
+      title: '专区大图',
+      dataIndex: 'bigPic',
+      valueType: 'image',
+      hideInSearch: true,
+      fieldProps: { width: 100, height: 80 },
+    },
+    {
+      title: '品牌故事',
+      dataIndex: 'brandStory',
       hideInSearch: true,
     },
     {
@@ -214,19 +208,19 @@ const TableList: React.FC = () => {
 
   return (
     <PageContainer>
-      <ProTable<DictListItem>
-        headerTitle="字典列表"
+      <ProTable<BrandListItem>
+        headerTitle="品牌列表"
         actionRef={actionRef}
         rowKey="id"
         search={{
           labelWidth: 120,
         }}
         toolBarRender={() => [
-          <Button type="primary" key="primary" onClick={() => handleModalVisible(true)}>
-            <PlusOutlined /> 新建字典
+          <Button type="primary" onClick={() => handleModalVisible(true)}>
+            <PlusOutlined /> 新建品牌
           </Button>,
         ]}
-        request={queryDict}
+        request={queryBrand}
         columns={columns}
         rowSelection={{
           onChange: (_, selectedRows) => setSelectedRows(selectedRows),
@@ -253,8 +247,8 @@ const TableList: React.FC = () => {
         </FooterToolbar>
       )}
 
-      <CreateDictForm
-        key={'CreateDictForm'}
+      <CreateBrandForm
+        key={'CreateBrandForm'}
         onSubmit={async (value) => {
           const success = await handleAdd(value);
           if (success) {
@@ -274,8 +268,8 @@ const TableList: React.FC = () => {
         createModalVisible={createModalVisible}
       />
 
-      <UpdateDictForm
-        key={'UpdateDictForm'}
+      <UpdateBrandForm
+        key={'UpdateBrandForm'}
         onSubmit={async (value) => {
           const success = await handleUpdate(value);
           if (success) {
@@ -293,9 +287,8 @@ const TableList: React.FC = () => {
           }
         }}
         updateModalVisible={updateModalVisible}
-        currentData={currentRow || {}}
+        values={currentRow || {}}
       />
-
       <Drawer
         width={600}
         visible={showDetail}
@@ -306,16 +299,16 @@ const TableList: React.FC = () => {
         closable={false}
       >
         {currentRow?.id && (
-          <ProDescriptions<DictListItem>
+          <ProDescriptions<BrandListItem>
             column={2}
-            title={'字典详情'}
+            title={currentRow?.id}
             request={async () => ({
               data: currentRow || {},
             })}
             params={{
               id: currentRow?.id,
             }}
-            columns={columns as ProDescriptionsItemProps<DictListItem>[]}
+            columns={columns as ProDescriptionsItemProps<BrandListItem>[]}
           />
         )}
       </Drawer>

@@ -1,25 +1,21 @@
 import {
   PlusOutlined,
   ExclamationCircleOutlined,
-  DeleteOutlined,
   EditOutlined,
+  DeleteOutlined,
 } from '@ant-design/icons';
 import { Button, Divider, message, Drawer, Modal } from 'antd';
 import React, { useState, useRef } from 'react';
-import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
+import { PageContainer } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProDescriptions from '@ant-design/pro-descriptions';
 import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
-import CreateFlashForm from './components/CreateFlashForm';
-import UpdateFlashForm from './components/UpdateFlashForm';
-import type { FlashPromotionListItem } from './data.d';
-import {
-  queryFlashPromotion,
-  updateFlashPromotion,
-  addFlashPromotion,
-  removeFlashPromotion,
-} from './service';
+import UpdateMenuForm from './components/UpdateMenuForm';
+import type { MenuListItem } from './data.d';
+import { queryMenu, updateRule, addMenu, removeMenu } from './service';
+import { tree } from '@/utils/utils';
+import CreateMenuForm from '@/pages/system/menu/components/CreateMenuForm';
 
 const { confirm } = Modal;
 
@@ -27,10 +23,12 @@ const { confirm } = Modal;
  * 添加节点
  * @param fields
  */
-const handleAdd = async (fields: FlashPromotionListItem) => {
+const handleAdd = async (fields: MenuListItem) => {
   const hide = message.loading('正在添加');
   try {
-    await addFlashPromotion({ ...fields });
+    fields.orderNum = Number(fields.orderNum);
+    fields.type = Number(fields.type);
+    await addMenu({ ...fields });
     hide();
     message.success('添加成功');
     return true;
@@ -45,10 +43,12 @@ const handleAdd = async (fields: FlashPromotionListItem) => {
  * 更新节点
  * @param fields
  */
-const handleUpdate = async (fields: FlashPromotionListItem) => {
+const handleUpdate = async (fields: MenuListItem) => {
   const hide = message.loading('正在更新');
   try {
-    await updateFlashPromotion(fields);
+    fields.orderNum = Number(fields.orderNum);
+    fields.type = Number(fields.type);
+    await updateRule(fields);
     hide();
 
     message.success('更新成功');
@@ -64,11 +64,11 @@ const handleUpdate = async (fields: FlashPromotionListItem) => {
  *  删除节点
  * @param selectedRows
  */
-const handleRemove = async (selectedRows: FlashPromotionListItem[]) => {
+const handleRemove = async (selectedRows: MenuListItem[]) => {
   const hide = message.loading('正在删除');
   if (!selectedRows) return true;
   try {
-    await removeFlashPromotion({
+    await removeMenu({
       ids: selectedRows.map((row) => row.id),
     });
     hide();
@@ -81,21 +81,20 @@ const handleRemove = async (selectedRows: FlashPromotionListItem[]) => {
   }
 };
 
-const FlashPromotionList: React.FC = () => {
+const TableList: React.FC = () => {
   const [createModalVisible, handleModalVisible] = useState<boolean>(false);
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
   const [showDetail, setShowDetail] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
-  const [currentRow, setCurrentRow] = useState<FlashPromotionListItem>();
-  const [selectedRowsState, setSelectedRows] = useState<FlashPromotionListItem[]>([]);
+  const [currentRow, setCurrentRow] = useState<MenuListItem>();
 
-  const showDeleteConfirm = (item: FlashPromotionListItem) => {
+  const showDeleteConfirm = (item: MenuListItem) => {
     confirm({
       title: '是否删除记录?',
       icon: <ExclamationCircleOutlined />,
       content: '删除的记录不能恢复,请确认!',
       onOk() {
-        handleRemove([item]).then((r) => {
+        handleRemove([item]).then(() => {
           actionRef.current?.reloadAndRest?.();
         });
       },
@@ -103,15 +102,10 @@ const FlashPromotionList: React.FC = () => {
     });
   };
 
-  const columns: ProColumns<FlashPromotionListItem>[] = [
+  const columns: ProColumns<MenuListItem>[] = [
     {
-      title: '编号',
-      dataIndex: 'id',
-      hideInSearch: true,
-    },
-    {
-      title: '活动标题',
-      dataIndex: 'title',
+      title: '菜单名称',
+      dataIndex: 'name',
       render: (dom, entity) => {
         return (
           <a
@@ -126,26 +120,73 @@ const FlashPromotionList: React.FC = () => {
       },
     },
     {
-      title: '开始日期',
-      dataIndex: 'startDate',
-      valueType: 'date',
+      title: '父id',
+      dataIndex: 'parentId',
+      hideInSearch: true,
+      hideInTable: true,
     },
     {
-      title: '结束日期',
-      dataIndex: 'endDate',
-      valueType: 'date',
+      title: '路径',
+      dataIndex: 'url',
     },
     {
-      title: '上下线状态',
-      dataIndex: 'status',
+      title: '接口地址',
+      dataIndex: 'backgroundUrl',
+    },
+    {
+      title: '类型',
+      dataIndex: 'type',
+      hideInSearch: true,
       valueEnum: {
-        0: { text: '禁用', status: 'Error' },
-        1: { text: '正常', status: 'Success' },
+        0: { text: '目录', status: 'Success' },
+        1: { text: '菜单', status: 'Error' },
+        2: { text: '按钮', status: 'Success' },
       },
+    },
+    {
+      title: '排序',
+      dataIndex: 'orderNum',
+      hideInSearch: true,
+    },
+    {
+      title: '图标',
+      dataIndex: 'icon',
+      hideInSearch: true,
+    },
+    {
+      title: '权限',
+      dataIndex: 'perms',
+      hideInSearch: true,
+      hideInTable: true,
+    },
+    {
+      title: '状态',
+      dataIndex: 'delFlag',
+      valueEnum: {
+        1: { text: '正常', status: 'Success' },
+        0: { text: '禁用', status: 'Error' },
+      },
+    },
+    {
+      title: '创建人',
+      dataIndex: 'createBy',
+      hideInSearch: true,
     },
     {
       title: '创建时间',
       dataIndex: 'createTime',
+      valueType: 'dateTime',
+      hideInSearch: true,
+    },
+    {
+      title: '更新人',
+      dataIndex: 'lastUpdateBy',
+      hideInSearch: true,
+    },
+    {
+      title: '更新时间',
+      dataIndex: 'lastUpdateTime',
+      valueType: 'dateTime',
       hideInSearch: true,
     },
     {
@@ -182,47 +223,27 @@ const FlashPromotionList: React.FC = () => {
 
   return (
     <PageContainer>
-      <ProTable<FlashPromotionListItem>
-        headerTitle="秒杀列表"
+      <ProTable<MenuListItem>
+        headerTitle="菜单列表"
         actionRef={actionRef}
         rowKey="id"
-        search={{
-          labelWidth: 120,
-        }}
+        search={false}
         toolBarRender={() => [
-          <Button type="primary" onClick={() => handleModalVisible(true)}>
-            <PlusOutlined /> 新建秒杀列表
+          <Button type="primary" key="primary" onClick={() => handleModalVisible(true)}>
+            <PlusOutlined /> 新建菜单
           </Button>,
         ]}
-        request={queryFlashPromotion}
+        request={queryMenu}
         columns={columns}
         rowSelection={{
-          onChange: (_, selectedRows) => setSelectedRows(selectedRows),
+          onChange: (_, selectedRows) => console.log(selectedRows),
         }}
-        pagination={{ pageSize: 10 }}
+        postData={(data) => tree(data, 0, 'parentId')}
+        pagination={false}
       />
-      {selectedRowsState?.length > 0 && (
-        <FooterToolbar
-          extra={
-            <div>
-              已选择 <a style={{ fontWeight: 600 }}>{selectedRowsState.length}</a> 项&nbsp;&nbsp;
-            </div>
-          }
-        >
-          <Button
-            onClick={async () => {
-              await handleRemove(selectedRowsState);
-              setSelectedRows([]);
-              actionRef.current?.reloadAndRest?.();
-            }}
-          >
-            批量删除
-          </Button>
-        </FooterToolbar>
-      )}
 
-      <CreateFlashForm
-        key={'CreateFlashForm'}
+      <CreateMenuForm
+        key={'CreateMenuForm'}
         onSubmit={async (value) => {
           const success = await handleAdd(value);
           if (success) {
@@ -242,8 +263,8 @@ const FlashPromotionList: React.FC = () => {
         createModalVisible={createModalVisible}
       />
 
-      <UpdateFlashForm
-        key={'UpdateFlashForm'}
+      <UpdateMenuForm
+        key={'UpdateMenuForm'}
         onSubmit={async (value) => {
           const success = await handleUpdate(value);
           if (success) {
@@ -261,7 +282,7 @@ const FlashPromotionList: React.FC = () => {
           }
         }}
         updateModalVisible={updateModalVisible}
-        values={currentRow || {}}
+        currentData={currentRow || {}}
       />
 
       <Drawer
@@ -274,16 +295,16 @@ const FlashPromotionList: React.FC = () => {
         closable={false}
       >
         {currentRow?.id && (
-          <ProDescriptions<FlashPromotionListItem>
+          <ProDescriptions<MenuListItem>
             column={2}
-            title={currentRow?.title}
+            title={'菜单详情'}
             request={async () => ({
               data: currentRow || {},
             })}
             params={{
               id: currentRow?.id,
             }}
-            columns={columns as ProDescriptionsItemProps<FlashPromotionListItem>[]}
+            columns={columns as ProDescriptionsItemProps<MenuListItem>[]}
           />
         )}
       </Drawer>
@@ -291,4 +312,4 @@ const FlashPromotionList: React.FC = () => {
   );
 };
 
-export default FlashPromotionList;
+export default TableList;
