@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-16 18:56:46
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-18 12:11:31
+ * @LastEditTime: 2023-09-25 00:55:26
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\typings.d.ts
  * @Description:
  *
@@ -22,8 +22,13 @@ export interface DashboardInfoType {
     breakdown: number;
     warning: number;
   };
-  pie: {
-    title: string;
+  radar: {
+    item: string;
+    user: string;
+    score: number;
+  }[];
+  bar: {
+    name: string;
     value: number;
   }[];
   line: {

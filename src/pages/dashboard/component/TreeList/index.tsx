@@ -4,6 +4,47 @@ import { Col, Row } from 'antd';
 import { useSelector, useDispatch, useModel } from 'umi';
 import styles from './index.less';
 import { CaretDownOutlined, CaretRightOutlined } from '@ant-design/icons';
+import { Select } from 'antd';
+
+const DropList: React.FC = () => (
+  <Select
+    showSearch
+    style={{ width: 200 }}
+    placeholder="Search to Select"
+    optionFilterProp="children"
+    filterOption={(input, option) => (option?.label ?? '').includes(input)}
+    filterSort={(optionA, optionB) =>
+      (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
+    }
+    options={[
+      {
+        value: '1',
+        label: 'Not Identified',
+      },
+      {
+        value: '2',
+        label: 'Closed',
+      },
+      {
+        value: '3',
+        label: 'Communicated',
+      },
+      {
+        value: '4',
+        label: 'Identified',
+      },
+      {
+        value: '5',
+        label: 'Resolved',
+      },
+      {
+        value: '6',
+        label: 'Cancelled',
+      },
+    ]}
+  />
+);
+
 const App = () => {
   const [data, setData] = useState([
     { key: '0', name: 'Edwad', coord: '114.292, 38.067,100', stay: '1' },
@@ -75,6 +116,10 @@ const App = () => {
   // const handleCollapse = (index) => {};
   return (
     <div className={styles.content}>
+      <div className={styles.dropList}>
+        <DropList />
+      </div>
+
       <Row className={styles.header}>
         <Col span={2}>
           {collapse ? (
@@ -110,7 +155,6 @@ const App = () => {
           删除
         </Col>
       </Row>
-
       <table>
         {collapse ? null : (
           <>

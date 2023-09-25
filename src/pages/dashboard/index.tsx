@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-09 20:12:31
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-20 08:15:35
+ * @LastEditTime: 2023-09-25 01:24:02
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\index.tsx
  * @Description:
  *
@@ -34,6 +34,7 @@ const Dashboard: React.FC = () => {
    * @function :
    */
   const [components, setcomponents] = useState<string>('Analysis');
+  const [activeIndex, setActiveIndex] = useState(0);
   // const { initialState } = useModel('@@initialState');
   // console.log('initialState:', initialState);
 
@@ -125,6 +126,9 @@ const Dashboard: React.FC = () => {
     }
   };
 
+  const handleClick = (index) => {
+    setActiveIndex(index);
+  };
   /**
    * @end
    */
@@ -153,36 +157,40 @@ const Dashboard: React.FC = () => {
         <Col span={19} className={styles.rightheader}>
           <Button
             type="text"
-            className={styles.button}
+            className={activeIndex === 0 ? styles.buttonActive : styles.button}
             onClick={() => {
               ShowComponent('Analysis');
+              handleClick(0);
             }}
           >
             统计分析
           </Button>
           <Button
             type="text"
-            className={styles.button}
+            className={activeIndex === 1 ? styles.buttonActive : styles.button}
             onClick={() => {
               ShowComponent('Awareness');
+              handleClick(1);
             }}
           >
             态势感知
           </Button>
           <Button
             type="text"
-            className={styles.button}
+            className={activeIndex === 2 ? styles.buttonActive : styles.button}
             onClick={() => {
               ShowComponent('Monitor');
+              handleClick(2);
             }}
           >
             监控查看
           </Button>
           <Button
             type="text"
-            className={styles.button}
+            className={activeIndex === 3 ? styles.buttonActive : styles.button}
             onClick={() => {
               ShowComponent('Routemark');
+              handleClick(3);
             }}
           >
             路径规划

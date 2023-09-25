@@ -21,6 +21,9 @@ import {
   SmileOutlined,
   HeartOutlined,
   SettingOutlined,
+  LaptopOutlined,
+  BarsOutlined,
+  OneToOneOutlined,
   DeleteOutlined,
   FrownOutlined,
   GiftOutlined,
@@ -32,6 +35,9 @@ import type { RequestInterceptor, RequestOptionsInit } from 'umi-request';
 import { notification } from 'antd';
 
 const IconMap = {
+  LaptopOutlined: <LaptopOutlined />,
+  BarsOutlined: <BarsOutlined />,
+  OneToOneOutlined: <OneToOneOutlined />,
   SmileOutlined: <SmileOutlined />,
   HeartOutlined: <HeartOutlined />,
   SettingOutlined: <SettingOutlined />,

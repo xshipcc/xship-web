@@ -23,30 +23,13 @@
   background-size: 100% 100%; // 满屏1
 }
 
-.timepicker {
+.picker {
   height: 5vh;
   // margin-right: 0.6vh;
   // margin-left: 0.3vh;
   margin-top: 4vh;
-  background-image: url('../../../../assets/dashboard/timepicker.png');
   background-repeat: no-repeat; //不重复
-  background-size: 90% 80%; // 满屏1
-  .calendar {
-    width: 1.5vh;
-    height: 2vh;
-    margin-top: 1vh;
-    margin-left: 3vh;
-    background-image: url('../../../../assets/dashboard/calendar.png');
-    background-repeat: no-repeat; //不重复
-    background-size: 100% 100%; // 满屏1
-  }
-  .calendartext {
-    padding-top: 0.8vh;
-    padding-left: 1vh;
-    color: rgb(255, 255, 255);
-    font-size: 1.5vh;
-    text-align: left; /* 设置文本水平对齐方式为居中 */
-  }
+  background-size: 100% 100%; // 满屏1
 }
 .lists {
   // height: 25vh;
@@ -95,20 +78,27 @@
   }
 }
 
-.button {
-  margin-top: 1vh; /* 上外边距 */
-  margin-right: 3vh; /* 右外边距 */
-  margin-bottom: 5vh; /* 下外边距 */
-  margin-left: 3vh; /* 左外边距 */
-  color: rgb(255, 255, 255);
-  font-size: 16px;
-  text-align: center;
-}
-
-.button:hover {
-  color: aqua;
-  background-image: url('../../../../assets/dashboard/arrowTwo.png');
-  background-repeat: no-repeat; //不重复
-  background-position: center 55%;
-  background-size: 100% 35%; // 满屏
+.buttonRow {
+  .button {
+    margin-top: 1vh; /* 上外边距 */
+    margin-right: 3vh; /* 右外边距 */
+    margin-bottom: 5vh; /* 下外边距 */
+    margin-left: 3vh; /* 左外边距 */
+    color: rgb(255, 255, 255);
+    font-size: 16px;
+    text-align: center;
+  }
+  .buttonActive {
+    margin-top: 1vh; /* 上外边距 */
+    margin-right: 3vh; /* 右外边距 */
+    margin-bottom: 5vh; /* 下外边距 */
+    margin-left: 3vh; /* 左外边距 */
+    color: aqua;
+    font-size: 16px;
+    text-align: center;
+    background-image: url('../../../../assets/dashboard/arrowTwo.png');
+    background-repeat: no-repeat; //不重复
+    background-position: center 55%;
+    background-size: 100% 35%; // 满屏
+  }
 }

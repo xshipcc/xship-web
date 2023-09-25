@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-19 17:02:15
+ * @LastEditTime: 2023-09-25 01:38:47
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\right.tsx
  * @Description:
  *
@@ -12,6 +12,39 @@ import { Button, Col, Row } from 'antd';
 import React, { useEffect, useState } from 'react';
 import styles from './right.less';
 import AlertList from '@/pages/dashboard/component/alertList';
+import type { DatePickerProps, TimePickerProps } from 'antd';
+import { DatePicker, Select, Space, TimePicker } from 'antd';
+
+const { Option } = Select;
+
+type PickerType = 'time' | 'date';
+
+const PickerWithType = ({
+  type,
+  onChange,
+}: {
+  type: PickerType;
+  onChange: TimePickerProps['onChange'] | DatePickerProps['onChange'];
+}) => {
+  if (type === 'time') return <TimePicker onChange={onChange} />;
+  if (type === 'date') return <DatePicker onChange={onChange} />;
+  return <DatePicker picker={type} onChange={onChange} />;
+};
+
+const Picker: React.FC = () => {
+  const [type, setType] = useState<PickerType>('time');
+
+  return (
+    <Space>
+      <Select value={type} onChange={setType}>
+        <Option value="time">指定时间内</Option>
+        <Option value="date">选择日期内</Option>
+      </Select>
+      <PickerWithType type={type} onChange={(value) => console.log(value)} />
+    </Space>
+  );
+};
+
 const AwarenessRight: React.FC = () => {
   /**
    *  @file right.tsx
@@ -22,6 +55,7 @@ const AwarenessRight: React.FC = () => {
   //#region -------------------------------------------------------------------------
 
   const [AlertLists, setAlertLists] = useState<string>('analysis');
+  const [activeIndex, setActiveIndex] = useState(0);
 
   const ShowList = (name: string) => {
     setAlertLists(name);
@@ -35,7 +69,9 @@ const AwarenessRight: React.FC = () => {
     //     return <Analysis />;
     // }
   };
-
+  const handleClick = (index) => {
+    setActiveIndex(index);
+  };
   //#endregion -----------------------------------------------------------------------
   /**
    * @end
@@ -54,13 +90,14 @@ const AwarenessRight: React.FC = () => {
           <Col span={24} className={styles.titleLine} />
         </Row>
         {/*  */}
-        <Row>
+        <Row className={styles.buttonRow}>
           <Col span={12} className={styles.title}>
             <Button
               type="text"
-              className={styles.button}
+              className={activeIndex === 0 ? styles.buttonActive : styles.button}
               onClick={() => {
                 ShowList('analysis');
+                handleClick(0);
               }}
             >
               即时告警
@@ -69,9 +106,10 @@ const AwarenessRight: React.FC = () => {
           <Col span={12} className={styles.title}>
             <Button
               type="text"
-              className={styles.button}
+              className={activeIndex === 1 ? styles.buttonActive : styles.button}
               onClick={() => {
-                ShowList('Awareness');
+                ShowList('analysis');
+                handleClick(1);
               }}
             >
               历史查看
@@ -79,24 +117,9 @@ const AwarenessRight: React.FC = () => {
           </Col>
         </Row>
         {/*  */}
-        <Row>
-          <Col span={11} offset={1} className={styles.timepicker}>
-            <Row>
-              <Col span={3} offset={7} className={styles.calendar} />
-              <Col span={14} className={styles.calendartext}>
-                全部
-              </Col>
-            </Row>
-          </Col>
-          <Col span={11} offset={1} className={styles.timepicker}>
-            <Row>
-              <Col span={3} offset={7} className={styles.calendar} />
-              <Col span={14} className={styles.calendartext}>
-                30分钟内
-              </Col>
-            </Row>
-          </Col>
-        </Row>
+        <div className={styles.picker}>
+          <Picker></Picker>
+        </div>
         {/*  */}
         <Row>
           <Col span={24} className={styles.listcontent}>

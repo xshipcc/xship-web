@@ -2,8 +2,8 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-18 09:21:20
- * @FilePath: \zero-admin-ui-master\src\components\Analysis\left.tsx
+ * @LastEditTime: 2023-09-24 23:23:08
+ * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Analysis\left.tsx
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
@@ -11,69 +11,58 @@
 import { Col, Row } from 'antd';
 import React, { useState } from 'react';
 import styles from './left.less';
-import { Area, Pie } from '@ant-design/plots';
+import { Area } from '@ant-design/plots';
 import type { DashboardInfoType } from '@/pages/dashboard/typings';
-import { useSelector } from 'umi';
-const DemoPie = (data: any[]) => {
-  // const data = [
-  //   {
-  //     type: '分类一',
-  //     value: 27,
-  //   },
-  //   {
-  //     type: '分类二',
-  //     value: 25,
-  //   },
-  //   {
-  //     type: '分类三',
-  //     value: 18,
-  //   },
-  //   {
-  //     type: '分类四',
-  //     value: 15,
-  //   },
-  // ];
+
+import { Radar } from '@ant-design/plots';
+
+const DemoRadar = (data: any[]) => {
   const config = {
-    appendPadding: 0.1,
     data,
-    angleField: 'value',
-    colorField: 'title',
-    radius: 0.9,
-    legend: {
-      position: 'right-top',
-    },
-    innerRadius: 0.7,
-    label: {
-      type: 'inner',
-      offset: '-50%',
-      content: '{value}',
-      style: {
-        textAlign: 'center',
-        fontSize: 8,
+    xField: 'item',
+    yField: 'score',
+    seriesField: 'user',
+    legend: false,
+    meta: {
+      score: {
+        alias: '分数',
+        min: 0,
+        max: 80,
       },
     },
-    interactions: [
-      {
-        type: 'element-selected',
-      },
-      {
-        type: 'element-active',
-      },
-    ],
-    statistic: {
-      title: false,
-      content: {
-        style: {
-          whiteSpace: 'pre-wrap',
-          overflow: 'hidden',
-          textOverflow: 'ellipsis',
+    xAxis: {
+      line: null,
+      tickLine: null,
+      grid: {
+        line: {
+          style: {
+            lineDash: null,
+          },
         },
-        content: '',
       },
+    },
+    yAxis: {
+      line: null,
+      tickLine: null,
+      grid: {
+        line: {
+          type: 'line',
+          style: {
+            lineDash: null,
+          },
+        },
+        alternateColor: 'rgba(0, 0, 0, 0.04)',
+      },
+    },
+    // 开启面积
+    area: {},
+    // 开启辅助点
+    point: {
+      size: 2,
     },
   };
-  // @ts-ignore
-  return <Pie {...config} />;
+
+  return <Radar {...config} />;
 };
 
 const Analysis: React.FC = (props) => {
@@ -194,25 +183,12 @@ const Analysis: React.FC = (props) => {
           </Col>
         </Row>
         {/*  */}
-        <div style={{ margin: '2vh' }}>
-          <Row>
-            <Col span={12} className={styles.pie}>
-              {DemoPie(value.pie)}
-            </Col>
-            <Col span={12} className={styles.pie}>
-              {DemoPie(value.pie)}
-            </Col>
-          </Row>
-          <Row>
-            <Col span={12} className={styles.pie}>
-              {DemoPie(value.pie)}
-            </Col>
-            <Col span={12} className={styles.pie}>
-              {DemoPie(value.pie)}
-            </Col>
-          </Row>
-        </div>
 
+        <Row className={styles.radar}>
+          <Col span={23} offset={1}>
+            <div className={styles.radar}>{DemoRadar(value.radar)}</div>
+          </Col>
+        </Row>
         {/*  */}
         <Row>
           <Col span={2} className={styles.arrow} />

@@ -28,13 +28,13 @@
     path: '/dashboard',
     name: '无人机巡检大屏',
     layout: false,
-    icon: 'smile',
+    icon: 'dashboard',
     component: './dashboard/',
   },
   // 智能告警
   {
     name: '智能告警',
-    icon: 'table',
+    icon: 'monitor',
     path: '/AIalert/list',
     component: './AIalert',
   },

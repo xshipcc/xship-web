@@ -29,10 +29,56 @@ export default {
             'breakdown|0-100': 1,
             'warning|0-100': 40,
           },
-          'pie|4': [
+          radar: [
             {
-              title: '@cname',
-              'value|0-100': 1,
+              item: 'Design',
+              user: 'a',
+              score: 70,
+            },
+            {
+              item: 'Design',
+              user: 'b',
+              score: 30,
+            },
+            {
+              item: 'Development',
+              user: 'a',
+              score: 60,
+            },
+            {
+              item: 'Development',
+              user: 'b',
+              score: 70,
+            },
+            {
+              item: 'Marketing',
+              user: 'a',
+              score: 50,
+            },
+            {
+              item: 'Marketing',
+              user: 'b',
+              score: 60,
+            },
+            {
+              item: 'Users',
+              user: 'a',
+              score: 40,
+            },
+            {
+              item: 'Users',
+              user: 'b',
+              score: 50,
+            },
+            {
+              item: 'Test',
+              user: 'a',
+              score: 60,
+            },
+            {
+              item: 'Test',
+              user: 'b',
+              score: 70,
             },
           ],
           'line|5': [
@@ -128,6 +174,28 @@ export default {
               },
             ],
           },
+          bar: [
+            {
+              name: '人员告警',
+              value: 38,
+            },
+            {
+              name: '入侵告警',
+              value: 52,
+            },
+            {
+              name: '烟雾告警',
+              value: 61,
+            },
+            {
+              name: '人脸告警',
+              value: 145,
+            },
+            {
+              name: '车辆告警',
+              value: 48,
+            },
+          ],
           'alarmPie|4': [
             {
               title: '@cname',

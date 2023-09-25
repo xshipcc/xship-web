@@ -2,14 +2,15 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-24 22:18:24
+ * @LastEditTime: 2023-09-25 09:55:46
  * @FilePath: \zero-admin-ui-master\mock\user.ts
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
 import { Request, Response } from 'express';
-
+import fs from 'fs';
+import path from 'path';
 const { ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION } = process.env;
 
 /**
@@ -32,6 +33,18 @@ export default {
    * @function :
    */
   //#region -------------------------------------------------------------------------
+  'GET /logo': (req: Request, res: Response) => {
+    const filePath = path.resolve(__dirname, '../public/logo.png'); // 指定图片文件路径
+    fs.readFile(filePath, (err, data) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send('Internal Server Error');
+      } else {
+        res.setHeader('Content-Type', 'image/png');
+        res.send(data);
+      }
+    });
+  },
 
   'GET /api/sys/user/currentUser': (req: Request, res: Response) => {
     res.send({
@@ -45,14 +58,14 @@ export default {
           path: '/dashboard',
           name: '无人机巡检大屏',
           parentId: 0,
-          icon: 'SmileOutlined',
+          icon: 'LaptopOutlined',
         },
         {
           id: 11,
           path: '/AIalert/list',
           name: '智能告警',
           parentId: 0,
-          icon: 'SmileOutlined',
+          icon: 'AlertOutlined',
         },
         {
           id: 2,
@@ -122,7 +135,7 @@ export default {
           path: '/drone',
           name: '无人机管理',
           parentId: 0,
-          icon: 'GiftOutlined',
+          icon: 'BarsOutlined',
         },
         {
           id: 13,

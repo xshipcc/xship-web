@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-22 21:07:04
+ * @LastEditTime: 2023-09-25 10:35:05
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Analysis\right.tsx
  * @Description:
  *
@@ -11,9 +11,66 @@
 import { Col, Row } from 'antd';
 import React, { useEffect, useState } from 'react';
 import styles from './right.less';
-import { Pie } from '@ant-design/plots';
-import AlertList from '@/pages/dashboard/component/alertList';
+
 import type { DashboardInfoType } from '@/pages/dashboard/typings';
+
+import { Rose } from '@ant-design/plots';
+
+import { Bar } from '@ant-design/plots';
+
+const DemoBar = (data: any[]) => {
+  const config = {
+    data,
+    xField: 'value',
+    yField: 'name',
+    seriesField: 'name',
+    legend: false,
+    barBackground: {
+      style: {
+        fill: 'rgb(15, 72, 138)',
+      },
+    },
+  };
+  return <Bar {...config} />;
+};
+
+const DemoRose = () => {
+  const data = [
+    {
+      type: '分类一',
+      value: 27,
+    },
+    {
+      type: '分类二',
+      value: 25,
+    },
+    {
+      type: '分类三',
+      value: 18,
+    },
+    {
+      type: '分类四',
+      value: 15,
+    },
+    {
+      type: '分类五',
+      value: 10,
+    },
+    {
+      type: '其他',
+      value: 5,
+    },
+  ];
+  const config = {
+    data,
+    xField: 'type',
+    yField: 'value',
+    seriesField: 'type',
+    radius: 0.8,
+    legend: false,
+  };
+  return <Rose {...config} />;
+};
 const AnalysisRight: React.FC = (props) => {
   // @ts-ignore
   const [value] = useState<DashboardInfoType>(props.initValue);
@@ -26,47 +83,6 @@ const AnalysisRight: React.FC = (props) => {
    * @function :
    */
 
-  const DemoPie = (data: any[]) => {
-    // const data = [
-    //   {
-    //     type: '分类一',
-    //     value: 27,
-    //   },
-    //   {
-    //     type: '分类二',
-    //     value: 25,
-    //   },
-    //   {
-    //     type: '分类三',
-    //     value: 18,
-    //   },
-    //   {
-    //     type: '分类四',
-    //     value: 15,
-    //   },
-    // ];
-    const config = {
-      appendPadding: 10,
-      data,
-      angleField: 'value',
-      colorField: 'title',
-      radius: 0.8,
-      label: {
-        type: 'outer',
-        content: '{name} {percentage}',
-      },
-      interactions: [
-        {
-          type: 'pie-legend-active',
-        },
-        {
-          type: 'element-active',
-        },
-      ],
-    };
-    return <Pie {...config} />;
-  };
-
   /**
    * @end
    */
@@ -78,7 +94,7 @@ const AnalysisRight: React.FC = (props) => {
         <Row>
           <Col span={2} className={styles.arrow} />
           <Col span={22} className={styles.title}>
-            巡检数
+            巡检数量
           </Col>
         </Row>
         <Row>
@@ -111,35 +127,16 @@ const AnalysisRight: React.FC = (props) => {
         <Row>
           <Col span={2} className={styles.arrow} />
           <Col span={22} className={styles.title}>
-            即时告警
+            告警发生频率
           </Col>
         </Row>
         <Row>
           <Col span={24} className={styles.titleLine} />
         </Row>
         {/*  */}
-        <Row>
-          <Col span={11} offset={1} className={styles.timepicker}>
-            <Row>
-              <Col span={3} offset={7} className={styles.calendar} />
-              <Col span={14} className={styles.calendartext}>
-                全部
-              </Col>
-            </Row>
-          </Col>
-          <Col span={11} offset={1} className={styles.timepicker}>
-            <Row>
-              <Col span={3} offset={7} className={styles.calendar} />
-              <Col span={14} className={styles.calendartext}>
-                30分钟内
-              </Col>
-            </Row>
-          </Col>
-        </Row>
-        {/*  */}
-        <Row>
-          <Col span={24}>
-            <AlertList height={160} />
+        <Row className={styles.column}>
+          <Col className={styles.content} span={24}>
+            {DemoBar(value.bar)}
           </Col>
         </Row>
         {/*  */}
@@ -155,7 +152,7 @@ const AnalysisRight: React.FC = (props) => {
         {/*  */}
         <Row>
           <Col span={24} className={styles.chart}>
-            {DemoPie(value.alarmPie)}
+            {DemoRose()}
           </Col>
         </Row>
       </div>

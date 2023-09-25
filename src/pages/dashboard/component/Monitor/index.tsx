@@ -1,6 +1,8 @@
 import { Col, Row } from 'antd';
 import React, { useEffect, useState } from 'react';
 import styles from './index.less';
+import type { DatePickerProps } from 'antd';
+import { DatePicker, Space } from 'antd';
 
 const Monitor: React.FC = () => {
   //#region    -----------------------------------------------------------------------
@@ -11,6 +13,10 @@ const Monitor: React.FC = () => {
    * @function :
    */
   const style: React.CSSProperties = { background: '' };
+  const onChange: DatePickerProps['onChange'] = (date, dateString) => {
+    console.log(date, dateString);
+  };
+
   const VideoList = () => {
     const columns = React.useMemo(() => {
       return Array.from({ length: 3 }, (_, i) => (
@@ -55,22 +61,9 @@ const Monitor: React.FC = () => {
         </Row>
         {/*  */}
         <Row className={styles.dateButton}>
-          <Col span={11} offset={1} className={styles.timepicker}>
-            <Row>
-              <Col span={3} offset={3} className={styles.calendar} />
-              <Col span={17} className={styles.calendartext}>
-                全部
-              </Col>
-            </Row>
-          </Col>
-          <Col span={11} offset={1} className={styles.timepicker}>
-            <Row>
-              <Col span={3} offset={3} className={styles.calendar} />
-              <Col span={17} className={styles.calendartext}>
-                30分钟内
-              </Col>
-            </Row>
-          </Col>
+          <Space direction="vertical">
+            <DatePicker onChange={onChange} />
+          </Space>
         </Row>
         {/*  */}
       </div>

@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-09 20:12:31
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-22 03:45:19
+ * @LastEditTime: 2023-09-25 01:33:00
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\dashboard.less
  * @Description: 
  * 
@@ -82,6 +82,7 @@
     //   font-size: 5px;
     //   background-color: rgb(12, 114, 215);
     // }
+
     .rightheader {
       background-image: url('../../assets/dashboard/headerline.png');
       background-repeat: no-repeat; //不重复
@@ -95,8 +96,14 @@
         font-size: 16px;
         text-align: center;
       }
-      .button:hover {
+      .buttonActive {
+        margin-top: 2vh; /* 上外边距 */
+        margin-right: 3vh; /* 右外边距 */
+        //  margin-bottom: 25px; /* 下外边距 */
+        margin-left: 5vh; /* 左外边距 */
         color: aqua;
+        font-size: 16px;
+        text-align: center;
         background-image: url('../../assets/dashboard/arrowTwo.png');
         background-repeat: no-repeat; //不重复
         background-position: center 55%;
@@ -135,8 +142,8 @@
       border-image: linear-gradient(to bottom, rgb(10, 22, 33), rgb(38, 96, 118)) 1;
     }
     .center {
-      height: 37vh;
-      margin-top: 45vh; /* 上外边距 */
+      height: 32vh;
+      margin-top: 50vh; /* 上外边距 */
       // margin-right: 3vh;
       // margin-left: 3vh;
     }
