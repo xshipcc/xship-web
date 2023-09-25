@@ -89,16 +89,17 @@ const Map: React.FC = () => {
       selectionIndicator: true,
       zoomIndicatorContainer: false,
       animation: false, //是否显示动画控
-      imageryProvider: new Cesium.UrlTemplateImageryProvider({
-        url: 'http://localhost:8080/luquan17/{z}/{x}/{y}.png',
-        fileExtension: 'png',
-      }),
       terrainProvider: new Cesium.CesiumTerrainProvider({
-        url: 'http://localhost:8080/terrain38', // 地址记得换成自己的地形数据地址
+        url: 'http://ai.javodata.com/terrain', // 地址记得换成自己的地形数据地址
         requestWaterMask: true, // 开启法向量
         requestVertexNormals: true, // 开启水面特效
       }),
+      imageryProvider: new Cesium.UrlTemplateImageryProvider({
+        url: 'http://ai.javodata.com/luquantile/{z}/{x}/{y}.png',
+        fileExtension: 'png',
+      }),
     });
+
     viewer.current.scene.screenSpaceCameraController.maximumZoomDistance = 20000;
     viewer.current.scene.screenSpaceCameraController.minimumZoomDistance = 100;
     viewer.current.scene.screenSpaceCameraController._minimumZoomRate = 5000; // 设置相机缩小时的速率

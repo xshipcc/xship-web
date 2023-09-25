@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-21 23:11:02
+ * @LastEditTime: 2023-09-25 17:26:45
  * @FilePath: \zero-admin-ui-master\config\config.ts
  * @Description:
  *
@@ -13,7 +13,7 @@ import { defineConfig } from 'umi';
 import { join } from 'path';
 
 import defaultSettings from './defaultSettings';
-import proxy from './proxy';
+// import proxy from './proxy';
 import routes from './routes';
 import path from 'path';
 const { REACT_APP_ENV } = process.env;
@@ -66,7 +66,13 @@ export default defineConfig({
   esbuild: {},
   title: false,
   ignoreMomentLocale: true,
-  proxy: proxy[REACT_APP_ENV || 'dev'],
+  proxy: {
+    '/api': {
+      target: 'http://47.243.162.50:80',
+      changeOrigin: true,
+      // "pathRewrite": { "^/api": "" }
+    },
+  },
   manifest: {
     basePath: '/',
   },

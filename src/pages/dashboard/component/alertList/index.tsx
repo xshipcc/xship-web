@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-19 16:30:18
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-20 19:08:50
+ * @LastEditTime: 2023-09-25 11:18:22
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\alertList\index.tsx
  * @Description:
  *
@@ -17,6 +17,7 @@ import { List } from 'antd';
 import { io } from 'socket.io-client';
 import type { SocketType } from './socket';
 import { useSelector, useDispatch, useModel } from 'umi';
+import { Button, Drawer } from 'antd';
 
 const socket: SocketType = io('http://localhost:3000');
 
@@ -33,18 +34,6 @@ interface AlertType {
 interface AlertListType {
   height: number;
 }
-/**
- *  @file index.tsx
- *  @time 2023/09/19
- * @category :
- * @function :
- */
-//#region -------------------------------------------------------------------------
-
-//#endregion -----------------------------------------------------------------------
-/**
- * @end
- */
 
 const AlertList: React.FC<AlertListType> = (props: AlertListType) => {
   /**
@@ -95,12 +84,56 @@ const AlertList: React.FC<AlertListType> = (props: AlertListType) => {
    * @end
    */
 
+  /**
+   *  @file index.tsx
+   *  @time 2023/09/25
+   * @category :详情列表
+   * @function :
+   */
+  //#region -------------------------------------------------------------------------
+
+  const [open, setOpen] = useState(false);
+
+  const showDrawer = () => {
+    setOpen(true);
+  };
+
+  const onClose = () => {
+    setOpen(false);
+  };
+  const containerStyle: React.CSSProperties = {
+    position: 'relative',
+    height: 200,
+    width: 100,
+    padding: 0,
+    overflow: 'hidden',
+    textAlign: 'center',
+  };
+
+  //#endregion -----------------------------------------------------------------------
+  /**
+   * @end
+   */
   return (
     // <></>
     <List className={styles.lists} bordered={false} split={false}>
+      <Drawer
+        style={containerStyle}
+        title="告警详情"
+        placement="right"
+        closable={false}
+        onClose={onClose}
+        open={open}
+        getContainer={false}
+      >
+        <Button type="primary" onClick={onClose}>
+          Open Default Size (378px)
+        </Button>
+        <p>Some contents...</p>
+      </Drawer>
       <VirtualList data={data} height={containerHeight} itemHeight={1} itemKey="id">
         {(item: AlertType) => (
-          <List.Item key={item.id} className={styles.listItem}>
+          <List.Item key={item.id} className={styles.listItem} onClick={showDrawer}>
             <Row className={styles.listinfo}>
               <Col span={2} offset={2} className={styles.alert} />
               <Col span={19} offset={1} className={styles.alerttext}>

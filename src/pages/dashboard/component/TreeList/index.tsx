@@ -4,12 +4,12 @@ import { Col, Row } from 'antd';
 import { useSelector, useDispatch, useModel } from 'umi';
 import styles from './index.less';
 import { CaretDownOutlined, CaretRightOutlined } from '@ant-design/icons';
-import { Select } from 'antd';
+import { Select, Button } from 'antd';
 
 const DropList: React.FC = () => (
   <Select
     showSearch
-    style={{ width: 200 }}
+    style={{ width: 160 }}
     placeholder="Search to Select"
     optionFilterProp="children"
     filterOption={(input, option) => (option?.label ?? '').includes(input)}
@@ -116,9 +116,14 @@ const App = () => {
   // const handleCollapse = (index) => {};
   return (
     <div className={styles.content}>
-      <div className={styles.dropList}>
-        <DropList />
-      </div>
+      <Row>
+        <Col span={16}>
+          <DropList className={styles.dropList} />
+        </Col>
+        <Col span={7} offset={1} className={styles.add} onClick={() => editTrack()}>
+          添加路线
+        </Col>
+      </Row>
 
       <Row className={styles.header}>
         <Col span={2}>

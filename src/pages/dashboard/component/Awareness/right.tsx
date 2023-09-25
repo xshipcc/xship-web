@@ -15,8 +15,6 @@ import AlertList from '@/pages/dashboard/component/alertList';
 import type { DatePickerProps, TimePickerProps } from 'antd';
 import { DatePicker, Select, Space, TimePicker } from 'antd';
 
-const { Option } = Select;
-
 type PickerType = 'time' | 'date';
 
 const PickerWithType = ({
@@ -30,21 +28,6 @@ const PickerWithType = ({
   if (type === 'date') return <DatePicker onChange={onChange} />;
   return <DatePicker picker={type} onChange={onChange} />;
 };
-
-const Picker: React.FC = () => {
-  const [type, setType] = useState<PickerType>('time');
-
-  return (
-    <Space>
-      <Select value={type} onChange={setType}>
-        <Option value="time">指定时间内</Option>
-        <Option value="date">选择日期内</Option>
-      </Select>
-      <PickerWithType type={type} onChange={(value) => console.log(value)} />
-    </Space>
-  );
-};
-
 const AwarenessRight: React.FC = () => {
   /**
    *  @file right.tsx
@@ -56,6 +39,9 @@ const AwarenessRight: React.FC = () => {
 
   const [AlertLists, setAlertLists] = useState<string>('analysis');
   const [activeIndex, setActiveIndex] = useState(0);
+  //
+  const { Option } = Select;
+  const [type, setType] = useState<PickerType>('time');
 
   const ShowList = (name: string) => {
     setAlertLists(name);
@@ -98,6 +84,7 @@ const AwarenessRight: React.FC = () => {
               onClick={() => {
                 ShowList('analysis');
                 handleClick(0);
+                setType('time');
               }}
             >
               即时告警
@@ -110,6 +97,7 @@ const AwarenessRight: React.FC = () => {
               onClick={() => {
                 ShowList('analysis');
                 handleClick(1);
+                setType('date');
               }}
             >
               历史查看
@@ -118,12 +106,18 @@ const AwarenessRight: React.FC = () => {
         </Row>
         {/*  */}
         <div className={styles.picker}>
-          <Picker></Picker>
+          <Space>
+            {/* <Select value={type}>
+              <Option value="time">指定时间内</Option>
+              <Option value="date">选择日期内</Option>
+            </Select> */}
+            <PickerWithType type={type} onChange={(value) => console.log(value)} />
+          </Space>
         </div>
         {/*  */}
         <Row>
           <Col span={24} className={styles.listcontent}>
-            {/* <AlertList height={400} /> */}
+            <AlertList height={400} />
           </Col>
         </Row>
       </div>
