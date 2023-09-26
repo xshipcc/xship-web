@@ -89,7 +89,7 @@ class BaseMeasure {
     this.viewer.entities.add({
       position: c,
       billboard: {
-        image: '/label', // 指定图片的路径
+        image: 'http://ai.javodata.com/terrain/public/poi.png', // 指定图片的路径
         scale: 0.2, // 图片的缩放比例，默认为 1.0
         disableDepthTestDistance: Number.POSITIVE_INFINITY, // 确保图像在其他对象之上
         verticalOrigin: Cesium.VerticalOrigin.BOTTOM, // 设置垂直对齐方式，使图像底部与 position 对应

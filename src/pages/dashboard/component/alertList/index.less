@@ -3,6 +3,12 @@
   margin-right: 2vh;
   margin-bottom: 1vh;
   margin-left: 1vh;
+  :global(.ant-btn-text) {
+    color: aqua;
+    // background: #545454;
+    // border-color: #110f0f;
+    box-shadow: none;
+  }
   .listItem {
     display: flex;
     flex-direction: column;
@@ -49,4 +55,30 @@
       }
     }
   }
+}
+
+:global(.ant-drawer-content) {
+  width: 231px;
+  height: 100%;
+  overflow: auto;
+  color: aliceblue;
+  background-color: rgb(7, 19, 28);
+  // background-image: url('../assets/dashboard/leftcontent.png');
+  // border: 2px solid;
+  // border-radius: 0.1vh;
+  // border-image: linear-gradient(to bottom, rgb(10, 22, 33), rgb(38, 96, 118)) 1;
+  pointer-events: auto;
+}
+:global(.ant-drawer-title) {
+  flex: 1 1;
+  margin: 0;
+  color: aliceblue;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 22px;
+  text-align: center;
+}
+:global(.ant-drawer-body) {
+  flex: 1 1;
+  padding: 1px;
 }

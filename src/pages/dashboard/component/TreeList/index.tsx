@@ -6,51 +6,18 @@ import styles from './index.less';
 import { CaretDownOutlined, CaretRightOutlined } from '@ant-design/icons';
 import { Select, Button } from 'antd';
 
-const DropList: React.FC = () => (
-  <Select
-    showSearch
-    style={{ width: 160 }}
-    placeholder="Search to Select"
-    optionFilterProp="children"
-    filterOption={(input, option) => (option?.label ?? '').includes(input)}
-    filterSort={(optionA, optionB) =>
-      (optionA?.label ?? '').toLowerCase().localeCompare((optionB?.label ?? '').toLowerCase())
-    }
-    options={[
-      {
-        value: '1',
-        label: 'Not Identified',
-      },
-      {
-        value: '2',
-        label: 'Closed',
-      },
-      {
-        value: '3',
-        label: 'Communicated',
-      },
-      {
-        value: '4',
-        label: 'Identified',
-      },
-      {
-        value: '5',
-        label: 'Resolved',
-      },
-      {
-        value: '6',
-        label: 'Cancelled',
-      },
-    ]}
-  />
-);
+// const DropList: React.FC = (data: any) => {};
 
 const App = () => {
   const [data, setData] = useState([
-    { key: '0', name: 'Edwad', coord: '114.292, 38.067,100', stay: '1' },
-    { key: '1', name: 'Edwa', coord: '114.293, 38.067,100', stay: '2' },
+    { key: '0', name: 'Edwad', coord: '114.292, 38.067,100', stay: '1', parent: '东北' },
+    { key: '1', name: 'Edwa', coord: '114.293, 38.067,100', stay: '2', parent: '东北' },
   ]);
-
+  const [listdata, setList] = useState([
+    { value: '东北', label: '东北' },
+    { value: 'Edwa', label: 'Edwa' },
+  ]);
+  const [currentList, setCurrentList] = useState(listdata[0].label);
   const [editIndex, setEditIndex] = useState(-1);
   const [editData, setEditData] = useState({});
   const [collapse, setCollapse] = useState(true);
@@ -101,7 +68,7 @@ const App = () => {
     setlistIndex(data.length - 1);
     setData(newData);
   };
-  const handleDeleteWhole = () => {
+  const handleSaveList = () => {
     setlistIndex(0);
     setData([]);
   };
@@ -113,18 +80,44 @@ const App = () => {
     setData(newData);
     setlistIndex(newData.length);
   };
-  // const handleCollapse = (index) => {};
+  const handleListAdd = () => {
+    const newData = [{ key: listIndex + '', name: '', coord: '', stay: '' }];
+    setData(newData);
+    setList([...listdata, { value: '测试', label: '测试' }]);
+    setCurrentList('测试');
+    setlistIndex(newData.length);
+  };
+  const handleChange = (value: string) => {
+    console.log(`selected ${value}`);
+    console.log('routeList:', listdata);
+    setCurrentList(value);
+  };
+
   return (
     <div className={styles.content}>
       <Row>
-        <Col span={16}>
-          <DropList className={styles.dropList} />
+        <Col span={16} className={styles.dropList}>
+          <Select
+            showSearch
+            style={{ width: 160 }}
+            placeholder="Search to Select"
+            onChange={handleChange}
+            optionFilterProp="children"
+            filterOption={(input, option) => {
+              (option?.label ?? '').includes(input);
+            }}
+            filterSort={(optionA, optionB) =>
+              (optionA?.label ?? '')
+                .toLowerCase()
+                .localeCompare((optionB?.label ?? '').toLowerCase())
+            }
+            options={listdata}
+          />
         </Col>
-        <Col span={7} offset={1} className={styles.add} onClick={() => editTrack()}>
-          添加路线
+        <Col span={7} offset={1} className={styles.add} onClick={() => handleListAdd()}>
+          添加
         </Col>
       </Row>
-
       <Row className={styles.header}>
         <Col span={2}>
           {collapse ? (
@@ -144,20 +137,19 @@ const App = () => {
           )}
         </Col>
         <Col span={12} className={styles.headerTitle}>
-          东北五三线
+          {currentList}
         </Col>
         {editSignal ? (
           <Col span={5} className={styles.headerEdit} onClick={() => editTrack()}>
             编辑
           </Col>
         ) : (
-          <Col span={5} className={styles.headerEdit} onClick={() => editTrackOver()}>
-            完成
+          <Col span={5} className={styles.headerEdit} onClick={() => handleSaveList()}>
+            保存
           </Col>
         )}
-
-        <Col span={5} className={styles.headerDel} onClick={() => handleDeleteWhole()}>
-          删除
+        <Col span={5} className={styles.headerDel} onClick={() => editTrackOver()}>
+          执行
         </Col>
       </Row>
       <table>

@@ -2,6 +2,25 @@
   width: 100%;
   height: 70vh;
   padding: 1vh;
+  :global(.ant-picker) {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    padding: 4px 11px 4px;
+    color: rgb(255, 255, 255);
+    font-size: 14px;
+    font-variant: tabular-nums;
+    line-height: 1.5715;
+    list-style: none;
+    background: #0d2734;
+    border: 1px solid #0d2734;
+    border-radius: 2px;
+    transition: border 0.3s, box-shadow 0.3s;
+    font-feature-settings: 'tnum', 'tnum';
+  }
 }
 .arrow {
   width: 3vh;
@@ -24,60 +43,28 @@
 }
 
 .picker {
+  width: 100%;
   height: 5vh;
   // margin-right: 0.6vh;
   // margin-left: 0.3vh;
   margin-top: 4vh;
   background-repeat: no-repeat; //不重复
   background-size: 100% 100%; // 满屏1
-}
-.lists {
-  // height: 25vh;
-  margin-right: 2vh;
-  margin-bottom: 1vh;
-  margin-left: 1vh;
-  .listItem {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 10vh;
-    // margin-right: 1vh;
-    // margin-bottom: 1vh;
-    // margin-left: 2vh;
-    // background-image: url('../../assets/dashboard/alertinfo.png');
-    background-repeat: no-repeat; //不重复
-    background-size: 100% 100%; // 满屏1
-    // background-color: rgb(255, 2, 2);
-    .textlist {
-      color: rgb(255, 255, 255);
-      font-size: 1.5vh;
-      text-align: center; /* 设置文本水平对齐方式为居中 */
-    }
-    .listinfo {
-      width: 100%;
-      background-color: rgb(11, 35, 51);
-      border-radius: 0.04vh;
-      .alert {
-        width: 2.5vh;
-        height: 2.5vh;
-        margin-top: 0.8vh;
-        // margin-left: 1vh;
-        background-image: url('../../../../assets/dashboard/alert.png');
-        background-repeat: no-repeat; //不重复
-        background-size: 100% 100%; // 满屏1
-        cursor: pointer;
-      }
-      .alerttext {
-        margin-top: 0.2vh;
-        color: rgb(255, 255, 255);
-        // font-weight: bold;
-        font-size: 2vh;
-        text-align: left; /* 设置文本水平对齐方式为居中 */
-      }
-    }
+  .pickerTitle {
+    // margin-right: 0.6vh;
+    // margin-left: 0.3vh;
+    color: rgb(2, 200, 202);
+    font-size: 2.5vh;
+    text-align: center;
+    // background-image: url('../../../../assets/dashboard/calendar.png');
+    // background-repeat: no-repeat; //不重复
+    // background-size: 40% 70%; // 满屏1
   }
 }
 
+// :global(.ant-btn-primary) {
+//   background-color: green !important;
+// }
 .buttonRow {
   .button {
     margin-top: 1vh; /* 上外边距 */

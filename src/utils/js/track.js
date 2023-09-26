@@ -183,7 +183,7 @@ class Track {
       // 加载模型
       model: {
         // 模型路径
-        uri: '/model',
+        uri: 'http://ai.javodata.com/terrain/public/air.glb',
         // 模型最小刻度
         minimumPixelSize: 64,
         maximumSize: 128,

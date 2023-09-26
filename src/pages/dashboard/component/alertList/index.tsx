@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-19 16:30:18
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-25 11:18:22
+ * @LastEditTime: 2023-09-26 09:52:25
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\alertList\index.tsx
  * @Description:
  *
@@ -19,7 +19,7 @@ import type { SocketType } from './socket';
 import { useSelector, useDispatch, useModel } from 'umi';
 import { Button, Drawer } from 'antd';
 
-const socket: SocketType = io('http://localhost:3000');
+// const socket: SocketType = io('http://localhost:3000');
 
 interface AlertType {
   id: number;
@@ -59,25 +59,162 @@ const AlertList: React.FC<AlertListType> = (props: AlertListType) => {
   useEffect(() => {
     console.log('initView:', initView.results);
     if (initView.results !== undefined) {
-      setData(initView.results);
+      // setData(initView.results);
+      setData([
+        {
+          id: '22222',
+          alert: {
+            type: 'Ms',
+            time: '1985-05-24 16:15:49',
+            info: '增群领走子',
+            coordinate: ['111', '111'],
+          },
+        },
+        {
+          id: '222',
+          alert: {
+            type: 'Ms',
+            time: '2013-08-07 05:01:28',
+            info: '术又需家',
+            coordinate: ['111', '111'],
+          },
+        },
+        {
+          id: '2222',
+          alert: {
+            type: 'Ms',
+            time: '1985-04-13 20:33:03',
+            info: '色示两部',
+            coordinate: ['111', '111'],
+          },
+        },
+        {
+          id: '2222',
+          alert: {
+            type: 'Ms',
+            time: '2004-04-14 06:20:01',
+            info: '光十表',
+            coordinate: ['111', '111'],
+          },
+        },
+        {
+          id: '2222222222',
+          alert: {
+            type: 'Ms',
+            time: '2016-03-19 07:33:47',
+            info: '传不技动思于',
+            coordinate: ['111', '111'],
+          },
+        },
+        {
+          id: '222',
+          alert: {
+            type: 'Ms',
+            time: '1972-11-05 17:33:27',
+            info: '部华算太',
+            coordinate: ['111', '111'],
+          },
+        },
+        {
+          id: '22',
+          alert: {
+            type: 'Ms',
+            time: '1978-06-07 15:31:15',
+            info: '商群容其由',
+            coordinate: ['111', '111'],
+          },
+        },
+        {
+          id: '22222222',
+          alert: {
+            type: 'Ms',
+            time: '2003-06-19 18:58:04',
+            info: '往展处外片',
+            coordinate: ['111', '111'],
+          },
+        },
+        {
+          id: '2222',
+          alert: {
+            type: 'Ms',
+            time: '1987-02-24 02:42:44',
+            info: '定很议世权',
+            coordinate: ['111', '111'],
+          },
+        },
+        {
+          id: '2222',
+          alert: {
+            type: 'Ms',
+            time: '1982-08-19 11:03:10',
+            info: '战府声论连铁',
+            coordinate: ['111', '111'],
+          },
+        },
+        {
+          id: '222222222',
+          alert: {
+            type: 'Ms',
+            time: '2015-06-16 20:46:05',
+            info: '能导石青',
+            coordinate: ['111', '111'],
+          },
+        },
+        {
+          id: '2222222222',
+          alert: {
+            type: 'Ms',
+            time: '1998-11-14 23:49:59',
+            info: '采引具导',
+            coordinate: ['111', '111'],
+          },
+        },
+        {
+          id: '22222222',
+          alert: {
+            type: 'Ms',
+            time: '2005-05-13 09:04:57',
+            info: '自没常段需进',
+            coordinate: ['111', '111'],
+          },
+        },
+        {
+          id: '22222',
+          alert: {
+            type: 'Ms',
+            time: '2009-12-20 21:53:05',
+            info: '用验条制拉看',
+            coordinate: ['111', '111'],
+          },
+        },
+        {
+          id: '2222',
+          alert: {
+            type: 'Ms',
+            time: '2005-11-08 17:45:06',
+            info: '里机空至',
+            coordinate: ['111', '111'],
+          },
+        },
+      ]); //测试
     }
   }, [initView]);
 
-  useEffect(() => {
-    socket.on('alert_msg', (msg) => {
-      setData(data.concat(JSON.parse(msg).results));
-      // console.log('socket.on -> msg:', JSON.parse(msg).results);
-    });
-    // 错误处理
-    socket.on('error', (error) => {
-      console.error('Socket error:', error);
-      // 处理错误，比如记录日志或执行其他操作
-    });
-    // 监听断开连接事件
-    socket.on('disconnect', () => {
-      console.log('与服务器的连接已断开');
-    });
-  }, []);
+  // useEffect(() => {
+  //   socket.on('alert_msg', (msg) => {
+  //     setData(data.concat(JSON.parse(msg).results));
+  //     // console.log('socket.on -> msg:', JSON.parse(msg).results);
+  //   });
+  //   // 错误处理
+  //   socket.on('error', (error) => {
+  //     console.error('Socket error:', error);
+  //     // 处理错误，比如记录日志或执行其他操作
+  //   });
+  //   // 监听断开连接事件
+  //   socket.on('disconnect', () => {
+  //     console.log('与服务器的连接已断开');
+  //   });
+  // }, []);
 
   //#endregion -----------------------------------------------------------------------
   /**
@@ -102,12 +239,15 @@ const AlertList: React.FC<AlertListType> = (props: AlertListType) => {
     setOpen(false);
   };
   const containerStyle: React.CSSProperties = {
-    position: 'relative',
-    height: 200,
-    width: 100,
+    position: 'absolute',
+    width: 231,
     padding: 0,
     overflow: 'hidden',
     textAlign: 'center',
+    // backgroundColor: 'rgba(7, 19, 28, 0.605)',
+    // border: '2px solid',
+    // borderRadius: '0.1vh',
+    // borderImage: 'linear-gradient(to bottom, rgb(10, 22, 33), rgb(38, 96, 118)) 1',
   };
 
   //#endregion -----------------------------------------------------------------------
@@ -119,17 +259,19 @@ const AlertList: React.FC<AlertListType> = (props: AlertListType) => {
     <List className={styles.lists} bordered={false} split={false}>
       <Drawer
         style={containerStyle}
-        title="告警详情"
-        placement="right"
+        title={' 无人机巡检告警'}
+        placement="center"
         closable={false}
         onClose={onClose}
         open={open}
         getContainer={false}
       >
-        <Button type="primary" onClick={onClose}>
-          Open Default Size (378px)
-        </Button>
-        <p>Some contents...</p>
+        <p>
+          <Button type="text" onClick={onClose}>
+            返回
+          </Button>
+          详情列表
+        </p>
       </Drawer>
       <VirtualList data={data} height={containerHeight} itemHeight={1} itemKey="id">
         {(item: AlertType) => (
