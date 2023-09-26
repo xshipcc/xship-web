@@ -97,22 +97,24 @@ const App = () => {
     <div className={styles.content}>
       <Row>
         <Col span={16} className={styles.dropList}>
-          <Select
-            showSearch
-            style={{ width: 160 }}
-            placeholder="Search to Select"
-            onChange={handleChange}
-            optionFilterProp="children"
-            filterOption={(input, option) => {
-              (option?.label ?? '').includes(input);
-            }}
-            filterSort={(optionA, optionB) =>
-              (optionA?.label ?? '')
-                .toLowerCase()
-                .localeCompare((optionB?.label ?? '').toLowerCase())
-            }
-            options={listdata}
-          />
+          <div className={styles.selectname}>
+            <Select
+              showSearch
+              style={{ width: 160 }}
+              placeholder="Search to Select"
+              onChange={handleChange}
+              optionFilterProp="children"
+              filterOption={(input, option) => {
+                (option?.label ?? '').includes(input);
+              }}
+              filterSort={(optionA, optionB) =>
+                (optionA?.label ?? '')
+                  .toLowerCase()
+                  .localeCompare((optionB?.label ?? '').toLowerCase())
+              }
+              options={listdata}
+            />
+          </div>
         </Col>
         <Col span={7} offset={1} className={styles.add} onClick={() => handleListAdd()}>
           添加

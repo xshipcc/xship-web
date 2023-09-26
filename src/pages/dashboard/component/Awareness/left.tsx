@@ -2,8 +2,8 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-17 15:39:03
- * @FilePath: \zero-admin-ui-master\src\components\Awareness\left.tsx
+ * @LastEditTime: 2023-09-26 13:29:43
+ * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\left.tsx
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
@@ -56,6 +56,47 @@ const Awareness: React.FC = () => {
           <Col span={24} className={styles.video} />
         </Row>
         {/*  */}
+        <div className={styles.box}>
+          <Row>
+            <Col span={2} className={styles.arrow} />
+            <Col span={22} className={styles.title}>
+              无人机态势信息
+            </Col>
+          </Row>
+          <Row>
+            <Col span={24} />
+          </Row>
+          <Row>
+            <Col span={24}>
+              <div className={styles.content}>
+                <Row>
+                  <Col className={styles.text} span={8}>
+                    无人机id:
+                  </Col>
+                  <Col className={styles.text} span={16}>
+                    test
+                  </Col>
+                </Row>
+                <Row>
+                  <Col className={styles.text} span={8}>
+                    巡检路线id:
+                  </Col>
+                  <Col className={styles.text} span={16}>
+                    test
+                  </Col>
+                </Row>
+                <Row>
+                  <Col className={styles.text} span={8}>
+                    执行时间:
+                  </Col>
+                  <Col className={styles.text} span={16}>
+                    test
+                  </Col>
+                </Row>
+              </div>
+            </Col>
+          </Row>
+        </div>
       </div>
     </>
   );

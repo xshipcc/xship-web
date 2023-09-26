@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-25 09:29:32
+ * @LastEditTime: 2023-09-26 12:01:32
  * @FilePath: \zero-admin-ui-master\src\components\Footer\index.tsx
  * @Description:
  *
@@ -29,18 +29,6 @@ const Footer: React.FC = () => {
           key: '无人机巡检系统',
           title: '无人机巡检系统',
           href: 'https://pro.ant.design',
-          blankTarget: true,
-        },
-        {
-          key: 'github',
-          title: <GithubOutlined />,
-          href: 'https://github.com/ant-design/ant-design-pro',
-          blankTarget: true,
-        },
-        {
-          key: 'Ant Design',
-          title: 'Ant Design',
-          href: 'https://ant.design',
           blankTarget: true,
         },
       ]}

@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-09 20:12:31
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-26 09:56:52
+ * @LastEditTime: 2023-09-26 10:46:57
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\index.tsx
  * @Description:
  *
@@ -286,11 +286,12 @@ const Dashboard: React.FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await dispatch({
-          type: 'dashboardModel/fetchDashboardInfo',
-          payload: { name: 'dashboardInfo' },
-        });
-        setData(response); // 在异步操作完成后更新数据状态
+        // const response = await dispatch({
+        //   type: 'dashboardModel/fetchDashboardInfo',
+        //   payload: { name: 'dashboardInfo' },
+        // });
+        // setData(response); // 在异步操作完成后更新数据状态
+        setData('test'); //测试
       } catch (error) {
         // 处理错误
       }

@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 11:45:31
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-24 17:34:21
+ * @LastEditTime: 2023-09-26 13:52:53
  * @FilePath: \zero-admin-ui-master\src\app.tsx
  * @Description:
  *
@@ -115,9 +115,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
   return {
     rightContentRender: () => <RightContent />,
     disableContentMargin: false,
-    waterMarkProps: {
-      content: initialState?.currentUser?.name,
-    },
+
     menuDataRender: () => menuDataRender(),
     onPageChange: () => {
       const { location } = history;

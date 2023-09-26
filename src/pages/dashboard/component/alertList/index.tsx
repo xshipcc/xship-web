@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-19 16:30:18
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-26 09:52:25
+ * @LastEditTime: 2023-09-26 10:44:02
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\alertList\index.tsx
  * @Description:
  *
@@ -47,156 +47,156 @@ const AlertList: React.FC<AlertListType> = (props: AlertListType) => {
   const [containerHeight] = useState(props.height);
   const initView = useSelector((state: any) => state.dashboardModel.alertList);
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch({
-      type: 'dashboardModel/fetchAlertList',
-      payload: { name: 'dashboardInfo' },
-    });
-  }, []);
+  // useEffect(() => {
+  //   dispatch({
+  //     type: 'dashboardModel/fetchAlertList',
+  //     payload: { name: 'dashboardInfo' },
+  //   });
+  // }, []);
 
   const [data, setData] = useState([]);
 
   useEffect(() => {
     console.log('initView:', initView.results);
+    setData([
+      {
+        id: '22222',
+        alert: {
+          type: 'Ms',
+          time: '1985-05-24 16:15:49',
+          info: '增群领走子',
+          coordinate: ['111', '111'],
+        },
+      },
+      {
+        id: '222',
+        alert: {
+          type: 'Ms',
+          time: '2013-08-07 05:01:28',
+          info: '术又需家',
+          coordinate: ['111', '111'],
+        },
+      },
+      {
+        id: '2222',
+        alert: {
+          type: 'Ms',
+          time: '1985-04-13 20:33:03',
+          info: '色示两部',
+          coordinate: ['111', '111'],
+        },
+      },
+      {
+        id: '2222',
+        alert: {
+          type: 'Ms',
+          time: '2004-04-14 06:20:01',
+          info: '光十表',
+          coordinate: ['111', '111'],
+        },
+      },
+      {
+        id: '2222222222',
+        alert: {
+          type: 'Ms',
+          time: '2016-03-19 07:33:47',
+          info: '传不技动思于',
+          coordinate: ['111', '111'],
+        },
+      },
+      {
+        id: '222',
+        alert: {
+          type: 'Ms',
+          time: '1972-11-05 17:33:27',
+          info: '部华算太',
+          coordinate: ['111', '111'],
+        },
+      },
+      {
+        id: '22',
+        alert: {
+          type: 'Ms',
+          time: '1978-06-07 15:31:15',
+          info: '商群容其由',
+          coordinate: ['111', '111'],
+        },
+      },
+      {
+        id: '22222222',
+        alert: {
+          type: 'Ms',
+          time: '2003-06-19 18:58:04',
+          info: '往展处外片',
+          coordinate: ['111', '111'],
+        },
+      },
+      {
+        id: '2222',
+        alert: {
+          type: 'Ms',
+          time: '1987-02-24 02:42:44',
+          info: '定很议世权',
+          coordinate: ['111', '111'],
+        },
+      },
+      {
+        id: '2222',
+        alert: {
+          type: 'Ms',
+          time: '1982-08-19 11:03:10',
+          info: '战府声论连铁',
+          coordinate: ['111', '111'],
+        },
+      },
+      {
+        id: '222222222',
+        alert: {
+          type: 'Ms',
+          time: '2015-06-16 20:46:05',
+          info: '能导石青',
+          coordinate: ['111', '111'],
+        },
+      },
+      {
+        id: '2222222222',
+        alert: {
+          type: 'Ms',
+          time: '1998-11-14 23:49:59',
+          info: '采引具导',
+          coordinate: ['111', '111'],
+        },
+      },
+      {
+        id: '22222222',
+        alert: {
+          type: 'Ms',
+          time: '2005-05-13 09:04:57',
+          info: '自没常段需进',
+          coordinate: ['111', '111'],
+        },
+      },
+      {
+        id: '22222',
+        alert: {
+          type: 'Ms',
+          time: '2009-12-20 21:53:05',
+          info: '用验条制拉看',
+          coordinate: ['111', '111'],
+        },
+      },
+      {
+        id: '2222',
+        alert: {
+          type: 'Ms',
+          time: '2005-11-08 17:45:06',
+          info: '里机空至',
+          coordinate: ['111', '111'],
+        },
+      },
+    ]); //测试
     if (initView.results !== undefined) {
       // setData(initView.results);
-      setData([
-        {
-          id: '22222',
-          alert: {
-            type: 'Ms',
-            time: '1985-05-24 16:15:49',
-            info: '增群领走子',
-            coordinate: ['111', '111'],
-          },
-        },
-        {
-          id: '222',
-          alert: {
-            type: 'Ms',
-            time: '2013-08-07 05:01:28',
-            info: '术又需家',
-            coordinate: ['111', '111'],
-          },
-        },
-        {
-          id: '2222',
-          alert: {
-            type: 'Ms',
-            time: '1985-04-13 20:33:03',
-            info: '色示两部',
-            coordinate: ['111', '111'],
-          },
-        },
-        {
-          id: '2222',
-          alert: {
-            type: 'Ms',
-            time: '2004-04-14 06:20:01',
-            info: '光十表',
-            coordinate: ['111', '111'],
-          },
-        },
-        {
-          id: '2222222222',
-          alert: {
-            type: 'Ms',
-            time: '2016-03-19 07:33:47',
-            info: '传不技动思于',
-            coordinate: ['111', '111'],
-          },
-        },
-        {
-          id: '222',
-          alert: {
-            type: 'Ms',
-            time: '1972-11-05 17:33:27',
-            info: '部华算太',
-            coordinate: ['111', '111'],
-          },
-        },
-        {
-          id: '22',
-          alert: {
-            type: 'Ms',
-            time: '1978-06-07 15:31:15',
-            info: '商群容其由',
-            coordinate: ['111', '111'],
-          },
-        },
-        {
-          id: '22222222',
-          alert: {
-            type: 'Ms',
-            time: '2003-06-19 18:58:04',
-            info: '往展处外片',
-            coordinate: ['111', '111'],
-          },
-        },
-        {
-          id: '2222',
-          alert: {
-            type: 'Ms',
-            time: '1987-02-24 02:42:44',
-            info: '定很议世权',
-            coordinate: ['111', '111'],
-          },
-        },
-        {
-          id: '2222',
-          alert: {
-            type: 'Ms',
-            time: '1982-08-19 11:03:10',
-            info: '战府声论连铁',
-            coordinate: ['111', '111'],
-          },
-        },
-        {
-          id: '222222222',
-          alert: {
-            type: 'Ms',
-            time: '2015-06-16 20:46:05',
-            info: '能导石青',
-            coordinate: ['111', '111'],
-          },
-        },
-        {
-          id: '2222222222',
-          alert: {
-            type: 'Ms',
-            time: '1998-11-14 23:49:59',
-            info: '采引具导',
-            coordinate: ['111', '111'],
-          },
-        },
-        {
-          id: '22222222',
-          alert: {
-            type: 'Ms',
-            time: '2005-05-13 09:04:57',
-            info: '自没常段需进',
-            coordinate: ['111', '111'],
-          },
-        },
-        {
-          id: '22222',
-          alert: {
-            type: 'Ms',
-            time: '2009-12-20 21:53:05',
-            info: '用验条制拉看',
-            coordinate: ['111', '111'],
-          },
-        },
-        {
-          id: '2222',
-          alert: {
-            type: 'Ms',
-            time: '2005-11-08 17:45:06',
-            info: '里机空至',
-            coordinate: ['111', '111'],
-          },
-        },
-      ]); //测试
     }
   }, [initView]);
 
