@@ -53,7 +53,7 @@ export async function removeFlashPromotion(params: { ids: number[] }) {
 //#region -------------------------------------------------------------------------
 
 export async function queryDevice(params: ListUavDeviceReqType) {
-  return request('/api/uav/task/list', {
+  return request('/api/uav/device/list', {
     method: 'POST',
     data: {
       ...params,
@@ -62,7 +62,7 @@ export async function queryDevice(params: ListUavDeviceReqType) {
 }
 
 export async function updateDevice(params: FlashPromotionListItem) {
-  return request('/api/uav/task/update', {
+  return request('/api/uav/device/update', {
     method: 'POST',
     data: {
       ...params,
@@ -70,7 +70,7 @@ export async function updateDevice(params: FlashPromotionListItem) {
   });
 }
 export async function addDevice(params: FlashPromotionListItem) {
-  return request('/api/uav/task/add', {
+  return request('/api/uav/device/add', {
     method: 'POST',
     data: {
       ...params,
@@ -78,7 +78,7 @@ export async function addDevice(params: FlashPromotionListItem) {
   });
 }
 export async function removeDevice(params: { ids: number[] }) {
-  return request('/api/uav/task/delete', {
+  return request('/api/uav/device/delete', {
     method: 'POST',
     data: {
       ...params,
