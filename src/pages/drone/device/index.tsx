@@ -17,6 +17,10 @@ import type { FlashPromotionListItem } from './data.d';
 import {
   queryFlashPromotion,
   updateFlashPromotion,
+  addDevice,
+  queryDevice,
+  removeDevice,
+  updateDevice,
   addFlashPromotion,
   removeFlashPromotion,
 } from './service';
@@ -30,7 +34,7 @@ const { confirm } = Modal;
 const handleAdd = async (fields: FlashPromotionListItem) => {
   const hide = message.loading('正在添加');
   try {
-    await addFlashPromotion({ ...fields });
+    await addDevice({ ...fields });
     hide();
     message.success('添加成功');
     return true;
@@ -48,7 +52,7 @@ const handleAdd = async (fields: FlashPromotionListItem) => {
 const handleUpdate = async (fields: FlashPromotionListItem) => {
   const hide = message.loading('正在更新');
   try {
-    await updateFlashPromotion(fields);
+    await updateDevice(fields);
     hide();
 
     message.success('更新成功');
@@ -68,7 +72,7 @@ const handleRemove = async (selectedRows: FlashPromotionListItem[]) => {
   const hide = message.loading('正在删除');
   if (!selectedRows) return true;
   try {
-    await removeFlashPromotion({
+    await removeDevice({
       ids: selectedRows.map((row) => row.id),
     });
     hide();
@@ -88,6 +92,8 @@ const FlashPromotionList: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [currentRow, setCurrentRow] = useState<FlashPromotionListItem>();
   const [selectedRowsState, setSelectedRows] = useState<FlashPromotionListItem[]>([]);
+
+  // queryDevice();
 
   const showDeleteConfirm = (item: FlashPromotionListItem) => {
     confirm({
@@ -194,12 +200,12 @@ const FlashPromotionList: React.FC = () => {
             <PlusOutlined /> 新建秒杀列表
           </Button>,
         ]}
-        request={queryFlashPromotion}
+        request={queryDevice}
         columns={columns}
         rowSelection={{
           onChange: (_, selectedRows) => setSelectedRows(selectedRows),
         }}
-        pagination={{ pageSize: 10 }}
+        pagination={{ pageSize: 20 }}
       />
       {selectedRowsState?.length > 0 && (
         <FooterToolbar

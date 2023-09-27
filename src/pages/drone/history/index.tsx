@@ -191,7 +191,7 @@ const FlashPromotionList: React.FC = () => {
         }}
         toolBarRender={() => [
           <Button type="primary" onClick={() => handleModalVisible(true)}>
-            <PlusOutlined /> 新建秒杀列表
+            <PlusOutlined /> 新建无人机
           </Button>,
         ]}
         request={queryFlashPromotion}

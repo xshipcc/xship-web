@@ -8,7 +8,15 @@ interface Item {
   coord: string;
   stayTime: number;
 }
-
+const originData: Item[] = [];
+for (let i = 0; i < 13; i++) {
+  originData.push({
+    key: i.toString(),
+    name: `${i}号`,
+    coord: '[112, 38, 111]',
+    stayTime: 1,
+  });
+}
 interface EditableCellProps extends React.HTMLAttributes<HTMLElement> {
   editing: boolean;
   dataIndex: string;
@@ -55,7 +63,7 @@ const EditableCell: React.FC<EditableCellProps> = ({
 
 const TableEditable: React.FC = (listData: any) => {
   const [form] = Form.useForm();
-  const [data, setData] = useState(listData);
+  const [data, setData] = useState(originData);
   const [editingKey, setEditingKey] = useState('');
 
   const isEditing = (record: Item) => record.key === editingKey;

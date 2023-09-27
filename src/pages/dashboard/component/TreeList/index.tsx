@@ -60,16 +60,6 @@ const App = () => {
     // setCurrentList(value);
   };
 
-  const originData: Item[] = [];
-  for (let i = 0; i < 13; i++) {
-    originData.push({
-      key: i.toString(),
-      name: `${i}号`,
-      coord: '[112, 38, 111]',
-      stayTime: 1,
-    });
-  }
-
   return (
     <div className={styles.content}>
       <Row>
@@ -126,7 +116,7 @@ const App = () => {
         {collapse ? null : (
           <div className={styles.tableContent}>
             {/* <Table columns={columns} dataSource={tableData} pagination={false} size="small" /> */}
-            <TableEditable listData={} />
+            <TableEditable listData={listdata} />
           </div>
         )}
       </table>
