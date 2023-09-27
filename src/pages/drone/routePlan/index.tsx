@@ -19,6 +19,10 @@ import {
   updateFlashPromotion,
   addFlashPromotion,
   removeFlashPromotion,
+  queryFly,
+  updateFly,
+  addFly,
+  removeFly,
 } from './service';
 
 const { confirm } = Modal;
@@ -103,50 +107,112 @@ const FlashPromotionList: React.FC = () => {
     });
   };
 
+  // const columns: ProColumns<FlashPromotionListItem>[] = [
+  //   {
+  //     title: '编号',
+  //     dataIndex: 'id',
+  //     hideInSearch: true,
+  //   },
+  //   {
+  //     title: '活动标题',
+  //     dataIndex: 'title',
+  //     render: (dom, entity) => {
+  //       return (
+  //         <a
+  //           onClick={() => {
+  //             setCurrentRow(entity);
+  //             setShowDetail(true);
+  //           }}
+  //         >
+  //           {dom}
+  //         </a>
+  //       );
+  //     },
+  //   },
+  //   {
+  //     title: '开始日期',
+  //     dataIndex: 'startDate',
+  //     valueType: 'date',
+  //   },
+  //   {
+  //     title: '结束日期',
+  //     dataIndex: 'endDate',
+  //     valueType: 'date',
+  //   },
+  //   {
+  //     title: '上下线状态',
+  //     dataIndex: 'status',
+  //     valueEnum: {
+  //       0: { text: '禁用', status: 'Error' },
+  //       1: { text: '正常', status: 'Success' },
+  //     },
+  //   },
+  //   {
+  //     title: '创建时间',
+  //     dataIndex: 'createTime',
+  //     hideInSearch: true,
+  //   },
+  //   {
+  //     title: '操作',
+  //     dataIndex: 'option',
+  //     valueType: 'option',
+  //     render: (_, record) => (
+  //       <>
+  //         <Button
+  //           type="primary"
+  //           icon={<EditOutlined />}
+  //           onClick={() => {
+  //             handleUpdateModalVisible(true);
+  //             setCurrentRow(record);
+  //           }}
+  //         >
+  //           编辑
+  //         </Button>
+  //         <Divider type="vertical" />
+  //         <Button
+  //           type="primary"
+  //           danger
+  //           icon={<DeleteOutlined />}
+  //           onClick={() => {
+  //             showDeleteConfirm(record);
+  //           }}
+  //         >
+  //           删除
+  //         </Button>
+  //       </>
+  //     ),
+  //   },
+  // ];
+  interface ListtUavFlyDataType {
+    id: number;
+    name: string;
+    data: string;
+    createTime: string;
+    creator: string;
+  }
   const columns: ProColumns<FlashPromotionListItem>[] = [
     {
-      title: '编号',
+      title: '航线编号',
       dataIndex: 'id',
       hideInSearch: true,
     },
     {
-      title: '活动标题',
-      dataIndex: 'title',
-      render: (dom, entity) => {
-        return (
-          <a
-            onClick={() => {
-              setCurrentRow(entity);
-              setShowDetail(true);
-            }}
-          >
-            {dom}
-          </a>
-        );
-      },
+      title: '航线名称',
+      dataIndex: 'name',
     },
     {
-      title: '开始日期',
-      dataIndex: 'startDate',
-      valueType: 'date',
-    },
-    {
-      title: '结束日期',
-      dataIndex: 'endDate',
-      valueType: 'date',
-    },
-    {
-      title: '上下线状态',
-      dataIndex: 'status',
-      valueEnum: {
-        0: { text: '禁用', status: 'Error' },
-        1: { text: '正常', status: 'Success' },
-      },
+      title: '航线数据',
+      dataIndex: 'data',
+      hideInSearch: true,
     },
     {
       title: '创建时间',
       dataIndex: 'createTime',
       hideInSearch: true,
+    },
+    {
+      title: '创建者',
+      dataIndex: 'creator',
     },
     {
       title: '操作',
@@ -179,11 +245,10 @@ const FlashPromotionList: React.FC = () => {
       ),
     },
   ];
-
   return (
     <PageContainer>
       <ProTable<FlashPromotionListItem>
-        headerTitle="秒杀列表"
+        headerTitle="航线列表"
         actionRef={actionRef}
         rowKey="id"
         search={{
@@ -191,10 +256,10 @@ const FlashPromotionList: React.FC = () => {
         }}
         toolBarRender={() => [
           <Button type="primary" onClick={() => handleModalVisible(true)}>
-            <PlusOutlined /> 新建秒杀列表
+            <PlusOutlined /> 新建航线
           </Button>,
         ]}
-        request={queryFlashPromotion}
+        request={queryFly}
         columns={columns}
         rowSelection={{
           onChange: (_, selectedRows) => setSelectedRows(selectedRows),

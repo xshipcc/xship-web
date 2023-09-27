@@ -46,8 +46,8 @@ interface AddUavDeviceRespType {
 }
 
 interface ListUavDeviceReqType {
-  current: number;
-  pageSize: number;
+  current?: number;
+  pageSize?: number;
 }
 
 interface ListUavDeviceData {

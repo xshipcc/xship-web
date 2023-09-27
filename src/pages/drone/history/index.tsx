@@ -19,6 +19,9 @@ import {
   updateFlashPromotion,
   addFlashPromotion,
   removeFlashPromotion,
+  queryHistory,
+  updateHistory,
+  addHistory,
 } from './service';
 
 const { confirm } = Modal;
@@ -102,7 +105,91 @@ const FlashPromotionList: React.FC = () => {
       onCancel() {},
     });
   };
+  interface ListUavHistoryDataType {
+    id: number;
+    uav_id: number; // 无人机id
+    fly_id: number; // 巡检路线id
+    operator: string; // 操作者
+    create_time: string; // 创建时间
+    end_time: string; // 结束时间
+  }
 
+  // const columns: ProColumns<FlashPromotionListItem>[] = [
+  //   {
+  //     title: '编号',
+  //     dataIndex: 'id',
+  //     hideInSearch: true,
+  //   },
+  //   {
+  //     title: '活动标题',
+  //     dataIndex: 'title',
+  //     render: (dom, entity) => {
+  //       return (
+  //         <a
+  //           onClick={() => {
+  //             setCurrentRow(entity);
+  //             setShowDetail(true);
+  //           }}
+  //         >
+  //           {dom}
+  //         </a>
+  //       );
+  //     },
+  //   },
+  //   {
+  //     title: '开始日期',
+  //     dataIndex: 'startDate',
+  //     valueType: 'date',
+  //   },
+  //   {
+  //     title: '结束日期',
+  //     dataIndex: 'endDate',
+  //     valueType: 'date',
+  //   },
+  //   {
+  //     title: '上下线状态',
+  //     dataIndex: 'status',
+  //     valueEnum: {
+  //       0: { text: '禁用', status: 'Error' },
+  //       1: { text: '正常', status: 'Success' },
+  //     },
+  //   },
+  //   {
+  //     title: '创建时间',
+  //     dataIndex: 'createTime',
+  //     hideInSearch: true,
+  //   },
+  //   {
+  //     title: '操作',
+  //     dataIndex: 'option',
+  //     valueType: 'option',
+  //     render: (_, record) => (
+  //       <>
+  //         <Button
+  //           type="primary"
+  //           icon={<EditOutlined />}
+  //           onClick={() => {
+  //             handleUpdateModalVisible(true);
+  //             setCurrentRow(record);
+  //           }}
+  //         >
+  //           编辑
+  //         </Button>
+  //         <Divider type="vertical" />
+  //         <Button
+  //           type="primary"
+  //           danger
+  //           icon={<DeleteOutlined />}
+  //           onClick={() => {
+  //             showDeleteConfirm(record);
+  //           }}
+  //         >
+  //           删除
+  //         </Button>
+  //       </>
+  //     ),
+  //   },
+  // ];
   const columns: ProColumns<FlashPromotionListItem>[] = [
     {
       title: '编号',
@@ -110,8 +197,12 @@ const FlashPromotionList: React.FC = () => {
       hideInSearch: true,
     },
     {
-      title: '活动标题',
-      dataIndex: 'title',
+      title: '无人机id',
+      dataIndex: 'uav_id',
+    },
+    {
+      title: '巡检路线id',
+      dataIndex: 'fly_id',
       render: (dom, entity) => {
         return (
           <a
@@ -126,75 +217,34 @@ const FlashPromotionList: React.FC = () => {
       },
     },
     {
-      title: '开始日期',
-      dataIndex: 'startDate',
-      valueType: 'date',
-    },
-    {
-      title: '结束日期',
-      dataIndex: 'endDate',
-      valueType: 'date',
-    },
-    {
-      title: '上下线状态',
-      dataIndex: 'status',
-      valueEnum: {
-        0: { text: '禁用', status: 'Error' },
-        1: { text: '正常', status: 'Success' },
-      },
+      title: '操作者',
+      dataIndex: 'operator',
     },
     {
       title: '创建时间',
-      dataIndex: 'createTime',
-      hideInSearch: true,
+      dataIndex: 'create_time',
     },
     {
-      title: '操作',
-      dataIndex: 'option',
-      valueType: 'option',
-      render: (_, record) => (
-        <>
-          <Button
-            type="primary"
-            icon={<EditOutlined />}
-            onClick={() => {
-              handleUpdateModalVisible(true);
-              setCurrentRow(record);
-            }}
-          >
-            编辑
-          </Button>
-          <Divider type="vertical" />
-          <Button
-            type="primary"
-            danger
-            icon={<DeleteOutlined />}
-            onClick={() => {
-              showDeleteConfirm(record);
-            }}
-          >
-            删除
-          </Button>
-        </>
-      ),
+      title: '结束时间',
+      dataIndex: 'end_time',
     },
   ];
 
   return (
     <PageContainer>
       <ProTable<FlashPromotionListItem>
-        headerTitle="秒杀列表"
+        headerTitle="无人机巡检历史"
         actionRef={actionRef}
         rowKey="id"
         search={{
           labelWidth: 120,
         }}
         toolBarRender={() => [
-          <Button type="primary" onClick={() => handleModalVisible(true)}>
-            <PlusOutlined /> 新建无人机
-          </Button>,
+          // <Button type="primary" onClick={() => handleModalVisible(true)}>
+          //   <PlusOutlined /> 新建无人机
+          // </Button>,
         ]}
-        request={queryFlashPromotion}
+        request={queryHistory}
         columns={columns}
         rowSelection={{
           onChange: (_, selectedRows) => setSelectedRows(selectedRows),

@@ -163,18 +163,6 @@ const TableList: React.FC = () => {
       hideInSearch: true,
     },
     {
-      title: '专区大图',
-      dataIndex: 'bigPic',
-      valueType: 'image',
-      hideInSearch: true,
-      fieldProps: { width: 100, height: 80 },
-    },
-    {
-      title: '品牌故事',
-      dataIndex: 'brandStory',
-      hideInSearch: true,
-    },
-    {
       title: '操作',
       dataIndex: 'option',
       valueType: 'option',

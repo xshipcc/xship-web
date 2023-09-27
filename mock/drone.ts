@@ -2,8 +2,8 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-24 17:48:22
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-24 17:50:56
- * @FilePath: \zero-admin-ui-master\mock\backend copy 3.ts
+ * @LastEditTime: 2023-09-27 15:17:08
+ * @FilePath: \zero-admin-ui-master\mock\drone.ts
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
@@ -250,6 +250,95 @@ export default {
     });
   },
 
+  // 设备管理
+  'POST /api/uav/task/list': (req: Request, res: Response) => {
+    const data = Mock.mock({
+      'data|10': [
+        {
+          id: '@integer(1, 100)',
+          name: '@cname',
+          ip: '@ip',
+          port: '@integer(8000, 9000)',
+          hangar_ip: '@ip',
+          hangar_port: '@integer(10000, 20000)',
+        },
+      ],
+      current: 1,
+      pageSize: 10,
+      success: true,
+      total: 100,
+      code: '200',
+      message: '成功',
+    });
+    res.json(data);
+  },
+  // 巡检历史查询
+  'POST /api/uav/history/list': (req: Request, res: Response) => {
+    const data = Mock.mock({
+      'data|10': [
+        {
+          id: '@integer(1, 100)',
+          uav_id: '@integer(1, 100)',
+          fly_id: '@integer(1, 100)',
+          operator: '@cname',
+          create_time: '@datetime',
+          end_time: '@datetime',
+        },
+      ],
+      current: 1,
+      pageSize: 10,
+      success: true,
+      total: 100,
+      code: '200',
+      message: '成功',
+    });
+    res.json(data);
+  },
+  // 巡检计划查询
+  'POST /api/uav/plan/list': (req: Request, res: Response) => {
+    const data = Mock.mock({
+      'data|10': [
+        {
+          id: '@integer(1, 100)',
+          uav_id: '@integer(1, 100)',
+          uav_icon:
+            'http://macro-oss.oss-cn-shenzhen.aliyuncs.com/mall/images/20180607/timg(5).jpg',
+          plan: '@time("HH:mm:ss")',
+          fly_id: '@integer(1, 100)',
+        },
+      ],
+      current: 1,
+      pageSize: 10,
+      success: true,
+      total: 100,
+      code: '200',
+      message: '成功',
+    });
+    res.json(data);
+  },
+  // 航线查询
+  'POST /api/uav/fly/list': (req: Request, res: Response) => {
+    const data = Mock.mock({
+      'data|10': [
+        {
+          id: '@integer(1, 100)',
+          name: '@cname',
+          'data|3': ['@float(-180, 180, 6)'],
+          createTime: '@datetime',
+          creator: '@cname',
+        },
+      ],
+      Current: 1,
+      PageSize: 10,
+      Success: true,
+      Total: 100,
+      Code: '200',
+      Message: '成功',
+    });
+    res.json(data);
+  },
+
+  // 任
   //#endregion -----------------------------------------------------------------------
   /**
    * @end

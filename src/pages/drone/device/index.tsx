@@ -64,6 +64,20 @@ const handleUpdate = async (fields: FlashPromotionListItem) => {
   }
 };
 
+// const queryDeviceData = async () => {
+//   try {
+//     const response = await queryDevice({ pageSize: 10, current: 1 });
+//     console.log('queryDeviceData -> response:', response);
+
+//     message.success('更新成功');
+//     return true;
+//   } catch (error) {
+//     message.error('更新失败请重试！');
+//     return false;
+//   }
+// };
+
+// queryDeviceData();
 /**
  *  删除节点
  * @param selectedRows
@@ -109,6 +123,91 @@ const FlashPromotionList: React.FC = () => {
     });
   };
 
+  // const columns: ProColumns<FlashPromotionListItem>[] = [
+  //   {
+  //     title: '编号',
+  //     dataIndex: 'id',
+  //     hideInSearch: true,
+  //   },
+  //   {
+  //     title: '活动标题',
+  //     dataIndex: 'title',
+  //     render: (dom, entity) => {
+  //       return (
+  //         <a
+  //           onClick={() => {
+  //             setCurrentRow(entity);
+  //             setShowDetail(true);
+  //           }}
+  //         >
+  //           {dom}
+  //         </a>
+  //       );
+  //     },
+  //   },
+  //   {
+  //     title: '开始日期',
+  //     dataIndex: 'startDate',
+  //     valueType: 'date',
+  //   },
+  //   {
+  //     title: '结束日期',
+  //     dataIndex: 'endDate',
+  //     valueType: 'date',
+  //   },
+  //   {
+  //     title: '上下线状态',
+  //     dataIndex: 'status',
+  //     valueEnum: {
+  //       0: { text: '禁用', status: 'Error' },
+  //       1: { text: '正常', status: 'Success' },
+  //     },
+  //   },
+  //   {
+  //     title: '创建时间',
+  //     dataIndex: 'createTime',
+  //     hideInSearch: true,
+  //   },
+  //   {
+  //     title: '操作',
+  //     dataIndex: 'option',
+  //     valueType: 'option',
+  //     render: (_, record) => (
+  //       <>
+  //         <Button
+  //           type="primary"
+  //           icon={<EditOutlined />}
+  //           onClick={() => {
+  //             handleUpdateModalVisible(true);
+  //             setCurrentRow(record);
+  //           }}
+  //         >
+  //           编辑
+  //         </Button>
+  //         <Divider type="vertical" />
+  //         <Button
+  //           type="primary"
+  //           danger
+  //           icon={<DeleteOutlined />}
+  //           onClick={() => {
+  //             showDeleteConfirm(record);
+  //           }}
+  //         >
+  //           删除
+  //         </Button>
+  //       </>
+  //     ),
+  //   },
+  // ];
+  interface ListUavDeviceData {
+    id: number;
+    name: string;
+    ip: string;
+    port: number;
+    hangar_ip: string;
+    hangar_port: number;
+  }
+
   const columns: ProColumns<FlashPromotionListItem>[] = [
     {
       title: '编号',
@@ -116,8 +215,20 @@ const FlashPromotionList: React.FC = () => {
       hideInSearch: true,
     },
     {
-      title: '活动标题',
-      dataIndex: 'title',
+      title: '名称',
+      dataIndex: 'name',
+    },
+    {
+      title: '无人机id',
+      dataIndex: 'ip',
+    },
+    {
+      title: '端口',
+      dataIndex: 'port',
+    },
+    {
+      title: '无人机库ip',
+      dataIndex: 'hangar_ip',
       render: (dom, entity) => {
         return (
           <a
@@ -132,26 +243,8 @@ const FlashPromotionList: React.FC = () => {
       },
     },
     {
-      title: '开始日期',
-      dataIndex: 'startDate',
-      valueType: 'date',
-    },
-    {
-      title: '结束日期',
-      dataIndex: 'endDate',
-      valueType: 'date',
-    },
-    {
-      title: '上下线状态',
-      dataIndex: 'status',
-      valueEnum: {
-        0: { text: '禁用', status: 'Error' },
-        1: { text: '正常', status: 'Success' },
-      },
-    },
-    {
-      title: '创建时间',
-      dataIndex: 'createTime',
+      title: '无人机库端口',
+      dataIndex: 'hangar_port',
       hideInSearch: true,
     },
     {
@@ -189,7 +282,7 @@ const FlashPromotionList: React.FC = () => {
   return (
     <PageContainer>
       <ProTable<FlashPromotionListItem>
-        headerTitle="秒杀列表"
+        headerTitle="无人机列表"
         actionRef={actionRef}
         rowKey="id"
         search={{
@@ -197,7 +290,7 @@ const FlashPromotionList: React.FC = () => {
         }}
         toolBarRender={() => [
           <Button type="primary" onClick={() => handleModalVisible(true)}>
-            <PlusOutlined /> 新建秒杀列表
+            <PlusOutlined /> 新建无人机列表
           </Button>,
         ]}
         request={queryDevice}

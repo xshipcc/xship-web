@@ -1,5 +1,9 @@
 import { request } from 'umi';
-import { FlashPromotionListParams, FlashPromotionListItem } from './data.d';
+import type {
+  FlashPromotionListParams,
+  FlashPromotionListItem,
+  ListUavDeviceReqType,
+} from './data.d';
 
 export async function queryFlashPromotion(params: FlashPromotionListParams) {
   if (params.status != null) {
@@ -12,44 +16,7 @@ export async function queryFlashPromotion(params: FlashPromotionListParams) {
     },
   });
 }
-export async function queryDevice(params: FlashPromotionListParams) {
-  console.log('queryDevice -> params:', params);
-  if (params.status != null) {
-    params.status = Number(params.status);
-  }
-  return request('/api/uav/task/list', {
-    method: 'POST',
-    data: {
-      ...params,
-    },
-  });
-}
 
-export async function removeDevice(params: { ids: number[] }) {
-  return request('/api/uav/task/delete', {
-    method: 'POST',
-    data: {
-      ...params,
-    },
-  });
-}
-
-export async function updateDevice(params: FlashPromotionListItem) {
-  return request('/api/uav/task/update', {
-    method: 'POST',
-    data: {
-      ...params,
-    },
-  });
-}
-export async function addDevice(params: FlashPromotionListItem) {
-  return request('/api/uav/task/add', {
-    method: 'POST',
-    data: {
-      ...params,
-    },
-  });
-}
 export async function addFlashPromotion(params: FlashPromotionListItem) {
   return request('/api/sms/flashpromotion/add', {
     method: 'POST',
@@ -76,3 +43,50 @@ export async function removeFlashPromotion(params: { ids: number[] }) {
     },
   });
 }
+
+/**
+ *  @file service.ts
+ *  @time 2023/09/27
+ * @category :
+ * @function :
+ */
+//#region -------------------------------------------------------------------------
+
+export async function queryDevice(params: ListUavDeviceReqType) {
+  return request('/api/uav/task/list', {
+    method: 'POST',
+    data: {
+      ...params,
+    },
+  });
+}
+
+export async function updateDevice(params: FlashPromotionListItem) {
+  return request('/api/uav/task/update', {
+    method: 'POST',
+    data: {
+      ...params,
+    },
+  });
+}
+export async function addDevice(params: FlashPromotionListItem) {
+  return request('/api/uav/task/add', {
+    method: 'POST',
+    data: {
+      ...params,
+    },
+  });
+}
+export async function removeDevice(params: { ids: number[] }) {
+  return request('/api/uav/task/delete', {
+    method: 'POST',
+    data: {
+      ...params,
+    },
+  });
+}
+
+//#endregion -----------------------------------------------------------------------
+/**
+ * @end
+ */

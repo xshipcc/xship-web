@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-27 12:04:08
+ * @LastEditTime: 2023-09-27 15:18:31
  * @FilePath: \zero-admin-ui-master\src\pages\drone\routePlan\data.d.ts
  * @Description:
  *
@@ -31,8 +31,8 @@ export interface FlashPromotionListParams {
   status?: number;
   pageSize?: number;
   currentPage?: number;
-  filter?: { [key: string]: any[] };
-  sorter?: { [key: string]: any };
+  filter?: Record<string, any[]>;
+  sorter?: Record<string, any>;
 }
 /**
  *  @file data.d.ts
@@ -43,66 +43,66 @@ export interface FlashPromotionListParams {
 //#region -------------------------------------------------------------------------
 
 interface AddUavFlyReqType {
-  Name: string;
-  Data: string;
-  CreateTime: string;
-  Creator: string;
+  name: string;
+  data: string;
+  createTime: string;
+  creator: string;
 }
 
 interface AddUavFlyRespType {
-  Code: string;
-  Message: string;
+  code: string;
+  message: string;
 }
 
 interface ListUavFlyReqType {
-  Current?: number;
-  PageSize?: number;
-  UavId?: number;
+  current?: number;
+  pageSize?: number;
+  uavId?: number;
 }
 
 interface ListtUavFlyDataType {
-  Id: number;
-  Name: string;
-  Data: string;
-  CreateTime: string;
-  Creator: string;
+  id: number;
+  name: string;
+  data: string;
+  createTime: string;
+  creator: string;
 }
 
 interface ListUavFlyRespType {
-  Current: number;
-  Data: ListtUavFlyDataType[];
-  PageSize: number;
-  Success: boolean;
-  Total: number;
-  Code: string;
-  Message: string;
+  current: number;
+  data: ListtUavFlyDataType[];
+  pageSize: number;
+  success: boolean;
+  total: number;
+  code: string;
+  message: string;
 }
 
 interface UpdateUavFlyReqType {
-  Id: number;
-  UavId: number;
-  Name: string;
-  PhoneNumber: string;
-  DefaultStatus: number;
-  PostCode: string;
-  Province: string;
-  City: string;
-  Region: string;
-  DetailAddress: string;
+  id: number;
+  uavId: number;
+  name: string;
+  phoneNumber: string;
+  defaultStatus: number;
+  postCode: string;
+  province: string;
+  city: string;
+  region: string;
+  detailAddress: string;
 }
 
 interface UpdateUavFlyRespType {
-  Code: string;
-  Message: string;
+  code: string;
+  message: string;
 }
 
 interface DeleteUavFlyReqType {
-  Ids: number[];
+  ids: number[];
 }
 
 interface DeleteUavFlyRespType {
-  Code: string;
-  Message: string;
+  code: string;
+  message: string;
 }
 
 //#endregion -----------------------------------------------------------------------

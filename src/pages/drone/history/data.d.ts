@@ -56,13 +56,13 @@ interface AddUavHistoryRespType {
 }
 
 interface ListUavHistoryReqType {
-  current: number;
-  pageSize: number;
-  create_time: string; // 创建时间
-  end_time: string; // 结束时间
-  operator: string; // 操作者
-  uav_id: number; // 无人机id
-  fly_id: number; // 巡检路线id
+  current?: number;
+  pageSize?: number;
+  create_time?: string; // 创建时间
+  end_time?: string; // 结束时间
+  operator?: string; // 操作者
+  uav_id?: number; // 无人机id
+  fly_id?: number; // 巡检路线id
 }
 
 interface ListUavHistoryDataType {
