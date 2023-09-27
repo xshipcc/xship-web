@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-15 20:04:35
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-26 00:57:08
+ * @LastEditTime: 2023-09-27 10:18:55
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\TreeList\index.less
  * @Description: 
  * 
@@ -155,3 +155,93 @@
   font-size: 2.5vh;
   text-align: left;
 }
+
+.tableContent {
+  :global {
+    .ant-table {
+      position: relative;
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 0.3vh;
+      font-variant: tabular-nums;
+      line-height: 1.5715;
+      list-style: none;
+      background: #1e2631c2;
+    }
+    .ant-table-thead > tr > th {
+      position: relative;
+      color: rgb(110, 165, 179);
+      font-weight: 500;
+      text-align: center;
+      background: #2c3b44;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      transition: background 0.3s ease;
+    }
+
+    .ant-table-tbody > tr.ant-table-row:hover > td,
+    .ant-table-tbody > tr > td.ant-table-cell-row-hover {
+      text-align: center;
+      background: #303a49;
+    }
+
+    .ant-table.ant-table-small .ant-table-title,
+    .ant-table.ant-table-small .ant-table-footer,
+    .ant-table.ant-table-small .ant-table-thead > tr > th,
+    .ant-table.ant-table-small .ant-table-tbody > tr > td,
+    .ant-table.ant-table-small tfoot > tr > th,
+    .ant-table.ant-table-small tfoot > tr > td {
+      padding: 2px 1px;
+      text-align: center;
+    }
+
+    .ant-table-cell-scrollbar:not([rowspan]) {
+      box-shadow: 0 1px 0 1px #262335;
+    }
+    // 滚动条
+    .ant-table-body::-webkit-scrollbar {
+      width: 10px;
+      height: 10px;
+    }
+    .ant-table-body::-webkit-scrollbar-thumb {
+      background: linear-gradient(270deg, #1d2c466b 0%, #414b7f33 100%);
+      border-radius: 10px;
+      -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    }
+    .ant-table-body::-webkit-scrollbar-track {
+      background: #262335;
+      border-radius: 10px;
+      -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    }
+    .ant-table-body::-webkit-scrollbar-corner {
+      /* 垂直和水平的交叉角 */
+      background: #262335;
+    }
+  }
+}
+// :global(.ant-targb(1, 156, 253)
+//   position: relative;
+//   box-sizing: border-box;
+//   margin: 0;
+//   padding: 0;
+//   color: rgb(255 255 255 / 85%);
+//   font-size: 14px;
+//   font-variant: tabular-nums;
+//   line-height: 1.5715;
+//   list-style: none;
+//   background: #f01313;
+//   border-radius: 2px;
+//   font-feature-settings: 'tnum', 'tnum';
+// }
+
+// :global(.ant-table)
+// .ant-table-thead > tr > th {
+//   position: relative;
+//   color: rgb(255 255 255 / 85%);
+//   font-weight: 500;
+//   text-align: left;
+//   background: #c55252;
+//   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+//   transition: background 0.3s ease;
+// }

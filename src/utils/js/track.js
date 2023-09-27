@@ -247,14 +247,14 @@ class Track {
     this.spotLightCamera = new Cesium.Camera(this.viewer.scene);
     let spotLightCamera = this.spotLightCamera;
 
-    spotLightCamera.setView({
-      destination: positions,
-      orientation: {
-        heading: Cesium.Math.toRadians(value.gimbalYawValue),
-        pitch: Cesium.Math.toRadians(value.gimbalPitchValue),
-        roll: Cesium.Math.toRadians(0.0),
-      },
-    });
+    // spotLightCamera.setView({
+    //   destination: positions,
+    //   orientation: {
+    //     heading: Cesium.Math.toRadians(value.gimbalYawValue),
+    //     pitch: Cesium.Math.toRadians(value.gimbalPitchValue),
+    //     roll: Cesium.Math.toRadians(0.0),
+    //   },
+    // });
 
     let scratchRight = new Cesium.Cartesian3();
     let scratchRotation = new Cesium.Matrix3();
@@ -365,7 +365,7 @@ class Track {
         offset: {
           heading: Cesium.Math.toRadians(-90),
           pitch: Cesium.Math.toRadians(-15),
-          range: 50,
+          range: 2500,
         },
       });
     } else if (name === 'trackedEntity') {

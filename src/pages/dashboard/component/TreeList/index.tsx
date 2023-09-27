@@ -5,7 +5,8 @@ import { useSelector, useDispatch, useModel } from 'umi';
 import styles from './index.less';
 import { CaretDownOutlined, CaretRightOutlined } from '@ant-design/icons';
 import { Select, Button } from 'antd';
-
+import { Table } from 'antd';
+import TableEditable from './table';
 // const DropList: React.FC = (data: any) => {};
 
 const App = () => {
@@ -17,35 +18,14 @@ const App = () => {
     { value: '东北', label: '东北' },
     { value: 'Edwa', label: 'Edwa' },
   ]);
+
   const [currentList, setCurrentList] = useState(listdata[0].label);
-  const [editIndex, setEditIndex] = useState(-1);
-  const [editData, setEditData] = useState({});
   const [collapse, setCollapse] = useState(true);
   const [editSignal, setEditSignal] = useState(true);
 
   const [listIndex, setlistIndex] = useState(data.length);
   // 获取全局的轨迹信息
   const dispatch = useDispatch();
-  const trackList = useSelector((state: any) => state.trackModel.trackList);
-  const handleEdit = (index) => {
-    setEditIndex(index);
-    setEditData({ ...data[index] });
-  };
-
-  const handleSave = () => {
-    if (editIndex !== -1) {
-      const newData = [...data];
-      newData[editIndex] = editData;
-      setData(newData);
-      setEditIndex(-1);
-      setEditData({});
-    }
-  };
-
-  const handleCancel = () => {
-    setEditIndex(-1);
-    setEditData({});
-  };
 
   const editTrack = () => {
     setEditSignal(false);
@@ -62,24 +42,11 @@ const App = () => {
     });
   };
 
-  const handleDelete = (index) => {
-    const newData = [...data];
-    newData.splice(index, 1);
-    setlistIndex(data.length - 1);
-    setData(newData);
-  };
   const handleSaveList = () => {
     setlistIndex(0);
     setData([]);
   };
-  const handleAdd = () => {
-    const newData = [...data, { key: listIndex + '', name: '', coord: '', stay: '' }];
-    console.log('handleAdd -> newData:', newData);
-    // const newElement = { key: '2', name: '', coord: '', stay: '' };
-    // data.push(newElement);
-    setData(newData);
-    setlistIndex(newData.length);
-  };
+
   const handleListAdd = () => {
     const newData = [{ key: listIndex + '', name: '', coord: '', stay: '' }];
     setData(newData);
@@ -88,10 +55,20 @@ const App = () => {
     setlistIndex(newData.length);
   };
   const handleChange = (value: string) => {
-    console.log(`selected ${value}`);
+    console.log(value);
     console.log('routeList:', listdata);
-    setCurrentList(value);
+    // setCurrentList(value);
   };
+
+  const originData: Item[] = [];
+  for (let i = 0; i < 13; i++) {
+    originData.push({
+      key: i.toString(),
+      name: `${i}号`,
+      coord: '[112, 38, 111]',
+      stayTime: 1,
+    });
+  }
 
   return (
     <div className={styles.content}>
@@ -99,19 +76,10 @@ const App = () => {
         <Col span={16} className={styles.dropList}>
           <div className={styles.selectname}>
             <Select
-              showSearch
+              labelInValue
+              defaultValue={{ value: 'demo', label: 'demo' }}
               style={{ width: 160 }}
-              placeholder="Search to Select"
               onChange={handleChange}
-              optionFilterProp="children"
-              filterOption={(input, option) => {
-                (option?.label ?? '').includes(input);
-              }}
-              filterSort={(optionA, optionB) =>
-                (optionA?.label ?? '')
-                  .toLowerCase()
-                  .localeCompare((optionB?.label ?? '').toLowerCase())
-              }
               options={listdata}
             />
           </div>
@@ -156,85 +124,10 @@ const App = () => {
       </Row>
       <table>
         {collapse ? null : (
-          <>
-            <Row className={styles.title}>
-              <Col span={3}>序号</Col>
-              <Col span={5}>命名</Col>
-              <Col span={4}>坐标</Col>
-              <Col span={7}>停留时间</Col>
-              <Col span={5} className={styles.titleGreen} onClick={handleAdd}>
-                添加
-              </Col>
-            </Row>
-            {data.map((item, index) => (
-              <div
-                key={item.key}
-                className={styles.textRow}
-                style={{
-                  background: index % 2 === 0 ? 'rgb(9, 16, 23)' : 'rgb(56, 68, 76)',
-                }}
-              >
-                <div className={styles.textStyle}>{item.key}</div>
-                <div>
-                  {editIndex === index ? (
-                    <input
-                      type="text"
-                      className={styles.inputStyle}
-                      value={editData.name}
-                      onChange={(e) => setEditData({ ...editData, name: e.target.value })}
-                    />
-                  ) : (
-                    <div className={styles.textStyle}>{item.name}</div>
-                  )}
-                </div>
-                <div>
-                  {editIndex === index ? (
-                    <input
-                      type="text"
-                      className={styles.coordinput}
-                      value={editData.coord}
-                      onChange={(e) => setEditData({ ...editData, coord: e.target.value })}
-                    />
-                  ) : (
-                    <div className={styles.coord}>{item.coord}</div>
-                  )}
-                </div>
-                <div>
-                  {editIndex === index ? (
-                    <input
-                      type="text"
-                      className={styles.inputStyle}
-                      value={editData.stay}
-                      onChange={(e) => setEditData({ ...editData, stay: e.target.value })}
-                    />
-                  ) : (
-                    <div className={styles.textStyle}>{item.stay}</div>
-                  )}
-                </div>
-                <div>
-                  {editIndex === index ? (
-                    <>
-                      <text className={styles.textred} onClick={handleSave}>
-                        保存
-                      </text>
-                      <text className={styles.textblue} onClick={handleCancel}>
-                        取消
-                      </text>
-                    </>
-                  ) : (
-                    <>
-                      <text className={styles.textred} onClick={() => handleEdit(index)}>
-                        编辑
-                      </text>
-                      <text className={styles.textblue} onClick={() => handleDelete(index)}>
-                        删除
-                      </text>
-                    </>
-                  )}
-                </div>
-              </div>
-            ))}
-          </>
+          <div className={styles.tableContent}>
+            {/* <Table columns={columns} dataSource={tableData} pagination={false} size="small" /> */}
+            <TableEditable listData={} />
+          </div>
         )}
       </table>
     </div>
