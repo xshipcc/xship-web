@@ -251,7 +251,7 @@ export default {
   },
 
   // 设备管理
-  'POST /api/uav/task/list': (req: Request, res: Response) => {
+  'POST /api/uav/device/list': (req: Request, res: Response) => {
     const data = Mock.mock({
       'data|10': [
         {
@@ -259,8 +259,8 @@ export default {
           name: '@cname',
           ip: '@ip',
           port: '@integer(8000, 9000)',
-          hangar_ip: '@ip',
-          hangar_port: '@integer(10000, 20000)',
+          hangarIp: '@ip',
+          hangarPort: '@integer(10000, 20000)',
         },
       ],
       current: 1,

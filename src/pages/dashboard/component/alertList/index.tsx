@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-19 16:30:18
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-27 16:56:08
+ * @LastEditTime: 2023-09-27 17:35:09
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\alertList\index.tsx
  * @Description:
  *
@@ -14,56 +14,12 @@ import React, { useEffect, useState } from 'react';
 import styles from './index.less';
 import VirtualList from 'rc-virtual-list';
 import { List } from 'antd';
-// import { io } from 'socket.io-client';
+import { io } from 'socket.io-client';
 import type { SocketType } from './socket';
 import { useSelector, useDispatch, useModel } from 'umi';
 import { Button, Drawer } from 'antd';
-// const socket: SocketType = io('ws://192.168.2.211:8084/mqtt', {
-//   path: '/mqtt',
-//   transports: ['websocket', 'polling'],
-// });
 
-const socketUrl = 'ws://ai.javodata.com:8883/mqtt';
-let socket;
-
-// 建立 WebSocket 连接
-function connectWebSocket() {
-  socket = new WebSocket(socketUrl);
-
-  // 接收消息事件
-  socket.onmessage = function (event) {
-    const message = JSON.parse(event.data);
-    console.log('收到消息:', message);
-
-    // TODO: 处理收到的消息
-  };
-
-  // 连接关闭事件
-  socket.onclose = function () {
-    console.log('WebSocket 连接已关闭');
-    // 断线重连
-    // setTimeout(connectWebSocket, 8000);
-  };
-
-  // 连接错误事件
-  socket.onerror = function (error) {
-    console.error('WebSocket 连接发生错误:', error);
-    // 断线重连
-    // setTimeout(connectWebSocket, 5000);
-  };
-}
-
-// 启动 WebSocket 连接
-connectWebSocket();
-
-// 轮询检测连接状态
-setInterval(function () {
-  if (socket.readyState !== WebSocket.OPEN) {
-    console.log('WebSocket 连接已断开，尝试重新连接...');
-    // 断线重连
-    connectWebSocket();
-  }
-}, 8000);
+const socket: SocketType = io('ws://ai.javodata.com:8883/mqtt ');
 
 interface AlertType {
   id: number;
@@ -245,26 +201,21 @@ const AlertList: React.FC<AlertListType> = (props: AlertListType) => {
   }, [initView]);
 
   useEffect(() => {
-    socket.onmessage = function (event) {
-      const message = JSON.parse(event.data);
-      console.log('收到消息:', message);
-    };
+    socket.on('uav', (msg) => {
+      setData(data.concat(JSON.parse(msg).results));
+      console.log('socket.on -> msg:', msg);
 
-    // socket.on('uav', (msg) => {
-    //   console.log('socket.on -> msg:', msg);
-
-    //   // setData(data.concat(JSON.parse(msg).results));
-    //   // console.log('socket.on -> msg:', JSON.parse(msg).results);
-    // });
-    // // 错误处理
-    // socket.on('error', (error) => {
-    //   console.error('Socket error:', error);
-    //   // 处理错误，比如记录日志或执行其他操作
-    // });
-    // // 监听断开连接事件
-    // socket.on('disconnect', () => {
-    //   console.log('与服务器的连接已断开');
-    // });
+      // console.log('socket.on -> msg:', JSON.parse(msg).results);
+    });
+    // 错误处理
+    socket.on('error', (error) => {
+      console.error('Socket error:', error);
+      // 处理错误，比如记录日志或执行其他操作
+    });
+    // 监听断开连接事件
+    socket.on('disconnect', () => {
+      console.log('与服务器的连接已断开');
+    });
   }, []);
 
   //#endregion -----------------------------------------------------------------------

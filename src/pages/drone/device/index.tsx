@@ -13,7 +13,7 @@ import ProDescriptions from '@ant-design/pro-descriptions';
 import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
 import CreateFlashForm from './components/CreateFlashForm';
 import UpdateFlashForm from './components/UpdateFlashForm';
-import type { FlashPromotionListItem } from './data.d';
+import type { FlashPromotionListItem, ListUavDeviceData } from './data.d';
 import {
   queryFlashPromotion,
   updateFlashPromotion,
@@ -22,18 +22,27 @@ import {
   removeDevice,
   updateDevice,
   addFlashPromotion,
+  AddUavDeviceReqType,
   removeFlashPromotion,
 } from './service';
 
 const { confirm } = Modal;
-
 /**
  * 添加节点
  * @param fields
  */
-const handleAdd = async (fields: FlashPromotionListItem) => {
+const handleAdd = async (fields: AddUavDeviceReqType) => {
   const hide = message.loading('正在添加');
   try {
+    // const demodata = await addDevice({
+    //   name: 'test',
+    //   ip: '192.1.1.1',
+    //   port: 111,
+    //   hangar_ip: '222',
+    //   hangar_port: 22,
+    // });
+    // console.log('handleAdd -> demodata:', demodata);
+
     await addDevice({ ...fields });
     hide();
     message.success('添加成功');
@@ -49,7 +58,8 @@ const handleAdd = async (fields: FlashPromotionListItem) => {
  * 更新节点
  * @param fields
  */
-const handleUpdate = async (fields: FlashPromotionListItem) => {
+const handleUpdate = async (fields: ListUavDeviceData) => {
+  console.log('handleUpdate -> fields:', fields);
   const hide = message.loading('正在更新');
   try {
     await updateDevice(fields);
@@ -82,7 +92,7 @@ const handleUpdate = async (fields: FlashPromotionListItem) => {
  *  删除节点
  * @param selectedRows
  */
-const handleRemove = async (selectedRows: FlashPromotionListItem[]) => {
+const handleRemove = async (selectedRows: ListUavDeviceData[]) => {
   const hide = message.loading('正在删除');
   if (!selectedRows) return true;
   try {
@@ -104,12 +114,12 @@ const FlashPromotionList: React.FC = () => {
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
   const [showDetail, setShowDetail] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
-  const [currentRow, setCurrentRow] = useState<FlashPromotionListItem>();
-  const [selectedRowsState, setSelectedRows] = useState<FlashPromotionListItem[]>([]);
+  const [currentRow, setCurrentRow] = useState<ListUavDeviceData>();
+  const [selectedRowsState, setSelectedRows] = useState<ListUavDeviceData[]>([]);
 
   // queryDevice();
 
-  const showDeleteConfirm = (item: FlashPromotionListItem) => {
+  const showDeleteConfirm = (item: ListUavDeviceData) => {
     confirm({
       title: '是否删除记录?',
       icon: <ExclamationCircleOutlined />,
@@ -125,7 +135,7 @@ const FlashPromotionList: React.FC = () => {
 
   // const columns: ProColumns<FlashPromotionListItem>[] = [
   //   {
-  //     title: '编号',
+  //     title: '主键',
   //     dataIndex: 'id',
   //     hideInSearch: true,
   //   },
@@ -199,18 +209,10 @@ const FlashPromotionList: React.FC = () => {
   //     ),
   //   },
   // ];
-  interface ListUavDeviceData {
-    id: number;
-    name: string;
-    ip: string;
-    port: number;
-    hangar_ip: string;
-    hangar_port: number;
-  }
 
-  const columns: ProColumns<FlashPromotionListItem>[] = [
+  const columns: ProColumns<ListUavDeviceData>[] = [
     {
-      title: '编号',
+      title: '主键',
       dataIndex: 'id',
       hideInSearch: true,
     },
@@ -228,7 +230,7 @@ const FlashPromotionList: React.FC = () => {
     },
     {
       title: '无人机库ip',
-      dataIndex: 'hangar_ip',
+      dataIndex: 'hangarIp',
       render: (dom, entity) => {
         return (
           <a
@@ -244,7 +246,7 @@ const FlashPromotionList: React.FC = () => {
     },
     {
       title: '无人机库端口',
-      dataIndex: 'hangar_port',
+      dataIndex: 'hangarPort',
       hideInSearch: true,
     },
     {
@@ -281,7 +283,7 @@ const FlashPromotionList: React.FC = () => {
 
   return (
     <PageContainer>
-      <ProTable<FlashPromotionListItem>
+      <ProTable<ListUavDeviceData>
         headerTitle="无人机列表"
         actionRef={actionRef}
         rowKey="id"
@@ -373,16 +375,16 @@ const FlashPromotionList: React.FC = () => {
         closable={false}
       >
         {currentRow?.id && (
-          <ProDescriptions<FlashPromotionListItem>
+          <ProDescriptions<ListUavDeviceData>
             column={2}
-            title={currentRow?.title}
+            title={currentRow?.hangarPort}
             request={async () => ({
               data: currentRow || {},
             })}
             params={{
               id: currentRow?.id,
             }}
-            columns={columns as ProDescriptionsItemProps<FlashPromotionListItem>[]}
+            columns={columns as ProDescriptionsItemProps<ListUavDeviceData>[]}
           />
         )}
       </Drawer>

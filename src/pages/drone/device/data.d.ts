@@ -31,20 +31,7 @@ export interface FlashPromotionListParams {
  * @function :
  */
 //#region -------------------------------------------------------------------------
-
-interface AddUavDeviceReqType {
-  name: string;
-  ip: string;
-  port: number;
-  hangar_ip: string;
-  hangar_port: number;
-}
-
-interface AddUavDeviceRespType {
-  code: string;
-  message: string;
-}
-
+// 查询
 interface ListUavDeviceReqType {
   current?: number;
   pageSize?: number;
@@ -55,8 +42,8 @@ interface ListUavDeviceData {
   name: string;
   ip: string;
   port: number;
-  hangar_ip: string;
-  hangar_port: number;
+  hangarIp: string;
+  hangarPort: number;
 }
 
 interface ListUavDeviceRespType {
@@ -68,13 +55,28 @@ interface ListUavDeviceRespType {
   success: boolean;
   total: number;
 }
+// 添加
+interface AddUavDeviceReqType {
+  name: string;
+  ip: string;
+  port: number;
+  hangarIp: string;
+  hangarPort: number;
+}
 
+interface AddUavDeviceRespType {
+  code: string;
+  message: string;
+}
+
+// 更新
 interface UpdateUavDeviceReqType {
   id: number;
   name: string;
-  growth: number;
-  intergration: number;
-  type: number;
+  ip: string;
+  port: number;
+  hangarIp: string;
+  hangarPort: number;
 }
 
 interface UpdateUavDeviceRespType {
