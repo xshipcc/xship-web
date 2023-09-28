@@ -71,14 +71,14 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
           label="无人机频段"
           rules={[{ required: true, message: '请输入无人机频段!' }]}
         >
-          <Input id="update-title" placeholder={'请输入无人机频段'} />
+          <InputNumber id="update-title" placeholder={'请输入无人机频段'} />
         </FormItem>
         <FormItem
           name="type"
           label="无人机频段类型"
           rules={[{ required: true, message: '请输入无人机频段类型!' }]}
         >
-          <Input id="update-title" placeholder={'请输入无人机频段类型'} />
+          <InputNumber id="update-title" placeholder={'请输入无人机频段类型'} />
         </FormItem>
       </>
     );

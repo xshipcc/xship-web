@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { DatePicker, DatePickerProps, Form, Input, Modal, Select } from 'antd';
+import { DatePicker, DatePickerProps, Form, Input, InputNumber, Modal, Select } from 'antd';
 import { ListUavPlanDataType } from '../data.d';
 import moment from 'moment';
 
@@ -56,26 +56,32 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
     // setEndDate(dateString[1]);
     setPlan(dateString);
   };
-
+  // interface UpdateUavPlanReqType {
+  //   id: number;
+  //   uad_id: number; // 无人机ID
+  //   uad_icon: number; // 无人机 icon
+  //   plan: string[] | undefined; // 飞行计划时间
+  //   fly_id: number; // 巡检路线id
+  // }
   const renderContent = () => {
     return (
       <>
         <FormItem name="id" label="主键" hidden>
-          <Input id="update-id" placeholder="请输入主键" />
+          <InputNumber id="update-id" placeholder="请输入主键" />
         </FormItem>
         <FormItem
           name="uad_id"
           label="无人机id"
           rules={[{ required: true, message: '请输入无人机id!' }]}
         >
-          <Input id="update-title" placeholder={'请输入无人机名称'} />
+          <InputNumber id="update-title" placeholder={'请输入无人机名称'} />
         </FormItem>
         <FormItem
           name="uad_icon"
           label="巡检路线id"
           rules={[{ required: true, message: '请输入巡检路线id!' }]}
         >
-          <Input id="update-title" placeholder={'请输入巡检路线id'} />
+          <InputNumber id="update-title" placeholder={'请输入巡检路线id'} />
         </FormItem>
         <FormItem id="plan" label="飞行计划时间">
           <RangePicker onChange={onChange} />
@@ -85,7 +91,7 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
           label="巡检路线id"
           rules={[{ required: true, message: '请输入巡检路线id!' }]}
         >
-          <Input id="update-title" placeholder={'请输入巡检路线id'} />
+          <InputNumber id="update-title" placeholder={'请输入巡检路线id'} />
         </FormItem>
       </>
     );

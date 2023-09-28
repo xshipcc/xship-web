@@ -9,7 +9,7 @@
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
 import React, { useEffect, useState } from 'react';
-import { Form, Input, Modal, Select, DatePicker } from 'antd';
+import { Form, Input, Modal, Select, DatePicker, InputNumber } from 'antd';
 import type { AddUavPlanReqType, FlashPromotionListItem } from '../data.d';
 
 export interface CreateFormProps {
@@ -74,14 +74,14 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
           label="无人机id"
           rules={[{ required: true, message: '请输入无人机id!' }]}
         >
-          <Input id="update-title" placeholder={'请输入无人机名称'} />
+          <InputNumber id="update-title" placeholder={'请输入无人机名称'} />
         </FormItem>
         <FormItem
           name="uad_icon"
           label="巡检路线id"
           rules={[{ required: true, message: '请输入巡检路线id!' }]}
         >
-          <Input id="update-title" placeholder={'请输入巡检路线id'} />
+          <InputNumber id="update-title" placeholder={'请输入巡检路线id'} />
         </FormItem>
         <FormItem id="plan" label="飞行计划时间">
           <RangePicker onChange={onChange} />
@@ -91,7 +91,7 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
           label="巡检路线id"
           rules={[{ required: true, message: '请输入巡检路线id!' }]}
         >
-          <Input id="update-title" placeholder={'请输入巡检路线id'} />
+          <InputNumber id="update-title" placeholder={'请输入巡检路线id'} />
         </FormItem>
       </>
     );

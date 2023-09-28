@@ -62,7 +62,7 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
     return (
       <>
         <FormItem name="id" label="主键" hidden>
-          <Input id="update-id" placeholder="请输入主键" />
+          <InputNumber id="update-id" placeholder="请输入主键" />
         </FormItem>
         <FormItem
           name="name"
@@ -76,14 +76,14 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
           label="无人机频段"
           rules={[{ required: true, message: '请输入无人机频段!' }]}
         >
-          <Input id="update-title" placeholder={'请输入无人机频段'} />
+          <InputNumber id="update-title" placeholder={'请输入无人机频段'} />
         </FormItem>
         <FormItem
           name="type"
           label="无人机频段类型"
           rules={[{ required: true, message: '请输入无人机频段类型!' }]}
         >
-          <Input id="update-title" placeholder={'请输入无人机频段类型'} />
+          <InputNumber id="update-title" placeholder={'请输入无人机频段类型'} />
         </FormItem>
       </>
     );

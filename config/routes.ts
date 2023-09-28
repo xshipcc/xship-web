@@ -133,7 +133,7 @@
         component: './drone/routePlan',
       },
       {
-        name: '无人机网络切换',
+        name: '无人机网络频段',
         icon: 'table',
         path: '/drone/network/list',
         component: './drone/network',
