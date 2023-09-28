@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { DatePicker, DatePickerProps, Form, Input, Modal, Select } from 'antd';
-import { ListUavPlanDataType } from '../data.d';
-import moment from 'moment';
+import { DatePicker, DatePickerProps, Form, Input, InputNumber, Modal, Select } from 'antd';
+import { ListUavNetworkDataType } from '../data.d';
 
 export interface UpdateFormProps {
   onCancel: () => void;
-  onSubmit: (values: ListUavPlanDataType) => void;
+  onSubmit: (values: ListUavNetworkDataType) => void;
   updateModalVisible: boolean;
-  values: Partial<ListUavPlanDataType>;
+  values: Partial<ListUavNetworkDataType>;
 }
-const { RangePicker } = DatePicker;
 
 const FormItem = Form.Item;
 
@@ -20,8 +18,9 @@ const formLayout = {
 
 const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
   const [form] = Form.useForm();
-  const { Option } = Select;
-  const [plan, setPlan] = useState<string[]>();
+
+  // const [startDate, setStartDate] = useState<string>('');
+  // const [endDate, setEndDate] = useState<string>('');
 
   const { onSubmit, onCancel, updateModalVisible, values } = props;
 
@@ -36,6 +35,8 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
       form.setFieldsValue({
         ...values,
       });
+      // setStartDate(values.startDate || '');
+      // setEndDate(values.endDate || '');
     }
   }, [props.values]);
 
@@ -46,17 +47,17 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
 
   const handleFinish = (item: { [key: string]: any }) => {
     if (onSubmit) {
-      onSubmit({ ...(item as ListUavPlanDataType), plan });
+      // onSubmit({ ...(item as ListUavNetworkDataType), startDate, endDate });
+      onSubmit({ ...(item as ListUavNetworkDataType) });
     }
   };
 
-  const onChange = (date: any, dateString: string[]) => {
-    // console.log('onChange -> dateString:', dateString);
-    // setStartDate(dateString[0]);
-    // setEndDate(dateString[1]);
-    setPlan(dateString);
-  };
-
+  // export interface ListUavNetworkDataType {
+  //   id: number;
+  //   name: string; // 频段名称
+  //   band: number; // 频段号
+  //   type: number; // 频段类型
+  // }
   const renderContent = () => {
     return (
       <>
@@ -64,28 +65,25 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
           <Input id="update-id" placeholder="请输入主键" />
         </FormItem>
         <FormItem
-          name="uad_id"
-          label="无人机id"
-          rules={[{ required: true, message: '请输入无人机id!' }]}
+          name="name"
+          label="频段名称"
+          rules={[{ required: true, message: '请输入频段名称!' }]}
         >
-          <Input id="update-title" placeholder={'请输入无人机名称'} />
+          <Input id="update-title" placeholder={'请输入频段名称'} />
         </FormItem>
         <FormItem
-          name="uad_icon"
-          label="巡检路线id"
-          rules={[{ required: true, message: '请输入巡检路线id!' }]}
+          name="band"
+          label="无人机频段"
+          rules={[{ required: true, message: '请输入无人机频段!' }]}
         >
-          <Input id="update-title" placeholder={'请输入巡检路线id'} />
-        </FormItem>
-        <FormItem id="plan" label="飞行计划时间">
-          <RangePicker onChange={onChange} />
+          <Input id="update-title" placeholder={'请输入无人机频段'} />
         </FormItem>
         <FormItem
-          name="fly_id"
-          label="巡检路线id"
-          rules={[{ required: true, message: '请输入巡检路线id!' }]}
+          name="type"
+          label="无人机频段类型"
+          rules={[{ required: true, message: '请输入无人机频段类型!' }]}
         >
-          <Input id="update-title" placeholder={'请输入巡检路线id'} />
+          <Input id="update-title" placeholder={'请输入无人机频段类型'} />
         </FormItem>
       </>
     );
@@ -97,7 +95,7 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
     <Modal
       forceRender
       destroyOnClose
-      title="修改巡检计划信息"
+      title="修改无人机频段信息"
       open={updateModalVisible}
       {...modalFooter}
     >

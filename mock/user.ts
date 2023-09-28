@@ -165,6 +165,13 @@ export default {
           parentId: 12,
           icon: '',
         },
+        {
+          id: 17,
+          path: '/drone/network/list',
+          name: '无人机网络管理',
+          parentId: 12,
+          icon: '',
+        },
       ],
     });
   },

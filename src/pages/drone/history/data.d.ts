@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-24 22:27:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-28 11:14:16
+ * @LastEditTime: 2023-09-28 14:44:30
  * @FilePath: \zero-admin-ui-master\src\pages\drone\history\data.d.ts
  * @Description:
  *
@@ -18,11 +18,11 @@
 //#region -------------------------------------------------------------------------
 
 export interface AddUavHistoryReqType {
-  uavId: number; // 无人机id
-  flyId: number; // 巡检路线id
+  uav_id: number; // 无人机id
+  fly_id: number; // 巡检路线id
   operator: string; // 操作者
-  createTime: string; // 创建时间
-  endTime: string; // 结束时间
+  create_time: string; // 创建时间
+  end_time: string; // 结束时间
 }
 
 export interface AddUavHistoryRespType {
@@ -34,19 +34,19 @@ export interface ListUavHistoryReqType {
   current?: number;
   pageSize?: number;
   operator?: string; // 操作者
-  createTime?: string; // 创建时间
-  endTime?: string; // 结束时间
-  uavId?: number; // 无人机id
-  flyId?: number; // 巡检路线id
+  create_time?: string; // 创建时间
+  end_time?: string; // 结束时间
+  uav_id?: number; // 无人机id
+  fly_id?: number; // 巡检路线id
 }
 
 export interface ListUavHistoryDataType {
   id: number;
-  uavId: number; // 无人机id
-  flyId: number; // 巡检路线id
+  uav_id: number; // 无人机id
+  fly_id: number; // 巡检路线id
   operator: string; // 操作者
-  createTime: string; // 创建时间
-  endTime: string; // 结束时间
+  create_time: string; // 创建时间
+  end_time: string; // 结束时间
 }
 
 export interface ListUavHistoryRespType {

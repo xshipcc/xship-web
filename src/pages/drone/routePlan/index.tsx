@@ -13,17 +13,8 @@ import ProDescriptions from '@ant-design/pro-descriptions';
 import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
 import CreateFlashForm from './components/CreateFlashForm';
 import UpdateFlashForm from './components/UpdateFlashForm';
-import type { FlashPromotionListItem } from './data.d';
-import {
-  queryFlashPromotion,
-  updateFlashPromotion,
-  addFlashPromotion,
-  removeFlashPromotion,
-  queryFly,
-  updateFly,
-  addFly,
-  removeFly,
-} from './service';
+import type { ListtUavFlyDataType, AddUavFlyReqType } from './data.d';
+import { updateFly, addFly, removeFly, queryFly } from './service';
 
 const { confirm } = Modal;
 
@@ -31,10 +22,10 @@ const { confirm } = Modal;
  * 添加节点
  * @param fields
  */
-const handleAdd = async (fields: FlashPromotionListItem) => {
+const handleAdd = async (fields: AddUavFlyReqType) => {
   const hide = message.loading('正在添加');
   try {
-    await addFlashPromotion({ ...fields });
+    await addFly({ ...fields });
     hide();
     message.success('添加成功');
     return true;
@@ -49,10 +40,10 @@ const handleAdd = async (fields: FlashPromotionListItem) => {
  * 更新节点
  * @param fields
  */
-const handleUpdate = async (fields: FlashPromotionListItem) => {
+const handleUpdate = async (fields: ListtUavFlyDataType) => {
   const hide = message.loading('正在更新');
   try {
-    await updateFlashPromotion(fields);
+    await updateFly(fields);
     hide();
 
     message.success('更新成功');
@@ -68,11 +59,11 @@ const handleUpdate = async (fields: FlashPromotionListItem) => {
  *  删除节点
  * @param selectedRows
  */
-const handleRemove = async (selectedRows: FlashPromotionListItem[]) => {
+const handleRemove = async (selectedRows: ListtUavFlyDataType[]) => {
   const hide = message.loading('正在删除');
   if (!selectedRows) return true;
   try {
-    await removeFlashPromotion({
+    await removeFly({
       ids: selectedRows.map((row) => row.id),
     });
     hide();
@@ -90,10 +81,10 @@ const FlashPromotionList: React.FC = () => {
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
   const [showDetail, setShowDetail] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
-  const [currentRow, setCurrentRow] = useState<FlashPromotionListItem>();
-  const [selectedRowsState, setSelectedRows] = useState<FlashPromotionListItem[]>([]);
+  const [currentRow, setCurrentRow] = useState<ListtUavFlyDataType>();
+  const [selectedRowsState, setSelectedRows] = useState<ListtUavFlyDataType[]>([]);
 
-  const showDeleteConfirm = (item: FlashPromotionListItem) => {
+  const showDeleteConfirm = (item: ListtUavFlyDataType) => {
     confirm({
       title: '是否删除记录?',
       icon: <ExclamationCircleOutlined />,
@@ -107,90 +98,14 @@ const FlashPromotionList: React.FC = () => {
     });
   };
 
-  // const columns: ProColumns<FlashPromotionListItem>[] = [
-  //   {
-  //     title: '编号',
-  //     dataIndex: 'id',
-  //     hideInSearch: true,
-  //   },
-  //   {
-  //     title: '活动标题',
-  //     dataIndex: 'title',
-  //     render: (dom, entity) => {
-  //       return (
-  //         <a
-  //           onClick={() => {
-  //             setCurrentRow(entity);
-  //             setShowDetail(true);
-  //           }}
-  //         >
-  //           {dom}
-  //         </a>
-  //       );
-  //     },
-  //   },
-  //   {
-  //     title: '开始日期',
-  //     dataIndex: 'startDate',
-  //     valueType: 'date',
-  //   },
-  //   {
-  //     title: '结束日期',
-  //     dataIndex: 'endDate',
-  //     valueType: 'date',
-  //   },
-  //   {
-  //     title: '上下线状态',
-  //     dataIndex: 'status',
-  //     valueEnum: {
-  //       0: { text: '禁用', status: 'Error' },
-  //       1: { text: '正常', status: 'Success' },
-  //     },
-  //   },
-  //   {
-  //     title: '创建时间',
-  //     dataIndex: 'createTime',
-  //     hideInSearch: true,
-  //   },
-  //   {
-  //     title: '操作',
-  //     dataIndex: 'option',
-  //     valueType: 'option',
-  //     render: (_, record) => (
-  //       <>
-  //         <Button
-  //           type="primary"
-  //           icon={<EditOutlined />}
-  //           onClick={() => {
-  //             handleUpdateModalVisible(true);
-  //             setCurrentRow(record);
-  //           }}
-  //         >
-  //           编辑
-  //         </Button>
-  //         <Divider type="vertical" />
-  //         <Button
-  //           type="primary"
-  //           danger
-  //           icon={<DeleteOutlined />}
-  //           onClick={() => {
-  //             showDeleteConfirm(record);
-  //           }}
-  //         >
-  //           删除
-  //         </Button>
-  //       </>
-  //     ),
-  //   },
-  // ];
-  interface ListtUavFlyDataType {
-    id: number;
-    name: string;
-    data: string;
-    createTime: string;
-    creator: string;
-  }
-  const columns: ProColumns<FlashPromotionListItem>[] = [
+  // interface ListtUavFlyDataType {
+  //   id: number;
+  //   name: string;
+  //   data: string;
+  //   create_time: string;
+  //   creator: string;
+  // }
+  const columns: ProColumns<ListtUavFlyDataType>[] = [
     {
       title: '航线编号',
       dataIndex: 'id',
@@ -207,7 +122,7 @@ const FlashPromotionList: React.FC = () => {
     },
     {
       title: '创建时间',
-      dataIndex: 'createTime',
+      dataIndex: 'create_time',
       hideInSearch: true,
     },
     {
@@ -247,7 +162,7 @@ const FlashPromotionList: React.FC = () => {
   ];
   return (
     <PageContainer>
-      <ProTable<FlashPromotionListItem>
+      <ProTable<ListtUavFlyDataType>
         headerTitle="航线列表"
         actionRef={actionRef}
         rowKey="id"
@@ -339,16 +254,16 @@ const FlashPromotionList: React.FC = () => {
         closable={false}
       >
         {currentRow?.id && (
-          <ProDescriptions<FlashPromotionListItem>
+          <ProDescriptions<ListtUavFlyDataType>
             column={2}
-            title={currentRow?.title}
+            title={currentRow?.name}
             request={async () => ({
               data: currentRow || {},
             })}
             params={{
               id: currentRow?.id,
             }}
-            columns={columns as ProDescriptionsItemProps<FlashPromotionListItem>[]}
+            columns={columns as ProDescriptionsItemProps<ListtUavFlyDataType>[]}
           />
         )}
       </Drawer>

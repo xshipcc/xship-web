@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { DatePicker, DatePickerProps, Form, Input, Modal, Select } from 'antd';
-import { FlashPromotionListItem } from '../data.d';
+import { UpdateUavFlyReqType } from '../data.d';
 import moment from 'moment';
 
 export interface UpdateFormProps {
   onCancel: () => void;
-  onSubmit: (values: FlashPromotionListItem) => void;
+  onSubmit: (values: UpdateUavFlyReqType) => void;
   updateModalVisible: boolean;
-  values: Partial<FlashPromotionListItem>;
+  values: Partial<UpdateUavFlyReqType>;
 }
 
 const FormItem = Form.Item;
@@ -19,10 +19,6 @@ const formLayout = {
 
 const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
   const [form] = Form.useForm();
-  const { Option } = Select;
-
-  const [startDate, setStartDate] = useState<string>('');
-  const [endDate, setEndDate] = useState<string>('');
 
   const { onSubmit, onCancel, updateModalVisible, values } = props;
 
@@ -37,8 +33,6 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
       form.setFieldsValue({
         ...values,
       });
-      setStartDate(values.startDate || '');
-      setEndDate(values.endDate || '');
     }
   }, [props.values]);
 
@@ -49,15 +43,8 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
 
   const handleFinish = (item: { [key: string]: any }) => {
     if (onSubmit) {
-      onSubmit({ ...(item as FlashPromotionListItem), startDate, endDate });
+      onSubmit({ ...(item as UpdateUavFlyReqType) });
     }
-  };
-
-  const onChangeStartDate: DatePickerProps['onChange'] = (date, dateString) => {
-    setStartDate(dateString);
-  };
-  const onChangeEndDate: DatePickerProps['onChange'] = (date, dateString) => {
-    setEndDate(dateString);
   };
 
   const renderContent = () => {
@@ -67,38 +54,28 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
           <Input id="update-id" placeholder="请输入主键" />
         </FormItem>
         <FormItem
-          name="title"
-          label="活动标题"
-          rules={[{ required: true, message: '请输入活动标题!' }]}
+          name="name"
+          label="航线名称"
+          rules={[{ required: true, message: '请输入航线名称!' }]}
         >
-          <Input id="update-title" placeholder={'请输入活动标题'} />
+          <Input id="update-title" placeholder={'请输入航线名称'} />
         </FormItem>
         <FormItem
-          // name="startDate"
-          label="开始日期"
+          name="data"
+          label="航线数据"
+          rules={[{ required: true, message: '请输入航线数据!' }]}
         >
-          <DatePicker
-            value={moment(startDate, 'YYYY-MM-DD')}
-            onChange={onChangeStartDate}
-            placeholder={'请输入开始日期'}
-          />
+          <Input id="update-title" placeholder={'请输入航线数据'} />
+        </FormItem>
+        <FormItem name="create_time" label="创建时间">
+          <DatePicker showTime />
         </FormItem>
         <FormItem
-          // name="endDate"
-          label="结束日期"
+          name="creator"
+          label="操作者"
+          rules={[{ required: true, message: '请输入操作者!' }]}
         >
-          <DatePicker
-            value={moment(endDate, 'YYYY-MM-DD')}
-            onChange={onChangeEndDate}
-            placeholder={'请输入结束日期'}
-          />
-        </FormItem>
-
-        <FormItem name="status" label="上下线状态">
-          <Select id="status" placeholder={'请选择状态'}>
-            <Option value={0}>停用</Option>
-            <Option value={1}>启用</Option>
-          </Select>
+          <Input id="update-title" placeholder={'请输入操作者'} />
         </FormItem>
       </>
     );
@@ -110,7 +87,7 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
     <Modal
       forceRender
       destroyOnClose
-      title="修改秒杀信息"
+      title="修改航线信息"
       open={updateModalVisible}
       {...modalFooter}
     >

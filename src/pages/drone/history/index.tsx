@@ -44,11 +44,11 @@ const FlashPromotionList: React.FC = () => {
 
   // interface ListUavHistoryDataType {
   //   id: number;
-  //   uavId: number; // 无人机id
-  //   flyId: number; // 巡检路线id
+  //   uav_id: number; // 无人机id
+  //   fly_id: number; // 巡检路线id
   //   operator: string; // 操作者
-  //   createTime: string; // 创建时间
-  //   endTime: string; // 结束时间
+  //   create_time: string; // 创建时间
+  //   end_time: string; // 结束时间
   // }
 
   const columns: ProColumns<ListUavHistoryDataType>[] = [
@@ -59,11 +59,11 @@ const FlashPromotionList: React.FC = () => {
     },
     {
       title: '无人机id',
-      dataIndex: 'uavId',
+      dataIndex: 'uav_id',
     },
     {
-      title: '巡检路线',
-      dataIndex: 'flyId',
+      title: '巡检路线id',
+      dataIndex: 'fly_id',
       render: (dom, entity) => {
         return (
           <a
@@ -83,12 +83,12 @@ const FlashPromotionList: React.FC = () => {
     },
     {
       title: '创建时间',
-      dataIndex: 'createTime',
+      dataIndex: 'create_time',
       valueType: 'dateTime',
     },
     {
       title: '结束时间',
-      dataIndex: 'endTime',
+      dataIndex: 'end_time',
       valueType: 'dateTime',
     },
   ];

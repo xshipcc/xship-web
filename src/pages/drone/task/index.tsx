@@ -13,14 +13,8 @@ import ProDescriptions from '@ant-design/pro-descriptions';
 import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
 import CreateFlashForm from './components/CreateFlashForm';
 import UpdateFlashForm from './components/UpdateFlashForm';
-import type { FlashPromotionListItem } from './data.d';
-import {
-  queryFlashPromotion,
-  updateFlashPromotion,
-  addFlashPromotion,
-  removeFlashPromotion,
-  queryPlan,
-} from './service';
+import type { ListUavPlanDataType, AddUavPlanReqType, UpdateUavPlanReqType } from './data.d';
+import { updatePlan, addPlan, removePlan, queryPlan } from './service';
 
 const { confirm } = Modal;
 
@@ -28,10 +22,11 @@ const { confirm } = Modal;
  * 添加节点
  * @param fields
  */
-const handleAdd = async (fields: FlashPromotionListItem) => {
+const handleAdd = async (fields: AddUavPlanReqType) => {
+  console.log('handleAdd -> fields:', fields);
   const hide = message.loading('正在添加');
   try {
-    await addFlashPromotion({ ...fields });
+    await addPlan({ ...fields });
     hide();
     message.success('添加成功');
     return true;
@@ -46,10 +41,10 @@ const handleAdd = async (fields: FlashPromotionListItem) => {
  * 更新节点
  * @param fields
  */
-const handleUpdate = async (fields: FlashPromotionListItem) => {
+const handleUpdate = async (fields: UpdateUavPlanReqType) => {
   const hide = message.loading('正在更新');
   try {
-    await updateFlashPromotion(fields);
+    await updatePlan(fields);
     hide();
 
     message.success('更新成功');
@@ -65,11 +60,11 @@ const handleUpdate = async (fields: FlashPromotionListItem) => {
  *  删除节点
  * @param selectedRows
  */
-const handleRemove = async (selectedRows: FlashPromotionListItem[]) => {
+const handleRemove = async (selectedRows: ListUavPlanDataType[]) => {
   const hide = message.loading('正在删除');
   if (!selectedRows) return true;
   try {
-    await removeFlashPromotion({
+    await removePlan({
       ids: selectedRows.map((row) => row.id),
     });
     hide();
@@ -87,10 +82,10 @@ const FlashPromotionList: React.FC = () => {
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
   const [showDetail, setShowDetail] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
-  const [currentRow, setCurrentRow] = useState<FlashPromotionListItem>();
-  const [selectedRowsState, setSelectedRows] = useState<FlashPromotionListItem[]>([]);
+  const [currentRow, setCurrentRow] = useState<ListUavPlanDataType>();
+  const [selectedRowsState, setSelectedRows] = useState<ListUavPlanDataType[]>([]);
 
-  const showDeleteConfirm = (item: FlashPromotionListItem) => {
+  const showDeleteConfirm = (item: ListUavPlanDataType) => {
     confirm({
       title: '是否删除记录?',
       icon: <ExclamationCircleOutlined />,
@@ -104,91 +99,14 @@ const FlashPromotionList: React.FC = () => {
     });
   };
 
-  // const columns: ProColumns<FlashPromotionListItem>[] = [
-  //   {
-  //     title: '编号',
-  //     dataIndex: 'id',
-  //     hideInSearch: true,
-  //   },
-  //   {
-  //     title: '活动标题',
-  //     dataIndex: 'title',
-  //     render: (dom, entity) => {
-  //       return (
-  //         <a
-  //           onClick={() => {
-  //             setCurrentRow(entity);
-  //             setShowDetail(true);
-  //           }}
-  //         >
-  //           {dom}
-  //         </a>
-  //       );
-  //     },
-  //   },
-  //   {
-  //     title: '开始日期',
-  //     dataIndex: 'startDate',
-  //     valueType: 'date',
-  //   },
-  //   {
-  //     title: '结束日期',
-  //     dataIndex: 'endDate',
-  //     valueType: 'date',
-  //   },
-  //   {
-  //     title: '上下线状态',
-  //     dataIndex: 'status',
-  //     valueEnum: {
-  //       0: { text: '禁用', status: 'Error' },
-  //       1: { text: '正常', status: 'Success' },
-  //     },
-  //   },
-  //   {
-  //     title: '创建时间',
-  //     dataIndex: 'createTime',
-  //     hideInSearch: true,
-  //   },
-  //   {
-  //     title: '操作',
-  //     dataIndex: 'option',
-  //     valueType: 'option',
-  //     render: (_, record) => (
-  //       <>
-  //         <Button
-  //           type="primary"
-  //           icon={<EditOutlined />}
-  //           onClick={() => {
-  //             handleUpdateModalVisible(true);
-  //             setCurrentRow(record);
-  //           }}
-  //         >
-  //           编辑
-  //         </Button>
-  //         <Divider type="vertical" />
-  //         <Button
-  //           type="primary"
-  //           danger
-  //           icon={<DeleteOutlined />}
-  //           onClick={() => {
-  //             showDeleteConfirm(record);
-  //           }}
-  //         >
-  //           删除
-  //         </Button>
-  //       </>
-  //     ),
-  //   },
-  // ];
-  interface ListUavPlanDataType {
-    id: number;
-    uav_id: number; // 无人机ID
-    uav_icon: number; // 无人机 icon
-    plan: string; // 飞行计划时间
-    fly_id: number; // 巡检路线id
-  }
-
-  const columns: ProColumns<FlashPromotionListItem>[] = [
+  // interface ListUavPlanDataType {
+  //   id: number;
+  //   uad_id: number; // 无人机ID
+  //   uad_icon: number; // 无人机 icon
+  //   plan: string; // 飞行计划时间
+  //   fly_id: number; // 巡检路线id
+  // }
+  const columns: ProColumns<ListUavPlanDataType>[] = [
     {
       title: '编号',
       dataIndex: 'id',
@@ -196,11 +114,11 @@ const FlashPromotionList: React.FC = () => {
     },
     {
       title: '无人机id',
-      dataIndex: 'uav_id',
+      dataIndex: 'uad_id',
     },
     {
       title: '无人机图片',
-      dataIndex: 'uav_icon',
+      dataIndex: 'uad_icon',
       valueType: 'image',
       fieldProps: { width: 100, height: 80 },
       hideInSearch: true,
@@ -246,8 +164,8 @@ const FlashPromotionList: React.FC = () => {
   ];
   return (
     <PageContainer>
-      <ProTable<FlashPromotionListItem>
-        headerTitle="秒杀列表"
+      <ProTable<ListUavPlanDataType>
+        headerTitle="巡检任务"
         actionRef={actionRef}
         rowKey="id"
         search={{
@@ -255,7 +173,7 @@ const FlashPromotionList: React.FC = () => {
         }}
         toolBarRender={() => [
           <Button type="primary" onClick={() => handleModalVisible(true)}>
-            <PlusOutlined /> 新建秒杀列表
+            <PlusOutlined /> 新建巡检任务
           </Button>,
         ]}
         request={queryPlan}
@@ -338,16 +256,16 @@ const FlashPromotionList: React.FC = () => {
         closable={false}
       >
         {currentRow?.id && (
-          <ProDescriptions<FlashPromotionListItem>
+          <ProDescriptions<ListUavPlanDataType>
             column={2}
-            title={currentRow?.title}
+            title={currentRow?.fly_id}
             request={async () => ({
               data: currentRow || {},
             })}
             params={{
               id: currentRow?.id,
             }}
-            columns={columns as ProDescriptionsItemProps<FlashPromotionListItem>[]}
+            columns={columns as ProDescriptionsItemProps<ListUavPlanDataType>[]}
           />
         )}
       </Drawer>

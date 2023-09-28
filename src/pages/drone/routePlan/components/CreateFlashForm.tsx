@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Input, Modal, Select, DatePicker } from 'antd';
-import type { FlashPromotionListItem } from '../data.d';
+import type { AddUavFlyReqType } from '../data.d';
 
 export interface CreateFormProps {
   onCancel: () => void;
-  onSubmit: (values: FlashPromotionListItem) => void;
+  onSubmit: (values: AddUavFlyReqType) => void;
   createModalVisible: boolean;
 }
 
@@ -19,10 +19,6 @@ const formLayout = {
 
 const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
   const [form] = Form.useForm();
-  const { Option } = Select;
-
-  const [startDate, setStartDate] = useState<string>('');
-  const [endDate, setEndDate] = useState<string>('');
 
   const { onSubmit, onCancel, createModalVisible } = props;
 
@@ -37,36 +33,45 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
     form.submit();
   };
 
-  const handleFinish = (values: FlashPromotionListItem) => {
+  const handleFinish = (values: AddUavFlyReqType) => {
     if (onSubmit) {
-      onSubmit({ ...values, startDate, endDate });
+      onSubmit({ ...values });
     }
   };
 
-  const onChange = (date: any, dateString: string[]) => {
-    setStartDate(dateString[0]);
-    setEndDate(dateString[1]);
-  };
   //
-
+  // export interface AddUavFlyReqType {
+  //   name: string;
+  //   data: string;
+  //   create_time: string;
+  //   creator: string;
+  // }
   const renderContent = () => {
     return (
       <>
         <FormItem
-          name="title"
-          label="活动标题"
-          rules={[{ required: true, message: '请输入活动标题!' }]}
+          name="name"
+          label="航线名称"
+          rules={[{ required: true, message: '请输入航线名称!' }]}
         >
-          <Input id="update-title" placeholder={'请输入活动标题'} />
+          <Input id="update-title" placeholder={'请输入航线名称'} />
         </FormItem>
-        <FormItem name="rangeDate" label="活动日期">
-          <RangePicker onChange={onChange} />
+        <FormItem
+          name="data"
+          label="航线数据"
+          rules={[{ required: true, message: '请输入航线数据!' }]}
+        >
+          <Input id="update-title" placeholder={'请输入航线数据'} />
         </FormItem>
-        <FormItem name="status" label="上下线状态" initialValue={1}>
-          <Select id="status" placeholder={'请选择状态'}>
-            <Option value={0}>停用</Option>
-            <Option value={1}>启用</Option>
-          </Select>
+        <FormItem name="create_time" label="创建时间">
+          <DatePicker showTime />
+        </FormItem>
+        <FormItem
+          name="creator"
+          label="操作者"
+          rules={[{ required: true, message: '请输入操作者!' }]}
+        >
+          <Input id="update-title" placeholder={'请输入操作者'} />
         </FormItem>
       </>
     );
@@ -75,13 +80,7 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
   const modalFooter = { okText: '保存', onOk: handleSubmit, onCancel };
 
   return (
-    <Modal
-      forceRender
-      destroyOnClose
-      title="新建秒杀信息"
-      open={createModalVisible}
-      {...modalFooter}
-    >
+    <Modal forceRender destroyOnClose title="新建航线" open={createModalVisible} {...modalFooter}>
       <Form {...formLayout} form={form} onFinish={handleFinish}>
         {renderContent()}
       </Form>

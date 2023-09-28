@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { DatePicker, DatePickerProps, Form, Input, InputNumber, Modal, Select } from 'antd';
-import { FlashPromotionListItem, UpdateUavDeviceReqType } from '../data.d';
-import moment from 'moment';
+import React, { useEffect } from 'react';
+import { Form, Input, InputNumber, Modal } from 'antd';
+import type { UpdateUavDeviceReqType } from '../data.d';
 // interface UpdateUavDeviceReqType {
 //   id: number;
 //   name: string;
@@ -65,8 +64,8 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
   //   name: string;
   //   ip: string;
   //   port: number;
-  //   hangarIp: string;
-  //   hangarPort: number;
+  //   hangar_ip: string;
+  //   hangar_port: number;
   // }
   const renderContent = () => {
     return (
@@ -96,14 +95,14 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
           <InputNumber placeholder={'请输入端口号'} />
         </FormItem>
         <FormItem
-          name="hangarIp"
+          name="hangar_ip"
           label="机库ip地址"
           rules={[{ required: true, message: '请输入机库ip地址!' }]}
         >
           <Input id="update-title" placeholder={'请输入机库ip地址'} />
         </FormItem>
         <FormItem
-          name="hangarPort"
+          name="hangar_port"
           label="无人机ip地址"
           rules={[{ required: true, message: '请输入无人机ip地址!' }]}
         >
@@ -119,7 +118,7 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
     <Modal
       forceRender
       destroyOnClose
-      title="修改秒杀信息"
+      title="修改无人机信息"
       open={updateModalVisible}
       {...modalFooter}
     >

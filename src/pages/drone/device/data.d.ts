@@ -16,8 +16,8 @@ export interface ListUavDeviceData {
   name: string;
   ip: string;
   port: number;
-  hangarIp: string;
-  hangarPort: number;
+  hangar_ip: string;
+  hangar_port: number;
 }
 
 export interface ListUavDeviceRespType {
@@ -34,8 +34,8 @@ export interface AddUavDeviceReqType {
   name: string;
   ip: string;
   port: number;
-  hangarIp: string;
-  hangarPort: number;
+  hangar_ip: string;
+  hangar_port: number;
 }
 
 export interface AddUavDeviceRespType {
@@ -49,8 +49,8 @@ export interface UpdateUavDeviceReqType {
   name: string;
   ip: string;
   port: number;
-  hangarIp: string;
-  hangarPort: number;
+  hangar_ip: string;
+  hangar_port: number;
 }
 
 export interface UpdateUavDeviceRespType {

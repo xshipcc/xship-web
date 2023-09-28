@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-24 18:10:03
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-28 08:21:56
+ * @LastEditTime: 2023-09-28 16:21:44
  * @FilePath: \zero-admin-ui-master\src\pages\drone\device\components\CreateFlashForm.tsx
  * @Description:
  *
@@ -51,17 +51,13 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
     }
   };
 
-  // const onChange = (date: any, dateString: string[]) => {
-  //   setStartDate(dateString[0]);
-  //   setEndDate(dateString[1]);
-  // };
   //
   // interface AddUavDeviceReqType {
   //   name: string;
   //   ip: string;
   //   port: number;
-  //   hangarIp: string;
-  //   hangarPort: number;
+  //   hangar_ip: string;
+  //   hangar_port: number;
   // }
   const renderContent = () => {
     return (
@@ -88,14 +84,14 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
           <InputNumber placeholder={'请输入端口号'} />
         </FormItem>
         <FormItem
-          name="hangarIp"
+          name="hangar_ip"
           label="机库ip地址"
           rules={[{ required: true, message: '请输入机库ip地址!' }]}
         >
           <Input id="update-title" placeholder={'请输入机库ip地址'} />
         </FormItem>
         <FormItem
-          name="hangarPort"
+          name="hangar_port"
           label="无人机ip地址"
           rules={[{ required: true, message: '请输入无人机ip地址!' }]}
         >

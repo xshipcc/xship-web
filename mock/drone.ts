@@ -304,7 +304,7 @@ export default {
           uav_icon:
             'http://macro-oss.oss-cn-shenzhen.aliyuncs.com/mall/images/20180607/timg(5).jpg',
           plan: '@time("HH:mm:ss")',
-          fly_id: '@integer(1, 100)',
+          flyId: '@integer(1, 100)',
         },
       ],
       current: 1,

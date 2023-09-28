@@ -1,5 +1,11 @@
 import { request } from 'umi';
-import { FlashPromotionListParams, FlashPromotionListItem } from './data.d';
+import {
+  FlashPromotionListParams,
+  FlashPromotionListItem,
+  AddUavPlanReqType,
+  UpdateUavPlanReqType,
+  ListUavPlanReqType,
+} from './data.d';
 
 export async function queryFlashPromotion(params: FlashPromotionListParams) {
   if (params.status != null) {
@@ -48,10 +54,7 @@ export async function updateFlashPromotion(params: FlashPromotionListItem) {
  */
 //#region -------------------------------------------------------------------------
 
-export async function queryPlan(params: FlashPromotionListParams) {
-  if (params.status != null) {
-    params.status = Number(params.status);
-  }
+export async function queryPlan(params: ListUavPlanReqType) {
   return request('/api/uav/plan/list', {
     method: 'POST',
     data: {
@@ -69,7 +72,7 @@ export async function removePlan(params: { ids: number[] }) {
   });
 }
 
-export async function addPlan(params: FlashPromotionListItem) {
+export async function addPlan(params: AddUavPlanReqType) {
   return request('/api/uav/plan/add', {
     method: 'POST',
     data: {
@@ -78,7 +81,7 @@ export async function addPlan(params: FlashPromotionListItem) {
   });
 }
 
-export async function updatePlan(params: FlashPromotionListItem) {
+export async function updatePlan(params: UpdateUavPlanReqType) {
   return request('/api/uav/plan/update', {
     method: 'POST',
     data: {

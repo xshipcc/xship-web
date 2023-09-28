@@ -14,19 +14,19 @@ import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
 import CreateFlashForm from './components/CreateFlashForm';
 import UpdateFlashForm from './components/UpdateFlashForm';
 
-import type { ListUavDeviceData, AddUavDeviceReqType } from './data.d';
+import type { ListUavNetworkDataType, AddUavNetworkReqType } from './data.d';
 
-import { addDevice, queryDevice, removeDevice, updateDevice } from './service';
+import { addNetwork, queryNetwork, removeNetwork, updateNetwork } from './service';
 
 const { confirm } = Modal;
 /**
  * 添加节点
  * @param fields
  */
-const handleAdd = async (fields: AddUavDeviceReqType) => {
+const handleAdd = async (fields: AddUavNetworkReqType) => {
   const hide = message.loading('正在添加');
   try {
-    // const demodata = await addDevice({
+    // const demodata = await addNetwork({
     //   name: 'test',
     //   ip: '192.1.1.1',
     //   port: 111,
@@ -35,7 +35,7 @@ const handleAdd = async (fields: AddUavDeviceReqType) => {
     // });
     // console.log('handleAdd -> demodata:', demodata);
 
-    await addDevice({ ...fields });
+    await addNetwork({ ...fields });
     hide();
     message.success('添加成功');
     return true;
@@ -50,11 +50,11 @@ const handleAdd = async (fields: AddUavDeviceReqType) => {
  * 更新节点
  * @param fields
  */
-const handleUpdate = async (fields: ListUavDeviceData) => {
+const handleUpdate = async (fields: ListUavNetworkDataType) => {
   console.log('handleUpdate -> fields:', fields);
   const hide = message.loading('正在更新');
   try {
-    await updateDevice(fields);
+    await updateNetwork(fields);
     hide();
 
     message.success('更新成功');
@@ -66,29 +66,15 @@ const handleUpdate = async (fields: ListUavDeviceData) => {
   }
 };
 
-// const queryDeviceData = async () => {
-//   try {
-//     const response = await queryDevice({ pageSize: 10, current: 1 });
-//     console.log('queryDeviceData -> response:', response);
-
-//     message.success('更新成功');
-//     return true;
-//   } catch (error) {
-//     message.error('更新失败请重试！');
-//     return false;
-//   }
-// };
-
-// queryDeviceData();
 /**
  *  删除节点
  * @param selectedRows
  */
-const handleRemove = async (selectedRows: ListUavDeviceData[]) => {
+const handleRemove = async (selectedRows: ListUavNetworkDataType[]) => {
   const hide = message.loading('正在删除');
   if (!selectedRows) return true;
   try {
-    await removeDevice({
+    await removeNetwork({
       ids: selectedRows.map((row) => row.id),
     });
     hide();
@@ -106,12 +92,12 @@ const FlashPromotionList: React.FC = () => {
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
   const [showDetail, setShowDetail] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
-  const [currentRow, setCurrentRow] = useState<ListUavDeviceData>();
-  const [selectedRowsState, setSelectedRows] = useState<ListUavDeviceData[]>([]);
+  const [currentRow, setCurrentRow] = useState<ListUavNetworkDataType>();
+  const [selectedRowsState, setSelectedRows] = useState<ListUavNetworkDataType[]>([]);
 
-  // queryDevice();
+  // queryNetwork();
 
-  const showDeleteConfirm = (item: ListUavDeviceData) => {
+  const showDeleteConfirm = (item: ListUavNetworkDataType) => {
     confirm({
       title: '是否删除记录?',
       icon: <ExclamationCircleOutlined />,
@@ -125,30 +111,29 @@ const FlashPromotionList: React.FC = () => {
     });
   };
 
-  const columns: ProColumns<ListUavDeviceData>[] = [
+  // interface ListtUavNetworkDataType {
+  //   id: number;
+  //   name: string; // 频段名称
+  //   band: number; // 频段号
+  //   type: number; // 频段类型
+  // }
+  const columns: ProColumns<ListUavNetworkDataType>[] = [
     {
       title: '主键',
       dataIndex: 'id',
       hideInSearch: true,
     },
     {
-      title: '名称',
+      title: '频段名称',
       dataIndex: 'name',
     },
     {
-      title: '无人机id',
-      dataIndex: 'ip',
+      title: '频段号',
+      dataIndex: 'band',
     },
     {
-      title: '端口',
-      dataIndex: 'port',
-    },
-    {
-      title: '无人机库ip',
-    },
-    {
-      title: '无人机库端口',
-      dataIndex: 'hangar_port',
+      title: '频段类型',
+      dataIndex: 'type',
     },
     {
       title: '操作',
@@ -184,8 +169,8 @@ const FlashPromotionList: React.FC = () => {
 
   return (
     <PageContainer>
-      <ProTable<ListUavDeviceData>
-        headerTitle="无人机列表"
+      <ProTable<ListUavNetworkDataType>
+        headerTitle="无人机网络频段列表"
         actionRef={actionRef}
         rowKey="id"
         search={{
@@ -193,10 +178,10 @@ const FlashPromotionList: React.FC = () => {
         }}
         toolBarRender={() => [
           <Button type="primary" onClick={() => handleModalVisible(true)}>
-            <PlusOutlined /> 新建无人机列表
+            <PlusOutlined /> 新建网络频段
           </Button>,
         ]}
-        request={queryDevice}
+        request={queryNetwork}
         columns={columns}
         rowSelection={{
           onChange: (_, selectedRows) => setSelectedRows(selectedRows),
@@ -266,30 +251,6 @@ const FlashPromotionList: React.FC = () => {
         updateModalVisible={updateModalVisible}
         values={currentRow || {}}
       />
-
-      <Drawer
-        width={600}
-        visible={showDetail}
-        onClose={() => {
-          setCurrentRow(undefined);
-          setShowDetail(false);
-        }}
-        closable={false}
-      >
-        {currentRow?.id && (
-          <ProDescriptions<ListUavDeviceData>
-            column={2}
-            title={currentRow?.hangar_port}
-            request={async () => ({
-              data: currentRow || {},
-            })}
-            params={{
-              id: currentRow?.id,
-            }}
-            columns={columns as ProDescriptionsItemProps<ListUavDeviceData>[]}
-          />
-        )}
-      </Drawer>
     </PageContainer>
   );
 };
