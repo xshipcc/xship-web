@@ -9,53 +9,7 @@
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
 import { request } from 'umi';
-import type {
-  FlashPromotionListParams,
-  FlashPromotionListItem,
-  ListUavDeviceReqType,
-  ListUavDeviceData,
-  UpdateUavDeviceReqType,
-  AddUavDeviceReqType,
-} from './data.d';
-
-export async function queryFlashPromotion(params: FlashPromotionListParams) {
-  if (params.status != null) {
-    params.status = Number(params.status);
-  }
-  return request('/api/sms/flashpromotion/list', {
-    method: 'POST',
-    data: {
-      ...params,
-    },
-  });
-}
-
-export async function addFlashPromotion(params: FlashPromotionListItem) {
-  return request('/api/sms/flashpromotion/add', {
-    method: 'POST',
-    data: {
-      ...params,
-    },
-  });
-}
-
-export async function updateFlashPromotion(params: FlashPromotionListItem) {
-  return request('/api/sms/flashpromotion/update', {
-    method: 'POST',
-    data: {
-      ...params,
-    },
-  });
-}
-
-export async function removeFlashPromotion(params: { ids: number[] }) {
-  return request('/api/sms/flashpromotion/delete', {
-    method: 'POST',
-    data: {
-      ...params,
-    },
-  });
-}
+import type { ListUavDeviceReqType, UpdateUavDeviceReqType, AddUavDeviceReqType } from './data.d';
 
 /**
  *  @file service.ts

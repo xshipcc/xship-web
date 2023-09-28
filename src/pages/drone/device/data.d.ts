@@ -1,29 +1,3 @@
-export interface FlashPromotionListItem {
-  id: number;
-  title: string;
-  startDate: string;
-  endDate: string;
-}
-
-export interface FlashPromotionListPagination {
-  total: number;
-  pageSize: number;
-  current: number;
-}
-
-export interface FlashPromotionListData {
-  list: FlashPromotionListItem[];
-  pagination: Partial<FlashPromotionListPagination>;
-}
-
-export interface FlashPromotionListParams {
-  title?: string;
-  status?: number;
-  pageSize?: number;
-  currentPage?: number;
-  filter?: { [key: string]: any[] };
-  sorter?: { [key: string]: any };
-}
 /**
  *  @file data.d.ts
  *  @time 2023/09/27
@@ -32,12 +6,12 @@ export interface FlashPromotionListParams {
  */
 //#region -------------------------------------------------------------------------
 // 查询
-interface ListUavDeviceReqType {
+export interface ListUavDeviceReqType {
   current?: number;
   pageSize?: number;
 }
 
-interface ListUavDeviceData {
+export interface ListUavDeviceData {
   id: number;
   name: string;
   ip: string;
@@ -46,7 +20,7 @@ interface ListUavDeviceData {
   hangarPort: number;
 }
 
-interface ListUavDeviceRespType {
+export interface ListUavDeviceRespType {
   code: string;
   message: string;
   current: number;
@@ -56,7 +30,7 @@ interface ListUavDeviceRespType {
   total: number;
 }
 // 添加
-interface AddUavDeviceReqType {
+export interface AddUavDeviceReqType {
   name: string;
   ip: string;
   port: number;
@@ -64,13 +38,13 @@ interface AddUavDeviceReqType {
   hangarPort: number;
 }
 
-interface AddUavDeviceRespType {
+export interface AddUavDeviceRespType {
   code: string;
   message: string;
 }
 
 // 更新
-interface UpdateUavDeviceReqType {
+export interface UpdateUavDeviceReqType {
   id: number;
   name: string;
   ip: string;
@@ -79,16 +53,16 @@ interface UpdateUavDeviceReqType {
   hangarPort: number;
 }
 
-interface UpdateUavDeviceRespType {
+export interface UpdateUavDeviceRespType {
   code: string;
   message: string;
 }
 
-interface DeleteUavDeviceReqType {
+export interface DeleteUavDeviceReqType {
   ids: number[];
 }
 
-interface DeleteUavDeviceRespType {
+export interface DeleteUavDeviceRespType {
   code: string;
   message: string;
 }

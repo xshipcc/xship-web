@@ -2,38 +2,13 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-24 22:27:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-27 12:01:13
+ * @LastEditTime: 2023-09-28 11:14:16
  * @FilePath: \zero-admin-ui-master\src\pages\drone\history\data.d.ts
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
-export interface FlashPromotionListItem {
-  id: number;
-  title: string;
-  startDate: string;
-  endDate: string;
-}
 
-export interface FlashPromotionListPagination {
-  total: number;
-  pageSize: number;
-  current: number;
-}
-
-export interface FlashPromotionListData {
-  list: FlashPromotionListItem[];
-  pagination: Partial<FlashPromotionListPagination>;
-}
-
-export interface FlashPromotionListParams {
-  title?: string;
-  status?: number;
-  pageSize?: number;
-  currentPage?: number;
-  filter?: { [key: string]: any[] };
-  sorter?: { [key: string]: any };
-}
 /**
  *  @file data.d.ts
  *  @time 2023/09/27
@@ -42,39 +17,39 @@ export interface FlashPromotionListParams {
  */
 //#region -------------------------------------------------------------------------
 
-interface AddUavHistoryReqType {
-  uav_id: number; // 无人机id
-  fly_id: number; // 巡检路线id
+export interface AddUavHistoryReqType {
+  uavId: number; // 无人机id
+  flyId: number; // 巡检路线id
   operator: string; // 操作者
-  create_time: string; // 创建时间
-  end_time: string; // 结束时间
+  createTime: string; // 创建时间
+  endTime: string; // 结束时间
 }
 
-interface AddUavHistoryRespType {
+export interface AddUavHistoryRespType {
   code: string;
   message: string;
 }
 
-interface ListUavHistoryReqType {
+export interface ListUavHistoryReqType {
   current?: number;
   pageSize?: number;
-  create_time?: string; // 创建时间
-  end_time?: string; // 结束时间
   operator?: string; // 操作者
-  uav_id?: number; // 无人机id
-  fly_id?: number; // 巡检路线id
+  createTime?: string; // 创建时间
+  endTime?: string; // 结束时间
+  uavId?: number; // 无人机id
+  flyId?: number; // 巡检路线id
 }
 
-interface ListUavHistoryDataType {
+export interface ListUavHistoryDataType {
   id: number;
-  uav_id: number; // 无人机id
-  fly_id: number; // 巡检路线id
+  uavId: number; // 无人机id
+  flyId: number; // 巡检路线id
   operator: string; // 操作者
-  create_time: string; // 创建时间
-  end_time: string; // 结束时间
+  createTime: string; // 创建时间
+  endTime: string; // 结束时间
 }
 
-interface ListUavHistoryRespType {
+export interface ListUavHistoryRespType {
   current: number;
   data: ListUavHistoryDataType[];
   pageSize: number;

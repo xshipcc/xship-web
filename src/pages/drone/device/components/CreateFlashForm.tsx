@@ -9,8 +9,8 @@
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
 import React, { useEffect, useState } from 'react';
-import { Form, Input, Modal, Select, DatePicker, InputNumber } from 'antd';
-import type { AddUavDeviceReqType, FlashPromotionListItem } from '../data.d';
+import { Form, Input, Modal, InputNumber } from 'antd';
+import type { AddUavDeviceReqType } from '../data.d';
 
 export interface CreateFormProps {
   onCancel: () => void;
@@ -20,8 +20,6 @@ export interface CreateFormProps {
 
 const FormItem = Form.Item;
 
-const { RangePicker } = DatePicker;
-
 const formLayout = {
   labelCol: { span: 7 },
   wrapperCol: { span: 13 },
@@ -29,7 +27,6 @@ const formLayout = {
 
 const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
   const [form] = Form.useForm();
-  const { Option } = Select;
 
   // const [startDate, setStartDate] = useState<string>('');
   // const [endDate, setEndDate] = useState<string>('');

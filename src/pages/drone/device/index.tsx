@@ -13,18 +13,10 @@ import ProDescriptions from '@ant-design/pro-descriptions';
 import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
 import CreateFlashForm from './components/CreateFlashForm';
 import UpdateFlashForm from './components/UpdateFlashForm';
-import type { FlashPromotionListItem, ListUavDeviceData } from './data.d';
-import {
-  queryFlashPromotion,
-  updateFlashPromotion,
-  addDevice,
-  queryDevice,
-  removeDevice,
-  updateDevice,
-  addFlashPromotion,
-  AddUavDeviceReqType,
-  removeFlashPromotion,
-} from './service';
+
+import type { ListUavDeviceData, AddUavDeviceReqType } from './data.d';
+
+import { addDevice, queryDevice, removeDevice, updateDevice } from './service';
 
 const { confirm } = Modal;
 /**
@@ -346,6 +338,7 @@ const FlashPromotionList: React.FC = () => {
       <UpdateFlashForm
         key={'UpdateFlashForm'}
         onSubmit={async (value) => {
+          console.log('onSubmit={ -> value:', value);
           const success = await handleUpdate(value);
           if (success) {
             handleUpdateModalVisible(false);
