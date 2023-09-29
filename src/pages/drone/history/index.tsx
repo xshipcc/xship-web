@@ -12,7 +12,11 @@ import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProDescriptions from '@ant-design/pro-descriptions';
 import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
 import CreateFlashForm from './components/CreateFlashForm';
-import type { ListUavHistoryDataType, AddUavHistoryReqType } from './data.d';
+import type {
+  ListUavHistoryDataType,
+  AddUavHistoryReqType,
+  ListUavHistoryRespType,
+} from './data.d';
 import { queryHistory, addHistory } from './service';
 
 const { confirm } = Modal;
@@ -119,11 +123,13 @@ const FlashPromotionList: React.FC = () => {
             uav_id: params?.uav_id ? params.uav_id : -1,
             fly_id: params?.fly_id ? params.fly_id : -1,
           };
-          const res: any = await queryHistory(data);
+          const res: ListUavHistoryRespType = await queryHistory(data);
           return {
-            data: res.data.data,
-            success: res?.code === 1,
-            total: +res.data.total,
+            data: res.data,
+            pageSize: res.pageSize,
+            current: 1,
+            total: +res.total,
+            success: res.success,
           };
         }}
         columns={columns}

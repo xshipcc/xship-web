@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { Form, Input, InputNumber, Modal, Select } from 'antd';
-import type { BrandListItem } from '../data.d';
+import type { UpdateAlertHistoryReqType } from '../data.d';
 
 export interface UpdateFormProps {
   onCancel: () => void;
-  onSubmit: (values: BrandListItem) => void;
+  onSubmit: (values: UpdateAlertHistoryReqType) => void;
   updateModalVisible: boolean;
-  values: Partial<BrandListItem>;
+  values: Partial<UpdateAlertHistoryReqType>;
 }
 const FormItem = Form.Item;
 
@@ -41,30 +41,20 @@ const UpdateBrandForm: React.FC<UpdateFormProps> = (props) => {
 
   const handleFinish = (item: { [key: string]: any }) => {
     if (onSubmit) {
-      onSubmit(item as BrandListItem);
+      onSubmit(item as UpdateAlertHistoryReqType);
     }
   };
 
   const renderContent = () => {
     return (
       <>
-        <FormItem name="id" label="id" hidden>
+        {/* <FormItem name="id" label="id" hidden>
           <Input id="update-id" />
-        </FormItem>
-        <FormItem name="name" label="品牌名" rules={[{ required: true, message: '请输入品牌名!' }]}>
-          <Input id="update-name" placeholder={'请输入品牌名'} />
-        </FormItem>
-        <FormItem
-          name="firstLetter"
-          label="首字母"
-          rules={[{ required: true, message: '请输入首字母!' }]}
-        >
-          <Input id="update-firstLetter" placeholder={'请输入首字母'} />
-        </FormItem>
-        <FormItem name="sort" label="排序" rules={[{ required: true, message: '请输入排序!' }]}>
+        </FormItem> */}
+        <FormItem name="id" label="编号" rules={[{ required: true, message: '请输入排序!' }]}>
           <InputNumber />
         </FormItem>
-        <FormItem
+        {/* <FormItem
           name="factoryStatus"
           label="是否为品牌制造商"
           rules={[{ required: true, message: '请输入品牌制造商!' }]}
@@ -118,7 +108,7 @@ const UpdateBrandForm: React.FC<UpdateFormProps> = (props) => {
           rules={[{ required: true, message: '请输入品牌故事!' }]}
         >
           <Input.TextArea rows={2} placeholder={'请输入品牌故事'} />
-        </FormItem>
+        </FormItem> */}
       </>
     );
   };
@@ -126,7 +116,13 @@ const UpdateBrandForm: React.FC<UpdateFormProps> = (props) => {
   const modalFooter = { okText: '保存', onOk: handleSubmit, onCancel };
 
   return (
-    <Modal forceRender destroyOnClose title="修改品牌" open={updateModalVisible} {...modalFooter}>
+    <Modal
+      forceRender
+      destroyOnClose
+      title="更新告警信息"
+      open={updateModalVisible}
+      {...modalFooter}
+    >
       <Form {...formLayout} form={form} onFinish={handleFinish}>
         {renderContent()}
       </Form>

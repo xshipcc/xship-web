@@ -10,39 +10,24 @@ import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProDescriptions, { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
-import CreateBrandForm from './components/CreateBrandForm';
 import UpdateBrandForm from './components/UpdateBrandForm';
-import type { BrandListItem } from './data.d';
-import { queryBrand, updateBrand, addBrand, removeBrand } from './service';
+import type {
+  ListAlertHistoryRespType,
+  ListtAlertHistoryData,
+  UpdateAlertHistoryReqType,
+} from './data.d';
+import { queryAlert, upadtaAlert } from './service';
 
 const { confirm } = Modal;
-
-/**
- * 添加节点
- * @param fields
- */
-const handleAdd = async (fields: BrandListItem) => {
-  const hide = message.loading('正在添加');
-  try {
-    await addBrand({ ...fields });
-    hide();
-    message.success('添加成功');
-    return true;
-  } catch (error) {
-    hide();
-    message.error('添加失败请重试！');
-    return false;
-  }
-};
 
 /**
  * 更新节点
  * @param fields
  */
-const handleUpdate = async (fields: BrandListItem) => {
+const handleUpdate = async (fields: UpdateAlertHistoryReqType) => {
   const hide = message.loading('正在更新');
   try {
-    await updateBrand(fields);
+    await upadtaAlert(fields);
     hide();
 
     message.success('更新成功');
@@ -54,113 +39,111 @@ const handleUpdate = async (fields: BrandListItem) => {
   }
 };
 
-/**
- *  删除节点
- * @param selectedRows
- */
-const handleRemove = async (selectedRows: BrandListItem[]) => {
-  const hide = message.loading('正在删除');
-  if (!selectedRows) return true;
-  try {
-    await removeBrand({
-      ids: selectedRows.map((row) => row.id),
-    });
-    hide();
-    message.success('删除成功，即将刷新');
-    return true;
-  } catch (error) {
-    hide();
-    message.error('删除失败，请重试');
-    return false;
-  }
-};
-
 const TableList: React.FC = () => {
-  const [createModalVisible, handleModalVisible] = useState<boolean>(false);
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
   const [showDetail, setShowDetail] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
-  const [currentRow, setCurrentRow] = useState<BrandListItem>();
-  const [selectedRowsState, setSelectedRows] = useState<BrandListItem[]>([]);
+  const [currentRow, setCurrentRow] = useState<ListtAlertHistoryData>();
+  const [selectedRowsState, setSelectedRows] = useState<ListtAlertHistoryData[]>([]);
 
-  const showDeleteConfirm = (item: BrandListItem) => {
-    confirm({
-      title: '是否删除记录?',
-      icon: <ExclamationCircleOutlined />,
-      content: '删除的记录不能恢复,请确认!',
-      onOk() {
-        handleRemove([item]).then((r) => {
-          actionRef.current?.reloadAndRest?.();
-        });
-      },
-      onCancel() {},
-    });
-  };
-
-  const columns: ProColumns<BrandListItem>[] = [
+  // interface ListtAlertHistoryData {
+  //   id: number;
+  //   name: string;
+  //   image: string;
+  //   type: number;
+  //   code: string;
+  //   level: number;
+  //   count: number;
+  //   platform: number;
+  //   start_time: string;
+  //   end_time: string;
+  //   note: string;
+  //   confirm: number;
+  // }
+  //   type: number;
+  //   start_time: string;
+  //   end_time: string;
+  //   platform: number;
+  //   confirm: number;
+  const columns: ProColumns<ListtAlertHistoryData>[] = [
     {
       title: '编号',
       dataIndex: 'id',
       hideInSearch: true,
     },
     {
-      title: '品牌名',
+      title: '报警标题',
       dataIndex: 'name',
-      render: (dom, entity) => {
-        return (
-          <a
-            onClick={() => {
-              setCurrentRow(entity);
-              setShowDetail(true);
-            }}
-          >
-            {dom}
-          </a>
-        );
-      },
-    },
-    {
-      title: '首字母',
-      dataIndex: 'firstLetter',
       hideInSearch: true,
     },
     {
-      title: '排序',
-      dataIndex: 'sort',
-      hideInSearch: true,
-    },
-    {
-      title: '是否为品牌制造商',
-      dataIndex: 'factoryStatus',
-      valueEnum: {
-        0: { text: '否', status: 'Error' },
-        1: { text: '是', status: 'Success' },
-      },
-    },
-    {
-      title: '是否显示',
-      dataIndex: 'showStatus',
-      valueEnum: {
-        0: { text: '否', status: 'Error' },
-        1: { text: '是', status: 'Success' },
-      },
-    },
-    {
-      title: '产品数量',
-      dataIndex: 'productCount',
-      hideInSearch: true,
-    },
-    {
-      title: '产品评论数量',
-      dataIndex: 'productCommentCount',
-      hideInSearch: true,
-    },
-    {
-      title: '品牌logo',
-      dataIndex: 'logo',
+      title: '报警截图',
+      dataIndex: 'image',
       valueType: 'image',
       fieldProps: { width: 100, height: 80 },
       hideInSearch: true,
+    },
+    {
+      title: '消息类型',
+      dataIndex: 'type',
+      valueEnum: {
+        0: { text: '发现人员', color: '#282c34' },
+        1: { text: '车辆', color: '#4d78cc' },
+        2: { text: '入侵', color: '#d4504d' },
+        3: { text: '烟火', color: '#8b8d8a' },
+      },
+    },
+    {
+      title: '系统分类二级类别',
+      dataIndex: 'code',
+      hideInSearch: true,
+    },
+    {
+      title: '报警等级',
+      dataIndex: 'level',
+      hideInSearch: true,
+    },
+
+    {
+      title: '报警数量',
+      dataIndex: 'count',
+      hideInSearch: true,
+    },
+    {
+      title: '报警平台',
+      dataIndex: 'platform',
+      valueEnum: {
+        0: { text: '全部', color: '#98c379' },
+        1: { text: '飞机', color: '#2b394b' },
+        2: { text: '摄像头', color: '#c678dd' },
+        3: { text: '机库', color: '#b3a794' },
+        4: { text: 'AI', color: '#4d78cc' },
+      },
+    },
+    {
+      title: '创建时间',
+      dataIndex: 'start_time',
+      valueType: 'dateTime',
+    },
+    {
+      title: '结束时间',
+      dataIndex: 'end_time',
+      valueType: 'dateTime',
+    },
+    {
+      title: '备注',
+      dataIndex: 'note',
+      hideInSearch: true,
+    },
+
+    {
+      title: '报警确认',
+      valueEnum: {
+        0: { text: '是', color: '#00ff00' },
+        1: { text: '否', color: '#ff0000' },
+      },
+      hideInSearch: true,
+      dataIndex: 'confirm',
     },
     {
       title: '操作',
@@ -178,17 +161,6 @@ const TableList: React.FC = () => {
           >
             编辑
           </Button>
-          <Divider type="vertical" />
-          <Button
-            type="primary"
-            danger
-            icon={<DeleteOutlined />}
-            onClick={() => {
-              showDeleteConfirm(record);
-            }}
-          >
-            删除
-          </Button>
         </>
       ),
     },
@@ -196,66 +168,50 @@ const TableList: React.FC = () => {
 
   return (
     <PageContainer>
-      <ProTable<BrandListItem>
-        headerTitle="品牌列表"
+      <ProTable<ListtAlertHistoryData>
+        headerTitle="告警列表"
         actionRef={actionRef}
         rowKey="id"
         search={{
           labelWidth: 120,
         }}
         toolBarRender={() => [
-          <Button type="primary" onClick={() => handleModalVisible(true)}>
-            <PlusOutlined /> 新建品牌
-          </Button>,
+          // <Button type="primary" onClick={() => handleModalVisible(true)}>
+          //   <PlusOutlined /> 新建品牌
+          // </Button>,
         ]}
-        request={queryBrand}
-        columns={columns}
-        rowSelection={{
-          onChange: (_, selectedRows) => setSelectedRows(selectedRows),
+        request={async (params: any = {}, sort, filter) => {
+          console.log('request={ -> params:', params);
+          // interface ListAlertHistoryReq {
+          //   current?: number;
+          //   pageSize?: number;
+          //   type: number;
+          //   start_time: string;
+          //   end_time: string;
+          //   platform: number;
+          //   confirm: number;
+          // }
+          const data = {
+            ...params,
+            type: params?.type ? params.type : -1,
+            start_time: params?.start_time ? params.start_time : '',
+            end_time: params?.end_time ? params.end_time : '',
+            platform: params?.uav_id ? params.uav_id : -1,
+            confirm: params?.fly_id ? params.fly_id : -1,
+          };
+          const res: ListAlertHistoryRespType = await queryAlert(data);
+          // {data: [], pageSize: 10, current: 1, total:28, success: true,}
+          return {
+            data: res.data,
+            pageSize: res.pageSize,
+            current: 1,
+            total: +res.total,
+            success: res.success,
+          };
         }}
+        columns={columns}
         pagination={{ pageSize: 10 }}
       />
-      {selectedRowsState?.length > 0 && (
-        <FooterToolbar
-          extra={
-            <div>
-              已选择 <a style={{ fontWeight: 600 }}>{selectedRowsState.length}</a> 项&nbsp;&nbsp;
-            </div>
-          }
-        >
-          <Button
-            onClick={async () => {
-              await handleRemove(selectedRowsState);
-              setSelectedRows([]);
-              actionRef.current?.reloadAndRest?.();
-            }}
-          >
-            批量删除
-          </Button>
-        </FooterToolbar>
-      )}
-
-      <CreateBrandForm
-        key={'CreateBrandForm'}
-        onSubmit={async (value) => {
-          const success = await handleAdd(value);
-          if (success) {
-            handleModalVisible(false);
-            setCurrentRow(undefined);
-            if (actionRef.current) {
-              actionRef.current.reload();
-            }
-          }
-        }}
-        onCancel={() => {
-          handleModalVisible(false);
-          if (!showDetail) {
-            setCurrentRow(undefined);
-          }
-        }}
-        createModalVisible={createModalVisible}
-      />
-
       <UpdateBrandForm
         key={'UpdateBrandForm'}
         onSubmit={async (value) => {
@@ -287,7 +243,7 @@ const TableList: React.FC = () => {
         closable={false}
       >
         {currentRow?.id && (
-          <ProDescriptions<BrandListItem>
+          <ProDescriptions<ListtAlertHistoryData>
             column={2}
             title={currentRow?.id}
             request={async () => ({
@@ -296,7 +252,7 @@ const TableList: React.FC = () => {
             params={{
               id: currentRow?.id,
             }}
-            columns={columns as ProDescriptionsItemProps<BrandListItem>[]}
+            columns={columns as ProDescriptionsItemProps<ListtAlertHistoryData>[]}
           />
         )}
       </Drawer>

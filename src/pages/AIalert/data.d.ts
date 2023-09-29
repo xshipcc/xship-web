@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 15:20:21
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-27 15:34:59
+ * @LastEditTime: 2023-09-29 17:26:47
  * @FilePath: \zero-admin-ui-master\src\pages\AIalert\data.d.ts
  * @Description:
  *
@@ -39,13 +39,14 @@ export interface BrandListParams {
  * @function :
  */
 //#region -------------------------------------------------------------------------
-
+//  type     '消息类型:0-发现人员 1-車輛 2-入侵 3-烟火 4-',
+// platform '使用平台：0-全部 1-飞机 2-摄像头;3-机库;4-AI',
 interface ListAlertHistoryReq {
-  current: number;
-  pageSize: number;
+  current?: number;
+  pageSize?: number;
   type: number;
-  starttime: string;
-  endtime: string;
+  start_time: string;
+  end_time: string;
   platform: number;
   confirm: number;
 }
@@ -59,8 +60,8 @@ interface ListtAlertHistoryData {
   level: number;
   count: number;
   platform: number;
-  starttime: string;
-  endtime: string;
+  start_time: string;
+  end_time: string;
   note: string;
   confirm: number;
 }

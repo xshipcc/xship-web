@@ -1,5 +1,10 @@
 import { request } from 'umi';
-import { BrandListParams, BrandListItem } from './data.d';
+import {
+  BrandListParams,
+  BrandListItem,
+  UpdateAlertHistoryReqType,
+  ListAlertHistoryReq,
+} from './data.d';
 
 export async function queryBrand(params: BrandListParams) {
   if (params.factoryStatus != null) {
@@ -49,14 +54,8 @@ export async function updateBrand(params: BrandListItem) {
  */
 //#region -------------------------------------------------------------------------
 
-export async function queryAlert(params: BrandListParams) {
-  if (params.factoryStatus != null) {
-    params.factoryStatus = Number(params.factoryStatus);
-  }
-  if (params.showStatus != null) {
-    params.showStatus = Number(params.showStatus);
-  }
-  return request('/api/mmq/Alert/list', {
+export async function queryAlert(params: ListAlertHistoryReq) {
+  return request('/api/uav/alert/list', {
     method: 'POST',
     data: {
       ...params,
@@ -64,26 +63,8 @@ export async function queryAlert(params: BrandListParams) {
   });
 }
 
-export async function removeAlert(params: { ids: number[] }) {
-  return request('/api/mmq/Alert/delete', {
-    method: 'POST',
-    data: {
-      ...params,
-    },
-  });
-}
-
-export async function addAlert(params: BrandListItem) {
-  return request('/api/mmq/Alert/add', {
-    method: 'POST',
-    data: {
-      ...params,
-    },
-  });
-}
-
-export async function upadtaAlert(params: BrandListItem) {
-  return request('/api/mmq/Alert/update', {
+export async function upadtaAlert(params: UpdateAlertHistoryReqType) {
+  return request('/api/uav/alert/update', {
     method: 'POST',
     data: {
       ...params,

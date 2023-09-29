@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-19 16:30:18
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-27 17:35:09
+ * @LastEditTime: 2023-09-29 18:19:23
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\alertList\index.tsx
  * @Description:
  *
@@ -240,17 +240,6 @@ const AlertList: React.FC<AlertListType> = (props: AlertListType) => {
   const onClose = () => {
     setOpen(false);
   };
-  const containerStyle: React.CSSProperties = {
-    position: 'absolute',
-    width: 231,
-    padding: 0,
-    overflow: 'hidden',
-    textAlign: 'center',
-    // backgroundColor: 'rgba(7, 19, 28, 0.605)',
-    // border: '2px solid',
-    // borderRadius: '0.1vh',
-    // borderImage: 'linear-gradient(to bottom, rgb(10, 22, 33), rgb(38, 96, 118)) 1',
-  };
 
   //#endregion -----------------------------------------------------------------------
   /**
@@ -259,22 +248,24 @@ const AlertList: React.FC<AlertListType> = (props: AlertListType) => {
   return (
     // <></>
     <List className={styles.lists} bordered={false} split={false}>
-      <Drawer
-        style={containerStyle}
-        title={' 无人机巡检告警'}
-        placement="center"
-        closable={false}
-        onClose={onClose}
-        open={open}
-        getContainer={false}
-      >
-        <p>
-          <Button type="text" onClick={onClose}>
-            返回
-          </Button>
-          详情列表
-        </p>
-      </Drawer>
+      <div className={styles.drawercontent}>
+        <Drawer
+          title={' 无人机巡检告警'}
+          placement="center"
+          closable={false}
+          onClose={onClose}
+          className={styles.drawer}
+          open={open}
+          getContainer={false}
+        >
+          <p>
+            <Button type="text" onClick={onClose}>
+              返回
+            </Button>
+            详情列表
+          </p>
+        </Drawer>
+      </div>
       <VirtualList data={data} height={containerHeight} itemHeight={1} itemKey="id">
         {(item: AlertType) => (
           <List.Item key={item.id} className={styles.listItem} onClick={showDrawer}>
