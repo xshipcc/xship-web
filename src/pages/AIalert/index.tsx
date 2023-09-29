@@ -60,11 +60,6 @@ const TableList: React.FC = () => {
   //   note: string;
   //   confirm: number;
   // }
-  //   type: number;
-  //   start_time: string;
-  //   end_time: string;
-  //   platform: number;
-  //   confirm: number;
   const columns: ProColumns<ListtAlertHistoryData>[] = [
     {
       title: '编号',
@@ -102,11 +97,13 @@ const TableList: React.FC = () => {
       title: '报警等级',
       dataIndex: 'level',
       hideInSearch: true,
+      valueType: 'digit',
     },
 
     {
       title: '报警数量',
       dataIndex: 'count',
+      valueType: 'digit',
       hideInSearch: true,
     },
     {
