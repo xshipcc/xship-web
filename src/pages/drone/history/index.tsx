@@ -60,10 +60,12 @@ const FlashPromotionList: React.FC = () => {
     {
       title: '无人机id',
       dataIndex: 'uav_id',
+      valueType: 'digit',
     },
     {
       title: '巡检路线id',
       dataIndex: 'fly_id',
+      valueType: 'digit',
       render: (dom, entity) => {
         return (
           <a
@@ -107,7 +109,23 @@ const FlashPromotionList: React.FC = () => {
             <PlusOutlined /> 新建巡检历史
           </Button>,
         ]}
-        request={queryHistory}
+        request={async (params: any = {}, sort, filter) => {
+          console.log('request={ -> params:', params);
+          const data = {
+            ...params,
+            create_time: params?.create_time ? params.create_time : '',
+            end_time: params?.end_time ? params.end_time : '',
+            operator: params?.operator ? params.operator : '',
+            uav_id: params?.uav_id ? params.uav_id : -1,
+            fly_id: params?.fly_id ? params.fly_id : -1,
+          };
+          const res: any = await queryHistory(data);
+          return {
+            data: res.data.data,
+            success: res?.code === 1,
+            total: +res.data.total,
+          };
+        }}
         columns={columns}
         pagination={{ pageSize: 10 }}
       />

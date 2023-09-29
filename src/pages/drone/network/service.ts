@@ -24,7 +24,7 @@ import type {
 //#region -------------------------------------------------------------------------
 
 export async function queryNetwork(params: ListUavNetworkReqType) {
-  return request('/api/uav/Network/list', {
+  return request('/api/uav/network/list', {
     method: 'POST',
     data: {
       ...params,
@@ -33,7 +33,7 @@ export async function queryNetwork(params: ListUavNetworkReqType) {
 }
 
 export async function updateNetwork(params: UpdateUavNetworkReqType) {
-  return request('/api/uav/Network/update', {
+  return request('/api/uav/network/update', {
     method: 'POST',
     data: {
       ...params,
@@ -42,7 +42,7 @@ export async function updateNetwork(params: UpdateUavNetworkReqType) {
 }
 export async function addNetwork(params: AddUavNetworkReqType) {
   console.log('addNetwork -> params:', params);
-  return request('/api/uav/Network/add', {
+  return request('/api/uav/network/add', {
     method: 'POST',
     data: {
       ...params,
@@ -50,7 +50,7 @@ export async function addNetwork(params: AddUavNetworkReqType) {
   });
 }
 export async function removeNetwork(params: { ids: number[] }) {
-  return request('/api/uav/Network/delete', {
+  return request('/api/uav/network/delete', {
     method: 'POST',
     data: {
       ...params,
