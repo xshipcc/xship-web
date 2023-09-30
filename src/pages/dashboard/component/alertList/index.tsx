@@ -2,13 +2,13 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-19 16:30:18
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-30 09:44:12
+ * @LastEditTime: 2023-09-30 12:10:21
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\alertList\index.tsx
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
-import { Col, Row } from 'antd';
+import { Col, Radio, RadioChangeEvent, Row, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 import styles from './index.less';
 import VirtualList from 'rc-virtual-list';
@@ -17,7 +17,7 @@ import { io } from 'socket.io-client';
 import type { SocketType } from './socket';
 import { useSelector, useDispatch, useModel } from 'umi';
 import { Button, Drawer, Divider, Image } from 'antd';
-import { queryAlert } from '@/pages/AIalert/service';
+import { queryAlert, upadtaAlert } from '@/pages/AIalert/service';
 import type { ListAlertHistoryData } from '@/pages/AIalert/data';
 const socket: SocketType = io('ws://ai.javodata.com:8883/mqtt ');
 
@@ -78,7 +78,7 @@ const AlertList: React.FC<AlertListType> = (props: AlertListType) => {
     code: '',
     level: 0,
     count: 0,
-    platform: 1,
+    platform: 0,
     start_time: '',
     end_time: '',
     note: '',
@@ -290,25 +290,44 @@ const AlertList: React.FC<AlertListType> = (props: AlertListType) => {
 
   const [open, setOpen] = useState(false);
 
-  const showDrawer = (item: ListAlertHistoryData) => {
-    setdrawerData(item);
-    setOpen(true);
-  };
-
   const onClose = () => {
     setOpen(false);
   };
+  // 单选框
 
+  const onChange = (e: RadioChangeEvent) => {
+    console.log('radio checked', e.target.value);
+    setdrawerData({
+      ...drawerData,
+      confirm: e.target.value,
+    });
+    console.log('onChange -> drawerData:', drawerData);
+  };
   //#endregion -----------------------------------------------------------------------
   /**
    * @end
    */
+  // id: number;
+  // name: string;
+  // image: string;
+  // type: number;
+  // code: string;
+  // level: number;
+  // count: number;
+  // platform: number;
+  // start_time: string;
+  // end_time: string;
+  // note: string;
+  // lan: number;
+  // lon: number;
+  // altitude: number;
+  // confirm: number;
   return (
     // <></>
     <List className={styles.lists} bordered={false} split={false}>
       <div className={styles.drawercontent}>
         <Drawer
-          title={' 无人机巡检告警'}
+          title={drawerData.name}
           // @ts-ignore
           placement="center"
           closable={false}
@@ -324,26 +343,23 @@ const AlertList: React.FC<AlertListType> = (props: AlertListType) => {
           <Divider style={{ color: 'white' }}>告警列表详情</Divider>
           <Row>
             <Col span={9} className={styles.alertInfoTitle}>
-              报警标题:
-            </Col>
-            <Col span={15} className={styles.alertInfo}>
-              {drawerData.name}
-            </Col>
-          </Row>
-          <Row>
-            <Col span={9} className={styles.alertInfoTitle}>
               报警类型:
             </Col>
             <Col span={15} className={styles.alertInfo}>
-              {drawerData.type}
-            </Col>
-          </Row>
-          <Row>
-            <Col span={9} className={styles.alertInfoTitle}>
-              报警内容:
-            </Col>
-            <Col span={15} className={styles.alertInfo}>
-              {drawerData.name}
+              <Radio.Group value={drawerData.type}>
+                <Radio style={{ color: 'white' }} value={0}>
+                  发现人员
+                </Radio>
+                <Radio style={{ color: 'white' }} value={1}>
+                  发现车辆
+                </Radio>
+                <Radio style={{ color: 'white' }} value={2}>
+                  发现入侵
+                </Radio>
+                <Radio style={{ color: 'white' }} value={3}>
+                  发现烟火
+                </Radio>
+              </Radio.Group>
             </Col>
           </Row>
           <Row>
@@ -380,18 +396,10 @@ const AlertList: React.FC<AlertListType> = (props: AlertListType) => {
           </Row>
           <Row>
             <Col span={9} className={styles.alertInfoTitle}>
-              开始时间:
+              发生时间:
             </Col>
             <Col span={15} className={styles.alertInfo}>
               {drawerData.start_time}
-            </Col>
-          </Row>
-          <Row>
-            <Col span={9} className={styles.alertInfoTitle}>
-              结束时间:
-            </Col>
-            <Col span={15} className={styles.alertInfo}>
-              {drawerData.end_time}
             </Col>
           </Row>
           <Row>
@@ -404,18 +412,77 @@ const AlertList: React.FC<AlertListType> = (props: AlertListType) => {
           </Row>
           <Row>
             <Col span={9} className={styles.alertInfoTitle}>
+              报警平台:
+            </Col>
+            <Col span={15} className={styles.alertInfo}>
+              <Radio.Group value={drawerData.platform}>
+                <Radio style={{ color: 'white' }} value={0}>
+                  全部
+                </Radio>
+                <Radio style={{ color: 'white' }} value={1}>
+                  飞机
+                </Radio>
+                <Radio style={{ color: 'white' }} value={2}>
+                  摄像头
+                </Radio>
+                <Radio style={{ color: 'white' }} value={3}>
+                  机库
+                </Radio>
+                <Radio style={{ color: 'white' }} value={4}>
+                  AI
+                </Radio>
+              </Radio.Group>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={9} className={styles.alertInfoTitle}>
               报警确认:
             </Col>
             <Col span={15} className={styles.alertInfo}>
-              {drawerData.platform}
+              <Radio.Group onChange={onChange} value={drawerData.confirm}>
+                <Radio style={{ color: 'white' }} value={1}>
+                  是
+                </Radio>
+                <Radio style={{ color: 'red' }} value={0}>
+                  否
+                </Radio>
+              </Radio.Group>
+              {/* {drawerData.platform} */}
             </Col>
           </Row>
-          <Button type="text" onClick={onClose}>
-            返回
-          </Button>
-          <Button type="text" onClick={onClose}>
-            确认修改
-          </Button>
+          <Row>
+            <Col span={8}>
+              <Button
+                type="primary"
+                onClick={() => {
+                  setOpen(false);
+                }}
+              >
+                返回
+              </Button>
+            </Col>
+            <Col span={8} offset={8}>
+              <Button
+                type="primary"
+                onClick={async () => {
+                  {
+                    const hide = message.loading('正在更新');
+                    try {
+                      await upadtaAlert({ confirm: drawerData.confirm, id: drawerData.id });
+                      message.success('更新成功');
+                      return true;
+                    } catch (error) {
+                      hide();
+                      message.error('更新失败请重试！');
+                      return false;
+                    }
+                  }
+                }}
+              >
+                确认修改
+              </Button>
+            </Col>
+          </Row>
         </Drawer>
       </div>
       <VirtualList data={data} height={containerHeight} itemHeight={1} itemKey="id">

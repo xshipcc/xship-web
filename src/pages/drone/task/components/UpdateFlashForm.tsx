@@ -1,7 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { DatePicker, DatePickerProps, Form, Input, InputNumber, Modal, Select } from 'antd';
+import {
+  Button,
+  DatePicker,
+  DatePickerProps,
+  Form,
+  Input,
+  InputNumber,
+  Modal,
+  Select,
+  Upload,
+} from 'antd';
 import { ListUavPlanDataType } from '../data.d';
 import moment from 'moment';
+import Cron from 'react-cron-antd';
+import { PlusOutlined } from '@ant-design/icons';
 
 export interface UpdateFormProps {
   onCancel: () => void;
@@ -21,7 +33,8 @@ const formLayout = {
 const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
   const [form] = Form.useForm();
   const { Option } = Select;
-  const [plan, setPlan] = useState<string[]>();
+  const [plan, setPlan] = useState<string>();
+  const [CronVisible, handleCronVisible] = useState<boolean>(false);
 
   const { onSubmit, onCancel, updateModalVisible, values } = props;
 
@@ -49,17 +62,16 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
       onSubmit({ ...(item as ListUavPlanDataType), plan });
     }
   };
-
-  const onChange = (date: any, dateString: string[]) => {
-    // console.log('onChange -> dateString:', dateString);
-    // setStartDate(dateString[0]);
-    // setEndDate(dateString[1]);
-    setPlan(dateString);
+  const normFile = (e: any) => {
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e?.fileList;
   };
   // interface UpdateUavPlanReqType {
   //   id: number;
-  //   uad_id: number; // 无人机ID
-  //   uad_icon: number; // 无人机 icon
+  //   uav_id: number; // 无人机ID
+  //   uav_icon: number; // 无人机 icon
   //   plan: string[] | undefined; // 飞行计划时间
   //   fly_id: number; // 巡检路线id
   // }
@@ -70,21 +82,41 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
           <InputNumber id="update-id" placeholder="请输入主键" />
         </FormItem>
         <FormItem
-          name="uad_id"
+          name="uav_id"
           label="无人机id"
           rules={[{ required: true, message: '请输入无人机id!' }]}
         >
           <InputNumber id="update-title" placeholder={'请输入无人机名称'} />
         </FormItem>
-        <FormItem
-          name="uad_icon"
-          label="巡检路线id"
-          rules={[{ required: true, message: '请输入巡检路线id!' }]}
+        {/* <FormItem
+          name="uav_icon"
+          label="无人机图片"
+          rules={[{ required: true, message: '请输入无人机图片!' }]}
         >
-          <InputNumber id="update-title" placeholder={'请输入巡检路线id'} />
+          <Input id="update-title" placeholder={'请输入无人机图片'} />
+        </FormItem> */}
+        <FormItem label="无人机图片" name="uav_icon" getValueFromEvent={normFile}>
+          <Upload action="/upload.do" listType="picture-card">
+            <div>
+              <PlusOutlined />
+              <div style={{ marginTop: 8 }}>上传</div>
+            </div>
+          </Upload>
         </FormItem>
         <FormItem id="plan" label="飞行计划时间">
-          <RangePicker onChange={onChange} />
+          {/* <RangePicker onChange={onChange} /> */}
+          <Button type="primary" onClick={() => handleCronVisible(true)}>
+            {CronVisible ? plan + '' : '选择计划时间'}
+          </Button>
+          <Cron
+            style={{ display: CronVisible ? 'block' : 'none', width: '370px' }}
+            value="* * * * * ? *"
+            onOk={(value) => {
+              console.log('cron:', value);
+              setPlan(value);
+              handleCronVisible(false);
+            }}
+          />
         </FormItem>
         <FormItem
           name="fly_id"

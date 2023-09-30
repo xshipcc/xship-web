@@ -54,6 +54,16 @@ const UpdateBrandForm: React.FC<UpdateFormProps> = (props) => {
         <FormItem name="id" label="编号" rules={[{ required: true, message: '请输入排序!' }]}>
           <InputNumber />
         </FormItem>
+        <FormItem
+          name="showStatus"
+          label="是否确认"
+          rules={[{ required: true, message: '请输入是否确认!' }]}
+        >
+          <Select id="showStatus">
+            <Select.Option value={0}>否</Select.Option>
+            <Select.Option value={1}>是</Select.Option>
+          </Select>
+        </FormItem>
         {/* <FormItem
           name="factoryStatus"
           label="是否为品牌制造商"

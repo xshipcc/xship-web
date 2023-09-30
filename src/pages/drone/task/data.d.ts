@@ -44,9 +44,9 @@ export interface FlashPromotionListParams {
 //#region -------------------------------------------------------------------------
 // 添加
 interface AddUavPlanReqType {
-  uad_id: number; // 无人机ID
-  uad_icon: number; // 无人机 icon
-  plan: string[] | undefined; // 飞行计划时间
+  uav_id: number; // 无人机ID
+  uav_icon: number; // 无人机 icon
+  plan: string | undefined; // 飞行计划时间
   fly_id: number; // 巡检路线id
 }
 
@@ -61,9 +61,9 @@ interface ListUavPlanReqType {
 }
 interface ListUavPlanDataType {
   id: number;
-  uad_id: number; // 无人机ID
-  uad_icon: number; // 无人机 icon
-  plan: string[] | undefined; // 飞行计划时间
+  uav_id: number; // 无人机ID
+  uav_icon: number; // 无人机 icon
+  plan: string | undefined; // 飞行计划时间
   fly_id: number; // 巡检路线id
 }
 interface ListUavPlanRespType {
@@ -78,9 +78,9 @@ interface ListUavPlanRespType {
 // 更新
 interface UpdateUavPlanReqType {
   id: number;
-  uad_id: number; // 无人机ID
-  uad_icon: number; // 无人机 icon
-  plan: string[] | undefined; // 飞行计划时间
+  uav_id: number; // 无人机ID
+  uav_icon: number; // 无人机 icon
+  plan: string | undefined; // 飞行计划时间
   fly_id: number; // 巡检路线id
 }
 

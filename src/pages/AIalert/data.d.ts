@@ -81,6 +81,7 @@ interface ListAlertHistoryRespType {
 
 interface UpdateAlertHistoryReqType {
   id: number;
+  confirm: number;
 }
 
 interface UpdateAlertHistoryRespType {

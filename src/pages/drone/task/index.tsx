@@ -101,8 +101,8 @@ const FlashPromotionList: React.FC = () => {
 
   // interface ListUavPlanDataType {
   //   id: number;
-  //   uad_id: number; // 无人机ID
-  //   uad_icon: number; // 无人机 icon
+  //   uav_id: number; // 无人机ID
+  //   uav_icon: number; // 无人机 icon
   //   plan: string; // 飞行计划时间
   //   fly_id: number; // 巡检路线id
   // }
@@ -114,11 +114,11 @@ const FlashPromotionList: React.FC = () => {
     },
     {
       title: '无人机id',
-      dataIndex: 'uad_id',
+      dataIndex: 'uav_id',
     },
     {
       title: '无人机图片',
-      dataIndex: 'uad_icon',
+      dataIndex: 'uav_icon',
       valueType: 'image',
       fieldProps: { width: 100, height: 80 },
       hideInSearch: true,
