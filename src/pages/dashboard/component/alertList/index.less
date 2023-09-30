@@ -37,22 +37,72 @@
       background-color: rgb(11, 35, 51);
       border-radius: 0.04vh;
       cursor: pointer;
-      .alert {
-        width: 2.5vh;
-        height: 2.5vh;
-        margin-top: 0.8vh;
-        // margin-left: 1vh;
-        background-image: url('../../../../assets/dashboard/alert.png');
-        background-repeat: no-repeat; //不重复
-        background-size: 100% 100%; // 满屏1
-        cursor: pointer;
+      // .alert {
+      //   width: 2.5vh;
+      //   height: 2.5vh;
+      //   margin-top: 0.8vh;
+      //   // margin-left: 1vh;
+      //   background-image: url('../../../../assets/dashboard/alert.png');
+      //   background-repeat: no-repeat; //不重复
+      //   background-size: 100% 100%; // 满屏1
+      //   cursor: pointer;
+      // }
+      // .alerttext {
+      //   margin-top: 0.2vh;
+      //   color: rgb(255, 255, 255);
+      //   // font-weight: bold;
+      //   font-size: 2vh;
+      //   text-align: left; /* 设置文本水平对齐方式为居中 */
+      // }
+      .alertImage {
+        // margin-top: 0.2vh;
+        // color: rgb(255, 255, 255);
+        // // font-weight: bold;
+        // font-size: 2vh;
+        // text-align: left; /* 设置文本水平对齐方式为居中 */
       }
-      .alerttext {
-        margin-top: 0.2vh;
-        color: rgb(255, 255, 255);
+      .alertcontent {
+        width: 100%;
+        margin: 0%;
+        // margin-top: 0.2vh;
+        padding: 0%;
         // font-weight: bold;
-        font-size: 2vh;
-        text-align: left; /* 设置文本水平对齐方式为居中 */
+        text-align: center; /* 设置文本水平对齐方式为居中 */
+        .alertTitle {
+          // margin-top: 0.2vh;
+          width: 100%;
+          max-height: 3vh;
+          margin: 0%;
+          padding: 0%;
+          overflow: hidden;
+          color: rgba(255, 255, 255, 0.84);
+          font-weight: bold;
+          font-size: 2vh;
+        }
+        .alertInfo {
+          width: 100%;
+          max-height: 3vh;
+          margin: 0%;
+          padding: 0%;
+          overflow: hidden;
+          // margin-top: 0.2vh;
+          color: rgb(255, 255, 255);
+          font-size: 1vh;
+          // font-weight: bold;
+          text-align: left; /* 设置文本水平对齐方式为居中 */
+        }
+        .alertInfoTitle {
+          width: 100%;
+          max-height: 3vh;
+          margin: 0%;
+          padding: 0%;
+          overflow: hidden;
+          // margin-top: 0.2vh;
+          color: rgb(255, 255, 255);
+          // font-weight: bold;
+          font-size: 1vh;
+          text-align: right; /* 设置文本水平对齐方式为居中 */
+        }
       }
     }
   }
@@ -64,6 +114,10 @@
   right: -3vh;
   width: 116.5%;
   height: 82vh;
+  .drawerImage {
+    width: 32vh;
+    height: 20vh;
+  }
   // background-color: rgb(38, 255, 0);
   :global {
     .ant-drawer-title {
@@ -75,6 +129,36 @@
       line-height: 22px;
       text-align: center;
     }
+    .ant-drawer-body {
+      flex: 1 1;
+      min-width: 0;
+      min-height: 0;
+      padding: 24px;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+    .ant-drawer-body::-webkit-scrollbar {
+      display: none;
+    }
+    // 滚动条
+    // .ant-drawer-body::-webkit-scrollbar {
+    //   width: 10px;
+    //   height: 10px;
+    // }
+    // .ant-drawer-body::-webkit-scrollbar-thumb {
+    //   background: linear-gradient(270deg, #1d2c466b 0%, #414b7f33 100%);
+    //   border-radius: 10px;
+    //   -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    // }
+    // .ant-drawer-body::-webkit-scrollbar-track {
+    //   background: #262335;
+    //   border-radius: 10px;
+    //   -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    // }
+    // .ant-drawer-body::-webkit-scrollbar-corner {
+    //   /* 垂直和水平的交叉角 */
+    //   background: #262335;
+    // }
     .ant-drawer-content-wrapper {
       position: absolute;
       z-index: 1000;

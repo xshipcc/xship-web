@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 15:20:21
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-29 17:26:47
+ * @LastEditTime: 2023-09-30 07:54:22
  * @FilePath: \zero-admin-ui-master\src\pages\AIalert\data.d.ts
  * @Description:
  *
@@ -51,7 +51,7 @@ interface ListAlertHistoryReq {
   confirm: number;
 }
 
-interface ListtAlertHistoryData {
+interface ListAlertHistoryData {
   id: number;
   name: string;
   image: string;
@@ -63,12 +63,15 @@ interface ListtAlertHistoryData {
   start_time: string;
   end_time: string;
   note: string;
+  lan: number;
+  lon: number;
+  altitude: number;
   confirm: number;
 }
 
 interface ListAlertHistoryRespType {
   current: number;
-  data: ListtAlertHistoryData[];
+  data: ListAlertHistoryData[];
   pageSize: number;
   success: boolean;
   total: number;

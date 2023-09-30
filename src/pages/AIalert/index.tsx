@@ -13,7 +13,7 @@ import ProDescriptions, { ProDescriptionsItemProps } from '@ant-design/pro-descr
 import UpdateBrandForm from './components/UpdateBrandForm';
 import type {
   ListAlertHistoryRespType,
-  ListtAlertHistoryData,
+  ListAlertHistoryData,
   UpdateAlertHistoryReqType,
 } from './data.d';
 import { queryAlert, upadtaAlert } from './service';
@@ -43,10 +43,10 @@ const TableList: React.FC = () => {
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
   const [showDetail, setShowDetail] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
-  const [currentRow, setCurrentRow] = useState<ListtAlertHistoryData>();
-  const [selectedRowsState, setSelectedRows] = useState<ListtAlertHistoryData[]>([]);
+  const [currentRow, setCurrentRow] = useState<ListAlertHistoryData>();
+  const [selectedRowsState, setSelectedRows] = useState<ListAlertHistoryData[]>([]);
 
-  // interface ListtAlertHistoryData {
+  // interface ListAlertHistoryData {
   //   id: number;
   //   name: string;
   //   image: string;
@@ -60,7 +60,7 @@ const TableList: React.FC = () => {
   //   note: string;
   //   confirm: number;
   // }
-  const columns: ProColumns<ListtAlertHistoryData>[] = [
+  const columns: ProColumns<ListAlertHistoryData>[] = [
     {
       title: '编号',
       dataIndex: 'id',
@@ -132,7 +132,17 @@ const TableList: React.FC = () => {
       dataIndex: 'note',
       hideInSearch: true,
     },
-
+    {
+      title: '坐标',
+      render: (text, record) => (
+        <span>
+          经度 {record.lan}
+          维度 {record.lon}
+          高度 {record.altitude}
+        </span>
+      ),
+      hideInSearch: true,
+    },
     {
       title: '报警确认',
       valueEnum: {
@@ -165,7 +175,7 @@ const TableList: React.FC = () => {
 
   return (
     <PageContainer>
-      <ProTable<ListtAlertHistoryData>
+      <ProTable<ListAlertHistoryData>
         headerTitle="告警列表"
         actionRef={actionRef}
         rowKey="id"
@@ -240,7 +250,7 @@ const TableList: React.FC = () => {
         closable={false}
       >
         {currentRow?.id && (
-          <ProDescriptions<ListtAlertHistoryData>
+          <ProDescriptions<ListAlertHistoryData>
             column={2}
             title={currentRow?.id}
             request={async () => ({
@@ -249,7 +259,7 @@ const TableList: React.FC = () => {
             params={{
               id: currentRow?.id,
             }}
-            columns={columns as ProDescriptionsItemProps<ListtAlertHistoryData>[]}
+            columns={columns as ProDescriptionsItemProps<ListAlertHistoryData>[]}
           />
         )}
       </Drawer>

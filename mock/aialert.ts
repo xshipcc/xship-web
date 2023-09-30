@@ -35,6 +35,9 @@ export default {
         start_time: '@datetime("yyyy-MM-dd HH:mm:ss")',
         end_time: '@datetime("yyyy-MM-dd HH:mm:ss")',
         note: '@sentence(6, 12)',
+        lan: '@integer(1, 100)',
+        lon: '@integer(1, 100)',
+        altitude: '@integer(1, 100)',
         confirm: '@integer(0, 1)',
       });
     };
