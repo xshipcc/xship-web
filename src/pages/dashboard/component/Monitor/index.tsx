@@ -23,13 +23,13 @@ const Monitor: React.FC = () => {
         <Col key={i} span={8}>
           <div style={style} className={styles.video}>
             <Row>
-              <Col span={2} className={styles.arrow} />
-              <Col span={22} className={styles.title}>
+              <Col span={2} className={'arrow'} />
+              <Col span={22} className={'title'}>
                 监控画面 {i + 1}
               </Col>
             </Row>
             <Row>
-              <Col span={24} className={styles.titleLine} />
+              <Col span={24} className={'titleLine'} />
             </Row>
             <Col className={styles.videocontent} span={24}>
               Video {i + 1}

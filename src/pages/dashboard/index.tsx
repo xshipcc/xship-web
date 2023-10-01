@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-09 20:12:31
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-26 10:46:57
+ * @LastEditTime: 2023-10-01 23:15:11
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\index.tsx
  * @Description:
  *
@@ -314,13 +314,13 @@ const Dashboard: React.FC = () => {
           <>
             <Row className={styles.content}>
               <Col span={5} className={styles.left}>
-                <Analysis initValue={initView} />;
+                <Analysis initValue={initView} />
               </Col>
               <Col span={14} className={styles.center}>
-                <AnalysisCenter initValue={initView} />;
+                <AnalysisCenter initValue={initView} />
               </Col>
               <Col span={5} className={styles.right}>
-                <AnalysisRight initValue={initView} />;
+                <AnalysisRight initValue={initView} />
               </Col>
             </Row>
           </>
@@ -328,13 +328,13 @@ const Dashboard: React.FC = () => {
       case 'Awareness':
         return (
           <>
-            <div className={styles.awarenesstimeLine} />;
+            <div className={styles.awarenesstimeLine} />
             <Row className={styles.content}>
               <Col span={5} className={styles.awarenessleft}>
-                <Awareness initValue={initView} />;
+                <Awareness initValue={initView} />
               </Col>
               <Col span={5} offset={14} className={styles.right}>
-                <AwarenessRight initValue={initView} />;
+                <AwarenessRight initValue={initView} />
               </Col>
             </Row>
           </>
@@ -342,10 +342,10 @@ const Dashboard: React.FC = () => {
       case 'Monitor':
         return (
           <>
-            <div className={styles.monitortimeLine} />;
+            <div className={styles.monitortimeLine} />
             <Row>
               <Col span={24} className={styles.monitorContent}>
-                <Monitor initValue={initView} />;
+                <Monitor initValue={initView} />
               </Col>
             </Row>
           </>
@@ -357,7 +357,7 @@ const Dashboard: React.FC = () => {
             1111
           </Col> */}
             <Col span={5} offset={19} className={styles.left}>
-              <Routemark initValue={initView} />;
+              <Routemark initValue={initView} />
             </Col>
           </Row>
         );

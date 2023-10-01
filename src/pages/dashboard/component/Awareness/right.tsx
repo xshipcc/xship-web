@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-01 14:34:41
+ * @LastEditTime: 2023-10-01 23:09:37
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\right.tsx
  * @Description:
  *
@@ -65,68 +65,71 @@ const AwarenessRight: React.FC = () => {
 
   return (
     <>
-      <div className={styles.content}>
-        <Row>
-          <Col span={2} className={styles.arrow} />
-          <Col span={22} className={styles.title}>
-            告警情况
-          </Col>
-        </Row>
-        <Row>
-          <Col span={24} className={styles.titleLine} />
-        </Row>
-        {/*  */}
-        <Row className={styles.buttonRow}>
-          <Col span={12} className={styles.title}>
-            <Button
-              type="text"
-              className={activeIndex === 0 ? styles.buttonActive : styles.button}
-              onClick={() => {
-                ShowList('analysis');
-                handleClick(0);
-                setType('time');
-              }}
-            >
-              即时告警
-            </Button>
-          </Col>
-          <Col span={12} className={styles.title}>
-            <Button
-              type="text"
-              className={activeIndex === 1 ? styles.buttonActive : styles.button}
-              onClick={() => {
-                ShowList('analysis');
-                handleClick(1);
-                setType('date');
-              }}
-            >
-              历史查看
-            </Button>
-          </Col>
-        </Row>
-        {/*  */}
-        <div className={styles.picker}>
+      <div className={'boxall'}>
+        <div className={styles.content}>
           <Row>
-            <Col className={styles.pickerTitle} span={7}>
-              筛选
+            <Col span={2} className={'arrow'} />
+            <Col span={22} className={'title'}>
+              告警情况
             </Col>
-            <Col span={16} offset={1}>
-              <Space>
-                {/* <Select value={type}>
+          </Row>
+          <Row>
+            <Col span={24} className={'titleLine'} />
+          </Row>
+          {/*  */}
+          <Row className={styles.buttonRow}>
+            <Col span={12} className={'title'}>
+              <Button
+                type="text"
+                className={activeIndex === 0 ? styles.buttonActive : styles.button}
+                onClick={() => {
+                  ShowList('analysis');
+                  handleClick(0);
+                  setType('time');
+                }}
+              >
+                即时告警
+              </Button>
+            </Col>
+            <Col span={12} className={'title'}>
+              <Button
+                type="text"
+                className={activeIndex === 1 ? styles.buttonActive : styles.button}
+                onClick={() => {
+                  ShowList('analysis');
+                  handleClick(1);
+                  setType('date');
+                }}
+              >
+                历史查看
+              </Button>
+            </Col>
+          </Row>
+          {/*  */}
+          <div className={styles.picker}>
+            <Row>
+              <Col className={styles.pickerTitle} span={7}>
+                筛选
+              </Col>
+              <Col span={16} offset={1}>
+                <Space>
+                  {/* <Select value={type}>
               <Option value="time">指定时间内</Option>
               <Option value="date">选择日期内</Option>
             </Select> */}
-                <PickerWithType type={type} onChange={(value) => console.log(value)} />
-              </Space>
+                  <PickerWithType type={type} onChange={(value) => console.log(value)} />
+                </Space>
+              </Col>
+            </Row>
+          </div>
+          {/*  */}
+          <Row>
+            <Col span={24} className={styles.listcontent}>
+              <AlertList height={370} />
             </Col>
           </Row>
         </div>
-        {/*  */}
-        <Row>
-          <Col span={24} className={styles.listcontent}>
-            <AlertList height={400} />
-          </Col>
-        </Row>
+        <div className={'boxfoot'}></div>
       </div>
     </>
   );

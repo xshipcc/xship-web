@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-24 23:23:08
+ * @LastEditTime: 2023-10-01 22:57:46
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Analysis\left.tsx
  * @Description:
  *
@@ -117,94 +117,97 @@ const Analysis: React.FC = (props) => {
   //#endregion -----------------------------------------------------------------------
   return (
     <>
-      <div className={styles.content}>
-        <Row>
-          <Col span={2} className={styles.arrow} />
-          <Col span={22} className={styles.title}>
-            无人机数量
-          </Col>
-        </Row>
-        <Row>
-          <Col span={24} className={styles.titleLine} />
-        </Row>
-        {/*  */}
-        <Row>
-          <Col span={8} className={styles.text}>
-            总数量
-          </Col>
-          <Col span={8} className={styles.text}>
-            在线
-          </Col>
-          <Col span={8} className={styles.text}>
-            异常
-          </Col>
-        </Row>
-        <Row>
-          <Col span={8} className={styles.textnumber}>
-            {value.drone.total}
-          </Col>
-          <Col span={8} className={styles.textnumber}>
-            {value.drone.online}
-          </Col>
-          <Col span={8} className={styles.textRed}>
-            {value.drone.breakdown}
-          </Col>
-        </Row>
-        {/*  */}
-        <Row>
-          <Col span={2} className={styles.arrow} />
-          <Col span={22} className={styles.title}>
-            无人机巡检时长
-          </Col>
-        </Row>
-        <Row>
-          <Col span={24} className={styles.titleLine} />
-        </Row>
-        {/*  */}
-        <Row className={styles.textRow}>
-          <Col span={3} className={styles.ring} />
-          <Col span={3} className={styles.textwhite}>
-            总数
-          </Col>
-          <Col span={4} className={styles.textyellow}>
-            {value.inspection.total}
-          </Col>
-          <Col span={3} className={styles.textwhite}>
-            完成
-          </Col>
-          <Col span={3} className={styles.textgreen}>
-            {value.inspection.complete}
-          </Col>
-          <Col span={4} className={styles.textwhite}>
-            处理率
-          </Col>
-          <Col span={3} className={styles.textgreen}>
-            {value.inspection.rate}%
-          </Col>
-        </Row>
-        {/*  */}
+      <div className={'boxall'}>
+        <div className={styles.content}>
+          <Row>
+            <Col span={2} className={'arrow'} />
+            <Col span={22} className={'title'}>
+              无人机数量
+            </Col>
+          </Row>
+          <Row>
+            <Col span={24} className={'titleLine'} />
+          </Row>
+          {/*  */}
+          <Row>
+            <Col span={8} className={styles.text}>
+              总数量
+            </Col>
+            <Col span={8} className={styles.text}>
+              在线
+            </Col>
+            <Col span={8} className={styles.text}>
+              异常
+            </Col>
+          </Row>
+          <Row>
+            <Col span={8} className={styles.textnumber}>
+              {value.drone.total}
+            </Col>
+            <Col span={8} className={styles.textnumber}>
+              {value.drone.online}
+            </Col>
+            <Col span={8} className={styles.textRed}>
+              {value.drone.breakdown}
+            </Col>
+          </Row>
+          {/*  */}
+          <Row>
+            <Col span={2} className={'arrow'} />
+            <Col span={22} className={'title'}>
+              无人机巡检时长
+            </Col>
+          </Row>
+          <Row>
+            <Col span={24} className={'titleLine'} />
+          </Row>
+          {/*  */}
+          <Row className={styles.textRow}>
+            <Col span={3} className={styles.ring} />
+            <Col span={3} className={styles.textwhite}>
+              总数
+            </Col>
+            <Col span={4} className={styles.textyellow}>
+              {value.inspection.total}
+            </Col>
+            <Col span={3} className={styles.textwhite}>
+              完成
+            </Col>
+            <Col span={3} className={styles.textgreen}>
+              {value.inspection.complete}
+            </Col>
+            <Col span={4} className={styles.textwhite}>
+              处理率
+            </Col>
+            <Col span={3} className={styles.textgreen}>
+              {value.inspection.rate}%
+            </Col>
+          </Row>
+          {/*  */}
 
-        <Row className={styles.radar}>
-          <Col span={23} offset={1}>
-            <div className={styles.radar}>{DemoRadar(value.radar)}</div>
-          </Col>
-        </Row>
-        {/*  */}
-        <Row>
-          <Col span={2} className={styles.arrow} />
-          <Col span={22} className={styles.title}>
-            历史巡检告警趋势
-          </Col>
-        </Row>
-        <Row>
-          <Col span={24} className={styles.titleLine} />
-        </Row>
-        {/*  */}
-        <Row>
-          <Col span={24} className={styles.chart}>
-            <Area {...config} />
-          </Col>
-        </Row>
+          <Row className={styles.radar}>
+            <Col span={23} offset={1}>
+              <div className={styles.radar}>{DemoRadar(value.radar)}</div>
+            </Col>
+          </Row>
+          {/*  */}
+          <Row>
+            <Col span={2} className={'arrow'} />
+            <Col span={22} className={'title'}>
+              历史巡检告警趋势
+            </Col>
+          </Row>
+          <Row>
+            <Col span={24} className={'titleLine'} />
+          </Row>
+          {/*  */}
+          <Row>
+            <Col span={24} className={styles.chart}>
+              <Area {...config} />
+            </Col>
+          </Row>
+          <div className={'boxfoot'}></div>
+        </div>
       </div>
     </>
   );

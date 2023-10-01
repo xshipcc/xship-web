@@ -72,7 +72,7 @@ const NoticeList: React.FC<NoticeIconTabProps> = ({
                 className={styles.meta}
                 avatar={leftIcon}
                 title={
-                  <div className={styles.title}>
+                  <div className={'title'}>
                     {item.title}
                     <div className={styles.extra}>{item.extra}</div>
                   </div>

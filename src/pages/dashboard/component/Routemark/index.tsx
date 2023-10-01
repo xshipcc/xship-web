@@ -21,51 +21,54 @@ const Routemark: React.FC = (props) => {
 
   return (
     <>
-      <div className={styles.content}>
-        <Row>
-          <Col span={2} className={styles.arrow} />
-          <Col span={22} className={styles.title}>
-            巡检数
-          </Col>
-        </Row>
-        <Row>
-          <Col span={24} className={styles.titleLine} />
-        </Row>
-        {/*  */}
-        <Row>
-          <Col span={8} className={styles.text}>
-            今日巡检
-          </Col>
-          <Col span={8} className={styles.text}>
-            异常次数
-          </Col>
-          <Col span={8} className={styles.text}>
-            告警次数
-          </Col>
-        </Row>
-        <Row>
-          <Col span={8} className={styles.textnumber}>
-            {value.inspection.today}
-          </Col>
-          <Col span={8} className={styles.textnumber}>
-            {value.inspection.breakdown}
-          </Col>
-          <Col span={8} className={styles.textRed}>
-            {value.inspection.warning}
-          </Col>
-        </Row>
-        {/*  */}
-        <Row>
-          <Col span={2} className={styles.arrow} />
-          <Col span={22} className={styles.title}>
-            智能巡检
-          </Col>
-        </Row>
-        <Row>
-          <Col span={24} className={styles.titleLine} />
-        </Row>
-        {/*  */}
-        <TreeList />
+      <div className={'boxall'}>
+        <div className={styles.content}>
+          <Row>
+            <Col span={2} className={'arrow'} />
+            <Col span={22} className={'title'}>
+              巡检数
+            </Col>
+          </Row>
+          <Row>
+            <Col span={24} className={'titleLine'} />
+          </Row>
+          {/*  */}
+          <Row>
+            <Col span={8} className={styles.text}>
+              今日巡检
+            </Col>
+            <Col span={8} className={styles.text}>
+              异常次数
+            </Col>
+            <Col span={8} className={styles.text}>
+              告警次数
+            </Col>
+          </Row>
+          <Row>
+            <Col span={8} className={styles.textnumber}>
+              {value.inspection.today}
+            </Col>
+            <Col span={8} className={styles.textnumber}>
+              {value.inspection.breakdown}
+            </Col>
+            <Col span={8} className={styles.textRed}>
+              {value.inspection.warning}
+            </Col>
+          </Row>
+          {/*  */}
+          <Row>
+            <Col span={2} className={'arrow'} />
+            <Col span={22} className={'title'}>
+              智能巡检
+            </Col>
+          </Row>
+          <Row>
+            <Col span={24} className={'titleLine'} />
+          </Row>
+          {/*  */}
+          <TreeList />
+        </div>
+        <div className={'boxfoot'}></div>
       </div>
     </>
   );

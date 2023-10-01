@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-25 10:35:05
+ * @LastEditTime: 2023-10-01 23:06:19
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Analysis\right.tsx
  * @Description:
  *
@@ -90,71 +90,74 @@ const AnalysisRight: React.FC = (props) => {
 
   return (
     <>
-      <div className={styles.content}>
-        <Row>
-          <Col span={2} className={styles.arrow} />
-          <Col span={22} className={styles.title}>
-            巡检数量
-          </Col>
-        </Row>
-        <Row>
-          <Col span={24} className={styles.titleLine} />
-        </Row>
-        {/*  */}
-        <Row>
-          <Col span={8} className={styles.text}>
-            今日巡检
-          </Col>
-          <Col span={8} className={styles.text}>
-            异常次数
-          </Col>
-          <Col span={8} className={styles.text}>
-            告警次数
-          </Col>
-        </Row>
-        <Row>
-          <Col span={8} className={styles.textnumber}>
-            {value.inspection.today}
-          </Col>
-          <Col span={8} className={styles.textnumber}>
-            {value.inspection.breakdown}
-          </Col>
-          <Col span={8} className={styles.textRed}>
-            {value.inspection.warning}
-          </Col>
-        </Row>
-        {/*  */}
-        <Row>
-          <Col span={2} className={styles.arrow} />
-          <Col span={22} className={styles.title}>
-            告警发生频率
-          </Col>
-        </Row>
-        <Row>
-          <Col span={24} className={styles.titleLine} />
-        </Row>
-        {/*  */}
-        <Row className={styles.column}>
-          <Col className={styles.content} span={24}>
-            {DemoBar(value.bar)}
-          </Col>
-        </Row>
-        {/*  */}
-        <Row>
-          <Col span={2} className={styles.arrow} />
-          <Col span={22} className={styles.title}>
-            严重报警比例
-          </Col>
-        </Row>
-        <Row>
-          <Col span={24} className={styles.titleLine} />
-        </Row>
-        {/*  */}
-        <Row>
-          <Col span={24} className={styles.chart}>
-            {DemoRose()}
-          </Col>
-        </Row>
+      <div className={'boxall'}>
+        <div className={styles.content}>
+          <Row>
+            <Col span={2} className={'arrow'} />
+            <Col span={22} className={'title'}>
+              巡检数量
+            </Col>
+          </Row>
+          <Row>
+            <Col span={24} className={'titleLine'} />
+          </Row>
+          {/*  */}
+          <Row>
+            <Col span={8} className={styles.text}>
+              今日巡检
+            </Col>
+            <Col span={8} className={styles.text}>
+              异常次数
+            </Col>
+            <Col span={8} className={styles.text}>
+              告警次数
+            </Col>
+          </Row>
+          <Row>
+            <Col span={8} className={styles.textnumber}>
+              {value.inspection.today}
+            </Col>
+            <Col span={8} className={styles.textnumber}>
+              {value.inspection.breakdown}
+            </Col>
+            <Col span={8} className={styles.textRed}>
+              {value.inspection.warning}
+            </Col>
+          </Row>
+          {/*  */}
+          <Row>
+            <Col span={2} className={'arrow'} />
+            <Col span={22} className={'title'}>
+              告警发生频率
+            </Col>
+          </Row>
+          <Row>
+            <Col span={24} className={'titleLine'} />
+          </Row>
+          {/*  */}
+          <Row className={styles.column}>
+            <Col className={styles.content} span={24}>
+              {DemoBar(value.bar)}
+            </Col>
+          </Row>
+          {/*  */}
+          <Row>
+            <Col span={2} className={'arrow'} />
+            <Col span={22} className={'title'}>
+              严重报警比例
+            </Col>
+          </Row>
+          <Row>
+            <Col span={24} className={'titleLine'} />
+          </Row>
+          {/*  */}
+          <Row>
+            <Col span={24} className={styles.chart}>
+              {DemoRose()}
+            </Col>
+          </Row>
+        </div>
+        <div className={'boxfoot'}></div>
       </div>
     </>
   );

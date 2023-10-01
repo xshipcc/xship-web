@@ -2,8 +2,8 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-18 09:29:21
- * @FilePath: \zero-admin-ui-master\src\components\Analysis\center.tsx
+ * @LastEditTime: 2023-10-01 23:01:31
+ * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Analysis\center.tsx
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
@@ -144,15 +144,15 @@ const AnalysisCenter: React.FC = (props) => {
 
   return (
     <>
-      <div className={styles.content}>
+      <div className={styles.boxall}>
         <Row>
-          <Col span={0.7} className={styles.arrow} />
-          <Col span={23.3} className={styles.title}>
+          <Col span={0.7} className={'arrow'} />
+          <Col span={23.3} className={'title'}>
             近日巡检对比
           </Col>
         </Row>
         <Row>
-          <Col span={24} className={styles.titleLine} />
+          <Col span={24} className={'titleLine'} />
         </Row>
         {/*  */}
         <Row>
@@ -160,6 +160,7 @@ const AnalysisCenter: React.FC = (props) => {
             {DemoDualAxes()}
           </Col>
         </Row>
+        <div className={styles.boxfoot}></div>
       </div>
     </>
   );
