@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-01 23:09:37
+ * @LastEditTime: 2023-10-02 03:50:16
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\right.tsx
  * @Description:
  *
@@ -14,6 +14,7 @@ import styles from './right.less';
 import AlertList from '@/pages/dashboard/component/alertList';
 import type { DatePickerProps, TimePickerProps } from 'antd';
 import { DatePicker, Select, Space, TimePicker } from 'antd';
+import { SearchOutlined } from '@ant-design/icons';
 
 type PickerType = 'time' | 'date';
 
@@ -108,17 +109,14 @@ const AwarenessRight: React.FC = () => {
           {/*  */}
           <div className={styles.picker}>
             <Row>
-              <Col className={styles.pickerTitle} span={7}>
-                筛选
-              </Col>
               <Col span={16} offset={1}>
                 <Space>
-                  {/* <Select value={type}>
-              <Option value="time">指定时间内</Option>
-              <Option value="date">选择日期内</Option>
-            </Select> */}
                   <PickerWithType type={type} onChange={(value) => console.log(value)} />
                 </Space>
+              </Col>
+              <Col className={styles.pickerTitle} span={7}>
+                <SearchOutlined />
+                搜索
               </Col>
             </Row>
           </div>

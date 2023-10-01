@@ -1,25 +1,51 @@
 // @ts-nocheck
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Col, Row } from 'antd';
-import { useSelector, useDispatch, useModel } from 'umi';
+import { useSelector, useDispatch } from 'umi';
 import styles from './index.less';
 import { Select, Button } from 'antd';
 import TableEditable from './table';
 import { PlusOutlined } from '@ant-design/icons';
+import { SaveOutlined } from '@ant-design/icons';
 import { Divider, Input, Space } from 'antd';
 import type { InputRef } from 'antd';
+import { queryFly } from '@/pages/drone/routePlan/service';
+import type {
+  ListUavFlyReqType,
+  ListUavFlyRespType,
+  NodeType,
+  ListUavFlyDataType,
+} from '@/pages/drone/routePlan/data';
 
 const App = () => {
+  const [flyData, setFlyData] = useState<ListUavFlyDataType[]>(null);
+  const [flyNameList, setflyNameList] = useState([]);
+
+  // 获取航线数据
+  useEffect(() => {
+    const fetchFlyData = async (params: ListUavFlyReqType) => {
+      try {
+        const Data: ListUavFlyRespType = await queryFly(params);
+        setFlyData(Data.data);
+
+        return true;
+      } catch (error) {
+        return false;
+      }
+    };
+    fetchFlyData({ pageSize: 10, current: 1 });
+  }, []);
+  // 获取名称列表
+  useEffect(() => {
+    const nameListData = flyData?.map((item) => item.name);
+    setflyNameList(nameListData);
+  }, [flyData]);
+
   const [data, setData] = useState([
     { key: '0', name: 'Edwad', coord: '114.292, 38.067,100', stay: '1', parent: '东北' },
     { key: '1', name: 'Edwa', coord: '114.293, 38.067,100', stay: '2', parent: '东北' },
   ]);
-  const [listdata, setList] = useState([
-    { value: '东北', label: '东北' },
-    { value: 'Edwa', label: 'Edwa' },
-  ]);
 
-  const [currentList, setCurrentList] = useState(listdata[0].label);
   const [editSignal, setEditSignal] = useState(true);
 
   const [listIndex, setlistIndex] = useState(data.length);
@@ -46,19 +72,6 @@ const App = () => {
     setData([]);
   };
 
-  const handleListAdd = () => {
-    const newData = [{ key: listIndex + '', name: '', coord: '', stay: '' }];
-    setData(newData);
-    setList([...listdata, { value: '测试', label: '测试' }]);
-    setCurrentList('测试');
-    setlistIndex(newData.length);
-  };
-  const handleChange = (value: string) => {
-    console.log(value);
-    console.log('routeList:', listdata);
-    // setCurrentList(value);
-  };
-
   /**
    *  @file index.tsx
    *  @time 2023/10/01
@@ -67,9 +80,9 @@ const App = () => {
    */
   //#region -------------------------------------------------------------------------
   let indexItem = 0;
-  const [items, setItems] = useState(['jack', 'lucy']);
   const [name, setName] = useState('');
   const inputRef = useRef<InputRef>(null);
+  const [currentFly, setCurrentFly] = useState<ListUavFlyDataType>(null);
 
   const onNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
@@ -77,11 +90,14 @@ const App = () => {
 
   const addItem = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
     e.preventDefault();
-    setItems([...items, name || `New item ${indexItem++}`]);
+    setflyNameList([...flyNameList, name || `路线${indexItem++}`]);
     setName('');
     setTimeout(() => {
       inputRef.current?.focus();
     }, 0);
+  };
+  const handleChange = (value: string) => {
+    setCurrentFly(flyData.find((item) => item.name === value));
   };
 
   //#endregion -----------------------------------------------------------------------
@@ -90,49 +106,70 @@ const App = () => {
    */
   return (
     <div className={styles.content}>
-      <Select
-        style={{ width: '100%' }}
-        placeholder="custom dropdown render"
-        dropdownRender={(menu) => (
-          <>
-            {menu}
-            <Divider style={{ margin: '8px 0' }} />
-            <Space style={{ padding: '0 8px 4px' }}>
-              <Input
-                placeholder="Please enter item"
-                ref={inputRef}
-                value={name}
-                onChange={onNameChange}
-              />
-              <Button type="text" icon={<PlusOutlined />} onClick={addItem}>
-                Add item
-              </Button>
-            </Space>
-          </>
-        )}
-        options={items.map((item) => ({ label: item, value: item }))}
-      />
-
-      <Row className={styles.header}>
-        <Col span={2}></Col>
-        <Col span={12} className={styles.headerTitle}>
-          {currentList}
-        </Col>
-        {editSignal ? (
-          <Col span={5} className={styles.headerEdit} onClick={() => editTrack()}>
-            编辑
-          </Col>
-        ) : (
-          <Col span={5} className={styles.headerEdit} onClick={() => handleSaveList()}>
-            保存
-          </Col>
-        )}
-        <Col span={5} className={styles.headerDel} onClick={() => editTrackOver()}>
-          执行
+      <Row className={styles.selcet}>
+        <Col span={24}>
+          <Select
+            onChange={handleChange}
+            style={{ width: '100%' }}
+            placeholder="custom dropdown render"
+            dropdownRender={(menu) => (
+              <>
+                {menu}
+                <Divider style={{ margin: '8px 0' }} />
+                <Space style={{ padding: '0 8px 4px' }}>
+                  <Input
+                    placeholder="Please enter item"
+                    ref={inputRef}
+                    value={name}
+                    onChange={onNameChange}
+                  />
+                  <Button type="text" icon={<PlusOutlined />} onClick={addItem}>
+                    添加路线
+                  </Button>
+                </Space>
+              </>
+            )}
+            options={flyNameList?.map((item) => ({ label: item, value: item }))}
+          />
         </Col>
       </Row>
-      <div className={styles.tableContent}>
-        <TableEditable listData={listdata} />
+      <Row className={styles.buttonRow}>
+        <Col span={12} className={'title'}>
+          <Button
+            type="text"
+            className={styles.button}
+            onClick={() => {
+              editTrack();
+            }}
+          >
+            航线编辑
+          </Button>
+        </Col>
+        <Col span={12} className={'title'}>
+          <Button type="text" className={styles.button} onClick={() => {}}>
+            保存信息
+          </Button>
+        </Col>
+      </Row>
+      <div className={styles.nodeList}>
+        {currentFly?.data.map((item: NodeType) => (
+          <div key={item.id}>
+            <Row className={styles.header}>
+              <Col span={6} className={styles.headerTitle}>
+                {item.name}
+              </Col>
+              <Col span={13} className={styles.headerTitle}>
+                {item.coord}
+              </Col>
+              <Col span={5} className={styles.headerDel} onClick={() => editTrackOver()}>
+                编辑
+              </Col>
+            </Row>
+            <div className={styles.tableContent}>
+              <TableEditable listData={item.nodeData} />
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

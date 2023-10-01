@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-15 20:04:35
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-27 10:18:55
+ * @LastEditTime: 2023-10-02 04:13:45
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\TreeList\index.less
  * @Description: 
  * 
@@ -169,7 +169,27 @@
       padding: 2px 1px;
       text-align: center;
     }
-
+    .ant-input {
+      position: relative;
+      display: inline-block;
+      box-sizing: border-box;
+      width: 100%;
+      min-width: 0;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 0.3vh;
+      font-variant: tabular-nums;
+      line-height: 1.5715;
+      list-style: none;
+      background-color: #2c3b44;
+      background-image: none;
+      border: 1px solid #d9d9d9;
+      border-radius: 1px;
+      transition: all 0.3s;
+      font-feature-settings: 'tnum', 'tnum';
+    }
     .ant-table-cell-scrollbar:not([rowspan]) {
       box-shadow: 0 1px 0 1px #262335;
     }
@@ -219,3 +239,72 @@
 //   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
 //   transition: background 0.3s ease;
 // }
+.selcet {
+  background-size: 100% auto;
+  border: 1.8px solid #3a8686a6;
+
+  :global {
+    .ant-select:not(.ant-select-customize-input) .ant-select-selector {
+      position: relative;
+      background-color: #3041429c;
+      border: 1px solid #3041429c;
+      border-radius: 2px;
+      transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    }
+    .ant-select {
+      position: relative;
+      display: inline-block;
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      color: rgb(255, 255, 255);
+      font-size: 14px;
+      font-variant: tabular-nums;
+      line-height: 1.5715;
+      list-style: none;
+      background: #3041429c;
+      cursor: pointer;
+      font-feature-settings: 'tnum', 'tnum';
+    }
+  }
+}
+.nodeList {
+  height: 48vh; /* 设置容器高度 */
+  margin-top: 3vh;
+  overflow-y: auto; /* 竖直方向上溢出时显示滚动条 */
+}
+.nodeList::-webkit-scrollbar {
+  display: none;
+}
+
+.buttonRow {
+  .button {
+    margin-right: 3vh; /* 右外边距 */
+    margin-left: 3vh; /* 左外边距 */
+    color: rgb(255, 255, 255);
+    font-size: 16px;
+    text-align: center;
+  }
+  .button:hover {
+    margin-right: 3vh; /* 右外边距 */
+    margin-left: 3vh; /* 左外边距 */
+    color: aqua;
+    font-size: 16px;
+    text-align: center;
+    background-image: url('../../../../assets/dashboard/arrowTwo.png');
+    background-repeat: no-repeat; //不重复
+    background-position: center 55%;
+    background-size: 100% 35%; // 满屏
+  }
+  .button:focus {
+    margin-right: 3vh; /* 右外边距 */
+    margin-left: 3vh; /* 左外边距 */
+    color: aqua;
+    font-size: 16px;
+    text-align: center;
+    background-image: url('../../../../assets/dashboard/arrowTwo.png');
+    background-repeat: no-repeat; //不重复
+    background-position: center 55%;
+    background-size: 100% 35%; // 满屏
+  }
+}

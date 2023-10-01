@@ -1,25 +1,6 @@
 .content {
   width: 100%;
   height: 70vh;
-  :global(.ant-picker) {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    padding: 4px 11px 4px;
-    color: rgb(255, 255, 255);
-    font-size: 14px;
-    font-variant: tabular-nums;
-    line-height: 1.5715;
-    list-style: none;
-    background: #0d2734;
-    border: 1px solid #0d2734;
-    border-radius: 2px;
-    transition: border 0.3s, box-shadow 0.3s;
-    font-feature-settings: 'tnum', 'tnum';
-  }
 }
 .arrow {
   width: 3vh;
@@ -49,15 +30,52 @@
   margin-top: 4vh;
   background-repeat: no-repeat; //不重复
   background-size: 100% 100%; // 满屏1
+  :global {
+    .ant-picker {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      padding: 4px 11px 4px;
+      color: rgb(255, 255, 255);
+      font-size: 14px;
+      font-variant: tabular-nums;
+      line-height: 1.5715;
+      list-style: none;
+      background: #30414285;
+      border: 1.8px solid #3a8686a6;
+      border-radius: 2px;
+      transition: border 0.3s, box-shadow 0.3s;
+      font-feature-settings: 'tnum', 'tnum';
+    }
+    .ant-picker-input > input {
+      position: relative;
+      display: inline-block;
+      flex: auto;
+      width: 100%;
+      min-width: 0;
+      min-width: 1px;
+      height: auto;
+      padding: 4px 11px;
+      padding: 0;
+      color: rgb(255, 255, 255);
+      font-size: 14px;
+      line-height: 1.5715;
+      background: #30414285;
+      background-image: none;
+      transition: all 0.3s;
+    }
+  }
   .pickerTitle {
     // margin-right: 0.6vh;
     // margin-left: 0.3vh;
+    padding-top: 0.5vh;
     color: rgb(2, 200, 202);
     font-size: 2.5vh;
-    text-align: center;
-    // background-image: url('../../../../assets/dashboard/calendar.png');
-    // background-repeat: no-repeat; //不重复
-    // background-size: 40% 70%; // 满屏1
+    text-align: left;
+    cursor: pointer;
   }
 }
 

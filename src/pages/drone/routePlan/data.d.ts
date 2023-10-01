@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-28 15:04:21
+ * @LastEditTime: 2023-10-02 00:24:12
  * @FilePath: \zero-admin-ui-master\src\pages\drone\routePlan\data.d.ts
  * @Description:
  *
@@ -34,18 +34,32 @@ export interface ListUavFlyReqType {
   pageSize?: number;
   uad_id?: number;
 }
-
-export interface ListtUavFlyDataType {
+// 序号--水平---垂直轴--停留时间
+// 航线节点的数据
+export interface NodeDataType {
+  key: number;
+  horizontal: number;
+  vertical: number;
+  stayTime: number;
+}
+// 航线节点
+export interface NodeType {
+  name: string;
+  coord: string;
+  nodeData: NodeDataType[];
+}
+// 航线数据
+export interface ListUavFlyDataType {
   id: number;
   name: string;
-  data: string;
+  data: NodeType[];
   create_time: string;
   creator: string;
 }
 
 export interface ListUavFlyRespType {
   current: number;
-  data: ListtUavFlyDataType[];
+  data: ListUavFlyDataType[];
   pageSize: number;
   success: boolean;
   total: number;
@@ -56,7 +70,7 @@ export interface ListUavFlyRespType {
 export interface UpdateUavFlyReqType {
   id: number;
   name: string;
-  data: string;
+  data: ListUavFlyDataType[];
   create_time: string;
   creator: string;
 }

@@ -13,7 +13,7 @@ import ProDescriptions from '@ant-design/pro-descriptions';
 import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
 import CreateFlashForm from './components/CreateFlashForm';
 import UpdateFlashForm from './components/UpdateFlashForm';
-import type { ListtUavFlyDataType, AddUavFlyReqType } from './data.d';
+import type { ListUavFlyDataType, AddUavFlyReqType } from './data.d';
 import { updateFly, addFly, removeFly, queryFly } from './service';
 
 const { confirm } = Modal;
@@ -40,7 +40,7 @@ const handleAdd = async (fields: AddUavFlyReqType) => {
  * 更新节点
  * @param fields
  */
-const handleUpdate = async (fields: ListtUavFlyDataType) => {
+const handleUpdate = async (fields: ListUavFlyDataType) => {
   const hide = message.loading('正在更新');
   try {
     await updateFly(fields);
@@ -59,7 +59,7 @@ const handleUpdate = async (fields: ListtUavFlyDataType) => {
  *  删除节点
  * @param selectedRows
  */
-const handleRemove = async (selectedRows: ListtUavFlyDataType[]) => {
+const handleRemove = async (selectedRows: ListUavFlyDataType[]) => {
   const hide = message.loading('正在删除');
   if (!selectedRows) return true;
   try {
@@ -81,10 +81,10 @@ const FlashPromotionList: React.FC = () => {
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
   const [showDetail, setShowDetail] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
-  const [currentRow, setCurrentRow] = useState<ListtUavFlyDataType>();
-  const [selectedRowsState, setSelectedRows] = useState<ListtUavFlyDataType[]>([]);
+  const [currentRow, setCurrentRow] = useState<ListUavFlyDataType>();
+  const [selectedRowsState, setSelectedRows] = useState<ListUavFlyDataType[]>([]);
 
-  const showDeleteConfirm = (item: ListtUavFlyDataType) => {
+  const showDeleteConfirm = (item: ListUavFlyDataType) => {
     confirm({
       title: '是否删除记录?',
       icon: <ExclamationCircleOutlined />,
@@ -98,14 +98,14 @@ const FlashPromotionList: React.FC = () => {
     });
   };
 
-  // interface ListtUavFlyDataType {
+  // interface ListUavFlyDataType {
   //   id: number;
   //   name: string;
   //   data: string;
   //   create_time: string;
   //   creator: string;
   // }
-  const columns: ProColumns<ListtUavFlyDataType>[] = [
+  const columns: ProColumns<ListUavFlyDataType>[] = [
     {
       title: '航线编号',
       dataIndex: 'id',
@@ -162,7 +162,7 @@ const FlashPromotionList: React.FC = () => {
   ];
   return (
     <PageContainer>
-      <ProTable<ListtUavFlyDataType>
+      <ProTable<ListUavFlyDataType>
         headerTitle="航线列表"
         actionRef={actionRef}
         rowKey="id"
@@ -254,7 +254,7 @@ const FlashPromotionList: React.FC = () => {
         closable={false}
       >
         {currentRow?.id && (
-          <ProDescriptions<ListtUavFlyDataType>
+          <ProDescriptions<ListUavFlyDataType>
             column={2}
             title={currentRow?.name}
             request={async () => ({
@@ -263,7 +263,7 @@ const FlashPromotionList: React.FC = () => {
             params={{
               id: currentRow?.id,
             }}
-            columns={columns as ProDescriptionsItemProps<ListtUavFlyDataType>[]}
+            columns={columns as ProDescriptionsItemProps<ListUavFlyDataType>[]}
           />
         )}
       </Drawer>

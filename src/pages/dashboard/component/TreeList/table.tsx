@@ -1,19 +1,25 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-
+import type {
+  ListUavFlyReqType,
+  ListUavFlyRespType,
+  NodeType,
+  NodeDataType,
+  ListUavFlyDataType,
+} from '@/pages/drone/routePlan/data';
 import { Form, Input, InputNumber, Popconfirm, Table, Typography } from 'antd';
 
 interface Item {
   key: string;
-  name: string;
-  coord: string;
+  horizontal: number;
+  vertical: number;
   stayTime: number;
 }
 const originData: Item[] = [];
 for (let i = 0; i < 3; i++) {
   originData.push({
-    key: i.toString(),
-    name: `${i}号`,
-    coord: '[112, 38, 111]',
+    key: '1',
+    horizontal: 1,
+    vertical: 1,
     stayTime: 1,
   });
 }
@@ -62,8 +68,9 @@ const EditableCell: React.FC<EditableCellProps> = ({
 };
 
 const TableEditable: React.FC = (listData: any) => {
+  console.log('listData:', listData.listData);
   const [form] = Form.useForm();
-  const [data, setData] = useState(originData);
+  const [data, setData] = useState<Item[]>(listData.listData);
   const [editingKey, setEditingKey] = useState('');
 
   const isEditing = (record: Item) => record.key === editingKey;
@@ -71,10 +78,6 @@ const TableEditable: React.FC = (listData: any) => {
   const edit = (record: Partial<Item> & { key: React.Key }) => {
     form.setFieldsValue({ name: '', age: '', address: '', ...record });
     setEditingKey(record.key);
-  };
-
-  const cancel = () => {
-    setEditingKey('');
   };
 
   const save = async (key: React.Key) => {
@@ -100,34 +103,52 @@ const TableEditable: React.FC = (listData: any) => {
       console.log('Validate Failed:', errInfo);
     }
   };
-
+  // export interface NodeDataType {
+  //   id: number;
+  //   horizontal: number;
+  //   vertical: number;
+  //   stayTime: number;
+  // }
   const columns = [
     {
       title: '序号',
       dataIndex: 'key',
-      width: 15,
     },
     {
-      title: '名称',
+      title: '水平轴',
       editable: true,
-      width: 25,
-      dataIndex: 'name',
+      dataIndex: 'horizontal',
     },
     {
-      title: '坐标',
+      title: '垂直轴',
       editable: true,
-      width: 50,
-      dataIndex: 'coord',
+      dataIndex: 'vertical',
     },
     {
       title: '停留(秒)',
       editable: true,
-      width: 20,
       dataIndex: 'stayTime',
     },
     {
-      title: '操作',
-      width: 25,
+      title: (
+        <a
+          style={{ cursor: 'pointer' }}
+          onClick={() => {
+            console.log('data:', 1111111111);
+            setData([
+              ...data,
+              {
+                key: data.length + 1 + '',
+                horizontal: 1,
+                vertical: 1,
+                stayTime: 1,
+              },
+            ]);
+          }}
+        >
+          添加
+        </a>
+      ),
       dataIndex: 'operation',
       render: (_: any, record: Item) => {
         const editable = isEditing(record);
@@ -136,9 +157,6 @@ const TableEditable: React.FC = (listData: any) => {
             <Typography.Link onClick={() => save(record.key)} style={{ marginRight: 8 }}>
               保存
             </Typography.Link>
-            <Popconfirm title="Sure to cancel?" onConfirm={cancel}>
-              <a>取消</a>
-            </Popconfirm>
           </span>
         ) : (
           <Typography.Link disabled={editingKey !== ''} onClick={() => edit(record)}>
@@ -157,7 +175,7 @@ const TableEditable: React.FC = (listData: any) => {
       ...col,
       onCell: (record: Item) => ({
         record,
-        inputType: col.dataIndex === 'none' ? 'number' : 'text',
+        inputType: col.dataIndex === 'key' ? 'number' : 'text',
         dataIndex: col.dataIndex,
         title: col.title,
         editing: isEditing(record),

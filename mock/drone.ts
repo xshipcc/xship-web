@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-24 17:48:22
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-27 15:17:08
+ * @LastEditTime: 2023-10-02 02:42:27
  * @FilePath: \zero-admin-ui-master\mock\drone.ts
  * @Description:
  *
@@ -318,24 +318,58 @@ export default {
   },
   // 航线查询
   'POST /api/uav/fly/list': (req: Request, res: Response) => {
-    const data = Mock.mock({
-      'data|10': [
-        {
-          id: '@integer(1, 100)',
-          name: '@cname',
-          'data|3': ['@float(-180, 180, 6)'],
-          createTime: '@datetime',
-          creator: '@cname',
-        },
-      ],
-      Current: 1,
-      PageSize: 10,
-      Success: true,
-      Total: 100,
-      Code: '200',
-      Message: '成功',
-    });
-    res.json(data);
+    // 定义数据类型
+    const nodeDataType = {
+      'key|+1': 1,
+      'horizontal|100-999.2': 0,
+      'vertical|100-999.2': 0,
+      'stayTime|0-100': 0,
+    };
+
+    const nodeType = {
+      name: '@city()',
+      coord: '[111.11,37.11,112]',
+      nodeData: () => Mock.mock({ 'list|3-6': [nodeDataType] }).list, // 随机生成3-6个节点
+    };
+
+    const listUavFlyDataType = {
+      'id|+1': 1,
+      name: '@name()',
+      data: () => Mock.mock({ 'list|1-3': [nodeType] }).list, // 随机生成1-3条航线数据
+      create_time: '@datetime("yyyy-MM-dd HH:mm:ss")',
+      creator: '@name()',
+    };
+
+    const listUavFlyRespType = {
+      current: 1,
+      'data|5': [listUavFlyDataType], // 随机生成1-10页的数据
+      pageSize: 10,
+      success: true,
+      total: 100,
+      code: '0000',
+      message: 'success',
+    };
+
+    // 生成数据
+    const mockData = Mock.mock(listUavFlyRespType);
+    // const data = Mock.mock({
+    //   'data|10': [
+    //     {
+    //       id: '@integer(1, 100)',
+    //       name: '@cname',
+    //       'data|3': ['@float(-180, 180, 6)'],
+    //       createTime: '@datetime',
+    //       creator: '@cname',
+    //     },
+    //   ],
+    //   Current: 1,
+    //   PageSize: 10,
+    //   Success: true,
+    //   Total: 100,
+    //   Code: '200',
+    //   Message: '成功',
+    // });
+    res.json(mockData);
   },
 
   // 任

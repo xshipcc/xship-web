@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-01 23:09:04
+ * @LastEditTime: 2023-10-02 04:00:35
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\left.tsx
  * @Description:
  *
@@ -57,7 +57,7 @@ const Awareness: React.FC = () => {
             <Col span={24} className={styles.video} />
           </Row>
           {/*  */}
-          <div className={styles.box}>
+          <div className={styles.board}>
             <Row>
               <Col span={2} className={'arrow'} />
               <Col span={22} className={'title'}>
@@ -65,36 +65,31 @@ const Awareness: React.FC = () => {
               </Col>
             </Row>
             <Row>
-              <Col span={24} />
-            </Row>
-            <Row>
               <Col span={24}>
-                <div className={styles.content}>
-                  <Row>
-                    <Col className={styles.text} span={8}>
-                      无人机id:
-                    </Col>
-                    <Col className={styles.text} span={16}>
-                      test
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col className={styles.text} span={8}>
-                      巡检路线id:
-                    </Col>
-                    <Col className={styles.text} span={16}>
-                      test
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col className={styles.text} span={8}>
-                      执行时间:
-                    </Col>
-                    <Col className={styles.text} span={16}>
-                      test
-                    </Col>
-                  </Row>
-                </div>
+                <Row>
+                  <Col className={styles.text} span={8}>
+                    无人机id:
+                  </Col>
+                  <Col className={styles.text} span={16}>
+                    test
+                  </Col>
+                </Row>
+                <Row>
+                  <Col className={styles.text} span={8}>
+                    巡检路线id:
+                  </Col>
+                  <Col className={styles.text} span={16}>
+                    test
+                  </Col>
+                </Row>
+                <Row>
+                  <Col className={styles.text} span={8}>
+                    执行时间:
+                  </Col>
+                  <Col className={styles.text} span={16}>
+                    test
+                  </Col>
+                </Row>
               </Col>
             </Row>
           </div>
