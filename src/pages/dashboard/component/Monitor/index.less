@@ -1,81 +1,67 @@
 .content {
-  // width: 120vh;
-  height: 80vh;
-  // margin-top: 10vh; /* 上外边距 */
-  margin-right: 10vh;
-  margin-left: 10vh;
-  border-radius: 1vh;
+  // // width: 120vh;
+  // height: 80vh;
+  // // margin-top: 10vh; /* 上外边距 */
+  // margin-right: 10vh;
+  // margin-left: 10vh;
+  // border-radius: 1vh;
 }
 .video {
-  width: 50vh;
-  height: 30vh;
-  margin-top: 2vh;
-  margin-bottom: 2vh;
-  padding: 2vh;
+  width: 100%;
+  height: 215px;
+  // margin: 10px 30px;
+  // padding: 2vh;
   // margin-right: 5vh;
   // margin-left: 5vh;
   // background-color: rgb(255, 255, 255);
   background-image: url('../../../../assets/dashboard/monitor.png');
   background-repeat: no-repeat; //不重复
   background-size: 100% 100%; // 满屏
+
   .videocontent {
-    width: 40vh;
-    height: 22vh;
-    margin-top: 1vh;
-    margin-right: 3vh;
-    margin-bottom: 1vh;
-    margin-left: 3vh;
-    background-color: rgb(54, 66, 75);
+    height: 185px;
+    padding-top: 2vh;
+    padding-right: 2vh;
+    padding-left: 2vh;
+    :global {
+      .videoPlay-dimensions {
+        width: 100%;
+        height: 165px;
+      }
+    }
   }
 }
-
-.timepicker {
-  height: 5vh;
-  // margin-right: 0.6vh;
-  // margin-left: 0.3vh;
-  margin-top: 1.2vh;
-  background-image: url('../../../../assets/dashboard/timepicker.png');
-  background-repeat: no-repeat; //不重复
-  background-size: 80% 80%; // 满屏1
-}
-
-.calendar {
-  width: 1.5vh;
-  height: 2vh;
-  margin-top: 1vh;
-  // margin-left: 0.05vh;
-  background-image: url('../../../../assets/dashboard/calendar.png');
-  background-repeat: no-repeat; //不重复
-  background-size: 100% 100%; // 满屏1
-}
-.calendartext {
-  padding-top: 0.8vh;
-  padding-left: 1vh;
-  color: rgb(255, 255, 255);
-  font-size: 1.5vh;
-  text-align: left; /* 设置文本水平对齐方式为居中 */
-}
 .dateButton {
-  width: 40vh;
-  height: 5vh;
+  :global {
+    .ant-picker {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      padding: 4px 11px 4px;
+      color: rgb(255, 255, 255);
+      font-size: 14px;
+      font-variant: tabular-nums;
+      line-height: 1.5715;
+      list-style: none;
+      background-color: #3041429c;
+      border: 1px solid #3041429c;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: border 0.3s, box-shadow 0.3s;
+      font-feature-settings: 'tnum', 'tnum';
+    }
+  }
+}
+.container {
+  display: flex; /* 使用 Flexbox 布局 */
+  flex-wrap: wrap; /* 元素超过一行时换行 */
+  justify-content: space-between; /* 使元素等距分布 */
 }
 
-:global(.ant-picker) {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  padding: 4px 11px 4px;
-  color: rgb(255, 255, 255);
-  font-size: 14px;
-  font-variant: tabular-nums;
-  line-height: 1.5715;
-  list-style: none;
-  background: #0d2734;
-  border: 1px solid #0d2734;
-  border-radius: 2px;
-  transition: border 0.3s, box-shadow 0.3s;
-  font-feature-settings: 'tnum', 'tnum';
+.item {
+  width: calc(33.33% - 12vh); /* 每个元素的宽度为三等分减去间距 */
+  margin-bottom: 20px; /* 底部间距为 20px */
 }

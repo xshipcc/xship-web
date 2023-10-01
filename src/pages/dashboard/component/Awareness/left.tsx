@@ -11,6 +11,7 @@
 import { Col, Row } from 'antd';
 import React, { useEffect, useState } from 'react';
 import styles from './left.less';
+import VideoPlayer from './video';
 
 const Awareness: React.FC = () => {
   //#region    -----------------------------------------------------------------------
@@ -29,33 +30,41 @@ const Awareness: React.FC = () => {
     <>
       <div className={'boxall'}>
         <div className={styles.content}>
-          <Row>
-            <Col span={2} className={'arrow'} />
-            <Col span={22} className={'title'}>
-              无人机画面01
-            </Col>
-          </Row>
-          <Row>
-            <Col span={24} className={'titleLine'} />
-          </Row>
-          {/*  */}
-          <Row>
-            <Col span={24} className={styles.video} />
-          </Row>
-          {/*  */}
-          <Row>
-            <Col span={2} className={'arrow'} />
-            <Col span={22} className={'title'}>
-              无人机画面02
-            </Col>
-          </Row>
-          <Row>
-            <Col span={24} className={'titleLine'} />
-          </Row>
-          {/*  */}
-          <Row>
-            <Col span={24} className={styles.video} />
-          </Row>
+          <div className={styles.flyMonitor}>
+            {' '}
+            <Row>
+              <Col span={2} className={'arrow'} />
+              <Col span={22} className={'title'}>
+                无人机画面01
+              </Col>
+            </Row>
+            <Row>
+              <Col span={24} className={'titleLine'} />
+            </Row>
+            {/*  */}
+            <Row>
+              <Col span={24} className={styles.video}>
+                <VideoPlayer />
+              </Col>
+            </Row>
+            {/*  */}
+            <Row>
+              <Col span={2} className={'arrow'} />
+              <Col span={22} className={'title'}>
+                无人机画面02
+              </Col>
+            </Row>
+            <Row>
+              <Col span={24} className={'titleLine'} />
+            </Row>
+            {/*  */}
+            <Row>
+              <Col span={24} className={styles.video}>
+                <VideoPlayer />
+              </Col>
+            </Row>
+          </div>
+
           {/*  */}
           <div className={styles.board}>
             <Row>
@@ -76,7 +85,7 @@ const Awareness: React.FC = () => {
                 </Row>
                 <Row>
                   <Col className={styles.text} span={8}>
-                    巡检路线id:
+                    经度:
                   </Col>
                   <Col className={styles.text} span={16}>
                     test
@@ -84,7 +93,15 @@ const Awareness: React.FC = () => {
                 </Row>
                 <Row>
                   <Col className={styles.text} span={8}>
-                    执行时间:
+                    维度:
+                  </Col>
+                  <Col className={styles.text} span={16}>
+                    test
+                  </Col>
+                </Row>
+                <Row>
+                  <Col className={styles.text} span={8}>
+                    高度:
                   </Col>
                   <Col className={styles.text} span={16}>
                     test

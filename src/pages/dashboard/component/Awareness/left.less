@@ -1,9 +1,3 @@
-.video {
-  width: 100%;
-  height: 20vh;
-  background-color: rgb(255, 255, 255);
-  background-image: url('../../../../assets/dashboard/monitor.png');
-}
 .content {
   width: 100%;
   height: 80vh;
@@ -16,4 +10,18 @@
   color: aliceblue;
   background-color: rgba(22, 42, 59, 0.623);
   border: 1.8px solid #3a8686a6;
+}
+.flyMonitor {
+  .video {
+    width: 100%;
+    height: 20vh;
+    padding-right: 2vh;
+    padding-left: 2vh;
+  }
+  :global {
+    .videoPlay-dimensions {
+      width: 100%;
+      height: 120px;
+    }
+  }
 }

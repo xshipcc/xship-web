@@ -98,6 +98,17 @@ const App = () => {
   };
   const handleChange = (value: string) => {
     setCurrentFly(flyData.find((item) => item.name === value));
+
+    console.log('handleChange -> currentFly:', currentFly);
+  };
+  const changelan = (value: string) => {
+    // setCurrentFly(flyData.find((item) => item.name === value));
+  };
+  const changelalt = (value: string) => {
+    // setCurrentFly(flyData.find((item) => item.name === value));
+  };
+  const changealt = (value: string) => {
+    // setCurrentFly(flyData.find((item) => item.name === value));
   };
 
   //#endregion -----------------------------------------------------------------------
@@ -158,11 +169,24 @@ const App = () => {
               <Col span={6} className={styles.headerTitle}>
                 {item.name}
               </Col>
-              <Col span={13} className={styles.headerTitle}>
-                {item.coord}
-              </Col>
-              <Col span={5} className={styles.headerDel} onClick={() => editTrackOver()}>
-                编辑
+              <Col span={18}>
+                <Space.Compact size="middle">
+                  <Input
+                    defaultValue={JSON.parse(item.coord)[0]}
+                    placeholder="请输入经度"
+                    onChange={changelan}
+                  />
+                  <Input
+                    defaultValue={JSON.parse(item.coord)[1]}
+                    placeholder="请输入维度"
+                    onChange={changelalt}
+                  />
+                  <Input
+                    defaultValue={JSON.parse(item.coord)[2]}
+                    placeholder="请输入高度"
+                    onChange={changealt}
+                  />
+                </Space.Compact>
               </Col>
             </Row>
             <div className={styles.tableContent}>

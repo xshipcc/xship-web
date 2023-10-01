@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-15 20:04:35
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-02 04:13:45
+ * @LastEditTime: 2023-10-02 06:34:58
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\TreeList\index.less
  * @Description: 
  * 
@@ -101,6 +101,7 @@
   .headerTitle {
     // background: rgb(121, 242, 157);
     padding-top: 0.5vh;
+    padding-left: 0.5vh;
     color: rgb(154, 203, 219);
     font-size: 2.4vh;
   }
@@ -272,6 +273,31 @@
   height: 48vh; /* 设置容器高度 */
   margin-top: 3vh;
   overflow-y: auto; /* 竖直方向上溢出时显示滚动条 */
+}
+:global {
+  .ant-input {
+    position: relative;
+    display: inline-block;
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    height: 4vh;
+    margin: 0;
+    margin-top: 0.6vh;
+    padding: 0;
+    padding: 4px 11px;
+    color: aqua;
+    font-size: 10px;
+    font-variant: tabular-nums;
+    line-height: 1.5715;
+    list-style: none;
+    // background-color: #0000;
+    background-image: none;
+    border: 1px solid #3a8686a6;
+    border-radius: 2px;
+    transition: all 0.3s;
+    font-feature-settings: 'tnum', 'tnum';
+  }
 }
 .nodeList::-webkit-scrollbar {
   display: none;

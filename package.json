@@ -82,7 +82,9 @@
     "tiff-imagery-provider": "^2.9.2",
     "turf": "^3.0.14",
     "umi": "^3.5.0",
-    "umi-cesium-plugin": "^1.0.5"
+    "umi-cesium-plugin": "^1.0.5",
+    "video.js": "^8.5.2",
+    "videojs-flash": "^2.2.1"
   },
   "devDependencies": {
     "@ant-design/pro-cli": "^2.1.0",
