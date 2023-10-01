@@ -1,13 +1,13 @@
 // @ts-nocheck
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Col, Row } from 'antd';
 import { useSelector, useDispatch, useModel } from 'umi';
 import styles from './index.less';
-import { CaretDownOutlined, CaretRightOutlined } from '@ant-design/icons';
 import { Select, Button } from 'antd';
-import { Table } from 'antd';
 import TableEditable from './table';
-// const DropList: React.FC = (data: any) => {};
+import { PlusOutlined } from '@ant-design/icons';
+import { Divider, Input, Space } from 'antd';
+import type { InputRef } from 'antd';
 
 const App = () => {
   const [data, setData] = useState([
@@ -20,7 +20,6 @@ const App = () => {
   ]);
 
   const [currentList, setCurrentList] = useState(listdata[0].label);
-  const [collapse, setCollapse] = useState(true);
   const [editSignal, setEditSignal] = useState(true);
 
   const [listIndex, setlistIndex] = useState(data.length);
@@ -60,42 +59,62 @@ const App = () => {
     // setCurrentList(value);
   };
 
+  /**
+   *  @file index.tsx
+   *  @time 2023/10/01
+   * @category :
+   * @function :
+   */
+  //#region -------------------------------------------------------------------------
+  let indexItem = 0;
+  const [items, setItems] = useState(['jack', 'lucy']);
+  const [name, setName] = useState('');
+  const inputRef = useRef<InputRef>(null);
+
+  const onNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setName(event.target.value);
+  };
+
+  const addItem = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
+    e.preventDefault();
+    setItems([...items, name || `New item ${indexItem++}`]);
+    setName('');
+    setTimeout(() => {
+      inputRef.current?.focus();
+    }, 0);
+  };
+
+  //#endregion -----------------------------------------------------------------------
+  /**
+   * @end
+   */
   return (
     <div className={styles.content}>
-      <Row>
-        <Col span={16} className={styles.dropList}>
-          <div className={styles.selectname}>
-            <Select
-              labelInValue
-              defaultValue={{ value: 'demo', label: 'demo' }}
-              style={{ width: 160 }}
-              onChange={handleChange}
-              options={listdata}
-            />
-          </div>
-        </Col>
-        <Col span={7} offset={1} className={styles.add} onClick={() => handleListAdd()}>
-          添加
-        </Col>
-      </Row>
+      <Select
+        style={{ width: '100%' }}
+        placeholder="custom dropdown render"
+        dropdownRender={(menu) => (
+          <>
+            {menu}
+            <Divider style={{ margin: '8px 0' }} />
+            <Space style={{ padding: '0 8px 4px' }}>
+              <Input
+                placeholder="Please enter item"
+                ref={inputRef}
+                value={name}
+                onChange={onNameChange}
+              />
+              <Button type="text" icon={<PlusOutlined />} onClick={addItem}>
+                Add item
+              </Button>
+            </Space>
+          </>
+        )}
+        options={items.map((item) => ({ label: item, value: item }))}
+      />
+
       <Row className={styles.header}>
-        <Col span={2}>
-          {collapse ? (
-            <CaretRightOutlined
-              className={styles.collpase}
-              onClick={() => {
-                setCollapse(false);
-              }}
-            />
-          ) : (
-            <CaretDownOutlined
-              className={styles.collpase}
-              onClick={() => {
-                setCollapse(true);
-              }}
-            />
-          )}
-        </Col>
+        <Col span={2}></Col>
         <Col span={12} className={styles.headerTitle}>
           {currentList}
         </Col>
@@ -112,14 +131,9 @@ const App = () => {
           执行
         </Col>
       </Row>
-      <table>
-        {collapse ? null : (
-          <div className={styles.tableContent}>
-            {/* <Table columns={columns} dataSource={tableData} pagination={false} size="small" /> */}
-            <TableEditable listData={listdata} />
-          </div>
-        )}
-      </table>
+      <div className={styles.tableContent}>
+        <TableEditable listData={listdata} />
+      </div>
     </div>
   );
 };

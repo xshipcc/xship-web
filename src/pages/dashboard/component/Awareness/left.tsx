@@ -99,7 +99,7 @@ const Awareness: React.FC = () => {
             </Row>
           </div>
         </div>
-        <div className={'boxfoot'}></div>
+        <div className={'boxfoot'} />
       </div>
     </>
   );

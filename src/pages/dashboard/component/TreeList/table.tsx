@@ -9,7 +9,7 @@ interface Item {
   stayTime: number;
 }
 const originData: Item[] = [];
-for (let i = 0; i < 13; i++) {
+for (let i = 0; i < 3; i++) {
   originData.push({
     key: i.toString(),
     name: `${i}号`,

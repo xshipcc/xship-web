@@ -160,7 +160,7 @@ const AnalysisCenter: React.FC = (props) => {
             {DemoDualAxes()}
           </Col>
         </Row>
-        <div className={styles.boxfoot}></div>
+        <div className={styles.boxfoot} />
       </div>
     </>
   );

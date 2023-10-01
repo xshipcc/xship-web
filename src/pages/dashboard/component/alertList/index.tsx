@@ -2,30 +2,25 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-19 16:30:18
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-01 16:49:18
+ * @LastEditTime: 2023-10-01 23:35:24
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\alertList\index.tsx
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
-import { Badge, Col, Radio, RadioChangeEvent, Row, message } from 'antd';
+import type { RadioChangeEvent } from 'antd';
+import { Badge, Col, Radio, Row, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 import styles from './index.less';
 import VirtualList from 'rc-virtual-list';
 import { List } from 'antd';
 import { io } from 'socket.io-client';
 import type { SocketType } from './socket';
-import { useSelector, useDispatch, useModel } from 'umi';
-import { Button, Drawer, Divider, Image } from 'antd';
+import { useSelector, useDispatch } from 'umi';
+import { Drawer, Divider, Image } from 'antd';
 import { queryAlert, upadtaAlert } from '@/pages/AIalert/service';
 import type { ListAlertHistoryData } from '@/pages/AIalert/data';
-import {
-  CheckOutlined,
-  ClockCircleOutlined,
-  FormOutlined,
-  NotificationOutlined,
-  RollbackOutlined,
-} from '@ant-design/icons';
+import { CheckOutlined, ClockCircleOutlined, RollbackOutlined } from '@ant-design/icons';
 const socket: SocketType = io('ws://ai.javodata.com:8883/mqtt ');
 
 interface AlertType {
@@ -485,7 +480,6 @@ const AlertList: React.FC<AlertListType> = (props: AlertListType) => {
           </Row>
         </Drawer>
       </div>
-      ;
       <VirtualList data={data} height={containerHeight} itemHeight={1} itemKey="id">
         {(item: ListAlertHistoryData) => (
           <List.Item

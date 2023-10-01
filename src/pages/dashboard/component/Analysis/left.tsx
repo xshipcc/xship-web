@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-01 22:57:46
+ * @LastEditTime: 2023-10-01 23:27:50
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Analysis\left.tsx
  * @Description:
  *
@@ -206,7 +206,7 @@ const Analysis: React.FC = (props) => {
               <Area {...config} />
             </Col>
           </Row>
-          <div className={'boxfoot'}></div>
+          <div className={'boxfoot'} />
         </div>
       </div>
     </>
