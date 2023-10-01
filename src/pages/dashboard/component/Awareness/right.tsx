@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-30 12:09:48
+ * @LastEditTime: 2023-10-01 14:34:41
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\right.tsx
  * @Description:
  *
@@ -124,7 +124,7 @@ const AwarenessRight: React.FC = () => {
         {/*  */}
         <Row>
           <Col span={24} className={styles.listcontent}>
-            <AlertList height={410} />
+            <AlertList height={400} />
           </Col>
         </Row>
       </div>

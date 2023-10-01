@@ -2,13 +2,13 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-19 16:30:18
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-30 12:10:21
+ * @LastEditTime: 2023-10-01 16:49:18
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\alertList\index.tsx
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
-import { Col, Radio, RadioChangeEvent, Row, message } from 'antd';
+import { Badge, Col, Radio, RadioChangeEvent, Row, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 import styles from './index.less';
 import VirtualList from 'rc-virtual-list';
@@ -19,6 +19,13 @@ import { useSelector, useDispatch, useModel } from 'umi';
 import { Button, Drawer, Divider, Image } from 'antd';
 import { queryAlert, upadtaAlert } from '@/pages/AIalert/service';
 import type { ListAlertHistoryData } from '@/pages/AIalert/data';
+import {
+  CheckOutlined,
+  ClockCircleOutlined,
+  FormOutlined,
+  NotificationOutlined,
+  RollbackOutlined,
+} from '@ant-design/icons';
 const socket: SocketType = io('ws://ai.javodata.com:8883/mqtt ');
 
 interface AlertType {
@@ -322,10 +329,11 @@ const AlertList: React.FC<AlertListType> = (props: AlertListType) => {
   // lon: number;
   // altitude: number;
   // confirm: number;
+
   return (
     // <></>
     <List className={styles.lists} bordered={false} split={false}>
-      <div className={styles.drawercontent}>
+      <div className={styles.drawercontent} style={{ zIndex: open ? 1 : -1 }}>
         <Drawer
           title={drawerData.name}
           // @ts-ignore
@@ -341,150 +349,143 @@ const AlertList: React.FC<AlertListType> = (props: AlertListType) => {
             src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
           />
           <Divider style={{ color: 'white' }}>告警列表详情</Divider>
+          <Badge
+            status={
+              drawerData.type === 0
+                ? 'success'
+                : drawerData.type === 1
+                ? 'error'
+                : drawerData.type === 2
+                ? 'default'
+                : 'warning'
+            }
+            text={
+              drawerData.type === 0
+                ? '发现人员'
+                : drawerData.type === 1
+                ? '发现车辆'
+                : drawerData.type === 2
+                ? '发现入侵'
+                : '发现烟火'
+            }
+          />
+          <Divider type="vertical" />
+          <Badge
+            status={
+              drawerData.platform === 0
+                ? 'success'
+                : drawerData.platform === 1
+                ? 'error'
+                : drawerData.platform === 2
+                ? 'default'
+                : drawerData.platform === 3
+                ? 'processing'
+                : 'warning'
+            }
+            text={
+              drawerData.platform === 0
+                ? '全部'
+                : drawerData.platform === 1
+                ? '飞机'
+                : drawerData.platform === 2
+                ? '摄像头'
+                : drawerData.platform === 3
+                ? '机库'
+                : 'AI'
+            }
+          />
           <Row>
-            <Col span={9} className={styles.alertInfoTitle}>
-              报警类型:
+            <Col span={8} className={styles.text}>
+              系统分类
             </Col>
-            <Col span={15} className={styles.alertInfo}>
-              <Radio.Group value={drawerData.type}>
-                <Radio style={{ color: 'white' }} value={0}>
-                  发现人员
-                </Radio>
-                <Radio style={{ color: 'white' }} value={1}>
-                  发现车辆
-                </Radio>
-                <Radio style={{ color: 'white' }} value={2}>
-                  发现入侵
-                </Radio>
-                <Radio style={{ color: 'white' }} value={3}>
-                  发现烟火
-                </Radio>
-              </Radio.Group>
+            <Col span={8} className={styles.text}>
+              预警等级
+            </Col>
+            <Col span={8} className={styles.text}>
+              报警数量
             </Col>
           </Row>
           <Row>
-            <Col span={9} className={styles.alertInfoTitle}>
-              系统分类:
-            </Col>
-            <Col span={15} className={styles.alertInfo}>
+            <Col span={8} className={styles.textnumbergreen}>
               {drawerData.code}
             </Col>
-          </Row>
-          <Row>
-            <Col span={9} className={styles.alertInfoTitle}>
-              预警等级:
-            </Col>
-            <Col span={15} className={styles.alertInfo}>
+            <Col span={8} className={styles.textnumberyellow}>
               {drawerData.level}
             </Col>
-          </Row>
-          <Row>
-            <Col span={9} className={styles.alertInfoTitle}>
-              报警数量:
-            </Col>
-            <Col span={15} className={styles.alertInfo}>
+            <Col span={8} className={styles.textRed}>
               {drawerData.count}
             </Col>
           </Row>
           <Row>
-            <Col span={9} className={styles.alertInfoTitle}>
-              预警等级:
+            <Col span={2}>
+              <ClockCircleOutlined />
             </Col>
-            <Col span={15} className={styles.alertInfo}>
-              {drawerData.level}
-            </Col>
-          </Row>
-          <Row>
-            <Col span={9} className={styles.alertInfoTitle}>
-              发生时间:
-            </Col>
-            <Col span={15} className={styles.alertInfo}>
+            <Col span={21} offset={1}>
               {drawerData.start_time}
             </Col>
           </Row>
           <Row>
-            <Col span={9} className={styles.alertInfoTitle}>
-              备注:
-            </Col>
-            <Col span={15} className={styles.alertInfo}>
+            <Col className={styles.note} span={24}>
               {drawerData.note}
             </Col>
           </Row>
+
+          <Divider style={{ color: 'white' }}>检查确认</Divider>
           <Row>
-            <Col span={9} className={styles.alertInfoTitle}>
-              报警平台:
-            </Col>
-            <Col span={15} className={styles.alertInfo}>
-              <Radio.Group value={drawerData.platform}>
-                <Radio style={{ color: 'white' }} value={0}>
-                  全部
-                </Radio>
-                <Radio style={{ color: 'white' }} value={1}>
-                  飞机
-                </Radio>
-                <Radio style={{ color: 'white' }} value={2}>
-                  摄像头
-                </Radio>
-                <Radio style={{ color: 'white' }} value={3}>
-                  机库
-                </Radio>
-                <Radio style={{ color: 'white' }} value={4}>
-                  AI
-                </Radio>
-              </Radio.Group>
-            </Col>
-          </Row>
-          <Row>
-            <Col span={9} className={styles.alertInfoTitle}>
-              报警确认:
-            </Col>
-            <Col span={15} className={styles.alertInfo}>
+            <Col span={24}>
               <Radio.Group onChange={onChange} value={drawerData.confirm}>
                 <Radio style={{ color: 'white' }} value={1}>
                   是
                 </Radio>
-                <Radio style={{ color: 'red' }} value={0}>
+                <Divider type="vertical" />
+                <Divider type="vertical" />
+                <Divider type="vertical" />
+                <Divider type="vertical" />
+                <Divider type="vertical" />
+                <Radio style={{ color: 'white' }} value={0}>
                   否
                 </Radio>
               </Radio.Group>
-              {/* {drawerData.platform} */}
             </Col>
           </Row>
+          <Divider style={{ color: 'white' }} />
           <Row>
-            <Col span={8}>
-              <Button
-                type="primary"
-                onClick={() => {
-                  setOpen(false);
-                }}
-              >
-                返回
-              </Button>
+            <Col
+              className={styles.button}
+              span={8}
+              onClick={() => {
+                setOpen(false);
+              }}
+            >
+              <RollbackOutlined />
+              返回
             </Col>
-            <Col span={8} offset={8}>
-              <Button
-                type="primary"
-                onClick={async () => {
-                  {
-                    const hide = message.loading('正在更新');
-                    try {
-                      await upadtaAlert({ confirm: drawerData.confirm, id: drawerData.id });
-                      message.success('更新成功');
-                      return true;
-                    } catch (error) {
-                      hide();
-                      message.error('更新失败请重试！');
-                      return false;
-                    }
+            <Col
+              className={styles.button}
+              span={8}
+              offset={8}
+              onClick={async () => {
+                {
+                  const hide = message.loading('正在更新');
+                  try {
+                    await upadtaAlert({ confirm: drawerData.confirm, id: drawerData.id });
+                    message.success('更新成功');
+                    return true;
+                  } catch (error) {
+                    hide();
+                    message.error('更新失败请重试！');
+                    return false;
                   }
-                }}
-              >
-                确认修改
-              </Button>
+                }
+              }}
+            >
+              <CheckOutlined />
+              确认
             </Col>
           </Row>
         </Drawer>
       </div>
+      ;
       <VirtualList data={data} height={containerHeight} itemHeight={1} itemKey="id">
         {(item: ListAlertHistoryData) => (
           <List.Item
@@ -506,10 +507,15 @@ const AlertList: React.FC<AlertListType> = (props: AlertListType) => {
                 />
               </Col>
               <Col span={17} className={styles.alertcontent}>
-                <p className={styles.alertTitle}> 无人机巡检告警{item.id}</p>
+                <p className={styles.alertTitle}>
+                  <Badge
+                    status={item.confirm ? 'success' : 'error'}
+                    text={'无人机巡检告警' + item.id}
+                  />
+                </p>
                 <Row>
                   <Col span={9} className={styles.alertInfoTitle}>
-                    巡检时间:
+                    巡检时间 :
                   </Col>
                   <Col span={15} className={styles.alertInfo}>
                     {item.start_time}
@@ -517,7 +523,7 @@ const AlertList: React.FC<AlertListType> = (props: AlertListType) => {
                 </Row>
                 <Row>
                   <Col span={9} className={styles.alertInfoTitle}>
-                    报警标题:
+                    报警标题 :
                   </Col>
                   <Col span={15} className={styles.alertInfo}>
                     {item.name}
