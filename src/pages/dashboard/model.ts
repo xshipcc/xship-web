@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-16 18:32:55
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-20 01:10:55
+ * @LastEditTime: 2023-10-02 19:15:29
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\model.ts
  * @Description:
  *
@@ -12,11 +12,13 @@ import type { Effect, ImmerReducer } from 'umi';
 import { getDashboardInfo } from './service';
 import { getAlertList } from './service';
 import type { DashboardInfoType } from './typings';
+import type { ListUavFlyDataType } from '@/pages/drone/routePlan/data';
 export interface DashboardState {
   dashboardInfo: DashboardInfoType;
   checkedCompanyId: string | undefined;
   enterpriseOptions: string[];
   alertList: string[];
+  currentFlyData: ListUavFlyDataType;
 }
 export interface DashboardModelType {
   namespace: 'dashboardModel';
@@ -26,6 +28,7 @@ export interface DashboardModelType {
     saveEnterpriseOptions: ImmerReducer<string> | any;
     saveDashboardInfo: ImmerReducer<string> | any;
     saveAlertList: ImmerReducer<string> | any;
+    saveCurrentFlyData: ImmerReducer<string> | any;
   };
   effects: {
     // fetchEnterpriseOptions: Effect;
@@ -61,6 +64,13 @@ const CompanyModel: DashboardModelType = {
     checkedCompanyId: undefined,
     enterpriseOptions: [],
     alertList: [],
+    currentFlyData: {
+      id: 0,
+      name: '',
+      data: [],
+      create_time: '',
+      creator: '',
+    },
   },
   reducers: {
     saveCheckedCompanyID(state: DashboardState, action: { payload: string }) {
@@ -75,7 +85,10 @@ const CompanyModel: DashboardModelType = {
     },
     saveAlertList(state: DashboardState, action: { payload: [] }) {
       state.alertList = action.payload;
-      console.log('saveAlertList ->    state.alertList :', state.alertList);
+    },
+    saveCurrentFlyData(state: DashboardState, action: { payload: ListUavFlyDataType }) {
+      state.currentFlyData = action.payload;
+      console.log('saveCurrentFlyData -> action.payload:', action.payload);
     },
   },
   effects: {

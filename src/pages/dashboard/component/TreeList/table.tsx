@@ -7,7 +7,7 @@ import type {
   ListUavFlyDataType,
 } from '@/pages/drone/routePlan/data';
 import { Form, Input, InputNumber, Popconfirm, Table, Typography } from 'antd';
-
+import { MutableRefObject, useImperativeHandle } from 'react';
 interface Item {
   key: string;
   horizontal: number;
@@ -76,7 +76,7 @@ const TableEditable: React.FC = (listData: any) => {
   const isEditing = (record: Item) => record.key === editingKey;
 
   const edit = (record: Partial<Item> & { key: React.Key }) => {
-    form.setFieldsValue({ name: '', age: '', address: '', ...record });
+    form.setFieldsValue({ ...record });
     setEditingKey(record.key);
   };
 
