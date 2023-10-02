@@ -8,6 +8,7 @@ import type {
 } from '@/pages/drone/routePlan/data';
 import { Form, Input, InputNumber, Popconfirm, Table, Typography } from 'antd';
 import { MutableRefObject, useImperativeHandle } from 'react';
+import { useDispatch, useSelector } from 'umi';
 interface Item {
   key: string;
   horizontal: number;
@@ -70,20 +71,21 @@ const EditableCell: React.FC<EditableCellProps> = ({
 const TableEditable: React.FC = (listData: any) => {
   console.log('listData:', listData.listData);
   const [form] = Form.useForm();
-  const [data, setData] = useState<Item[]>(listData.listData);
+  const [data, setData] = useState<Item[]>(listData.listData.nodeData);
   const [editingKey, setEditingKey] = useState('');
-
   const isEditing = (record: Item) => record.key === editingKey;
-
   const edit = (record: Partial<Item> & { key: React.Key }) => {
     form.setFieldsValue({ ...record });
     setEditingKey(record.key);
   };
+  const initData: ListUavFlyDataType = useSelector(
+    (state: any) => state.dashboardModel.currentFlyData,
+  );
+  const dispatch = useDispatch();
 
   const save = async (key: React.Key) => {
     try {
       const row = (await form.validateFields()) as Item;
-
       const newData = [...data];
       const index = newData.findIndex((item) => key === item.key);
       if (index > -1) {
@@ -92,11 +94,31 @@ const TableEditable: React.FC = (listData: any) => {
           ...item,
           ...row,
         });
+
         setData(newData);
+        const array = Object.assign({}, initData);
+        const Cache = array.data.map((node: NodeType) => {
+          if (node.name === listData.listData.name) {
+            console.log('Cache -> node:', node);
+            const updatedNode = Object.assign({}, node); // 创建一个新对象并复制属性
+            updatedNode.nodeData = newData; // 修改属性值
+            return updatedNode;
+          }
+          return node;
+        });
+        console.log('Cache -> Cache:', Cache);
+        array.data = Cache;
+        console.log('save ->   array.data:', array.data);
+
+        dispatch({
+          type: 'dashboardModel/saveCurrentFlyData',
+          payload: array,
+        });
         setEditingKey('');
       } else {
         newData.push(row);
         setData(newData);
+
         setEditingKey('');
       }
     } catch (errInfo) {

@@ -8,8 +8,9 @@ import TableEditable from './table';
 import { PlusOutlined } from '@ant-design/icons';
 import { SaveOutlined } from '@ant-design/icons';
 import { Divider, Input, Space } from 'antd';
+import { message } from 'antd';
 import type { InputRef } from 'antd';
-import { queryFly } from '@/pages/drone/routePlan/service';
+import { queryFly, addFly } from '@/pages/drone/routePlan/service';
 import type {
   ListUavFlyReqType,
   ListUavFlyRespType,
@@ -41,14 +42,8 @@ const App = () => {
     setflyNameList(nameListData);
   }, [flyData]);
 
-  const [data, setData] = useState([
-    { key: '0', name: 'Edwad', coord: '114.292, 38.067,100', stay: '1', parent: '东北' },
-    { key: '1', name: 'Edwa', coord: '114.293, 38.067,100', stay: '2', parent: '东北' },
-  ]);
-
   const [editSignal, setEditSignal] = useState(true);
 
-  const [listIndex, setlistIndex] = useState(data.length);
   // 获取全局的轨迹信息
   const dispatch = useDispatch();
 
@@ -67,11 +62,6 @@ const App = () => {
     });
   };
 
-  const handleSaveList = () => {
-    setlistIndex(0);
-    setData([]);
-  };
-
   /**
    *  @file index.tsx
    *  @time 2023/10/01
@@ -84,7 +74,7 @@ const App = () => {
   const inputRef = useRef<InputRef>(null);
   const [currentFly, setCurrentFly] = useState<ListUavFlyDataType>(null);
   const currentFlyCache = useRef<ListUavFlyDataType>(null);
-  // const initData = useSelector((state: any) => state.dashboardModel.currentFlyData);
+  const initData = useSelector((state: any) => state.dashboardModel.currentFlyData);
   const onNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
   };
@@ -99,51 +89,117 @@ const App = () => {
   };
   const handleChange = (value: string) => {
     setCurrentFly(flyData.find((item) => item.name === value));
-    // currentFlyCache.current = flyData.find((item) => item.name === value);
-    // dispatch({
-    //   type: 'dashboardModel/saveCurrentFlyData',
-    //   payload: currentFlyCache.current,
-    // });
-    // console.log('handleChange -> initData:', initData);
+    currentFlyCache.current = flyData.find((item) => item.name === value);
+    dispatch({
+      type: 'dashboardModel/saveCurrentFlyData',
+      payload: currentFlyCache.current,
+    });
   };
-  // 实时修改经纬高
+  // 实时修改经纬高,名称
   const changelan = (value: string, index: any) => {
     const Cache = currentFlyCache.current?.data.map((item: NodeType) => {
       if (item.name === index) {
         const cootdCache = JSON.parse(item.coord);
         cootdCache[0] = value.target.value;
-        item.coord = '[' + cootdCache + ']';
-        return item;
+        const updatedNode = Object.assign({}, item); // 创建一个新对象并复制属性
+        updatedNode.coord = '[' + cootdCache + ']';
+        return updatedNode;
       }
       return item;
     });
-    currentFlyCache.current.data = Cache;
+    // currentFlyCache.current.data = Cache;
+    const updatedCurrentFlyCache = Object.assign({}, currentFlyCache.current); // 创建一个新对象并复制属性
+    updatedCurrentFlyCache.data = Cache;
+    // console.log('changealt -> updatedCurrentFlyCache:', updatedCurrentFlyCache);
+    dispatch({
+      type: 'dashboardModel/saveCurrentFlyData',
+      payload: updatedCurrentFlyCache,
+    });
   };
   const changelat = (value: string, index: any) => {
     const Cache = currentFlyCache.current?.data.map((item: NodeType) => {
       if (item.name === index) {
         const cootdCache = JSON.parse(item.coord);
         cootdCache[1] = value.target.value;
-        item.coord = '[' + cootdCache + ']';
-        return item;
+        const updatedNode = Object.assign({}, item); // 创建一个新对象并复制属性
+        updatedNode.coord = '[' + cootdCache + ']';
+        return updatedNode;
       }
       return item;
     });
-    currentFlyCache.current.data = Cache;
+    // currentFlyCache.current.data = Cache;
+    const updatedCurrentFlyCache = Object.assign({}, currentFlyCache.current); // 创建一个新对象并复制属性
+    updatedCurrentFlyCache.data = Cache;
+    // console.log('changealt -> updatedCurrentFlyCache:', updatedCurrentFlyCache);
+    dispatch({
+      type: 'dashboardModel/saveCurrentFlyData',
+      payload: updatedCurrentFlyCache,
+    });
   };
   const changealt = (value: string, index: any) => {
-    console.log('changealt -> index:', index);
-    console.log('changelalt -> value:', value.target.value);
     const Cache = currentFlyCache.current?.data.map((item: NodeType) => {
       if (item.name === index) {
         const cootdCache = JSON.parse(item.coord);
         cootdCache[2] = value.target.value;
-        item.coord = '[' + cootdCache + ']';
-        return item;
+        const updatedNode = Object.assign({}, item); // 创建一个新对象并复制属性
+        updatedNode.coord = '[' + cootdCache + ']';
+        return updatedNode;
       }
       return item;
     });
-    currentFlyCache.current.data = Cache;
+    // currentFlyCache.current.data = Cache;
+    const updatedCurrentFlyCache = Object.assign({}, currentFlyCache.current); // 创建一个新对象并复制属性
+    updatedCurrentFlyCache.data = Cache;
+    // console.log('changealt -> updatedCurrentFlyCache:', updatedCurrentFlyCache);
+    dispatch({
+      type: 'dashboardModel/saveCurrentFlyData',
+      payload: updatedCurrentFlyCache,
+    });
+  };
+  // export interface AddUavFlyReqType {
+  //   name: string;
+  //   data: string;
+  //   create_time: string;
+  //   creator: string;
+  // }
+  const handleAdd = async () => {
+    const params = {
+      name: initData?.name ? initData?.name : '',
+      data: initData?.data ? initData?.data : '',
+      create_time: initData?.create_time ? initData?.create_time : '',
+      creator: initData?.creator ? initData?.creator : '',
+    };
+    console.log('handleAdd -> params:', params);
+
+    const hide = message.loading('正在添加');
+    try {
+      await addFly({ ...params });
+      hide();
+      message.success('添加成功');
+      return true;
+    } catch (error) {
+      hide();
+      message.error('添加失败请重试！');
+      return false;
+    }
+  };
+  const changename = (value: string, index: any) => {
+    const Cache = currentFlyCache.current?.data.map((item: NodeType) => {
+      if (item.name === index) {
+        const updatedNode = Object.assign({}, item); // 创建一个新对象并复制属性
+        updatedNode.name = value.target.value;
+        return updatedNode;
+      }
+      return item;
+    });
+    // currentFlyCache.current.data = Cache;
+    const updatedCurrentFlyCache = Object.assign({}, currentFlyCache.current); // 创建一个新对象并复制属性
+    updatedCurrentFlyCache.data = Cache;
+    // console.log('changealt -> updatedCurrentFlyCache:', updatedCurrentFlyCache);
+    dispatch({
+      type: 'dashboardModel/saveCurrentFlyData',
+      payload: updatedCurrentFlyCache,
+    });
   };
   // 子组件实例方法
   //#endregion -----------------------------------------------------------------------
@@ -192,7 +248,13 @@ const App = () => {
           </Button>
         </Col>
         <Col span={12} className={'title'}>
-          <Button type="text" className={styles.button} onClick={() => {}}>
+          <Button
+            type="text"
+            className={styles.button}
+            onClick={() => {
+              handleAdd();
+            }}
+          >
             保存信息
           </Button>
         </Col>
@@ -201,14 +263,21 @@ const App = () => {
         {currentFly?.data.map((item: NodeType) => (
           <div key={item.id}>
             <Row className={styles.header}>
-              <Col span={6} className={styles.headerTitle}>
-                {item.name}
+              <Col span={6}>
+                <Input
+                  defaultValue={item.name}
+                  placeholder="请输入名称"
+                  onChange={(e) => {
+                    changename(e, item.name);
+                  }}
+                />
               </Col>
               <Col span={18}>
                 <Space.Compact size="middle">
                   <Input
                     defaultValue={JSON.parse(item.coord)[0]}
                     placeholder="请输入经度"
+                    readOnly="true"
                     onChange={(e) => {
                       changelan(e, item.name);
                     }}
@@ -216,6 +285,7 @@ const App = () => {
                   <Input
                     defaultValue={JSON.parse(item.coord)[1]}
                     placeholder="请输入维度"
+                    readOnly="true"
                     onChange={(e) => {
                       changelat(e, item.name);
                     }}
@@ -223,6 +293,7 @@ const App = () => {
                   <Input
                     defaultValue={JSON.parse(item.coord)[2]}
                     placeholder="请输入高度"
+                    readOnly="true"
                     onChange={(e) => {
                       changealt(e, item.name);
                     }}

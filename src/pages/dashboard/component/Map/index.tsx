@@ -148,7 +148,7 @@ const Map: React.FC = () => {
               type: 'trackModel/saveTrackList',
               payload: trackPosition,
             });
-            console.log('trackPosition:', trackPosition);
+            // console.log('trackPosition:', trackPosition);
             // 在这里处理 trackPosition 的值
           })
           .catch((error) => {
