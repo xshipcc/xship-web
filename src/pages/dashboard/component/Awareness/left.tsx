@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-03 14:53:53
+ * @LastEditTime: 2023-10-03 19:56:59
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\left.tsx
  * @Description:
  *
@@ -109,44 +109,8 @@ const Awareness: React.FC = () => {
               </Col>
             </Row>
           </div>
-
           {/*  */}
-          <div className={styles.board}>
-            <Row>
-              <Col span={2} className={'arrow'} />
-              <Col span={22} className={'title'}>
-                无人机态势信息
-              </Col>
-            </Row>
-            <Row>
-              <Col span={24}>
-                <Row>
-                  <Col className={styles.text} span={8}>
-                    速度:
-                  </Col>
-                  <Col className={styles.text} span={16}>
-                    {DroneData.speed}
-                  </Col>
-                </Row>
-                <Row>
-                  <Col className={styles.text} span={8}>
-                    坐标:
-                  </Col>
-                  <Col className={styles.text} span={16}>
-                    {DroneData.height + DroneData.lat + DroneData.lon}
-                  </Col>
-                </Row>
-                <Row>
-                  <Col className={styles.text} span={8}>
-                    角度:
-                  </Col>
-                  <Col className={styles.text} span={16}>
-                    {DroneData.target_angle}
-                  </Col>
-                </Row>
-              </Col>
-            </Row>
-          </div>
+          {/*  */}
         </div>
         <div className={'boxfoot'} />
       </div>
@@ -155,3 +119,39 @@ const Awareness: React.FC = () => {
 };
 
 export default Awareness;
+// <div className={styles.board}>
+//   <Row>
+//     <Col span={2} className={'arrow'} />
+//     <Col span={22} className={'title'}>
+//       无人机态势信息
+//     </Col>
+//   </Row>
+//   <Row>
+//     <Col span={24}>
+//       <Row>
+//         <Col className={styles.text} span={8}>
+//           速度:
+//         </Col>
+//         <Col className={styles.text} span={16}>
+//           {DroneData.speed}
+//         </Col>
+//       </Row>
+//       <Row>
+//         <Col className={styles.text} span={8}>
+//           坐标:
+//         </Col>
+//         <Col className={styles.text} span={16}>
+//           {/* {DroneData.height + DroneData.lat + DroneData.lon} */}
+//         </Col>
+//       </Row>
+//       <Row>
+//         <Col className={styles.text} span={8}>
+//           角度:
+//         </Col>
+//         <Col className={styles.text} span={16}>
+//           {DroneData.target_angle}
+//         </Col>
+//       </Row>
+//     </Col>
+//   </Row>
+// </div>;
