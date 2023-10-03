@@ -42,26 +42,6 @@ const App = () => {
     setflyNameList(nameListData);
   }, [flyData]);
 
-  const [editSignal, setEditSignal] = useState(true);
-
-  // 获取全局的轨迹信息
-  const dispatch = useDispatch();
-
-  const editTrack = () => {
-    setEditSignal(false);
-    dispatch({
-      type: 'trackModel/changeEditSignal',
-      payload: [true, false],
-    });
-  };
-  const editTrackOver = () => {
-    setEditSignal(true);
-    dispatch({
-      type: 'trackModel/changeEditSignal',
-      payload: [false, true],
-    });
-  };
-
   /**
    *  @file index.tsx
    *  @time 2023/10/01
@@ -78,7 +58,60 @@ const App = () => {
   const onNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
   };
+  const [editSignal, setEditSignal] = useState(true);
 
+  // 获取全局的轨迹信息
+  const dispatch = useDispatch();
+  const trackList = useSelector((state: any) => state.trackModel.trackList);
+  const editTrack = () => {
+    setEditSignal(false);
+    dispatch({
+      type: 'trackModel/changeEditSignal',
+      payload: [true, false],
+    });
+  };
+  const editTrackOver = () => {
+    setEditSignal(true);
+    dispatch({
+      type: 'trackModel/changeEditSignal',
+      payload: [false, true],
+    });
+
+    // console.log('App -> trackList:', trackList);`
+    // console.log('App -> currentFly:', currentFly);
+
+    const transformedArray = trackList.map(([longitude, latitude, height], index) => ({
+      name: currentFly?.data[index]?.name ? currentFly.data[index]?.name : '',
+      coord: `[${longitude},${latitude},${height}]`,
+      nodeData: [],
+    }));
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, '0');
+    const date = String(now.getDate()).padStart(2, '0');
+    const hour = String(now.getHours()).padStart(2, '0');
+    const minute = String(now.getMinutes()).padStart(2, '0');
+    const second = String(now.getSeconds()).padStart(2, '0');
+
+    const formattedTime = `${year}-${month}-${date} ${hour}:${minute}:${second}`;
+    const editData = {
+      id: 0,
+      name: name,
+      create_time: formattedTime,
+      creator: 'Paul Lewis',
+      data: transformedArray,
+    };
+    console.log('editTrackOver -> editData.name:', name);
+    setCurrentFly(editData);
+    currentFlyCache.current = editData;
+  };
+
+  useEffect(() => {
+    dispatch({
+      type: 'dashboardModel/saveCurrentFlyData',
+      payload: currentFly,
+    });
+  }, [currentFly]);
   const addItem = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
     e.preventDefault();
     setflyNameList([...flyNameList, name || `路线${indexItem++}`]);
@@ -89,6 +122,7 @@ const App = () => {
   };
   const handleChange = (value: string) => {
     setCurrentFly(flyData.find((item) => item.name === value));
+    setName(value);
     currentFlyCache.current = flyData.find((item) => item.name === value);
     dispatch({
       type: 'dashboardModel/saveCurrentFlyData',
@@ -237,15 +271,27 @@ const App = () => {
       </Row>
       <Row className={styles.buttonRow}>
         <Col span={12} className={'title'}>
-          <Button
-            type="text"
-            className={styles.button}
-            onClick={() => {
-              editTrack();
-            }}
-          >
-            航线编辑
-          </Button>
+          {editSignal ? (
+            <Button
+              type="text"
+              className={styles.button}
+              onClick={() => {
+                editTrack();
+              }}
+            >
+              航线编辑
+            </Button>
+          ) : (
+            <Button
+              type="text"
+              className={styles.button}
+              onClick={() => {
+                editTrackOver();
+              }}
+            >
+              编辑完成
+            </Button>
+          )}
         </Col>
         <Col span={12} className={'title'}>
           <Button
@@ -301,9 +347,9 @@ const App = () => {
                 </Space.Compact>
               </Col>
             </Row>
-            <div className={styles.tableContent}>
+            {/* <div className={styles.tableContent}>
               <TableEditable listData={item} />
-            </div>
+            </div> */}
           </div>
         ))}
       </div>

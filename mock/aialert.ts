@@ -24,7 +24,7 @@ export default {
     // 生成 ListtAlertHistoryData 的模拟数据
     const mockListtAlertHistoryData = () => {
       return Mock.mock({
-        id: '@integer(1, 100)',
+        id: '999',
         name: '@cname',
         image: '@image',
         type: '@integer(0, 3)',
@@ -45,7 +45,7 @@ export default {
     // 生成 ListAlertHistoryResp 的模拟数据
     const mockListAlertHistoryResp = () => {
       const data = [];
-      for (let i = 0; i < 10; i++) {
+      for (let i = 0; i < 1; i++) {
         data.push(mockListtAlertHistoryData());
       }
 

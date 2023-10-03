@@ -5,6 +5,8 @@ import * as Cesium from 'cesium';
 import styles from './index.less';
 import 'cesium/Source/Widgets/widgets.css';
 import { Button } from 'antd';
+import type { Alert } from '../../typings';
+import * as mqtt from 'mqtt';
 
 import Track from '../../../../utils/js/track';
 import TIFFImageryProvider from 'tiff-imagery-provider';
@@ -12,6 +14,33 @@ import Tool from '@/utils/js/measure/measureTool';
 import util from '@/utils/js/util';
 import { useSelector, useDispatch, useModel } from 'umi';
 import S_Measure from '@/utils/js/measure';
+
+const clientId = 'mapAlert' + Math.random().toString(16).substring(2, 8);
+const username = 'emqx_test';
+const password = 'emqx_test';
+
+const client = mqtt.connect('ws://ai.javodata.com:8883/mqtt', {
+  clientId,
+  username,
+  password,
+  // ...other options
+});
+const mqttSub = (subscription: { topic: any; qos: any }) => {
+  if (client) {
+    const { topic, qos } = subscription;
+    client.subscribe(topic, { qos }, (error) => {
+      if (error) {
+        console.log('Subscribe to topics error', error);
+        return;
+      }
+      console.log(`Subscribe to topics: ${topic}`);
+    });
+  }
+};
+
+setTimeout(() => {
+  mqttSub({ topic: 'alert', qos: 0 });
+}, 1000);
 const Map: React.FC = () => {
   //#region    -----------------------------------------------------------------------
   /**
@@ -55,6 +84,7 @@ const Map: React.FC = () => {
   const dispatch = useDispatch();
   const trackList = useSelector((state: any) => state.trackModel.trackList);
   const editSignal = useSelector((state: any) => state.trackModel.editSignal);
+  const alertData: ListAlertHistoryData = useSelector((state: any) => state.trackModel.alertData);
   console.log('editSignal:', editSignal);
   useEffect(() => {
     // const viewer = new Cesium.Viewer(divRef.current as Element, {
@@ -100,10 +130,10 @@ const Map: React.FC = () => {
       }),
     });
 
-    viewer.current.scene.screenSpaceCameraController.maximumZoomDistance = 20000;
-    viewer.current.scene.screenSpaceCameraController.minimumZoomDistance = 100;
-    viewer.current.scene.screenSpaceCameraController._minimumZoomRate = 5000; // 设置相机缩小时的速率
-    viewer.current.scene.screenSpaceCameraController._maximumZoomRate = 5000; //设置相机放大时的速率
+    // viewer.current.scene.screenSpaceCameraController.maximumZoomDistance = 20000;
+    // viewer.current.scene.screenSpaceCameraController.minimumZoomDistance = 100;
+    // viewer.current.scene.screenSpaceCameraController._minimumZoomRate = 5000; // 设置相机缩小时的速率
+    // viewer.current.scene.screenSpaceCameraController._maximumZoomRate = 5000; //设置相机放大时的速率
     viewer.current._cesiumWidget._creditContainer.style.display = 'none';
     // MeasureTools.current = new S_Measure(viewer); //测量类
     MeasureTools.current = new Tool(viewer.current);
@@ -150,6 +180,10 @@ const Map: React.FC = () => {
             });
             // console.log('trackPosition:', trackPosition);
             // 在这里处理 trackPosition 的值
+            dispatch({
+              type: 'trackModel/saveEntities',
+              payload: viewer.current.entities,
+            });
           })
           .catch((error) => {
             console.error('发生错误:', error);
@@ -172,7 +206,80 @@ const Map: React.FC = () => {
       MeasureTools.current.clear();
     }
   }, [editSignal]);
+  // 添加告警信息到场景
+  // useEffect(() => {
+  //   console.log('alertData:', alertData?.altitude, alertData?.lan, alertData?.lon);
+  //   console.log('useEffect -> alertData:', alertData);
+  //   // const cartesian = Cesium.Cartesian3.fromDegrees(alertData., latitude, height);
+  //   // viewer.entities.add({
+  //   //   position: c,
+  //   //   label: {
+  //   //     text: 'text' || '',
+  //   //     font: '18px Helvetica',
+  //   //     fillColor: Cesium.Color.WHITE,
+  //   //     outlineColor: Cesium.Color.BLACK,
+  //   //     outlineWidth: 2,
+  //   //     disableDepthTestDistance: Number.POSITIVE_INFINITY,
+  //   //     style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+  //   //     pixelOffset: new Cesium.Cartesian2(0, -20),
+  //   //   },
+  //   // });
+  // }, [alertData]);
 
+  useEffect(() => {
+    client.on('message', (topic: string, mqttMessage: any) => {
+      if (topic === 'alert') {
+        const demo: Alert = JSON.parse(mqttMessage);
+        if (demo?.alt) {
+          const cartesian = Cesium.Cartesian3.fromDegrees(demo.lon, demo.lat, demo.alt);
+          console.log('client.on -> cartesian:', cartesian);
+        }
+        //绘制图片
+        const billboard = new Cesium.Entity({
+          position: Cesium.Cartesian3.fromDegrees(demo.lon, demo.lat, demo.alt),
+          // position: Cesium.Cartesian3.fromDegrees(114.40856, 38.03867, 2000.56),
+          billboard: {
+            image: '/poi.png',
+            width: 30, //图片宽度,单位px
+            height: 30, //图片高度，单位px
+            eyeOffset: new Cesium.Cartesian3(0, 0, -10), //与坐标位置的偏移距离
+            color: Cesium.Color.RED, //颜色
+            scale: 10, //缩放比例
+          },
+        });
+        util.setCameraView(
+          {
+            x: demo.lon,
+            y: demo.lat,
+            z: demo.alt,
+            heading: 270.31730998394744,
+            pitch: -20.72609786048885,
+            roll: 0.97907544797624,
+            duration: 0,
+          },
+          viewer.current,
+        );
+        viewer.current.entities.add(billboard);
+      }
+    });
+
+    // viewer.current.entities.add(billboard);
+    // setTimeout(() => {
+    //   util.setCameraView(
+    //     {
+    //       x: demo.lon,
+    //       y: demo.lat,
+    //       z: demo.alt,
+    //       heading: 270.31730998394744,
+    //       pitch: -20.72609786048885,
+    //       roll: 0.97907544797624,
+    //       duration: 0,
+    //     },
+    //     viewer.current,
+    //   );
+    //   viewer.current.entities.add(billboard);
+    // }, 10000);
+  }, []);
   useEffect(() => {
     const b = [
       {
@@ -225,74 +332,67 @@ const Map: React.FC = () => {
     });
     // 判断是否可以进行飞行
     if (editSignal[1]) {
-      /**
-       * @param {*} viewer
-       * @param {*} options.speed 速度m/s
-       * @param {*} options.stayTime 拍摄点等待时间
-       * @param {*} options.Lines  点集合
-       * @param {*} options.frustumFar  视锥长度
-       * @param {*} options.shootCallback  拍摄点回调函数返回isShoot为true的shootId
-       * @memberof Track
-       */
-      console.log('trackList:', trackList);
-      const roaming = new Track(viewer.current, {
-        Lines: transformedArray,
-        stayTime: 1,
-        speed: 3,
-        frustumFar: 10,
-        shootCallback: function (shootId) {
-          console.log(shootId);
-        },
-      });
-
-      setTimeout(function () {
-        /**
-         *航迹模拟开始飞行
-         * @memberof roaming.StartFlying()
-         */
-
-        roaming.StartFlying();
-
-        /**
-         *航迹模拟的暂停和继续
-         *
-         * @param {*} state bool类型 false为暂停，ture为继续
-         * @memberof roaming.PauseOrContinue(state)
-         */
-
-        //roaming.PauseOrContinue(true)//false为暂停，ture为继续
-
-        /**
-         *改变飞行的速度
-         *
-         * @param {*} value  整数类型 建议（1-20）
-         * @memberof roaming.ChangeRoamingSpeed(value)
-         */
-
-        roaming.ChangeRoamingSpeed(4);
-
-        /**
-         * 改变观看角度
-         *
-         * @param {*} name string
-         *
-         * ViewTopDown:顶视图
-         * ViewSide ：正视图
-         * trackedEntity：跟随模型
-         *
-         * @memberof ChangePerspective(name)
-         */
-
-        // roaming.ChangePerspective('trackedEntity');
-
-        /**
-         *取消航迹模拟
-         *
-         * @memberof roaming.EndRoaming()
-         */
-
-        // roaming.EndRoaming();
-      }, 1000);
+      // setTimeout(() => {
+      //   viewer.current.entities.add(entities._entities._array[0]);
+      // }, 10000);
+      // /**
+      //  * @param {*} viewer
+      //  * @param {*} options.speed 速度m/s
+      //  * @param {*} options.stayTime 拍摄点等待时间
+      //  * @param {*} options.Lines  点集合
+      //  * @param {*} options.frustumFar  视锥长度
+      //  * @param {*} options.shootCallback  拍摄点回调函数返回isShoot为true的shootId
+      //  * @memberof Track
+      //  */
+      // console.log('trackList:', trackList);
+      // const roaming = new Track(viewer.current, {
+      //   Lines: transformedArray,
+      //   stayTime: 1,
+      //   speed: 3,
+      //   frustumFar: 10,
+      //   shootCallback: function (shootId) {
+      //     console.log(shootId);
+      //   },
+      // });
+      // setTimeout(function () {
+      //   /**
+      //    *航迹模拟开始飞行
+      //    * @memberof roaming.StartFlying()
+      //    */
+      //   roaming.StartFlying();
+      //   /**
+      //    *航迹模拟的暂停和继续
+      //    *
+      //    * @param {*} state bool类型 false为暂停，ture为继续
+      //    * @memberof roaming.PauseOrContinue(state)
+      //    */
+      //   //roaming.PauseOrContinue(true)//false为暂停，ture为继续
+      //   /**
+      //    *改变飞行的速度
+      //    *
+      //    * @param {*} value  整数类型 建议（1-20）
+      //    * @memberof roaming.ChangeRoamingSpeed(value)
+      //    */
+      //   roaming.ChangeRoamingSpeed(4);
+      //   /**
+      //    * 改变观看角度
+      //    *
+      //    * @param {*} name string
+      //    *
+      //    * ViewTopDown:顶视图
+      //    * ViewSide ：正视图
+      //    * trackedEntity：跟随模型
+      //    *
+      //    * @memberof ChangePerspective(name)
+      //    */
+      //   // roaming.ChangePerspective('trackedEntity');
+      //   /**
+      //    *取消航迹模拟
+      //    *
+      //    * @memberof roaming.EndRoaming()
+      //    */
+      //   // roaming.EndRoaming();
+      // }, 1000);
     }
     // 飞行模拟数据
 

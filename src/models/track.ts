@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-16 18:32:55
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-22 04:25:55
+ * @LastEditTime: 2023-10-03 08:29:34
  * @FilePath: \zero-admin-ui-master\src\models\track.ts
  * @Description:
  *
@@ -15,6 +15,7 @@ export interface TrackState {
   enterpriseOptions: string[];
   alertList: string[];
   trackList: [];
+  entities: {};
   editSignal: [boolean, boolean];
 }
 export interface CompanyModelType {
@@ -25,6 +26,7 @@ export interface CompanyModelType {
     saveEnterpriseOptions: ImmerReducer<string> | any;
     saveAlertList: ImmerReducer<string> | any;
     saveTrackList: ImmerReducer<string> | any;
+    saveEntities: ImmerReducer<string> | any;
     changeEditSignal: ImmerReducer<string> | any;
   };
   effects: {
@@ -40,6 +42,7 @@ const TrackModel: CompanyModelType = {
     enterpriseOptions: [],
     alertList: [],
     trackList: [],
+    entities: {},
     editSignal: [false, false],
   },
   reducers: {
@@ -56,6 +59,10 @@ const TrackModel: CompanyModelType = {
     saveTrackList(state: TrackState, action: { payload: [] }) {
       state.trackList = action.payload;
       console.log('saveAlertList ->    state.alertList :', state.trackList);
+    },
+    saveEntities(state: TrackState, action: { payload: [] }) {
+      state.entities = action.payload;
+      console.log('saveEntities -> action.payload:', action.payload);
     },
     changeEditSignal(state: TrackState, action: { payload: [boolean, boolean] }) {
       console.log('changeEditSignal -> payload:', action.payload);

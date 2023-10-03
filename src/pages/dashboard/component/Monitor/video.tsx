@@ -20,7 +20,7 @@ const Player: React.FC<any> = (props) => {
   const [videoNode, setVideoNode] = useState<any>();
   const [player, setPlayer] = useState<any>();
 
-  const url = 'rtmp://58.200.131.2:1935/livetv/hunantv';
+  const url = 'rtmp://ai.javodata.com/live/test';
 
   // rtmp播放
   useMemo(() => {

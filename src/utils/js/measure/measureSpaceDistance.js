@@ -293,10 +293,12 @@ class MeasureSpaceDistance extends BaseMeasure {
     }
     for (let i = 0; i < this.labels.length; i++) {
       this.viewer.entities.remove(this.labels[i]);
+      // console.log('MeasureSpaceDistance -> destroy -> this.labels[i]:', this.labels[i])
     }
     this.labels = [];
     for (let ind = 0; ind < this.controlPoints.length; ind++) {
       this.viewer.entities.remove(this.controlPoints[ind]);
+      // console.log('MeasureSpaceDistance -> destroy -> this.viewer.entities:', this.viewer.entities)
     }
     this.controlPoints = [];
     this.modifyPoint = null;

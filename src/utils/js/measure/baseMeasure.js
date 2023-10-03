@@ -86,16 +86,17 @@ class BaseMeasure {
 
   createLabel(c, text) {
     if (!c) return;
-    this.viewer.entities.add({
-      position: c,
-      billboard: {
-        image: '/poi.png', // 指定图片的路径
-        scale: 0.2, // 图片的缩放比例，默认为 1.0
-        disableDepthTestDistance: Number.POSITIVE_INFINITY, // 确保图像在其他对象之上
-        verticalOrigin: Cesium.VerticalOrigin.BOTTOM, // 设置垂直对齐方式，使图像底部与 position 对应
-        pixelOffset: new Cesium.Cartesian2(0, -40), // 可选，指定像素偏移量
-      },
-    });
+    console.log('BaseMeasure -> createLabel -> c:', c);
+    // this.viewer.entities.add({
+    //   position: c,
+    //   billboard: {
+    //     image: '/poi.png', // 指定图片的路径
+    //     scale: 0.2, // 图片的缩放比例，默认为 1.0
+    //     disableDepthTestDistance: Number.POSITIVE_INFINITY, // 确保图像在其他对象之上
+    //     verticalOrigin: Cesium.VerticalOrigin.BOTTOM, // 设置垂直对齐方式，使图像底部与 position 对应
+    //     pixelOffset: new Cesium.Cartesian2(0, -40), // 可选，指定像素偏移量
+    //   },
+    // });
     return this.viewer.entities.add({
       position: c,
       label: {

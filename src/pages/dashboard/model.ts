@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-16 18:32:55
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-02 19:15:29
+ * @LastEditTime: 2023-10-03 15:10:39
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\model.ts
  * @Description:
  *
@@ -11,14 +11,16 @@
 import type { Effect, ImmerReducer } from 'umi';
 import { getDashboardInfo } from './service';
 import { getAlertList } from './service';
-import type { DashboardInfoType } from './typings';
+import type { DashboardInfoType, DroneDataType } from './typings';
 import type { ListUavFlyDataType } from '@/pages/drone/routePlan/data';
+import type { ListAlertHistoryData } from '@/pages/AIalert/data';
 export interface DashboardState {
   dashboardInfo: DashboardInfoType;
   checkedCompanyId: string | undefined;
   enterpriseOptions: string[];
   alertList: string[];
   currentFlyData: ListUavFlyDataType;
+  alertData: ListAlertHistoryData;
 }
 export interface DashboardModelType {
   namespace: 'dashboardModel';
@@ -29,6 +31,7 @@ export interface DashboardModelType {
     saveDashboardInfo: ImmerReducer<string> | any;
     saveAlertList: ImmerReducer<string> | any;
     saveCurrentFlyData: ImmerReducer<string> | any;
+    saveAlertData: ImmerReducer<string> | any;
   };
   effects: {
     // fetchEnterpriseOptions: Effect;
@@ -71,6 +74,23 @@ const CompanyModel: DashboardModelType = {
       create_time: '',
       creator: '',
     },
+    alertData: {
+      id: 0,
+      name: '',
+      image: '',
+      type: 0,
+      code: '',
+      level: 0,
+      count: 0,
+      platform: 0,
+      start_time: '',
+      end_time: '',
+      note: '',
+      lan: 0,
+      lon: 0,
+      altitude: 0,
+      confirm: 0,
+    },
   },
   reducers: {
     saveCheckedCompanyID(state: DashboardState, action: { payload: string }) {
@@ -89,6 +109,10 @@ const CompanyModel: DashboardModelType = {
     saveCurrentFlyData(state: DashboardState, action: { payload: ListUavFlyDataType }) {
       state.currentFlyData = action.payload;
       console.log('saveCurrentFlyData -> action.payload:', action.payload);
+    },
+    saveAlertData(state: DashboardState, action: { payload: ListAlertHistoryData }) {
+      console.log('saveCurrentFlyData -> action.payload:', action.payload);
+      state.alertData = action.payload;
     },
   },
   effects: {

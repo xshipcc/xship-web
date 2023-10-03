@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-19 16:30:18
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-01 23:35:24
+ * @LastEditTime: 2023-10-03 16:28:09
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\alertList\index.tsx
  * @Description:
  *
@@ -14,28 +14,42 @@ import React, { useEffect, useState } from 'react';
 import styles from './index.less';
 import VirtualList from 'rc-virtual-list';
 import { List } from 'antd';
-import { io } from 'socket.io-client';
-import type { SocketType } from './socket';
 import { useSelector, useDispatch } from 'umi';
 import { Drawer, Divider, Image } from 'antd';
 import { queryAlert, upadtaAlert } from '@/pages/AIalert/service';
 import type { ListAlertHistoryData } from '@/pages/AIalert/data';
 import { CheckOutlined, ClockCircleOutlined, RollbackOutlined } from '@ant-design/icons';
-const socket: SocketType = io('ws://ai.javodata.com:8883/mqtt ');
-
-interface AlertType {
-  id: number;
-  alert: {
-    type: string;
-    time: string;
-    info: string;
-    coordinate: [number, number];
-  };
-}
+import * as mqtt from 'mqtt';
 
 interface AlertListType {
   height: number;
 }
+const clientId = 'alertList' + Math.random().toString(16).substring(2, 8);
+const username = 'emqx_test';
+const password = 'emqx_test';
+
+const client = mqtt.connect('ws://ai.javodata.com:8883/mqtt', {
+  clientId,
+  username,
+  password,
+  // ...other options
+});
+const mqttSub = (subscription: { topic: any; qos: any }) => {
+  if (client) {
+    const { topic, qos } = subscription;
+    client.subscribe(topic, { qos }, (error) => {
+      if (error) {
+        console.log('Subscribe to topics error', error);
+        return;
+      }
+      console.log(`Subscribe to topics: ${topic}`);
+    });
+  }
+};
+
+setTimeout(() => {
+  mqttSub({ topic: 'alert', qos: 0 });
+}, 1000);
 
 const AlertList: React.FC<AlertListType> = (props: AlertListType) => {
   /**
@@ -56,6 +70,15 @@ const AlertList: React.FC<AlertListType> = (props: AlertListType) => {
   //   });
   // }, []);
 
+  // Topic: uavQoS: 0
+  // {"speed": 27648, "lat": -3.0635518035181046e-19, "lon": -1.703710237260978e+38, "height": 20223, "target_angle": 10753}
+  interface DroneDataType {
+    speed: number;
+    lat: number;
+    lon: number;
+    height: number;
+    target_angle: number;
+  }
   const [data, setData] = useState<ListAlertHistoryData[]>([]);
   // id: number;
   // name: string;
@@ -117,165 +140,30 @@ const AlertList: React.FC<AlertListType> = (props: AlertListType) => {
     };
     fetchData();
     console.log('initView:', initView.results);
-    // setData([
-    //   {
-    //     id: '22222',
-    //     alert: {
-    //       type: 'Ms',
-    //       time: '1985-05-24 16:15:49',
-    //       info: '增群领走子',
-    //       coordinate: ['111', '111'],
-    //     },
-    //   },
-    //   {
-    //     id: '222',
-    //     alert: {
-    //       type: 'Ms',
-    //       time: '2013-08-07 05:01:28',
-    //       info: '术又需家',
-    //       coordinate: ['111', '111'],
-    //     },
-    //   },
-    //   {
-    //     id: '2222',
-    //     alert: {
-    //       type: 'Ms',
-    //       time: '1985-04-13 20:33:03',
-    //       info: '色示两部',
-    //       coordinate: ['111', '111'],
-    //     },
-    //   },
-    //   {
-    //     id: '2222',
-    //     alert: {
-    //       type: 'Ms',
-    //       time: '2004-04-14 06:20:01',
-    //       info: '光十表',
-    //       coordinate: ['111', '111'],
-    //     },
-    //   },
-    //   {
-    //     id: '2222222222',
-    //     alert: {
-    //       type: 'Ms',
-    //       time: '2016-03-19 07:33:47',
-    //       info: '传不技动思于',
-    //       coordinate: ['111', '111'],
-    //     },
-    //   },
-    //   {
-    //     id: '222',
-    //     alert: {
-    //       type: 'Ms',
-    //       time: '1972-11-05 17:33:27',
-    //       info: '部华算太',
-    //       coordinate: ['111', '111'],
-    //     },
-    //   },
-    //   {
-    //     id: '22',
-    //     alert: {
-    //       type: 'Ms',
-    //       time: '1978-06-07 15:31:15',
-    //       info: '商群容其由',
-    //       coordinate: ['111', '111'],
-    //     },
-    //   },
-    //   {
-    //     id: '22222222',
-    //     alert: {
-    //       type: 'Ms',
-    //       time: '2003-06-19 18:58:04',
-    //       info: '往展处外片',
-    //       coordinate: ['111', '111'],
-    //     },
-    //   },
-    //   {
-    //     id: '2222',
-    //     alert: {
-    //       type: 'Ms',
-    //       time: '1987-02-24 02:42:44',
-    //       info: '定很议世权',
-    //       coordinate: ['111', '111'],
-    //     },
-    //   },
-    //   {
-    //     id: '2222',
-    //     alert: {
-    //       type: 'Ms',
-    //       time: '1982-08-19 11:03:10',
-    //       info: '战府声论连铁',
-    //       coordinate: ['111', '111'],
-    //     },
-    //   },
-    //   {
-    //     id: '222222222',
-    //     alert: {
-    //       type: 'Ms',
-    //       time: '2015-06-16 20:46:05',
-    //       info: '能导石青',
-    //       coordinate: ['111', '111'],
-    //     },
-    //   },
-    //   {
-    //     id: '2222222222',
-    //     alert: {
-    //       type: 'Ms',
-    //       time: '1998-11-14 23:49:59',
-    //       info: '采引具导',
-    //       coordinate: ['111', '111'],
-    //     },
-    //   },
-    //   {
-    //     id: '22222222',
-    //     alert: {
-    //       type: 'Ms',
-    //       time: '2005-05-13 09:04:57',
-    //       info: '自没常段需进',
-    //       coordinate: ['111', '111'],
-    //     },
-    //   },
-    //   {
-    //     id: '22222',
-    //     alert: {
-    //       type: 'Ms',
-    //       time: '2009-12-20 21:53:05',
-    //       info: '用验条制拉看',
-    //       coordinate: ['111', '111'],
-    //     },
-    //   },
-    //   {
-    //     id: '2222',
-    //     alert: {
-    //       type: 'Ms',
-    //       time: '2005-11-08 17:45:06',
-    //       info: '里机空至',
-    //       coordinate: ['111', '111'],
-    //     },
-    //   },
-    // ]); //测试
+
     if (initView.results !== undefined) {
-      // setData(initView.results);
+      setData(initView.results);
     }
   }, [initView]);
 
   useEffect(() => {
-    socket.on('uav', (msg) => {
-      setData(data.concat(JSON.parse(msg).results));
-      console.log('socket.on -> msg:', msg);
+    client.on('message', (topic: string, mqttMessage: any) => {
+      if (topic === 'alert' && data.length !== 0) {
+        // const jsonObject = JSON.parse(mqttMessage);
+        // const jsonObject = JSON.parse(mqttMessage);
+        // console.log('client.on -> jsonObject:', jsonObject);
 
-      // console.log('socket.on -> msg:', JSON.parse(msg).results);
+        const demo = JSON.parse(mqttMessage);
+        demo.id = data.length;
+        demo.name = data.length;
+        setData([...data, demo]);
+        dispatch({
+          type: 'dashboardModel/saveAlertData',
+          payload: demo,
+        });
+      }
     });
-    // 错误处理
-    socket.on('error', (error) => {
-      console.error('Socket error:', error);
-      // 处理错误，比如记录日志或执行其他操作
-    });
-    // 监听断开连接事件
-    socket.on('disconnect', () => {
-      console.log('与服务器的连接已断开');
-    });
-  }, []);
+  }, [data]);
 
   //#endregion -----------------------------------------------------------------------
   /**
@@ -309,21 +197,6 @@ const AlertList: React.FC<AlertListType> = (props: AlertListType) => {
   /**
    * @end
    */
-  // id: number;
-  // name: string;
-  // image: string;
-  // type: number;
-  // code: string;
-  // level: number;
-  // count: number;
-  // platform: number;
-  // start_time: string;
-  // end_time: string;
-  // note: string;
-  // lan: number;
-  // lon: number;
-  // altitude: number;
-  // confirm: number;
 
   return (
     // <></>
@@ -463,7 +336,12 @@ const AlertList: React.FC<AlertListType> = (props: AlertListType) => {
                 {
                   const hide = message.loading('正在更新');
                   try {
-                    await upadtaAlert({ confirm: drawerData.confirm, id: drawerData.id });
+                    const success = await upadtaAlert({
+                      confirm: drawerData.confirm,
+                      id: drawerData.id,
+                    });
+                    console.log('onClick={ -> success:', success);
+
                     message.success('更新成功');
                     return true;
                   } catch (error) {
@@ -486,7 +364,7 @@ const AlertList: React.FC<AlertListType> = (props: AlertListType) => {
             key={item.id}
             className={styles.listItem}
             onClick={() => {
-              console.log('item:', item);
+              console.log('item:', data);
               setdrawerData(item);
               setOpen(true);
             }}
