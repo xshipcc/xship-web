@@ -74,4 +74,4 @@ const Routemark: React.FC = (props) => {
   );
 };
 
-export default Routemark;
+export default React.memo(Routemark);

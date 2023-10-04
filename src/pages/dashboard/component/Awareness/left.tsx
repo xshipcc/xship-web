@@ -11,6 +11,8 @@
 import { Col, Row } from 'antd';
 import React, { useEffect, useState } from 'react';
 import styles from './left.less';
+// import Player from '@/components/VideoReact';
+// // import Player from '@/components/VideoFlv';
 import VideoPlayer from './video';
 import { useSelector } from 'umi';
 import { DroneDataType } from '../../typings';

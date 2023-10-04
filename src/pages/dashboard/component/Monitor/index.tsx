@@ -13,7 +13,8 @@ import React, { useEffect, useState } from 'react';
 import styles from './index.less';
 import type { DatePickerProps } from 'antd';
 import { DatePicker, Space } from 'antd';
-import Player from './video';
+import Player from '@/components/VideoReact';
+// import Player from '@/components/VideoFlv';
 
 const Monitor: React.FC = () => {
   //#region    -----------------------------------------------------------------------
@@ -70,4 +71,4 @@ const Monitor: React.FC = () => {
   );
 };
 
-export default Monitor;
+export default React.memo(Monitor);
