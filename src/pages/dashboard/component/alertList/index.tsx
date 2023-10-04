@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-19 16:30:18
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-03 16:28:09
+ * @LastEditTime: 2023-10-04 11:04:05
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\alertList\index.tsx
  * @Description:
  *
@@ -197,7 +197,18 @@ const AlertList: React.FC<AlertListType> = (props: AlertListType) => {
   /**
    * @end
    */
+  const vhToPx = (vh: number) => {
+    const windowHeight = window.innerHeight;
+    return (vh / 100) * windowHeight;
+  };
 
+  // 示例用法
+  const containerHeightInVh = 65;
+
+  const [containerHeightInPx, setContainerHeightInPx] = useState(vhToPx(containerHeightInVh));
+  window.addEventListener('resize', () => {
+    setContainerHeightInPx(vhToPx(containerHeightInVh));
+  });
   return (
     // <></>
     <List className={styles.lists} bordered={false} split={false}>
@@ -362,7 +373,7 @@ const AlertList: React.FC<AlertListType> = (props: AlertListType) => {
           </Row>
         </Drawer>
       </div>
-      <VirtualList data={data} height={containerHeight} itemHeight={1} itemKey="id">
+      <VirtualList data={data} height={containerHeightInPx} itemHeight={1} itemKey="id">
         {(item: ListAlertHistoryData) => (
           <List.Item
             key={item.id}

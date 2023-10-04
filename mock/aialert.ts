@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-24 17:48:22
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-29 17:43:23
+ * @LastEditTime: 2023-10-04 10:44:57
  * @FilePath: \zero-admin-ui-master\mock\aialert.ts
  * @Description:
  *
@@ -45,7 +45,7 @@ export default {
     // 生成 ListAlertHistoryResp 的模拟数据
     const mockListAlertHistoryResp = () => {
       const data = [];
-      for (let i = 0; i < 1; i++) {
+      for (let i = 0; i < 11; i++) {
         data.push(mockListtAlertHistoryData());
       }
 
