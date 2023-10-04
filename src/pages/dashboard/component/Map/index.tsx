@@ -416,7 +416,7 @@ const Map: React.FC = () => {
         ];
 
         roaming.StartFlying();
-        // roaming.TrackPath(DroneData, false);
+        roaming.TrackPath(coords, false);
         // setTimeout(() => {
         //   // roaming.StartFlying(b);
         //   // roaming.TrackPath([...coords, ...b], true);
