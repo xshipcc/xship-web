@@ -214,7 +214,11 @@ const AlertList: React.FC<AlertListType> = (props: AlertListType) => {
         >
           <Image
             className={styles.drawerImage}
-            src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+            src={
+              drawerData.image === ''
+                ? 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
+                : drawerData.image
+            }
           />
           <Divider style={{ color: 'white' }}>告警列表详情</Divider>
           <Badge

@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-03 19:56:59
+ * @LastEditTime: 2023-10-04 10:11:27
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\left.tsx
  * @Description:
  *
@@ -132,7 +132,15 @@ const Awareness: React.FC = () => {
                     坐标:
                   </Col>
                   <Col className={styles.text} span={16}>
-                    {/* {DroneData.height + DroneData.lat + DroneData.lon} */}
+                    {'[' + DroneData.lat + ',' + DroneData.lon + ']'}
+                  </Col>
+                </Row>
+                <Row>
+                  <Col className={styles.text} span={8}>
+                    高度:
+                  </Col>
+                  <Col className={styles.text} span={16}>
+                    {DroneData.height}
                   </Col>
                 </Row>
                 <Row>
