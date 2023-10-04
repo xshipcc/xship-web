@@ -24,10 +24,11 @@ class Track {
     // this.RoamingSpeed
     this.onTickstate = false;
     this.shootCallback = options.shootCallback;
-    this.TrackPath(options.Lines);
+    this.propertyCache = new Cesium.SampledPositionProperty();
   }
 
-  TrackPath(Lines) {
+  TrackPath(Lines, rt) {
+    console.log('Track -> TrackPath -> Lines:', Lines);
     var lins = [];
     this.dataSource = new Cesium.CustomDataSource('TrackPath');
     for (let i = 0; i < Lines.length; i++) {
@@ -47,6 +48,7 @@ class Track {
       lins.push(Lines[i].aircraftLatitude);
       lins.push(Lines[i].aircraftAltitude);
     }
+
     this.dataSource.entities.add({
       polyline: {
         positions: new Cesium.Cartesian3.fromDegreesArrayHeights(lins),
@@ -56,11 +58,84 @@ class Track {
     });
 
     this.viewer.dataSources.add(this.dataSource);
-    this.ChangePerspective('ViewSide');
+    if (!rt) {
+      this.ChangePerspective('ViewSide');
+    }
   }
-  StartFlying() {
-    this.property = this.ComputeRoamingLineProperty(this.Lines);
+  StartFlying(lines) {
+    this.property = this.ComputeRoamingLineProperty(lines ? lines : this.Lines);
     this.InitRoaming(this.property.property, this.property.startTime, this.property.stopTime);
+  }
+  // 追加飞行数据
+
+  AppendFlying(lines) {
+    this.property = this.AppendComputeRoamingLineProperty(lines);
+    console.log('Track -> AppendFlying -> this.property:', this.property);
+    this.InitRoaming(
+      this.property.Cache,
+      Cesium.JulianDate.fromDate(new Date()),
+      this.property.stopTime,
+      true,
+    );
+  }
+
+  AppendComputeRoamingLineProperty(Lines) {
+    console.log('Track -> AppendComputeRoamingLineProperty -> Lines:', Lines);
+    console.log(
+      'Track -> AppendComputeRoamingLineProperty ->  this.propertyCache:',
+      this.propertyCache,
+    );
+    this.onTickstate = true;
+    let startTime = Cesium.JulianDate.fromDate(new Date());
+    let stopTime;
+
+    let startWaiting, endWaiting;
+    let Waiting = [];
+    for (let i = 0, t = 0; i < Lines.length; i++) {
+      if (i == 0) {
+        t = 0;
+      } else {
+        let p1 = new Cesium.Cartesian3.fromDegrees(
+          Lines[i - 1].aircraftLongitude,
+          Lines[i - 1].aircraftLatitude,
+          Lines[i - 1].aircraftAltitude,
+        );
+        let p2 = new Cesium.Cartesian3.fromDegrees(
+          Lines[i].aircraftLongitude,
+          Lines[i].aircraftLatitude,
+          Lines[i].aircraftAltitude,
+        );
+        let d = Cesium.Cartesian3.distance(p1, p2);
+
+        t += d / this.speed;
+      }
+      let LinesIndex = new Cesium.Cartesian3.fromDegrees(
+        Lines[i].aircraftLongitude,
+        Lines[i].aircraftLatitude,
+        Lines[i].aircraftAltitude,
+      );
+      this.propertyCache.addSample(
+        Cesium.JulianDate.addSeconds(startTime, t, new Cesium.JulianDate()),
+        LinesIndex,
+      );
+
+      if (i == Lines.length - 1) {
+        stopTime = Cesium.JulianDate.addSeconds(startTime, 100000, new Cesium.JulianDate());
+      }
+    }
+
+    this.viewer.clock.startTime = startTime.clone();
+    this.viewer.clock.stopTime = stopTime.clone();
+    this.viewer.clock.currentTime = startTime.clone();
+    this.viewer.clock.clockRange = Cesium.ClockRange.LOOP_STOP;
+    this.viewer.clock.multiplier = 1;
+    this.viewer.clock.shouldAnimate = true;
+    let Cache = this.propertyCache;
+    return {
+      Cache,
+      startTime,
+      stopTime,
+    };
   }
   /**
    * @param {*} Lines 点集合
@@ -97,7 +172,7 @@ class Track {
         Lines[i].aircraftLatitude,
         Lines[i].aircraftAltitude,
       );
-      property.addSample(
+      this.propertyCache.addSample(
         Cesium.JulianDate.addSeconds(startTime, t, new Cesium.JulianDate()),
         LinesIndex,
       );
@@ -105,7 +180,7 @@ class Track {
       if (Lines[i].isShoot == true) {
         startWaiting = Cesium.JulianDate.addSeconds(startTime, t, new Cesium.JulianDate());
         t += this.stayTime || 1;
-        property.addSample(
+        this.propertyCache.addSample(
           Cesium.JulianDate.addSeconds(startTime, t, new Cesium.JulianDate()),
           LinesIndex,
         );
@@ -118,7 +193,7 @@ class Track {
       }
 
       if (i == Lines.length - 1) {
-        stopTime = Cesium.JulianDate.addSeconds(startTime, t, new Cesium.JulianDate());
+        stopTime = Cesium.JulianDate.addSeconds(startTime, 10000, new Cesium.JulianDate());
       }
     }
 
@@ -154,7 +229,7 @@ class Track {
     this.viewer.clock.clockRange = Cesium.ClockRange.LOOP_STOP;
     this.viewer.clock.multiplier = 1;
     this.viewer.clock.shouldAnimate = true;
-
+    // this.propertyCache = property;
     return {
       property,
       startTime,
@@ -168,51 +243,54 @@ class Track {
    * @param {*} isPathShow path路径是否显示
    * @memberof Track
    */
-  InitRoaming(position, start, stop) {
-    this.entity = this.viewer.entities.add({
-      availability: new Cesium.TimeIntervalCollection([
-        new Cesium.TimeInterval({
-          start: start,
-          stop: stop,
-        }),
-      ]),
-      // 位置
-      position: position,
-      // 计算朝向
-      // orientation: new Cesium.VelocityOrientationProperty(position),
-      // 加载模型
-      model: {
-        // 模型路径
-        uri: '/air.glb',
-        // 模型最小刻度
-        minimumPixelSize: 64,
-        maximumSize: 128,
-        // 设置模型最大放大大小
-        maximumScale: 200,
-        // 模型是否可见
-        show: true,
-        // 模型轮廓颜色
-        silhouetteColor: Cesium.Color.WHITE,
-        // 模型颜色  ，这里可以设置颜色的变化
-        // color: color,
-        // 仅用于调试，显示魔仙绘制时的线框
-        debugWireframe: false,
-        // 仅用于调试。显示模型绘制时的边界球。
-        debugShowBoundingVolume: false,
+  InitRoaming(position, start, stop, rt) {
+    if (!rt) {
+      console.log('Track -> InitRoaming -> position:', position);
+      this.entity = this.viewer.entities.add({
+        availability: new Cesium.TimeIntervalCollection([
+          new Cesium.TimeInterval({
+            start: start,
+            stop: stop,
+          }),
+        ]),
+        // 位置
+        position: this.propertyCache,
+        // 计算朝向
+        // orientation: new Cesium.VelocityOrientationProperty(position),
+        // 加载模型
+        model: {
+          // 模型路径
+          uri: '/air.glb',
+          // 模型最小刻度
+          minimumPixelSize: 64,
+          maximumSize: 128,
+          // 设置模型最大放大大小
+          maximumScale: 200,
+          // 模型是否可见
+          show: true,
+          // 模型轮廓颜色
+          silhouetteColor: Cesium.Color.WHITE,
+          // 模型颜色  ，这里可以设置颜色的变化
+          // color: color,
+          // 仅用于调试，显示魔仙绘制时的线框
+          debugWireframe: false,
+          // 仅用于调试。显示模型绘制时的边界球。
+          debugShowBoundingVolume: false,
+          scale: 2,
+          runAnimations: false, // 是否运行模型中的动画效果(由于我的模型是不会动所以就很呆哈哈哈)
+        },
+        path: {
+          resolution: 1,
+          material: new Cesium.PolylineGlowMaterialProperty({
+            glowPower: 1,
+            color: Cesium.Color.RED,
+          }),
+          width: 100,
+          show: false,
+        },
+      });
+    }
 
-        scale: 0.02,
-        runAnimations: false, // 是否运行模型中的动画效果(由于我的模型是不会动所以就很呆哈哈哈)
-      },
-      path: {
-        resolution: 1,
-        material: new Cesium.PolylineGlowMaterialProperty({
-          glowPower: 0.1,
-          color: Cesium.Color.RED,
-        }),
-        width: 10,
-        show: false,
-      },
-    });
     //
     // this.viewer.trackedEntity = this.entity
   }

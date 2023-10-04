@@ -79,6 +79,16 @@ const Map: React.FC = () => {
   };
   const divRef = useRef<HTMLDivElement>(null);
   const viewer = useRef(null);
+  const trackCahe = useRef(null);
+  const [DroneData, setDroneData] = useState([
+    {
+      speed: 0,
+      lat: 0,
+      lon: 0,
+      height: 0,
+      target_angle: 0,
+    },
+  ]);
   const MeasureTools = useRef(null);
   const dispatch = useDispatch();
   const trackList = useSelector((state: any) => state.trackModel.trackList);
@@ -122,12 +132,12 @@ const Map: React.FC = () => {
       zoomIndicatorContainer: false,
       animation: false, //是否显示动画控
       terrainProvider: new Cesium.CesiumTerrainProvider({
-        url: 'http://ai.javodata.com/terrain', // 地址记得换成自己的地形数据地址
+        url: MAP_TERRAIN_URL, // 地址记得换成自己的地形数据地址
         requestWaterMask: true, // 开启法向量
         requestVertexNormals: true, // 开启水面特效
       }),
       imageryProvider: new Cesium.UrlTemplateImageryProvider({
-        url: 'http://ai.javodata.com/luquantile/{z}/{x}/{y}.png',
+        url: MAP_TILES_URL,
         fileExtension: 'png',
       }),
     });
@@ -213,35 +223,55 @@ const Map: React.FC = () => {
     client.on('message', (topic: string, mqttMessage: any) => {
       if (topic === 'alert') {
         const demo: Alert = JSON.parse(mqttMessage);
-        if (demo?.alt) {
-          const cartesian = Cesium.Cartesian3.fromDegrees(demo.lon, demo.lat, demo.alt);
-          console.log('client.on -> cartesian:', cartesian);
+        let image;
+        switch (demo.type) {
+          case 0:
+            image = '/alert/alert.png';
+            break;
+          case 1:
+            image = '/alert/animal.png';
+            break;
+          case 2:
+            image = '/alert/car.png';
+            break;
+          case 3:
+            image = '/alert/group.png';
+            break;
+          case 4:
+            image = '/alert/invade.png';
+            break;
+          case 5:
+            image = '/alert/people.png';
+            break;
+          default:
+            image = '/alert/alert.png';
+            break;
         }
         //绘制图片
         const billboard = new Cesium.Entity({
           position: Cesium.Cartesian3.fromDegrees(demo.lon, demo.lat, demo.alt),
           // position: Cesium.Cartesian3.fromDegrees(114.40856, 38.03867, 2000.56),
           billboard: {
-            image: '/poi.png',
+            image: image,
             width: 30, //图片宽度,单位px
             height: 30, //图片高度，单位px
             eyeOffset: new Cesium.Cartesian3(0, 0, -10), //与坐标位置的偏移距离
             color: Cesium.Color.RED, //颜色
-            scale: 10, //缩放比例
+            scale: 1, //缩放比例
           },
         });
-        util.setCameraView(
-          {
-            x: demo.lon,
-            y: demo.lat,
-            z: demo.alt,
-            heading: 270.31730998394744,
-            pitch: -20.72609786048885,
-            roll: 0.97907544797624,
-            duration: 0,
-          },
-          viewer.current,
-        );
+        // util.setCameraView(
+        //   {
+        //     x: demo.lon,
+        //     y: demo.lat,
+        //     z: demo.alt,
+        //     heading: 270.31730998394744,
+        //     pitch: -20.72609786048885,
+        //     roll: 0.97907544797624,
+        //     duration: 0,
+        //   },
+        //   viewer.current,
+        // );
         viewer.current.entities.add(billboard);
       }
     });
@@ -263,23 +293,43 @@ const Map: React.FC = () => {
     //   viewer.current.entities.add(billboard);
     // }, 10000);
   }, []);
-
   useEffect(() => {
-    const coordsTemp = initFlyData?.data.map((item, index) => {
-      // 解析 coord 字符串为数组
-      const coordArray = JSON.parse(item.coord);
-      return {
-        shootId: index,
-        aircraftAltitude: coordArray[2],
-        aircraftLatitude: coordArray[1],
-        aircraftLongitude: coordArray[0],
-        gimbalPitchValue: -34.86589098805, // 无人机云台俯仰角
-        gimbalYawValue: -143.6999969482,
-        isShoot: false,
-      };
+    mqttSub({ topic: 'uav', qos: 0 });
+    console.log(VIDEO_URL, 111111111);
+    client.on('message', (topic: string, mqttMessage: any) => {
+      if (topic === 'uav') {
+        // const jsonObject = JSON.parse(mqttMessage);
+        const jsonObject = JSON.parse(mqttMessage);
+        console.log('client.on -> jsonObject:', jsonObject);
+        if (trackCahe.current) {
+          setDroneData([...trackCahe.current, JSON.parse(mqttMessage)]);
+        }
+      }
     });
-    setCoords(coordsTemp);
-  }, [editSignal, initFlyData]);
+  }, []);
+  useEffect(() => {
+    if (editSignal[1]) {
+      const coordsTemp = initFlyData?.data.map((item, index) => {
+        // 解析 coord 字符串为数组
+        const coordArray = JSON.parse(item.coord);
+        return {
+          shootId: index,
+          aircraftAltitude: coordArray[2],
+          aircraftLatitude: coordArray[1],
+          aircraftLongitude: coordArray[0],
+          gimbalPitchValue: -34.86589, // 无人机云台俯仰角
+          gimbalYawValue: -143.699,
+          isShoot: false,
+        };
+      });
+      setCoords(coordsTemp);
+      trackCahe.current = coordsTemp;
+      dispatch({
+        type: 'trackModel/changeEditSignal',
+        payload: [false, false],
+      });
+    }
+  }, [initFlyData]);
   useEffect(() => {
     // const b = [
     //   {
@@ -311,6 +361,7 @@ const Map: React.FC = () => {
 
     if (coords?.length > 0) {
       const roaming = new Track(viewer.current, {
+        rt: false,
         Lines: coords,
         stayTime: 1,
         speed: 3,
@@ -324,7 +375,53 @@ const Map: React.FC = () => {
          *航迹模拟开始飞行
          * @memberof roaming.StartFlying()
          */
+        setCoords([]);
+        const b = [
+          {
+            shootId: 1, // 拍摄点ID
+            aircraftAltitude: 294.4321622812281, // 无人机高度
+            aircraftLatitude: 29.332291372123606, // 无人机纬度
+            aircraftLongitude: 106.3275423851136, // 无人机经度
+            gimbalPitchValue: -34.86589098646805, // 无人机云台俯仰角
+            gimbalYawValue: -141.52559172027878, // 无人机云台偏航角
+            isShoot: false, // 是否为拍摄点
+          },
+          {
+            shootId: 2,
+            aircraftAltitude: 296.4321622812281,
+            aircraftLatitude: 29.33218636728018,
+            aircraftLongitude: 106.3274449132526,
+            gimbalPitchValue: -29.77056379217234,
+            gimbalYawValue: -141.52559171972544,
+            isShoot: true,
+          },
+          {
+            shootId: 3,
+            aircraftAltitude: 296.4321622812281,
+            aircraftLatitude: 29.332086291515342,
+            aircraftLongitude: 106.32743456106668,
+            gimbalPitchValue: -49.79999923706055,
+            gimbalYawValue: -143.6999969482422,
+            isShoot: true,
+          },
+          {
+            shootId: 4,
+            aircraftAltitude: 273.1146622812281,
+            aircraftLatitude: 29.3320829466482,
+            aircraftLongitude: 106.32743569795478,
+            gimbalPitchValue: 0,
+            gimbalYawValue: -96.52559172238325,
+            isShoot: true,
+          },
+        ];
+
         roaming.StartFlying();
+        // roaming.TrackPath(DroneData, false);
+        // setTimeout(() => {
+        //   // roaming.StartFlying(b);
+        //   // roaming.TrackPath([...coords, ...b], true);
+        //   // console.log(1111111);
+        // }, 3000);
         /**
          *航迹模拟的暂停和继续
          *

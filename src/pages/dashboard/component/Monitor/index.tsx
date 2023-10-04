@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-19 22:19:16
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-02 05:23:08
+ * @LastEditTime: 2023-10-04 08:10:15
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Monitor\index.tsx
  * @Description:
  *
@@ -47,7 +47,7 @@ const Monitor: React.FC = () => {
     },
     sources: [
       {
-        src: 'rtmp://live.hkstv.hk.lxdns.com/live/hks1',
+        src: VIDEO_URL,
         type: 'rtmp/flv', //类型可加可不加，目前未看到影响
         // type: 'video/mp4',
       },

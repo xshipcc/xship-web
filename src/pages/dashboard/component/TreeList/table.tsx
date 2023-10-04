@@ -7,7 +7,6 @@ import type {
   ListUavFlyDataType,
 } from '@/pages/drone/routePlan/data';
 import { Form, Input, InputNumber, Popconfirm, Table, Typography } from 'antd';
-import { MutableRefObject, useImperativeHandle } from 'react';
 import { useDispatch, useSelector } from 'umi';
 interface Item {
   key: string;

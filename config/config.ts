@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-28 16:46:15
+ * @LastEditTime: 2023-10-04 08:11:15
  * @FilePath: \zero-admin-ui-master\config\config.ts
  * @Description:
  *
@@ -27,8 +27,12 @@ export default defineConfig({
     { from: path.join(cesiumSource, 'Assets'), to: 'Assets' },
     { from: path.join(cesiumSource, 'Widgets'), to: 'Widgets' },
   ],
+
   define: {
     CESIUM_BASE_URL: '/', //cesium默认路径地址配置，没改好,这个地址相对于路由
+    VIDEO_URL: 'rtmp://live.hkstv.hk.lxdns.com/live/hks1',
+    MAP_TERRAIN_URL: 'http://ai.javodata.com/terrain',
+    MAP_TILES_URL: 'http://ai.javodata.com/luquantile/{z}/{x}/{y}.png',
   },
   hash: true,
   dva: {
