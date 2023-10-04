@@ -120,8 +120,24 @@ const App = () => {
       inputRef.current?.focus();
     }, 0);
   };
+  const isJson = (value) => {
+    try {
+      JSON.parse(value);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  };
   const handleChange = (value: string) => {
-    setCurrentFly(flyData.find((item) => item.name === value));
+    const current = flyData.find((item) => item.name === value);
+    const json = isJson(current?.data);
+    console.log('handleChange -> json:', json);
+    if (current?.data && json) {
+      current.data = JSON.parse(current?.data);
+      console.log('handleChange -> JSON.parse(current?.data):', current);
+    }
+
+    setCurrentFly(current);
     setName(value);
     currentFlyCache.current = flyData.find((item) => item.name === value);
     dispatch({
@@ -199,7 +215,7 @@ const App = () => {
   const handleAdd = async () => {
     const params = {
       name: initData?.name ? initData?.name : '',
-      data: initData?.data ? initData?.data : '',
+      data: initData?.data ? JSON.stringify(initData?.data) : '',
       create_time: initData?.create_time ? initData?.create_time : '',
       creator: initData?.creator ? initData?.creator : '',
     };

@@ -71,7 +71,7 @@ const handleRemove = async (selectedRows: ListUavFlyDataType[]) => {
     return true;
   } catch (error) {
     hide();
-    message.error('删除失败，请重试');
+    // message.error('删除失败，请重试');
     return false;
   }
 };

@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-16 18:32:55
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-03 15:10:39
+ * @LastEditTime: 2023-10-04 09:29:29
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\model.ts
  * @Description:
  *
@@ -107,6 +107,14 @@ const CompanyModel: DashboardModelType = {
       state.alertList = action.payload;
     },
     saveCurrentFlyData(state: DashboardState, action: { payload: ListUavFlyDataType }) {
+      if (action.payload?.data) {
+        JSON.parse(JSON.stringify(action.payload?.data));
+        console.log(
+          'saveCurrentFlyData -> JSON.parse(JSON.stringify(action.payload.data)):',
+          JSON.parse(JSON.stringify(action.payload?.data)),
+        );
+      }
+
       state.currentFlyData = action.payload;
       console.log('saveCurrentFlyData -> action.payload:', action.payload);
     },
