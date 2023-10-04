@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-04 08:11:15
+ * @LastEditTime: 2023-10-04 15:26:09
  * @FilePath: \zero-admin-ui-master\config\config.ts
  * @Description:
  *
@@ -30,7 +30,7 @@ export default defineConfig({
 
   define: {
     CESIUM_BASE_URL: '/', //cesium默认路径地址配置，没改好,这个地址相对于路由
-    VIDEO_URL: 'rtmp://192.168.174.128/live/test',
+    VIDEO_URL: 'http://192.168.174.128:10086/flv/live/ifmP0eWIg.flv',
     MAP_TERRAIN_URL: '/terrain',
     MAP_TILES_URL: '/luquantile/{z}/{x}/{y}.png',
   },

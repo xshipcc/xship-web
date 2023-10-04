@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-02 04:50:58
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-02 05:05:11
+ * @LastEditTime: 2023-10-04 15:35:29
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Monitor\video.tsx
  * @Description:
  *
@@ -19,8 +19,7 @@ import 'video.js/dist/video-js.css';
 const Player: React.FC<any> = (props) => {
   const [videoNode, setVideoNode] = useState<any>();
   const [player, setPlayer] = useState<any>();
-
-  const url = 'rtmp://ai.javodata.com/live/test';
+  console.log('VIDEO_URL:', VIDEO_URL);
 
   // rtmp播放
   useMemo(() => {
@@ -37,8 +36,8 @@ const Player: React.FC<any> = (props) => {
         },
         sources: [
           {
-            src: url,
-            type: 'rtmp/flv', // 类型可加可不加，目前未看到影响
+            src: VIDEO_URL,
+            type: 'video/x-flv',
           },
         ],
       };

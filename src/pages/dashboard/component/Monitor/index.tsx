@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-19 22:19:16
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-04 08:10:15
+ * @LastEditTime: 2023-10-04 15:26:30
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Monitor\index.tsx
  * @Description:
  *
@@ -31,28 +31,7 @@ const Monitor: React.FC = () => {
    * @end
    */
   //#endregion -----------------------------------------------------------------------
-  const videoJsOptions = {
-    autoplay: true, //自动播放
-    language: 'zh-CN',
-    controls: true, //控制条
-    preload: 'auto', //自动加载
-    errorDisplay: true, //错误展示
-    width: 500, //宽
-    height: 300, //高
-    // fluid: true,  //跟随外层容器变化大小，跟随的是外层宽度
-    // controlBar: false,  // 设为false不渲染控制条DOM元素，只设置controls为false虽然不展示，但还是存在
-    // textTrackDisplay: false,  // 不渲染字幕相关DOM
-    userActions: {
-      hotkeys: true, //是否支持热键
-    },
-    sources: [
-      {
-        src: VIDEO_URL,
-        type: 'rtmp/flv', //类型可加可不加，目前未看到影响
-        // type: 'video/mp4',
-      },
-    ],
-  };
+
   return (
     <>
       <div className={styles.content}>

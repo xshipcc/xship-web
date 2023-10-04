@@ -135,16 +135,6 @@ const FlashPromotionList: React.FC = () => {
       valueType: 'option',
       render: (_, record) => (
         <>
-          <Button
-            type="primary"
-            icon={<EditOutlined />}
-            onClick={() => {
-              handleUpdateModalVisible(true);
-              setCurrentRow(record);
-            }}
-          >
-            编辑
-          </Button>
           <Divider type="vertical" />
           <Button
             type="primary"
