@@ -30,9 +30,9 @@ export default defineConfig({
 
   define: {
     CESIUM_BASE_URL: '/', //cesium默认路径地址配置，没改好,这个地址相对于路由
-    VIDEO_URL: 'rtmp://live.hkstv.hk.lxdns.com/live/hks1',
-    MAP_TERRAIN_URL: 'http://ai.javodata.com/terrain',
-    MAP_TILES_URL: 'http://ai.javodata.com/luquantile/{z}/{x}/{y}.png',
+    VIDEO_URL: 'rtmp://192.168.174.128/live/test',
+    MAP_TERRAIN_URL: '/terrain',
+    MAP_TILES_URL: '/luquantile/{z}/{x}/{y}.png',
   },
   hash: true,
   dva: {
