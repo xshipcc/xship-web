@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-04 10:11:27
+ * @LastEditTime: 2023-10-05 04:07:06
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\left.tsx
  * @Description:
  *
@@ -11,9 +11,8 @@
 import { Col, Row } from 'antd';
 import React, { useEffect, useState } from 'react';
 import styles from './left.less';
-// import Player from '@/components/VideoReact';
+import Player from '@/components/VideoReact';
 // // import Player from '@/components/VideoFlv';
-import VideoPlayer from './video';
 import { useSelector } from 'umi';
 import { DroneDataType } from '../../typings';
 import * as mqtt from 'mqtt';
@@ -91,7 +90,7 @@ const Awareness: React.FC = () => {
             {/*  */}
             <Row>
               <Col span={24} className={styles.video}>
-                <VideoPlayer />
+                <Player height={'100%'} width={'100%'} />
               </Col>
             </Row>
             {/*  */}
@@ -107,7 +106,7 @@ const Awareness: React.FC = () => {
             {/*  */}
             <Row>
               <Col span={24} className={styles.video}>
-                <VideoPlayer />
+                <Player height={'100%'} width={'100%'} />
               </Col>
             </Row>
           </div>

@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-19 22:19:16
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-04 15:26:30
+ * @LastEditTime: 2023-10-05 04:07:15
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Monitor\index.tsx
  * @Description:
  *
@@ -53,7 +53,7 @@ const Monitor: React.FC = () => {
                   <Col span={24} className={'titleLine'} />
                 </Row>
                 <Col className={styles.videocontent} span={24}>
-                  <Player />
+                  <Player height={'100%'} width={'100%'} />
                 </Col>
               </div>{' '}
             </div>

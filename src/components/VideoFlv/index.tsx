@@ -23,7 +23,7 @@ function Live() {
         isLive: true,
         cors: true,
         hasVideo: true,
-        url: 'http://localhost:8080/video/demo.flv',
+        url: VIDEO_URL,
       });
       if (videoRef.current) {
         flvRef.current.attachMediaElement(videoRef.current);
@@ -44,7 +44,7 @@ function Live() {
   return (
     <div className={'live'}>
       <div className={'video-container'}>
-        <video ref={videoRef} className={'video'}>
+        <video ref={videoRef} className={'video'} width="400" height="300">
           {`Your browser is too old which doesn't support HTML5 video.`}
         </video>
         <div className={'control'}>

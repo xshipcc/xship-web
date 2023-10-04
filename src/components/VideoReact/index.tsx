@@ -2,16 +2,18 @@ import { ReactFlvPlayer } from 'react-flv-player';
 import React, { useEffect, useMemo, useState, Component } from 'react';
 import { Button } from 'antd';
 
-const Video: React.FC = () => {
+const Video: React.FC = (props) => {
+  console.log('props:', props);
   const [url, setUrl] = useState('');
+  console.log('VIDEO_URL:', VIDEO_URL);
 
   return (
     <div>
       <ReactFlvPlayer
         // url={url == '' ? 'http://localhost:8080/video/demo.flv' : url}
-        url={'http://localhost:8080/video/demo.flv'}
-        heigh="400px"
-        width="300px"
+        url={VIDEO_URL}
+        heigh={props.height}
+        width={props.width}
         isMuted={true}
       />
       <Button
