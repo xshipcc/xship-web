@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-19 22:19:16
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-05 04:07:15
+ * @LastEditTime: 2023-10-06 02:36:37
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Monitor\index.tsx
  * @Description:
  *
@@ -13,8 +13,8 @@ import React, { useEffect, useState } from 'react';
 import styles from './index.less';
 import type { DatePickerProps } from 'antd';
 import { DatePicker, Space } from 'antd';
-import Player from '@/components/VideoReact';
-// import Player from '@/components/VideoFlv';
+// import Player from '@/components/VideoReact';
+import Player from '@/components/VideoFlv';
 
 const Monitor: React.FC = () => {
   //#region    -----------------------------------------------------------------------
@@ -53,9 +53,9 @@ const Monitor: React.FC = () => {
                   <Col span={24} className={'titleLine'} />
                 </Row>
                 <Col className={styles.videocontent} span={24}>
-                  <Player height={'100%'} width={'100%'} />
+                  <Player url={VIDEO_URL} height={'25'} width={'100'} />
                 </Col>
-              </div>{' '}
+              </div>
             </div>
           ))}
         </div>

@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-05 04:07:06
+ * @LastEditTime: 2023-10-06 02:45:13
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\left.tsx
  * @Description:
  *
@@ -11,8 +11,8 @@
 import { Col, Row } from 'antd';
 import React, { useEffect, useState } from 'react';
 import styles from './left.less';
-import Player from '@/components/VideoReact';
-// // import Player from '@/components/VideoFlv';
+// import Player from '@/components/VideoReact';
+import Player from '@/components/VideoFlv';
 import { useSelector } from 'umi';
 import { DroneDataType } from '../../typings';
 import * as mqtt from 'mqtt';
@@ -76,41 +76,37 @@ const Awareness: React.FC = () => {
     <>
       <div className={'boxall'}>
         <div className={styles.content}>
-          <div className={styles.flyMonitor}>
-            {' '}
-            <Row>
-              <Col span={2} className={'arrow'} />
-              <Col span={22} className={'title'}>
-                无人机画面01
-              </Col>
-            </Row>
-            <Row>
-              <Col span={24} className={'titleLine'} />
-            </Row>
-            {/*  */}
-            <Row>
-              <Col span={24} className={styles.video}>
-                <Player height={'100%'} width={'100%'} />
-              </Col>
-            </Row>
-            {/*  */}
-            <Row>
-              <Col span={2} className={'arrow'} />
-              <Col span={22} className={'title'}>
-                无人机画面02
-              </Col>
-            </Row>
-            <Row>
-              <Col span={24} className={'titleLine'} />
-            </Row>
-            {/*  */}
-            <Row>
-              <Col span={24} className={styles.video}>
-                <Player height={'100%'} width={'100%'} />
-              </Col>
-            </Row>
-          </div>
+          <Row>
+            <Col span={2} className={'arrow'} />
+            <Col span={22} className={'title'}>
+              无人机画面01
+            </Col>
+          </Row>
+          <Row>
+            <Col span={24} className={'titleLine'} />
+          </Row>
           {/*  */}
+          <Row>
+            <Col span={24} className={styles.video}>
+              <Player url={VIDEO_URL} height={'19'} width={'100'} />
+            </Col>
+          </Row>
+          {/*  */}
+          <Row>
+            <Col span={2} className={'arrow'} />
+            <Col span={22} className={'title'}>
+              无人机画面02
+            </Col>
+          </Row>
+          <Row>
+            <Col span={24} className={'titleLine'} />
+          </Row>
+          {/*  */}
+          <Row>
+            <Col span={24} className={styles.video}>
+              <Player url={VIDEO_URL} height={'19'} width={'100'} />
+            </Col>
+          </Row>
           <div className={styles.board}>
             <Row>
               <Col span={2} className={'arrow'} />
@@ -155,7 +151,6 @@ const Awareness: React.FC = () => {
               </Col>
             </Row>
           </div>
-          ;{/*  */}
         </div>
         <div className={'boxfoot'} />
       </div>

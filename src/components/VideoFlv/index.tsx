@@ -1,60 +1,53 @@
+// @ts-nocheck
+
 /*
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-05 02:49:02
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-05 03:43:16
+ * @LastEditTime: 2023-10-06 02:35:54
  * @FilePath: \zero-admin-ui-master\src\components\VideoFlv\index.tsx
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import flvJs from 'flv.js';
-import { Button } from 'antd';
+import React, { useRef, useEffect } from 'react';
+import flvjs from 'flv.js';
 
-function Live() {
-  const [isPlay, setIsPlay] = useState(false);
-  const flvRef = useRef<flvJs.Player>();
-  const videoRef = useRef<HTMLVideoElement>(null);
+const FLVPlayer = (props) => {
+  // console.log('FLVPlayer -> props:', props.url);
+  const videoRef = useRef(null);
+  const flvPlayerRef = useRef(null);
+
   useEffect(() => {
-    if (flvJs.isSupported()) {
-      flvRef.current = flvJs.createPlayer({
+    if (flvjs.isSupported()) {
+      flvPlayerRef.current = flvjs.createPlayer({
         type: 'flv',
-        isLive: true,
-        cors: true,
-        hasVideo: true,
-        url: VIDEO_URL,
+        url: props?.url,
+        isLive: true, // 是否为直播流
       });
-      if (videoRef.current) {
-        flvRef.current.attachMediaElement(videoRef.current);
-        flvRef.current.load();
-      }
+
+      flvPlayerRef.current.attachMediaElement(videoRef.current);
+      flvPlayerRef.current.load();
     }
-  }, []);
-  const onClickPlay = useCallback(() => {
-    if (flvRef.current) {
-      if (isPlay) {
-        flvRef.current.pause();
-      } else {
-        flvRef.current.play();
+    // 销毁时结束视频流
+    return () => {
+      if (flvPlayerRef.current) {
+        flvPlayerRef.current.unload();
+        flvPlayerRef.current.detachMediaElement();
+        flvPlayerRef.current.destroy();
       }
-      setIsPlay(!isPlay);
-    }
-  }, [isPlay]);
+    };
+  }, [props?.url]);
+
   return (
-    <div className={'live'}>
-      <div className={'video-container'}>
-        <video ref={videoRef} className={'video'} width="400" height="300">
-          {`Your browser is too old which doesn't support HTML5 video.`}
-        </video>
-        <div className={'control'}>
-          <Button type="text" onClick={onClickPlay}>
-            播放
-          </Button>
-        </div>
-      </div>
+    <div>
+      <video
+        ref={videoRef}
+        controls
+        style={{ width: props.width + '%', height: props.height + 'vh' }}
+      />
     </div>
   );
-}
+};
 
-export default Live;
+export default FLVPlayer;

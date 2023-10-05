@@ -101,7 +101,7 @@ const App = () => {
       creator: 'Paul Lewis',
       data: transformedArray,
     };
-    console.log('editTrackOver -> editData.name:', name);
+    // console.log('editTrackOver -> editData.name:', name);
     setCurrentFly(editData);
     currentFlyCache.current = editData;
   };
@@ -143,6 +143,10 @@ const App = () => {
     dispatch({
       type: 'dashboardModel/saveCurrentFlyData',
       payload: currentFlyCache.current,
+    });
+    dispatch({
+      type: 'trackModel/changeDestoryTackSignal',
+      payload: [true],
     });
   };
   // 实时修改经纬高,名称

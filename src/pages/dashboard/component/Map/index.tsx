@@ -93,7 +93,8 @@ const Map: React.FC = () => {
   const dispatch = useDispatch();
   const trackList = useSelector((state: any) => state.trackModel.trackList);
   const editSignal = useSelector((state: any) => state.trackModel.editSignal);
-  const alertData: ListAlertHistoryData = useSelector((state: any) => state.trackModel.alertData);
+  const destoryTackSignal = useSelector((state: any) => state.trackModel.destoryTackSignal);
+  // const alertData: ListAlertHistoryData = useSelector((state: any) => state.trackModel.alertData);
   const initFlyData = useSelector((state: any) => state.dashboardModel.currentFlyData);
   const [coords, setCoords] = useState(null);
 
@@ -132,20 +133,22 @@ const Map: React.FC = () => {
       zoomIndicatorContainer: false,
       animation: false, //是否显示动画控
       terrainProvider: new Cesium.CesiumTerrainProvider({
+        // url: 'http://ai.javodata.com/terrain',
         url: MAP_TERRAIN_URL, // 地址记得换成自己的地形数据地址
         requestWaterMask: true, // 开启法向量
         requestVertexNormals: true, // 开启水面特效
       }),
       imageryProvider: new Cesium.UrlTemplateImageryProvider({
         url: MAP_TILES_URL,
+        // url: 'http://ai.javodata.com/luquantile/{z}/{x}/{y}.png',
         fileExtension: 'png',
       }),
     });
 
-    // viewer.current.scene.screenSpaceCameraController.maximumZoomDistance = 20000;
-    // viewer.current.scene.screenSpaceCameraController.minimumZoomDistance = 100;
-    // viewer.current.scene.screenSpaceCameraController._minimumZoomRate = 5000; // 设置相机缩小时的速率
-    // viewer.current.scene.screenSpaceCameraController._maximumZoomRate = 5000; //设置相机放大时的速率
+    viewer.current.scene.screenSpaceCameraController.maximumZoomDistance = 20000;
+    viewer.current.scene.screenSpaceCameraController.minimumZoomDistance = 100;
+    viewer.current.scene.screenSpaceCameraController._minimumZoomRate = 5000; // 设置相机缩小时的速率
+    viewer.current.scene.screenSpaceCameraController._maximumZoomRate = 5000; //设置相机放大时的速率
     viewer.current._cesiumWidget._creditContainer.style.display = 'none';
     // MeasureTools.current = new S_Measure(viewer); //测量类
     MeasureTools.current = new Tool(viewer.current);
@@ -171,6 +174,11 @@ const Map: React.FC = () => {
      */
     //#region -------------------------------------------------------------------------
   }, []);
+  // 菜单相关信号切换
+  useEffect(() => {
+    viewer.current.entities.removeAll();
+    viewer.current.dataSources.removeAll();
+  }, [destoryTackSignal]);
   useEffect(() => {
     if (editSignal[0]) {
       const start = (item: any) => {

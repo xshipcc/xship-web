@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-16 18:32:55
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-03 08:29:34
+ * @LastEditTime: 2023-10-06 03:04:12
  * @FilePath: \zero-admin-ui-master\src\models\track.ts
  * @Description:
  *
@@ -17,6 +17,7 @@ export interface TrackState {
   trackList: [];
   entities: {};
   editSignal: [boolean, boolean];
+  destoryTackSignal: [boolean];
 }
 export interface CompanyModelType {
   namespace: 'trackModel';
@@ -28,6 +29,7 @@ export interface CompanyModelType {
     saveTrackList: ImmerReducer<string> | any;
     saveEntities: ImmerReducer<string> | any;
     changeEditSignal: ImmerReducer<string> | any;
+    changeDestoryTackSignal: ImmerReducer<string> | any;
   };
   effects: {
     // fetchEnterpriseOptions: Effect;
@@ -44,6 +46,7 @@ const TrackModel: CompanyModelType = {
     trackList: [],
     entities: {},
     editSignal: [false, false],
+    destoryTackSignal: [false],
   },
   reducers: {
     saveCheckedCompanyID(state: TrackState, action: { payload: string }) {
@@ -65,9 +68,14 @@ const TrackModel: CompanyModelType = {
       console.log('saveEntities -> action.payload:', action.payload);
     },
     changeEditSignal(state: TrackState, action: { payload: [boolean, boolean] }) {
-      console.log('changeEditSignal -> payload:', action.payload);
+      // console.log('changeEditSignal -> payload:', action.payload);
       state.editSignal = action.payload;
-      console.log('changeEditSignal ->   state.editSignal:', state.editSignal);
+      // console.log('changeEditSignal ->   state.editSignal:', state.editSignal);
+    },
+    changeDestoryTackSignal(state: TrackState, action: { payload: [boolean] }) {
+      // console.log('changeEditSignal -> payload:', action.payload);
+      state.destoryTackSignal = action.payload;
+      // console.log('changeEditSignal ->   state.editSignal:', state.editSignal);
     },
   },
   effects: {
