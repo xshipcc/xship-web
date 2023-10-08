@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-19 16:30:18
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-04 11:04:05
+ * @LastEditTime: 2023-10-08 17:29:43
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\alertList\index.tsx
  * @Description:
  *
@@ -28,7 +28,7 @@ const clientId = 'alertList' + Math.random().toString(16).substring(2, 8);
 const username = 'emqx_test';
 const password = 'emqx_test';
 
-const client = mqtt.connect('ws://ai.javodata.com:8883/mqtt', {
+const client = mqtt.connect(WS_MQTT_URL, {
   clientId,
   username,
   password,

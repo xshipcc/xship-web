@@ -4,7 +4,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-05 02:49:02
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-06 02:35:54
+ * @LastEditTime: 2023-10-08 17:19:23
  * @FilePath: \zero-admin-ui-master\src\components\VideoFlv\index.tsx
  * @Description:
  *
@@ -28,6 +28,9 @@ const FLVPlayer = (props) => {
 
       flvPlayerRef.current.attachMediaElement(videoRef.current);
       flvPlayerRef.current.load();
+      flvPlayerRef.current.on(flvjs.Events.LOADING_COMPLETE, function () {
+        flvPlayerRef.current.play();
+      });
     }
     // 销毁时结束视频流
     return () => {

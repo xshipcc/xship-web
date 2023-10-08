@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-06 02:45:13
+ * @LastEditTime: 2023-10-08 17:30:01
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\left.tsx
  * @Description:
  *
@@ -39,7 +39,7 @@ const Awareness: React.FC = () => {
     const username = 'emqx_test';
     const password = 'emqx_test';
 
-    const client = mqtt.connect('ws://ai.javodata.com:8883/mqtt', {
+    const client = mqtt.connect(WS_MQTT_URL, {
       clientId,
       username,
       password,

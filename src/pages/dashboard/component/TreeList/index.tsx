@@ -148,6 +148,10 @@ const App = () => {
       type: 'trackModel/changeDestoryTackSignal',
       payload: [true],
     });
+    dispatch({
+      type: 'trackModel/changeEditSignal',
+      payload: [false, true],
+    });
   };
   // 实时修改经纬高,名称
   const changelan = (value: string, index: any) => {

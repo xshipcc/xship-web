@@ -19,7 +19,7 @@ const clientId = 'mapAlert' + Math.random().toString(16).substring(2, 8);
 const username = 'emqx_test';
 const password = 'emqx_test';
 
-const client = mqtt.connect('ws://ai.javodata.com:8883/mqtt', {
+const client = mqtt.connect(WS_MQTT_URL, {
   clientId,
   username,
   password,

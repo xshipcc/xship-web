@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-04 15:26:09
+ * @LastEditTime: 2023-10-08 17:33:00
  * @FilePath: \zero-admin-ui-master\config\config.ts
  * @Description:
  *
@@ -33,6 +33,7 @@ export default defineConfig({
     VIDEO_URL: 'http://192.168.174.128:10086/flv/live/ifmP0eWIg.flv',
     MAP_TERRAIN_URL: '/terrain',
     MAP_TILES_URL: '/luquantile/{z}/{x}/{y}.png',
+    WS_MQTT_URL: 'ws://192.168.174.128:8883/mqtt',
   },
   hash: true,
   dva: {
