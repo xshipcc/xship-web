@@ -39,6 +39,9 @@ const mqttSub = (subscription: { topic: any; qos: any }) => {
 };
 
 mqttSub({ topic: 'alert', qos: 0 });
+setTimeout(() => {
+  mqttSub({ topic: 'uav', qos: 0 });
+}, 2000);
 
 const Map: React.FC = () => {
   //#region    -----------------------------------------------------------------------
@@ -303,8 +306,6 @@ const Map: React.FC = () => {
   }, []);
   // 无人机位置实时更新
   useEffect(() => {
-    mqttSub({ topic: 'uav', qos: 0 });
-
     // const point_options = {
     //   show: true, //是否展示
     //   pixelSize: 10, //点的大小
@@ -382,8 +383,12 @@ const Map: React.FC = () => {
       if (topic === 'uav') {
         // const jsonObject = JSON.parse(mqttMessage);
         const jsonObject = JSON.parse(mqttMessage);
-        console.log('client.on -> jsonObject:', jsonObject);
+        console.log('client.111 -> jsonObject:', jsonObject);
         if (jsonObject?.lat && jsonObject?.lon && jsonObject?.height) {
+          // console.log('client.on -> jsonObject:', jsonObject.lat);
+          // console.log('client.on -> jsonObject:', jsonObject.lon);
+          console.log('client.on -> jsonObject:', jsonObject.height);
+
           updatePosition(jsonObject);
         }
         if (trackCahe.current) {

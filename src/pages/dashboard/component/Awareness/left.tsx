@@ -63,7 +63,7 @@ const Awareness: React.FC = () => {
       if (topic === 'uav') {
         // const jsonObject = JSON.parse(mqttMessage);
         const jsonObject = JSON.parse(mqttMessage);
-        console.log('client.on -> jsonObject:', jsonObject);
+        // console.log('client.on -> jsonObject:', jsonObject);
         setDroneData(JSON.parse(mqttMessage));
       }
     });
