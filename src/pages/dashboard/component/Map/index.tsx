@@ -360,9 +360,9 @@ const Map: React.FC = () => {
     // roll: 0.97907544797624,
     const originPosition = point._position.getValue(viewer.current.clock.currentTime);
     function updatePosition(coord) {
-      originPosition.x += coord.lat;
-      originPosition.y += coord.lon;
-      originPosition.z += coord.height;
+      originPosition.x += coord.lon; //经度
+      originPosition.y += coord.lat; //维度
+      originPosition.z += coord.height; //高度
     }
     // function updatePosition(coord) {
     //   originPosition.x += 10;
