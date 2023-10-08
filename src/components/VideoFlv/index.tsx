@@ -28,9 +28,10 @@ const FLVPlayer = (props) => {
 
       flvPlayerRef.current.attachMediaElement(videoRef.current);
       flvPlayerRef.current.load();
-      flvPlayerRef.current.on(flvjs.Events.LOADING_COMPLETE, function () {
-        flvPlayerRef.current.play();
-      });
+      flvPlayerRef.current.play();
+
+      // flvPlayerRef.current.on(flvjs.Events.LOADING_COMPLETE, function () {
+      // });
     }
     // 销毁时结束视频流
     return () => {

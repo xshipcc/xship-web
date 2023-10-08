@@ -152,18 +152,18 @@ const Map: React.FC = () => {
     viewer.current._cesiumWidget._creditContainer.style.display = 'none';
     // MeasureTools.current = new S_Measure(viewer); //测量类
     MeasureTools.current = new Tool(viewer.current);
-    util.setCameraView(
-      {
-        x: 114.40856,
-        y: 38.03867,
-        z: 2000.56,
-        heading: 270.31730998394744,
-        pitch: -20.72609786048885,
-        roll: 0.97907544797624,
-        duration: 0,
-      },
-      viewer.current,
-    );
+    // util.setCameraView(
+    //   {
+    //     x: 114.40856,
+    //     y: 38.03867,
+    //     z: 2000.56,
+    //     heading: 270.31730998394744,
+    //     pitch: -20.72609786048885,
+    //     roll: 0.97907544797624,
+    //     duration: 0,
+    //   },
+    //   viewer.current,
+    // );
     // // tiff数据加载
     // // addTiffImageryLayer(viewer, '/srctiff');
     /**
@@ -301,14 +301,91 @@ const Map: React.FC = () => {
     //   viewer.current.entities.add(billboard);
     // }, 10000);
   }, []);
+  // 无人机位置实时更新
   useEffect(() => {
     mqttSub({ topic: 'uav', qos: 0 });
-    console.log(VIDEO_URL, 111111111);
+
+    // const point_options = {
+    //   show: true, //是否展示
+    //   pixelSize: 10, //点的大小
+    //   color: Cesium.Color.RED, //颜色
+    //   outlineColor: Cesium.Color.YELLOW, //边框颜色
+    //   outlineWidth: 5, //边框宽度
+    // };
+    //     x: 114.40856,
+    // y: 38.03867,
+    // z: 2000.56,
+    const point = new Cesium.Entity({
+      position: Cesium.Cartesian3.fromDegrees(114.40856, 38.03867, 200.56),
+      // point: point_options,
+      model: {
+        // 模型路径
+        uri: '/air.glb',
+        // 模型最小刻度
+        minimumPixelSize: 64,
+        maximumSize: 128,
+        // 设置模型最大放大大小
+        maximumScale: 20,
+        // 模型是否可见
+        show: true,
+        // 模型轮廓颜色
+        silhouetteColor: Cesium.Color.WHITE,
+        // 模型颜色  ，这里可以设置颜色的变化
+        // color: color,
+        // 仅用于调试，显示魔仙绘制时的线框
+        debugWireframe: false,
+        // 仅用于调试。显示模型绘制时的边界球。
+        debugShowBoundingVolume: false,
+
+        scale: 20,
+        runAnimations: false, // 是否运行模型中的动画效果(由于我的模型是不会动所以就很呆哈哈哈)
+      },
+    });
+
+    viewer.current.entities.add(point);
+    // viewer.current.scene.camera.setView({
+    //   destination: new Cesium.Cartesian3.fromDegrees(114.40856, 38.03867, 20.56), // 目标位置
+    //   orientation: {
+    //     heading: 180, // 水平角度，正东方向为0
+    //     pitch: 0, // 俯仰角度
+    //     roll: 0, // 翻滚角度
+    //   },
+    // });
+    // 创建一个距离变换
+
+    viewer.current.trackedEntity = point;
+
+    //     heading: 270.31730998394744,
+    // pitch: -20.72609786048885,
+    // roll: 0.97907544797624,
+    const originPosition = point._position.getValue(viewer.current.clock.currentTime);
+    function updatePosition(coord) {
+      originPosition.x += coord.lat;
+      originPosition.y += coord.lon;
+      originPosition.z += coord.height;
+    }
+    // function updatePosition(coord) {
+    //   originPosition.x += 10;
+    //   originPosition.y += 10;
+    //   originPosition.z += 10;
+    // }
+
+    point._position = new Cesium.CallbackProperty(function () {
+      return originPosition;
+    }, false);
+
+    // setInterval(() => {
+    //   updatePosition();
+    // }, 200);
+
     client.on('message', (topic: string, mqttMessage: any) => {
       if (topic === 'uav') {
         // const jsonObject = JSON.parse(mqttMessage);
         const jsonObject = JSON.parse(mqttMessage);
         console.log('client.on -> jsonObject:', jsonObject);
+        if (jsonObject?.lat && jsonObject?.lon && jsonObject?.height) {
+          updatePosition(jsonObject);
+        }
         if (trackCahe.current) {
           setDroneData([...trackCahe.current, JSON.parse(mqttMessage)]);
         }
