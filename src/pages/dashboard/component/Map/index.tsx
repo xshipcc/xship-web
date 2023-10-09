@@ -148,10 +148,10 @@ const Map: React.FC = () => {
       }),
     });
 
-    // viewer.current.scene.screenSpaceCameraController.maximumZoomDistance = 20000;
-    // viewer.current.scene.screenSpaceCameraController.minimumZoomDistance = 100;
-    // viewer.current.scene.screenSpaceCameraController._minimumZoomRate = 5000; // 设置相机缩小时的速率
-    // viewer.current.scene.screenSpaceCameraController._maximumZoomRate = 5000; //设置相机放大时的速率
+    viewer.current.scene.screenSpaceCameraController.maximumZoomDistance = 20000;
+    viewer.current.scene.screenSpaceCameraController.minimumZoomDistance = 100;
+    viewer.current.scene.screenSpaceCameraController._minimumZoomRate = 5000; // 设置相机缩小时的速率
+    viewer.current.scene.screenSpaceCameraController._maximumZoomRate = 5000; //设置相机放大时的速率
     viewer.current._cesiumWidget._creditContainer.style.display = 'none';
     // MeasureTools.current = new S_Measure(viewer); //测量类
     MeasureTools.current = new Tool(viewer.current);
@@ -317,7 +317,7 @@ const Map: React.FC = () => {
     // y: 38.03867,
     // z: 2000.56,
     const point = new Cesium.Entity({
-      position: Cesium.Cartesian3.fromDegrees(114.40856, 38.03867, 300.56),
+      position: Cesium.Cartesian3.fromDegrees(114.3389199, 38.0750045, 300.56),
       // point: point_options,
       model: {
         // 模型路径
@@ -360,10 +360,18 @@ const Map: React.FC = () => {
     // pitch: -20.72609786048885,
     // roll: 0.97907544797624,
     const originPosition = point._position.getValue(viewer.current.clock.currentTime);
+    console.log('useEffect -> originPosition:', originPosition);
     function updatePosition(coord) {
-      originPosition.x = coord.lon; //经度
-      originPosition.y = coord.lat; //维度
-      originPosition.z = coord.height + 300; //高度
+      // console.log('updatePosition -> coord:', coord);
+      // console.log('updatePosition -> originPosition:', originPosition);
+      const Degrees = Cesium.Cartesian3.fromDegrees(coord.lat, coord.lon, 200.56);
+      console.log('updatePosition -> Degrees:', Degrees);
+      originPosition.x = Degrees.x;
+      originPosition.y = Degrees.y;
+      originPosition.z = Degrees.z;
+      // originPosition.x += 10;
+      // originPosition.y += 10;
+      // originPosition.z = Degrees.z;
     }
     // function updatePosition(coord) {
     //   originPosition.x += 10;
@@ -387,8 +395,8 @@ const Map: React.FC = () => {
         if (jsonObject?.lat && jsonObject?.lon && jsonObject?.height) {
           // console.log('client.on -> jsonObject:', jsonObject.lat);
           // console.log('client.on -> jsonObject:', jsonObject.lon);
-          console.log('client.on -> jsonObject:', jsonObject.height);
-
+          // console.log('client.on -> jsonObject:', jsonObject.height);
+          // console.log('updatePosition -> originPosition:', originPosition);
           updatePosition(jsonObject);
         }
         if (trackCahe.current) {
