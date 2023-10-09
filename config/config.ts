@@ -34,6 +34,7 @@ export default defineConfig({
     MAP_TERRAIN_URL: '/terrain',
     MAP_TILES_URL: '/luquantile/{z}/{x}/{y}.png',
     WS_MQTT_URL: 'ws://192.168.174.128:8883/mqtt',
+    // WS_MQTT_URL: 'ws://ai.javodata.com:8883/mqtt',
   },
   hash: true,
   dva: {

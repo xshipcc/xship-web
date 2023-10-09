@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-19 16:30:18
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-08 20:52:52
+ * @LastEditTime: 2023-10-09 11:09:35
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\alertList\index.tsx
  * @Description:
  *
@@ -393,7 +393,7 @@ const AlertList: React.FC<AlertListType> = (props: AlertListType) => {
                   src={
                     item.image === ''
                       ? 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
-                      : drawerData.image
+                      : item.image
                   }
                 />
               </Col>

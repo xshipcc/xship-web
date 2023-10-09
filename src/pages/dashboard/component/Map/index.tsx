@@ -316,8 +316,9 @@ const Map: React.FC = () => {
     //     x: 114.40856,
     // y: 38.03867,
     // z: 2000.56,
+
     const point = new Cesium.Entity({
-      position: Cesium.Cartesian3.fromDegrees(114.3389199, 38.0750045, 300.56),
+      position: Cesium.Cartesian3.fromDegrees(114.33919146 + 0.0057, 38.07525226 + 0.0011, 133.45),
       // point: point_options,
       model: {
         // 模型路径
@@ -337,7 +338,6 @@ const Map: React.FC = () => {
         debugWireframe: false,
         // 仅用于调试。显示模型绘制时的边界球。
         debugShowBoundingVolume: false,
-
         scale: 200,
         runAnimations: false, // 是否运行模型中的动画效果(由于我的模型是不会动所以就很呆哈哈哈)
       },
@@ -364,7 +364,11 @@ const Map: React.FC = () => {
     function updatePosition(coord) {
       // console.log('updatePosition -> coord:', coord);
       // console.log('updatePosition -> originPosition:', originPosition);
-      const Degrees = Cesium.Cartesian3.fromDegrees(coord.lat, coord.lon, 200.56);
+      const Degrees = Cesium.Cartesian3.fromDegrees(
+        coord.lon + 0.0062,
+        coord.lat + 0.0019,
+        coord.height,
+      );
       console.log('updatePosition -> Degrees:', Degrees);
       originPosition.x = Degrees.x;
       originPosition.y = Degrees.y;

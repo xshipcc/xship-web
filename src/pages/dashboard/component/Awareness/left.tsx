@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-08 17:30:01
+ * @LastEditTime: 2023-10-09 13:13:05
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\left.tsx
  * @Description:
  *
@@ -117,34 +117,34 @@ const Awareness: React.FC = () => {
             <Row>
               <Col span={24}>
                 <Row>
-                  <Col className={styles.text} span={8}>
+                  <Col className={styles.text} span={4} offset={1}>
                     速度:
                   </Col>
-                  <Col className={styles.text} span={16}>
+                  <Col className={styles.text} span={19}>
                     {DroneData.speed}
                   </Col>
                 </Row>
                 <Row>
-                  <Col className={styles.text} span={8}>
+                  <Col className={styles.text} span={4} offset={1}>
                     坐标:
                   </Col>
-                  <Col className={styles.text} span={16}>
-                    {'[' + DroneData.lat + ',' + DroneData.lon + ']'}
+                  <Col className={styles.text} span={19}>
+                    {'[' + DroneData.lon + ',' + DroneData.lat + ']'}
                   </Col>
                 </Row>
                 <Row>
-                  <Col className={styles.text} span={8}>
+                  <Col className={styles.text} span={4} offset={1}>
                     高度:
                   </Col>
-                  <Col className={styles.text} span={16}>
+                  <Col className={styles.text} span={19}>
                     {DroneData.height}
                   </Col>
                 </Row>
                 <Row>
-                  <Col className={styles.text} span={8}>
+                  <Col className={styles.text} span={4} offset={1}>
                     角度:
                   </Col>
-                  <Col className={styles.text} span={16}>
+                  <Col className={styles.text} span={19}>
                     {DroneData.target_angle}
                   </Col>
                 </Row>
