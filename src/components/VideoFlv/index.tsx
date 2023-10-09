@@ -22,6 +22,7 @@ const FLVPlayer = (props) => {
     if (flvjs.isSupported()) {
       flvPlayerRef.current = flvjs.createPlayer({
         type: 'flv',
+        hasAudio: false, //浏览器安全策略,关闭音频自动播放
         url: props?.url,
         isLive: true, // 是否为直播流
       });

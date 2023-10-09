@@ -317,7 +317,7 @@ const Map: React.FC = () => {
     // y: 38.03867,
     // z: 2000.56,
     const point = new Cesium.Entity({
-      position: Cesium.Cartesian3.fromDegrees(114.40856, 38.03867, 200.56),
+      position: Cesium.Cartesian3.fromDegrees(114.40856, 38.03867, 300.56),
       // point: point_options,
       model: {
         // 模型路径
@@ -326,7 +326,7 @@ const Map: React.FC = () => {
         minimumPixelSize: 64,
         maximumSize: 128,
         // 设置模型最大放大大小
-        maximumScale: 20,
+        maximumScale: 200,
         // 模型是否可见
         show: true,
         // 模型轮廓颜色
@@ -338,7 +338,7 @@ const Map: React.FC = () => {
         // 仅用于调试。显示模型绘制时的边界球。
         debugShowBoundingVolume: false,
 
-        scale: 20,
+        scale: 200,
         runAnimations: false, // 是否运行模型中的动画效果(由于我的模型是不会动所以就很呆哈哈哈)
       },
     });
@@ -363,7 +363,7 @@ const Map: React.FC = () => {
     function updatePosition(coord) {
       originPosition.x = coord.lon; //经度
       originPosition.y = coord.lat; //维度
-      originPosition.z = coord.height; //高度
+      originPosition.z = coord.height + 300; //高度
     }
     // function updatePosition(coord) {
     //   originPosition.x += 10;
