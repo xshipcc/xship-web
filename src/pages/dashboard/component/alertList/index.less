@@ -1,8 +1,5 @@
 .lists {
-  // height: 25vh;
-  margin-right: 2vh;
-  margin-bottom: 1vh;
-  margin-left: 1vh;
+  height: 60vh;
   :global(.ant-btn-text) {
     color: aqua;
     // background: #545454;
@@ -12,12 +9,8 @@
   .listItem {
     display: flex;
     flex-direction: column;
-    width: 100%;
-    height: 10vh;
-    // margin-right: 1vh;
-    // margin-bottom: 1vh;
-    // margin-left: 2vh;
-    // background-image: url('../../assets/dashboard/alertinfo.png');
+    // width: 100%;
+    // height: 10vh;
     background-repeat: no-repeat; //不重复
     background-size: 100% 100%; // 满屏1
     .textInfo {
@@ -32,38 +25,6 @@
       border: 1.8px solid #30727265;
       border-radius: 0.04vh;
       cursor: pointer;
-      // .alert {
-      //   width: 2.5vh;
-      //   height: 2.5vh;
-      //   margin-top: 0.8vh;
-      //   // margin-left: 1vh;
-      //   background-image: url('../../../../assets/dashboard/alert.png');
-      //   background-repeat: no-repeat; //不重复
-      //   background-size: 100% 100%; // 满屏1
-      //   cursor: pointer;
-      // }
-      // .alerttext {
-      //   margin-top: 0.2vh;
-      //   color: rgb(255, 255, 255);
-      //   // font-weight: bold;
-      //   font-size: 2vh;
-      //   text-align: left; /* 设置文本水平对齐方式为居中 */
-      // }
-      .alertImage {
-        // margin-top: 0.2vh;
-        // color: rgb(255, 255, 255);
-        // // font-weight: bold;
-        // font-size: 2vh;
-        // text-align: left; /* 设置文本水平对齐方式为居中 */
-      }
-      // :global {
-      //   .ant-badge-status-text {
-      //     margin-left: 8px;
-      //     color: rgb(219, 221, 222);
-      //     font-size: 14px;
-      //   }
-      // }
-
       .alertcontent {
         width: 100%;
         margin: 0%;
@@ -110,12 +71,12 @@
 
 .drawercontent {
   position: absolute;
-  top: -17vh;
-  right: -3vh;
-  width: 116.5%;
+  top: -18vh;
+  right: 1.1vh;
+  width: 100%;
   height: 82vh;
   .drawerImage {
-    width: 32vh;
+    width: 100%;
     height: 20vh;
   }
   .note {
@@ -208,23 +169,16 @@
     .ant-drawer-content-wrapper {
       position: absolute;
       z-index: 1000;
-      width: 105%;
+      width: 106%;
       transition: all 0.3s;
     }
     .ant-drawer-content {
-      width: 100%;
+      // width: 100%;
       height: 82vh;
       overflow: auto;
       color: aliceblue;
       background-color: rgba(30, 51, 63, 0.988);
       // background-image: url('../assets/dashboard/leftcontent.png');
-      border: 3px solid;
-      border-radius: 0.2vh;
-      border-image: linear-gradient(to bottom, rgb(10, 22, 33), rgb(38, 96, 118)) 1;
-      // background-image: url('../assets/dashboard/leftcontent.png');
-      // border: 2px solid;
-      // border-radius: 0.1vh;
-      // border-image: linear-gradient(to bottom, rgb(10, 22, 33), rgb(38, 96, 118)) 1;
       pointer-events: auto;
     }
   }

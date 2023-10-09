@@ -294,7 +294,7 @@ const App = () => {
         </Col>
       </Row>
       <Row className={styles.buttonRow}>
-        <Col span={12} className={'title'}>
+        <Col span={10} offset={2}>
           {editSignal ? (
             <Button
               type="text"

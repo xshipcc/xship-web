@@ -2,24 +2,8 @@
   width: 100%;
   height: 70vh;
 }
-.arrow {
-  width: 3vh;
-  height: 3.5vh;
-  background-image: url('../../../../assets/dashboard/arrow.png');
-  background-repeat: no-repeat; //不重复
-  background-size: 100% 100%; // 满屏1
-  cursor: pointer;
-}
-.title {
-  height: 20px;
-  color: rgb(255, 255, 255);
-  font-weight: bold;
-  font-size: 15px;
-}
-.titleLine {
-  background-image: url('../../../../assets/dashboard/titleline.png');
-  background-repeat: no-repeat; //不重复
-  background-size: 100% 100%; // 满屏1
+.listcontent {
+  margin-top: 2vh;
 }
 
 .picker {
@@ -27,15 +11,15 @@
   height: 5vh;
   // margin-right: 0.6vh;
   // margin-left: 0.3vh;
-  margin-top: 4vh;
-  background-repeat: no-repeat; //不重复
-  background-size: 100% 100%; // 满屏1
+  margin-top: 3vh;
+  // background: #ffffff85;
   :global {
     .ant-picker {
       position: relative;
       display: inline-flex;
       align-items: center;
       box-sizing: border-box;
+      height: 5vh;
       margin: 0;
       padding: 0;
       padding: 4px 11px 4px;
@@ -69,13 +53,11 @@
     }
   }
   .pickerTitle {
-    // margin-right: 0.6vh;
-    // margin-left: 0.3vh;
-    padding-top: 0.5vh;
+    height: 5vh;
+    padding: 0.5vh;
     color: rgb(2, 200, 202);
     font-size: 2.5vh;
-    text-align: left;
-    cursor: pointer;
+    text-align: center;
   }
 }
 
@@ -83,20 +65,21 @@
 //   background-color: green !important;
 // }
 .buttonRow {
+  height: 3vh;
   .button {
-    margin-top: 1vh; /* 上外边距 */
-    margin-right: 3vh; /* 右外边距 */
-    margin-bottom: 5vh; /* 下外边距 */
-    margin-left: 3vh; /* 左外边距 */
+    // margin-top: 1vh; /* 上外边距 */
+    // margin-right: 3vh; /* 右外边距 */
+    // margin-bottom: 5vh; /* 下外边距 */
+    // margin-left: 3vh; /* 左外边距 */
     color: rgb(255, 255, 255);
     font-size: 16px;
     text-align: center;
   }
   .buttonActive {
-    margin-top: 1vh; /* 上外边距 */
-    margin-right: 3vh; /* 右外边距 */
-    margin-bottom: 5vh; /* 下外边距 */
-    margin-left: 3vh; /* 左外边距 */
+    // margin-top: 1vh; /* 上外边距 */
+    // margin-right: 3vh; /* 右外边距 */
+    // margin-bottom: 5vh; /* 下外边距 */
+    // margin-left: 3vh; /* 左外边距 */
     color: aqua;
     font-size: 16px;
     text-align: center;

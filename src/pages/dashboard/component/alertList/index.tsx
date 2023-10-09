@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-19 16:30:18
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-09 11:09:35
+ * @LastEditTime: 2023-10-09 16:03:06
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\alertList\index.tsx
  * @Description:
  *
@@ -202,8 +202,7 @@ const AlertList: React.FC<AlertListType> = (props: AlertListType) => {
     return (vh / 100) * windowHeight;
   };
 
-  // 示例用法
-  const containerHeightInVh = 65;
+  const containerHeightInVh = 60;
 
   const [containerHeightInPx, setContainerHeightInPx] = useState(vhToPx(containerHeightInVh));
   window.addEventListener('resize', () => {
@@ -223,14 +222,19 @@ const AlertList: React.FC<AlertListType> = (props: AlertListType) => {
           open={open}
           getContainer={false}
         >
-          <Image
-            className={styles.drawerImage}
-            src={
-              drawerData.image === ''
-                ? 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
-                : drawerData.image
-            }
-          />
+          <Row>
+            <Col span={20} offset={2}>
+              <Image
+                className={styles.drawerImage}
+                src={
+                  drawerData.image === ''
+                    ? 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png'
+                    : drawerData.image
+                }
+              />
+            </Col>
+          </Row>
+
           <Divider style={{ color: 'white' }}>告警列表详情</Divider>
           <Badge
             status={
@@ -373,7 +377,7 @@ const AlertList: React.FC<AlertListType> = (props: AlertListType) => {
           </Row>
         </Drawer>
       </div>
-      <VirtualList data={data} height={containerHeightInPx} itemHeight={1} itemKey="id">
+      <VirtualList data={data} height={containerHeightInPx} itemHeight={10} itemKey="id">
         {(item: ListAlertHistoryData) => (
           <List.Item
             key={item.id}

@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-09 20:12:31
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-01 23:31:59
+ * @LastEditTime: 2023-10-09 15:35:15
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\index.tsx
  * @Description:
  *
@@ -162,79 +162,79 @@ const Dashboard: React.FC = () => {
     DualAxes: {
       histgram: [
         {
-          time: '2019-03',
+          time: '2023-03',
           value: 350,
           type: 'uv',
         },
         {
-          time: '2019-04',
+          time: '2023-04',
           value: 900,
           type: 'uv',
         },
         {
-          time: '2019-05',
+          time: '2023-05',
           value: 300,
           type: 'uv',
         },
         {
-          time: '2019-06',
+          time: '2023-06',
           value: 450,
           type: 'uv',
         },
         {
-          time: '2019-07',
+          time: '2023-07',
           value: 470,
           type: 'uv',
         },
         {
-          time: '2019-03',
+          time: '2023-03',
           value: 220,
           type: 'bill',
         },
         {
-          time: '2019-04',
+          time: '2023-04',
           value: 300,
           type: 'bill',
         },
         {
-          time: '2019-05',
+          time: '2023-05',
           value: 250,
           type: 'bill',
         },
         {
-          time: '2019-06',
+          time: '2023-06',
           value: 220,
           type: 'bill',
         },
         {
-          time: '2019-07',
+          time: '2023-07',
           value: 362,
           type: 'bill',
         },
       ],
       linegram: [
         {
-          time: '2019-03',
+          time: '2023-03',
           count: 800,
           name: 'a',
         },
         {
-          time: '2019-04',
+          time: '2023-04',
           count: 600,
           name: 'a',
         },
         {
-          time: '2019-05',
+          time: '2023-05',
           count: 400,
           name: 'a',
         },
         {
-          time: '2019-06',
+          time: '2023-06',
           count: 380,
           name: 'a',
         },
         {
-          time: '2019-07',
+          time: '2023-07',
           count: 220,
           name: 'a',
         },

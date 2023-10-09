@@ -53,7 +53,11 @@ const Monitor: React.FC = () => {
                   <Col span={24} className={'titleLine'} />
                 </Row>
                 <Col className={styles.videocontent} span={24}>
-                  <Player url={VIDEO_URL} height={'25'} width={'100'} />
+                  {index > 0 ? (
+                    <Player url={'demo'} height={'25'} width={'100'} />
+                  ) : (
+                    <Player url={VIDEO_URL} height={'25'} width={'100'} />
+                  )}
                 </Col>
               </div>
             </div>

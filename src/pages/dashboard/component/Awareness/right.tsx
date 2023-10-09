@@ -79,7 +79,7 @@ const AwarenessRight: React.FC = () => {
           </Row>
           {/*  */}
           <Row className={styles.buttonRow}>
-            <Col span={12} className={'title'}>
+            <Col span={10} offset={2}>
               <Button
                 type="text"
                 className={activeIndex === 0 ? styles.buttonActive : styles.button}
@@ -92,7 +92,7 @@ const AwarenessRight: React.FC = () => {
                 即时告警
               </Button>
             </Col>
-            <Col span={12} className={'title'}>
+            <Col span={10} offset={2}>
               <Button
                 type="text"
                 className={activeIndex === 1 ? styles.buttonActive : styles.button}
@@ -109,12 +109,12 @@ const AwarenessRight: React.FC = () => {
           {/*  */}
           <div className={styles.picker}>
             <Row>
-              <Col span={16} offset={1}>
+              <Col span={15}>
                 <Space>
                   <PickerWithType type={type} onChange={(value) => console.log(value)} />
                 </Space>
               </Col>
-              <Col className={styles.pickerTitle} span={7}>
+              <Col className={styles.pickerTitle} span={8}>
                 <SearchOutlined />
                 搜索
               </Col>

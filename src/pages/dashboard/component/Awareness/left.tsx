@@ -92,21 +92,6 @@ const Awareness: React.FC = () => {
             </Col>
           </Row>
           {/*  */}
-          <Row>
-            <Col span={2} className={'arrow'} />
-            <Col span={22} className={'title'}>
-              无人机画面02
-            </Col>
-          </Row>
-          <Row>
-            <Col span={24} className={'titleLine'} />
-          </Row>
-          {/*  */}
-          <Row>
-            <Col span={24} className={styles.video}>
-              <Player url={VIDEO_URL} height={'19'} width={'100'} />
-            </Col>
-          </Row>
           <div className={styles.board}>
             <Row>
               <Col span={2} className={'arrow'} />
