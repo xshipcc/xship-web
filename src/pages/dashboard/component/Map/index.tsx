@@ -148,10 +148,10 @@ const Map: React.FC = () => {
       }),
     });
 
-    viewer.current.scene.screenSpaceCameraController.maximumZoomDistance = 20000;
-    viewer.current.scene.screenSpaceCameraController.minimumZoomDistance = 100;
-    viewer.current.scene.screenSpaceCameraController._minimumZoomRate = 5000; // 设置相机缩小时的速率
-    viewer.current.scene.screenSpaceCameraController._maximumZoomRate = 5000; //设置相机放大时的速率
+    // viewer.current.scene.screenSpaceCameraController.maximumZoomDistance = 20000;
+    // viewer.current.scene.screenSpaceCameraController.minimumZoomDistance = 100;
+    // viewer.current.scene.screenSpaceCameraController._minimumZoomRate = 5000; // 设置相机缩小时的速率
+    // viewer.current.scene.screenSpaceCameraController._maximumZoomRate = 5000; //设置相机放大时的速率
     viewer.current._cesiumWidget._creditContainer.style.display = 'none';
     // MeasureTools.current = new S_Measure(viewer); //测量类
     MeasureTools.current = new Tool(viewer.current);
