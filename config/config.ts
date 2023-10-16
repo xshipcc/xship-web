@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-09 10:43:18
+ * @LastEditTime: 2023-10-16 16:01:11
  * @FilePath: \zero-admin-ui-master\config\config.ts
  * @Description:
  *
@@ -16,11 +16,25 @@ import defaultSettings from './defaultSettings';
 // import proxy from './proxy';
 import routes from './routes';
 import path from 'path';
+import px2vw from 'postcss-px-to-viewport';
 const { REACT_APP_ENV } = process.env;
 const cesiumSource = 'node_modules/cesium/Source';
 const cesiumWorkers = '../Build/Cesium/Workers';
 
 export default defineConfig({
+  // 配置额外的 postcss 插件(px 转 vw|vh)
+  extraPostCSSPlugins: [
+    px2vw({
+      viewportWidth: 1920, // 视窗的宽度，可根据自己的需求调整（这里是以PC端为例）
+      viewportHeight: 1080, // 视窗的高度
+      unitPrecision: 6, // 转换后的精度，即小数点位数
+      viewportUnit: 'vw', // 指定需要转换成的视窗单位，默认vw
+      minPixelValue: 1, // 默认值1，小于或等于1px则不进行转换
+      exclude: [/node_modules/], // 设置忽略文件，用正则做目录名匹配
+    }),
+  ],
+  stylelint: false, // 禁用 stylelint
+
   antd: {},
   copy: [
     { from: path.join(cesiumSource, cesiumWorkers), to: 'Workers' },
@@ -31,8 +45,10 @@ export default defineConfig({
   define: {
     CESIUM_BASE_URL: '/', //cesium默认路径地址配置，没改好,这个地址相对于路由
     VIDEO_URL: 'http://192.168.174.128:10086/flv/live/ifmP0eWIg.flv',
-    MAP_TERRAIN_URL: '/terrain',
-    MAP_TILES_URL: '/luquantile/{z}/{x}/{y}.png',
+    // MAP_TERRAIN_URL: '/terrain',
+    // MAP_TILES_URL: '/luquantile/{z}/{x}/{y}.png',
+    MAP_TERRAIN_URL: 'http://ai.javodata.com/terrain',
+    MAP_TILES_URL: 'http://ai.javodata.com/luquantile/{z}/{x}/{y}.png',
     WS_MQTT_URL: 'ws://192.168.174.128:8883/mqtt',
     // WS_MQTT_URL: 'ws://ai.javodata.com:8883/mqtt',
   },

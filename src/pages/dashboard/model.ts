@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-16 18:32:55
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-04 09:29:29
+ * @LastEditTime: 2023-10-16 00:24:32
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\model.ts
  * @Description:
  *
@@ -15,6 +15,7 @@ import type { DashboardInfoType, DroneDataType } from './typings';
 import type { ListUavFlyDataType } from '@/pages/drone/routePlan/data';
 import type { ListAlertHistoryData } from '@/pages/AIalert/data';
 export interface DashboardState {
+  currentComponent: string;
   dashboardInfo: DashboardInfoType;
   checkedCompanyId: string | undefined;
   enterpriseOptions: string[];
@@ -26,6 +27,7 @@ export interface DashboardModelType {
   namespace: 'dashboardModel';
   state: DashboardState;
   reducers: {
+    changeCurrentComponent: ImmerReducer<string> | any;
     saveCheckedCompanyID: ImmerReducer<string> | any;
     saveEnterpriseOptions: ImmerReducer<string> | any;
     saveDashboardInfo: ImmerReducer<string> | any;
@@ -93,6 +95,9 @@ const CompanyModel: DashboardModelType = {
     },
   },
   reducers: {
+    changeCurrentComponent(state: DashboardState, action: { payload: string }) {
+      state.checkedCompanyId = action.payload;
+    },
     saveCheckedCompanyID(state: DashboardState, action: { payload: string }) {
       state.checkedCompanyId = action.payload;
     },

@@ -10,6 +10,7 @@
  */
 import { DualAxes } from '@ant-design/plots';
 import { Col, Row } from 'antd';
+import Title from '@/pages/dashboard/component/common/Title';
 import React, { useState } from 'react';
 import styles from './center.less';
 import type { DashboardInfoType } from '@/pages/dashboard/typings';
@@ -145,15 +146,7 @@ const AnalysisCenter: React.FC = (props) => {
   return (
     <>
       <div className={styles.boxall}>
-        <Row>
-          <Col span={0.7} className={'arrow'} />
-          <Col span={23.3} className={'title'}>
-            近日巡检对比
-          </Col>
-        </Row>
-        <Row>
-          <Col span={24} className={'titleLine'} />
-        </Row>
+        <Title title={'今日巡检对比'} />
         {/*  */}
         <Row>
           <Col span={24} className={styles.chart}>

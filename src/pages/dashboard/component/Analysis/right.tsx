@@ -1,8 +1,9 @@
+//@ts-nocheck
 /*
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-01 23:26:20
+ * @LastEditTime: 2023-10-16 15:23:44
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Analysis\right.tsx
  * @Description:
  *
@@ -13,7 +14,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './right.less';
 
 import type { DashboardInfoType } from '@/pages/dashboard/typings';
-
+import Title from '@/pages/dashboard/component/common/Title';
 import { Rose } from '@ant-design/plots';
 
 import { Bar } from '@ant-design/plots';
@@ -92,15 +93,7 @@ const AnalysisRight: React.FC = (props) => {
     <>
       <div className={'boxall'}>
         <div className={styles.content}>
-          <Row>
-            <Col span={2} className={'arrow'} />
-            <Col span={22} className={'title'}>
-              巡检数量
-            </Col>
-          </Row>
-          <Row>
-            <Col span={24} className={'titleLine'} />
-          </Row>
+          <Title title={'巡检数量'} />
           {/*  */}
           <Row>
             <Col span={8} className={styles.text}>
@@ -125,15 +118,8 @@ const AnalysisRight: React.FC = (props) => {
             </Col>
           </Row>
           {/*  */}
-          <Row>
-            <Col span={2} className={'arrow'} />
-            <Col span={22} className={'title'}>
-              告警发生频率
-            </Col>
-          </Row>
-          <Row>
-            <Col span={24} className={'titleLine'} />
-          </Row>
+          <Title title={'告警发送频率'} />
+
           {/*  */}
           <Row className={styles.column}>
             <Col className={styles.content} span={24}>
@@ -141,15 +127,8 @@ const AnalysisRight: React.FC = (props) => {
             </Col>
           </Row>
           {/*  */}
-          <Row>
-            <Col span={2} className={'arrow'} />
-            <Col span={22} className={'title'}>
-              严重报警比例
-            </Col>
-          </Row>
-          <Row>
-            <Col span={24} className={'titleLine'} />
-          </Row>
+          <Title title={'严重报警比例'} />
+
           {/*  */}
           <Row>
             <Col span={24} className={styles.chart}>

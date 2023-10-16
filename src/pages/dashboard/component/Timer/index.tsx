@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-19 16:41:04
+ * @LastEditTime: 2023-10-16 03:02:55
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Timer\index.tsx
  * @Description:
  *
@@ -11,6 +11,7 @@
 
 import React, { useEffect, useState } from 'react';
 import styles from './index.less';
+
 const Timer: React.FC = () => {
   //#region    -----------------------------------------------------------------------
   /**
@@ -49,6 +50,7 @@ const Timer: React.FC = () => {
   return (
     <>
       <div className={styles.date}>{date}</div>
+
       <div className={styles.time}>{time}</div>
     </>
   );

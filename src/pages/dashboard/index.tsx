@@ -3,14 +3,14 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-09 20:12:31
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-09 15:35:15
+ * @LastEditTime: 2023-10-16 14:19:54
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\index.tsx
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
 import React, { useEffect, useState } from 'react';
-import styles from './dashboard.less';
+import styles from './index.less';
 import 'cesium/Source/Widgets/widgets.css';
 import { Button, Col, Row } from 'antd';
 import Monitor from '@/pages/dashboard/component/Monitor';
@@ -21,13 +21,14 @@ import Analysis from '@/pages/dashboard/component/Analysis/left';
 import AnalysisRight from '@/pages/dashboard/component/Analysis/right';
 import Timer from '@/pages/dashboard/component/Timer';
 import Map from '@/pages/dashboard/component/Map';
+import { Header } from '@/pages/dashboard/component/Header';
 import AnalysisCenter from '@/pages/dashboard/component/Analysis/center';
 import NoFoundPage from '@/pages/404';
 import { useSelector, useDispatch, useModel } from 'umi';
 import { history } from 'umi';
 const Dashboard: React.FC = () => {
   //#region    -----------------------------------------------------------------------
-  /**
+  /**h
    *  @file dashboard.tsx
    *  @time 2023/09/13
    * @category :数据初始化
@@ -375,72 +376,20 @@ const Dashboard: React.FC = () => {
   //#endregion -----------------------------------------------------------------------
 
   return (
-    <div className={styles.screen}>
-      {/* map  */}
-      <Map />
-      {/* map  */}
-      {/* time */}
-      <Timer />
-      {/* home */}
-      <div className={styles.home} onClick={() => history.push('/')} />
-      <div className={styles.logo} />
-      {/* time */}
-      {/* header */}
-      <Row className={styles.header}>
-        {/* <Col span={1} className={styles.logo} /> */}
-        <Col span={4} offset={1} className={styles.text}>
-          {/* <div className={styles.text}> */}
-          <p className={styles.textbig}>无人机自动巡检系统</p>
-          <p className={styles.textsmall}>UAV Automated Inspection System</p>
-          {/* </div> */}
-        </Col>
-        <Col span={19} className={styles.rightheader}>
-          <Button
-            type="text"
-            className={activeIndex === 0 ? styles.buttonActive : styles.button}
-            onClick={() => {
-              ShowComponent('Analysis');
-              handleClick(0);
-            }}
-          >
-            统计分析
-          </Button>
-          <Button
-            type="text"
-            className={activeIndex === 1 ? styles.buttonActive : styles.button}
-            onClick={() => {
-              ShowComponent('Awareness');
-              handleClick(1);
-            }}
-          >
-            态势感知
-          </Button>
-          <Button
-            type="text"
-            className={activeIndex === 2 ? styles.buttonActive : styles.button}
-            onClick={() => {
-              ShowComponent('Monitor');
-              handleClick(2);
-            }}
-          >
-            监控查看
-          </Button>
-          <Button
-            type="text"
-            className={activeIndex === 3 ? styles.buttonActive : styles.button}
-            onClick={() => {
-              ShowComponent('Routemark');
-              handleClick(3);
-            }}
-          >
-            路径规划
-          </Button>
-        </Col>
-      </Row>
-      {/* header */}
-      {/* content */}
-      {RenderComponent()}
-      {/* content */}
+    <div className="container">
+      <div className="container__body">
+        <div className={styles.screen}>
+          {/* map  */}
+          <Map />
+          {/* map  */}
+          {/* header */}
+          <Header />
+          {/* header */}
+          {/* content */}
+          {RenderComponent()}
+          {/* content */}
+        </div>
+      </div>
     </div>
   );
 };

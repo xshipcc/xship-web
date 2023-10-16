@@ -1,0 +1,88 @@
+/*
+ * @Author: weiaodi 1635654853@qq.com
+ * @Date: 2023-09-09 20:12:31
+ * @LastEditors: weiaodi 1635654853@qq.com
+ * @LastEditTime: 2023-10-16 16:35:44
+ * @FilePath: \zero-admin-ui-master\src\pages\dashboard\index.less
+ * @Description: 
+ * 
+ * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved. 
+ */
+/* 滚动条整体部分 */
+::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+
+/* 滚动条的轨道（里面装有Thumb） */
+::-webkit-scrollbar-track {
+  border-radius: 0;
+}
+
+.screen {
+  position: absolute;
+  z-index: 998;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+  pointer-events: none;
+  .content {
+    width: 1920px;
+    height: 1000px;
+    padding: 20px 50px;
+    // padding-right: 20px;
+    // padding-left: 20px;
+    pointer-events: auto;
+
+    .left {
+      height: 900px;
+    }
+    .awarenessleft {
+      height: 500px;
+    }
+    .right {
+      height: 900px;
+    }
+    .center {
+      height: 350px;
+      margin-top: 550px; /* 上外边距 */
+      padding-right: 20px;
+      padding-left: 20px;
+    }
+  }
+}
+.monitorContent {
+  width: 95%;
+  height: 100%;
+  margin-top: 5vh; /* 上外边距 */
+  padding-right: 2vh;
+  padding-left: 2vh;
+}
+.monitortimeLine {
+  position: absolute;
+  width: 140vh;
+  height: 1vh;
+  margin-top: 84vh; /* 上外边距 */
+  margin-left: 30vh; /* 上外边距 */
+  // background-color: rgba(7, 19, 28, 0.886);
+  background-image: url('../../assets/dashboard/greenRect.png');
+  background-repeat: no-repeat; //不重复
+  background-size: 100% 100%; // 满屏
+  // border-radius: 0.1vh;
+}
+
+.awarenesstimeLine {
+  position: absolute;
+  width: 130vh;
+  height: 1vh;
+  margin-top: 79vh; /* 上外边距 */
+  margin-left: 5vh; /* 上外边距 */
+  // background-color: rgba(7, 19, 28, 0.886);
+  background-image: url('../../assets/dashboard/greenRect.png');
+  background-repeat: no-repeat; //不重复
+  background-size: 100% 100%; // 满屏
+  // border-radius: 0.1vh;
+}
