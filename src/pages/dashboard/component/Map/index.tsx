@@ -4,16 +4,11 @@ import React, { useEffect, useRef, useState } from 'react';
 import * as Cesium from 'cesium';
 import styles from './index.less';
 import 'cesium/Source/Widgets/widgets.css';
-import { Button } from 'antd';
 import type { Alert } from '../../typings';
 import * as mqtt from 'mqtt';
-
 import Track from '../../../../utils/js/track';
-import TIFFImageryProvider from 'tiff-imagery-provider';
 import Tool from '@/utils/js/measure/measureTool';
-import util from '@/utils/js/util';
-import { useSelector, useDispatch, useModel } from 'umi';
-import S_Measure from '@/utils/js/measure';
+import { useSelector, useDispatch } from 'umi';
 
 const clientId = 'mapAlert' + Math.random().toString(16).substring(2, 8);
 const username = 'emqx_test';
@@ -23,7 +18,6 @@ const client = mqtt.connect(WS_MQTT_URL, {
   clientId,
   username,
   password,
-  // ...other options
 });
 const mqttSub = (subscription: { topic: any; qos: any }) => {
   if (client) {
@@ -44,42 +38,6 @@ setTimeout(() => {
 }, 2000);
 
 const Map: React.FC = () => {
-  //#region    -----------------------------------------------------------------------
-  /**
-   *  @file dashboard.tsx
-   *  @time 2023/09/13
-   * @category :cesium相关功能
-   * @function :
-   */
-  const addTiffImageryLayer = async (viewerInstance: Cesium.Viewer, url: string): Promise<void> => {
-    try {
-      const provider: any = await TIFFImageryProvider.fromUrl(url, {
-        enablePickFeatures: true,
-        projFunc: (code) => {
-          if (![4326, 3857, 900913].includes(code)) {
-            try {
-              const prj = proj4('EPSG:4326', `EPSG:${code}`);
-              if (prj)
-                return {
-                  project: prj.forward,
-                  unproject: prj.inverse,
-                };
-            } catch (e) {
-              console.error(e);
-            }
-          }
-          return undefined;
-        },
-      });
-
-      const imageryLayer = viewerInstance.imageryLayers.addImageryProvider(provider);
-      await viewerInstance.flyTo(imageryLayer, {
-        duration: 1,
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
   const divRef = useRef<HTMLDivElement>(null);
   const viewer = useRef(null);
   const trackCahe = useRef(null);
@@ -103,25 +61,6 @@ const Map: React.FC = () => {
 
   console.log('editSignal:', editSignal);
   useEffect(() => {
-    // const viewer = new Cesium.Viewer(divRef.current as Element, {
-    //   imageryProvider: new Cesium.ArcGisMapServerImageryProvider({
-    //     url: 'https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer',
-    //   }),
-    //   terrainProvider: new Cesium.CesiumTerrainProvider({
-    //     url: 'http://data.marsgis.cn/terrain',
-    //   }),
-    //   animation: false, // 设置动画小组件关闭展示
-    //   timeline: false, // 时间轴关闭展示
-    //   infoBox: false, // 信息盒子关闭展示
-    //   geocoder: false, // 地理编码搜索关闭展示
-    //   baseLayerPicker: false, // 基础图层选择器关闭展示
-    //   sceneModePicker: false, // 场景选择器关闭展示
-    //   fullscreenButton: false, // 全屏按钮关闭展示
-    //   navigationInstructionsInitiallyVisible: false, // 导航说明是否最初展示
-    //   navigationHelpButton: false, // 导航帮助按钮关闭展示
-    //   homeButton: false,
-    // });
-
     viewer.current = new Cesium.Viewer(divRef.current as Element, {
       animation: false, //左下角的动画仪表盘
       baseLayerPicker: false, //右上角的图层选择按钮
@@ -306,17 +245,6 @@ const Map: React.FC = () => {
   }, []);
   // 无人机位置实时更新
   useEffect(() => {
-    // const point_options = {
-    //   show: true, //是否展示
-    //   pixelSize: 10, //点的大小
-    //   color: Cesium.Color.RED, //颜色
-    //   outlineColor: Cesium.Color.YELLOW, //边框颜色
-    //   outlineWidth: 5, //边框宽度
-    // };
-    //     x: 114.40856,
-    // y: 38.03867,
-    // z: 2000.56,
-
     const point = new Cesium.Entity({
       position: Cesium.Cartesian3.fromDegrees(114.33919146 + 0.0057, 38.07525226 + 0.0011, 133.45),
       // point: point_options,
@@ -397,10 +325,6 @@ const Map: React.FC = () => {
         const jsonObject = JSON.parse(mqttMessage);
         console.log('client.111 -> jsonObject:', jsonObject);
         if (jsonObject?.lat && jsonObject?.lon && jsonObject?.height) {
-          // console.log('client.on -> jsonObject:', jsonObject.lat);
-          // console.log('client.on -> jsonObject:', jsonObject.lon);
-          // console.log('client.on -> jsonObject:', jsonObject.height);
-          // console.log('updatePosition -> originPosition:', originPosition);
           updatePosition(jsonObject);
         }
         if (trackCahe.current) {
@@ -560,17 +484,7 @@ const Map: React.FC = () => {
     }
 
     // 飞行模拟数据
-
-    //#endregion -----------------------------------------------------------------------
-    /**
-     * @end
-     */
   }, [coords]);
-
-  /**
-   * @end
-   */
-  //#endregion -----------------------------------------------------------------------
 
   return (
     <>

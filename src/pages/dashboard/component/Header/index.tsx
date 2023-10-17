@@ -2,8 +2,8 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-09 20:12:31
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-16 02:29:49
- * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\header\index.tsx
+ * @LastEditTime: 2023-10-17 09:38:42
+ * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Header\index.tsx
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
@@ -22,8 +22,8 @@ export const Header: React.FC = () => {
 
   const ChangeComponent = (componentName: string) => {
     dispatch({
-      type: 'dashboardModel/fetchDashboardInfo',
-      payload: { name: componentName },
+      type: 'dashboardModel/changeCurrentComponent',
+      payload: componentName,
     });
   };
 

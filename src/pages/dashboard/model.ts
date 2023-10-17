@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-16 18:32:55
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-16 00:24:32
+ * @LastEditTime: 2023-10-17 13:18:25
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\model.ts
  * @Description:
  *
@@ -14,11 +14,23 @@ import { getAlertList } from './service';
 import type { DashboardInfoType, DroneDataType } from './typings';
 import type { ListUavFlyDataType } from '@/pages/drone/routePlan/data';
 import type { ListAlertHistoryData } from '@/pages/AIalert/data';
+
 export interface DashboardState {
+  /**
+   *
+   *
+   * @type {string} 存在于index界面的,组件切换状态
+   * @memberof DashboardState
+   */
   currentComponent: string;
+
+  /**
+   *
+   *
+   * @type {DashboardInfoType} 所有组件页面,只在实例化时请求一次的统计和显示数据
+   * @memberof DashboardState
+   */
   dashboardInfo: DashboardInfoType;
-  checkedCompanyId: string | undefined;
-  enterpriseOptions: string[];
   alertList: string[];
   currentFlyData: ListUavFlyDataType;
   alertData: ListAlertHistoryData;
@@ -28,22 +40,21 @@ export interface DashboardModelType {
   state: DashboardState;
   reducers: {
     changeCurrentComponent: ImmerReducer<string> | any;
-    saveCheckedCompanyID: ImmerReducer<string> | any;
-    saveEnterpriseOptions: ImmerReducer<string> | any;
     saveDashboardInfo: ImmerReducer<string> | any;
     saveAlertList: ImmerReducer<string> | any;
     saveCurrentFlyData: ImmerReducer<string> | any;
     saveAlertData: ImmerReducer<string> | any;
   };
   effects: {
-    // fetchEnterpriseOptions: Effect;
     fetchDashboardInfo: Effect;
     fetchAlertList: Effect;
   };
 }
 const CompanyModel: DashboardModelType = {
   namespace: 'dashboardModel',
+
   state: {
+    currentComponent: 'Analysis',
     dashboardInfo: {
       drone: {
         total: 0,
@@ -96,14 +107,9 @@ const CompanyModel: DashboardModelType = {
   },
   reducers: {
     changeCurrentComponent(state: DashboardState, action: { payload: string }) {
-      state.checkedCompanyId = action.payload;
+      state.currentComponent = action.payload;
     },
-    saveCheckedCompanyID(state: DashboardState, action: { payload: string }) {
-      state.checkedCompanyId = action.payload;
-    },
-    saveEnterpriseOptions(state: DashboardState, action: { payload: string[] }) {
-      state.enterpriseOptions = action.payload;
-    },
+
     saveDashboardInfo(state: DashboardState, action: { payload: DashboardInfoType }) {
       // console.log('saveDashboardInfo -> payload:', action.payload);
       state.dashboardInfo = action.payload;
