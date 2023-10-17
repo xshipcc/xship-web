@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-09 20:12:31
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-17 09:45:06
+ * @LastEditTime: 2023-10-18 00:23:11
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\index.tsx
  * @Description:
  *
@@ -310,17 +310,15 @@ const Dashboard: React.FC = () => {
       case 'Analysis':
         return (
           <>
-            <Row className={styles.content}>
-              <Col span={5} className={styles.left}>
-                <Analysis initValue={initView} />
-              </Col>
-              <Col span={14} className={styles.center}>
-                <AnalysisCenter initValue={initView} />
-              </Col>
-              <Col span={5} className={styles.right}>
-                <AnalysisRight initValue={initView} />
-              </Col>
-            </Row>
+            <div className={styles.left}>
+              <Analysis initValue={initView} />
+            </div>
+            <div className={styles.center}>
+              <AnalysisCenter initValue={initView} />
+            </div>
+            <div className={styles.right}>
+              <AnalysisRight initValue={initView} />
+            </div>
           </>
         );
       case 'Awareness':
@@ -370,15 +368,22 @@ const Dashboard: React.FC = () => {
   return (
     <div className="container">
       <div className="container__body">
+        {/* <div className="mask" /> */}
+        <div className="masking top" />
+        <div className="masking right" />
+        <div className="masking bottom" />
+        <div className="masking left" />
+        {/* map  */}
+        <Map />
+        {/* map  */}
         <div className={styles.screen}>
-          {/* map  */}
-          <Map />
-          {/* map  */}
           {/* header */}
-          <Header />
+          <div className={styles.header}>
+            <Header />
+          </div>
           {/* header */}
           {/* content */}
-          {RenderComponent(currentComponent)}
+          <div className={styles.content}>{RenderComponent(currentComponent)}</div>
           {/* content */}
         </div>
       </div>

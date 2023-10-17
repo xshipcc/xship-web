@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-09 20:12:31
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-17 09:38:42
+ * @LastEditTime: 2023-10-18 00:07:49
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Header\index.tsx
  * @Description:
  *
@@ -37,59 +37,60 @@ export const Header: React.FC = () => {
       <Timer />
       <div className={styles.home} onClick={() => history.push('/')} />
 
-      <div className={styles.logo} />
       {/*  */}
-      <Row className={styles.header}>
-        <Col span={1} className={styles.logo} />
-
-        <Col span={4} offset={1} className={styles.text}>
-          <p className={styles.textbig}>无人机自动巡检系统</p>
-          <p className={styles.textsmall}>UAV Automated Inspection System</p>
-        </Col>
-
-        <Col span={19} className={styles.rightheader}>
-          <Button
-            type="text"
-            className={activeIndex === 0 ? styles.buttonActive : styles.button}
-            onClick={() => {
-              ChangeComponent('Analysis');
-              handleClick(0);
-            }}
-          >
-            统计分析
-          </Button>
-          <Button
-            type="text"
-            className={activeIndex === 1 ? styles.buttonActive : styles.button}
-            onClick={() => {
-              ChangeComponent('Awareness');
-              handleClick(1);
-            }}
-          >
-            态势感知
-          </Button>
-          <Button
-            type="text"
-            className={activeIndex === 2 ? styles.buttonActive : styles.button}
-            onClick={() => {
-              ChangeComponent('Monitor');
-              handleClick(2);
-            }}
-          >
-            监控查看
-          </Button>
-          <Button
-            type="text"
-            className={activeIndex === 3 ? styles.buttonActive : styles.button}
-            onClick={() => {
-              ChangeComponent('Routemark');
-              handleClick(3);
-            }}
-          >
-            路径规划
-          </Button>
-        </Col>
-      </Row>
+      <div className={styles.header}>
+        <div className={styles.title}>无人机自动巡检系统</div>
+        <Row className={styles.buttonRow}>
+          <Col span={2} offset={8}>
+            <Button
+              type="text"
+              className={activeIndex === 0 ? styles.buttonActive : styles.button}
+              onClick={() => {
+                ChangeComponent('Analysis');
+                handleClick(0);
+              }}
+            >
+              统计分析
+            </Button>
+          </Col>
+          <Col span={2}>
+            <Button
+              type="text"
+              className={activeIndex === 1 ? styles.buttonActive : styles.button}
+              onClick={() => {
+                ChangeComponent('Awareness');
+                handleClick(1);
+              }}
+            >
+              态势感知
+            </Button>
+          </Col>
+          <Col span={2}>
+            <Button
+              type="text"
+              className={activeIndex === 2 ? styles.buttonActive : styles.button}
+              onClick={() => {
+                ChangeComponent('Monitor');
+                handleClick(2);
+              }}
+            >
+              监控查看
+            </Button>
+          </Col>
+          <Col span={2}>
+            <Button
+              type="text"
+              className={activeIndex === 3 ? styles.buttonActive : styles.button}
+              onClick={() => {
+                ChangeComponent('Routemark');
+                handleClick(3);
+              }}
+            >
+              路径规划
+            </Button>
+          </Col>
+        </Row>
+      </div>
     </div>
   );
 };

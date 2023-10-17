@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-01 23:01:31
+ * @LastEditTime: 2023-10-18 00:28:28
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Analysis\center.tsx
  * @Description:
  *
@@ -26,85 +26,6 @@ const AnalysisCenter: React.FC = (props) => {
    */
 
   const DemoDualAxes = () => {
-    // const uvBillData = [
-    //   {
-    //     time: '2019-03',
-    //     value: 350,
-    //     type: 'uv',
-    //   },
-    //   {
-    //     time: '2019-04',
-    //     value: 900,
-    //     type: 'uv',
-    //   },
-    //   {
-    //     time: '2019-05',
-    //     value: 300,
-    //     type: 'uv',
-    //   },
-    //   {
-    //     time: '2019-06',
-    //     value: 450,
-    //     type: 'uv',
-    //   },
-    //   {
-    //     time: '2019-07',
-    //     value: 470,
-    //     type: 'uv',
-    //   },
-    //   {
-    //     time: '2019-03',
-    //     value: 220,
-    //     type: 'bill',
-    //   },
-    //   {
-    //     time: '2019-04',
-    //     value: 300,
-    //     type: 'bill',
-    //   },
-    //   {
-    //     time: '2019-05',
-    //     value: 250,
-    //     type: 'bill',
-    //   },
-    //   {
-    //     time: '2019-06',
-    //     value: 220,
-    //     type: 'bill',
-    //   },
-    //   {
-    //     time: '2019-07',
-    //     value: 362,
-    //     type: 'bill',
-    //   },
-    // ];
-    // const transformData = [
-    //   {
-    //     time: '2019-03',
-    //     count: 800,
-    //     name: 'a',
-    //   },
-    //   {
-    //     time: '2019-04',
-    //     count: 600,
-    //     name: 'a',
-    //   },
-    //   {
-    //     time: '2019-05',
-    //     count: 400,
-    //     name: 'a',
-    //   },
-    //   {
-    //     time: '2019-06',
-    //     count: 380,
-    //     name: 'a',
-    //   },
-    //   {
-    //     time: '2019-07',
-    //     count: 220,
-    //     name: 'a',
-    //   },
-    // ];
     const config = {
       data: [value.DualAxes.histgram, value.DualAxes.linegram],
       xField: 'time',
@@ -145,7 +66,7 @@ const AnalysisCenter: React.FC = (props) => {
 
   return (
     <>
-      <div className={styles.boxall}>
+      <div className={styles.content}>
         <Title title={'今日巡检对比'} />
         {/*  */}
         <Row>
@@ -153,7 +74,6 @@ const AnalysisCenter: React.FC = (props) => {
             {DemoDualAxes()}
           </Col>
         </Row>
-        <div className={styles.boxfoot} />
       </div>
     </>
   );

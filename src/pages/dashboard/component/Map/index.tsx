@@ -488,59 +488,6 @@ const Map: React.FC = () => {
 
   return (
     <>
-      {/* <Button
-        className={styles.button}
-        type="text"
-        onClick={() => {
-          MeasureTools.current.done(); //直线距离量测
-        }}
-      >
-        距离
-      </Button>
-      <Button
-        className={styles.button4}
-        type="text"
-        onClick={() => {
-          MeasureTools.current.destroy(function () {
-            //测量完成回调函数
-          }); //清除量算结果
-        }}
-      >
-        删除
-      </Button> */}
-      {/* <Button
-        type="text"
-        className={styles.button1}
-        onClick={() => {
-          MeasureTools.current.measureHeight(function () {
-            //测量完成回调函数
-          }); //直线距离量测
-        }}
-      >
-        高度
-      </Button>
-      <Button
-        type="text"
-        className={styles.button2}
-        onClick={() => {
-          MeasureTools.current.measurePolyLine(function () {
-            //测量完成回调函数
-          }); //直线距离量测
-        }}
-      >
-        三角测量
-      </Button>
-      <Button
-        className={styles.button3}
-        type="text"
-        onClick={() => {
-          MeasureTools.current.measurePolygon(function () {
-            //测量完成回调函数
-          }); //直线距离量测
-        }}
-      >
-        面积测量
-      </Button> */}
       <div ref={divRef} className={styles.map} id="cesiumContainer" />
     </>
   );

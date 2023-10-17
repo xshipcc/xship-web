@@ -11,7 +11,7 @@
 import { Button, Col, Row } from 'antd';
 import React, { useEffect, useState } from 'react';
 import styles from './right.less';
-import AlertList from '@/pages/dashboard/component/alertList';
+import AlertList from '@/pages/dashboard/component/AlertList';
 import type { DatePickerProps, TimePickerProps } from 'antd';
 import { DatePicker, Select, Space, TimePicker } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';

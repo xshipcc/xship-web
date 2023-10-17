@@ -353,7 +353,6 @@ class Track {
     spotLightCamera.frustum.near = 0.1;
     spotLightCamera.frustum.far = this.frustumFar;
     //视锥轮廓线图形
-
     let instanceOutline = new Cesium.GeometryInstance({
       geometry: new Cesium.FrustumGeometry({
         frustum: spotLightCamera.frustum,

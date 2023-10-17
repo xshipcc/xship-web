@@ -66,52 +66,52 @@ ol {
     min-height: 100vh;
   }
 }
-.boxall {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 1vh;
-  // position: relative;
-  // background: rgba(0, 19, 32, 0.7);
-  background: linear-gradient(180deg, rgba(5, 48, 74, 0.769) 0%, #011032cc 100%);
+// .boxall {
+//   width: 100%;
+//   height: 100%;
+//   margin: 0;
+//   padding: 1vh;
+//   // position: relative;
+//   // background: rgba(0, 19, 32, 0.7);
+//   background: linear-gradient(180deg, rgba(5, 48, 74, 0.769) 0%, #011032cc 100%);
 
-  background-size: 100% auto;
-  border: 1.8px solid #3a8686a6;
-}
-.boxall:before,
-.boxall:after {
-  position: absolute;
-  top: 0;
-  width: 0.7rem;
-  height: 0.7rem;
-  border-top: 2.5px solid #02a6b5bd;
-  content: '';
-}
-.boxall:before,
-.boxfoot:before {
-  left: 0;
-  border-left: 2.5px solid #02a6b5bd;
-}
-.boxall:after,
-.boxfoot:after {
-  right: 0;
-  border-right: 2.5px solid #02a6b5bd;
-}
-.boxfoot {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-}
-.boxfoot:before,
-.boxfoot:after {
-  position: absolute;
-  bottom: 0;
-  width: 0.7rem;
-  height: 0.7rem;
-  border-bottom: 2.5px solid #02a6b5bd;
-  content: '';
-}
+//   background-size: 100% auto;
+//   border: 1.8px solid #3a8686a6;
+// }
+// .boxall:before,
+// .boxall:after {
+//   position: absolute;
+//   top: 0;
+//   width: 0.7rem;
+//   height: 0.7rem;
+//   border-top: 2.5px solid #02a6b5bd;
+//   content: '';
+// }
+// .boxall:before,
+// .boxfoot:before {
+//   left: 0;
+//   border-left: 2.5px solid #02a6b5bd;
+// }
+// .boxall:after,
+// .boxfoot:after {
+//   right: 0;
+//   border-right: 2.5px solid #02a6b5bd;
+// }
+// .boxfoot {
+//   position: absolute;
+//   bottom: 0;
+//   left: 0;
+//   width: 100%;
+// }
+// .boxfoot:before,
+// .boxfoot:after {
+//   position: absolute;
+//   bottom: 0;
+//   width: 0.7rem;
+//   height: 0.7rem;
+//   border-bottom: 2.5px solid #02a6b5bd;
+//   content: '';
+// }
 /**
 *  @file global.less
 *  @time 2023/10/16
@@ -138,26 +138,41 @@ ol {
   }
 }
 
-.arrow {
-  width: 3vh;
-  height: 3.5vh;
-  background-image: url('./assets/dashboard/arrow.png');
-  background-repeat: no-repeat; //不重复
-  background-size: 100% 100%; // 满屏1
-  cursor: pointer;
+.masking {
+  position: absolute;
+  z-index: 1000;
+  pointer-events: none;
+  &.top {
+    top: 0;
+    left: 0;
+    width: 1920px;
+    height: 200px;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, #011032 100%);
+  }
+  &.right {
+    top: 0;
+    right: 0;
+    width: 460px;
+    height: 1080px;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, #011032 100%);
+    // background: linear-gradient(90deg, rgba(0, 0, 0, 0.806) 0%, #011032 100%);
+  }
+  &.bottom {
+    bottom: 0;
+    left: 0;
+    width: 1920px;
+    height: 200px;
+    // background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #011032 100%);
+  }
+  &.left {
+    top: 0;
+    left: 0;
+    width: 460px;
+    height: 1080px;
+    background: linear-gradient(270deg, rgba(0, 0, 0, 0) 0%, #011032 100%);
+    // background: linear-gradient(270deg, rgba(0, 0, 0, 0.856) 0%, #011032 100%);
+  }
 }
-.title {
-  height: 20px;
-  color: rgb(255, 255, 255);
-  font-weight: bold;
-  font-size: 15px;
-}
-.titleLine {
-  background-image: url('./assets/dashboard/titleline.png');
-  background-repeat: no-repeat; //不重复
-  background-size: 100% 100%; // 满屏1
-}
-
 @font-face {
   font-family: 'YouSheBiaoTiHei';
   src: url('./assets/font/YouSheBiaoTiHei-2.ttf');

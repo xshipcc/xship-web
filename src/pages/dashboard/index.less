@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-09 20:12:31
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-16 16:35:44
+ * @LastEditTime: 2023-10-18 00:35:28
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\index.less
  * @Description: 
  * 
@@ -21,36 +21,52 @@
 
 .screen {
   position: absolute;
-  z-index: 998;
+  z-index: 1002;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   width: 1920px;
   height: 1080px;
   overflow: hidden;
+  // background: rgba(245, 22, 22, 0.614);
+  background-image: url('../../assets/dashboard/border.png');
+  background-repeat: no-repeat; //不重复
+  background-size: 100% 100%; // 满屏
   pointer-events: none;
+  .header {
+    width: 1920px;
+    height: 200px;
+  }
   .content {
     width: 1920px;
-    height: 1000px;
-    padding: 20px 50px;
+    height: 980px;
     // padding-right: 20px;
+    // padding-bottom: 20px;
     // padding-left: 20px;
-    pointer-events: auto;
-
+    // background-color: rgb(248, 248, 248);
     .left {
-      height: 900px;
+      position: absolute;
+      top: 90px;
+      left: 40px;
+
+      pointer-events: auto;
     }
     .awarenessleft {
       height: 500px;
+      pointer-events: auto;
     }
     .right {
-      height: 900px;
+      position: absolute;
+      top: 90px;
+      right: 40px;
+
+      pointer-events: auto;
     }
     .center {
-      height: 350px;
-      margin-top: 550px; /* 上外边距 */
-      padding-right: 20px;
-      padding-left: 20px;
+      position: absolute;
+      top: 630px;
+      left: 550px;
+      pointer-events: auto;
     }
   }
 }
