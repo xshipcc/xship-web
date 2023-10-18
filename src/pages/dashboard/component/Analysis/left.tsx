@@ -2,69 +2,19 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-16 15:26:23
+ * @LastEditTime: 2023-10-18 16:36:30
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Analysis\left.tsx
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
 import { Col, Row } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './left.less';
-import { Area } from '@ant-design/plots';
 import type { DashboardInfoType } from '@/pages/dashboard/typings';
 import Title from '@/pages/dashboard/component/common/Title';
-
-import { Radar } from '@ant-design/plots';
-
-const DemoRadar = (data: any[]) => {
-  const config = {
-    data,
-    xField: 'item',
-    yField: 'score',
-    seriesField: 'user',
-    legend: false,
-    meta: {
-      score: {
-        alias: '分数',
-        min: 0,
-        max: 80,
-      },
-    },
-    xAxis: {
-      line: null,
-      tickLine: null,
-      grid: {
-        line: {
-          style: {
-            lineDash: null,
-          },
-        },
-      },
-    },
-    yAxis: {
-      line: null,
-      tickLine: null,
-      grid: {
-        line: {
-          type: 'line',
-          style: {
-            lineDash: null,
-          },
-        },
-        alternateColor: 'rgba(0, 0, 0, 0.04)',
-      },
-    },
-    // 开启面积
-    area: {},
-    // 开启辅助点
-    point: {
-      size: 2,
-    },
-  };
-
-  return <Radar {...config} />;
-};
+import Radar from './component/Radar';
+import Line from './component/Line';
 
 const Analysis: React.FC = (props) => {
   // @ts-ignore
@@ -92,100 +42,62 @@ const Analysis: React.FC = (props) => {
   //   asyncFetch();
   // }, []);
 
-  const config = {
-    data,
-    xField: 'date',
-    yField: 'value',
-    seriesField: 'type',
-  };
-
   /**
    * @end
    */
   //#endregion -----------------------------------------------------------------------
-
-  //#region    -----------------------------------------------------------------------
   /**
    *  @file left.tsx
-   *  @time 2023/09/13
+   *  @time 2023/10/18
    * @category :
    * @function :
    */
+  //#region -------------------------------------------------------------------------
 
+  //#endregion -----------------------------------------------------------------------
   /**
    * @end
    */
-  //#endregion -----------------------------------------------------------------------
   return (
     <>
-      <div className={'boxall'}>
-        <div className={styles.content}>
-          <Title title={'无人机数量'} />
+      <div className={styles.content}>
+        <div className={styles.top}>
+          <Title title={'当日指标分析'} />
           {/*  */}
-          <Row>
-            <Col span={8} className={styles.text}>
-              总数量
-            </Col>
-            <Col span={8} className={styles.text}>
-              在线
-            </Col>
-            <Col span={8} className={styles.text}>
-              异常
-            </Col>
-          </Row>
-          <Row>
-            <Col span={8} className={styles.textnumber}>
-              {value.drone.total}
-            </Col>
-            <Col span={8} className={styles.textnumber}>
-              {value.drone.online}
-            </Col>
-            <Col span={8} className={styles.textRed}>
-              {value.drone.breakdown}
-            </Col>
-          </Row>
-          {/*  */}
-          <Title title={'无人机巡检时长'} />
-
-          {/*  */}
-          <Row className={styles.textRow}>
-            <Col span={3} className={styles.ring} />
-            <Col span={3} className={styles.textwhite}>
-              总数
-            </Col>
-            <Col span={4} className={styles.textyellow}>
-              {value.inspection.total}
-            </Col>
-            <Col span={3} className={styles.textwhite}>
-              完成
-            </Col>
-            <Col span={3} className={styles.textgreen}>
-              {value.inspection.complete}
-            </Col>
-            <Col span={4} className={styles.textwhite}>
-              处理率
-            </Col>
-            <Col span={3} className={styles.textgreen}>
-              {value.inspection.rate}%
-            </Col>
-          </Row>
-          {/*  */}
-
+          <div className={styles.count}>
+            <div className={styles.countInfo}>
+              <span className={styles.infoSmall}>今日气温</span>
+              <span>35℃~48℃</span>
+              <span className={styles.infoSmall}>空气质量等级</span>
+              <span>优</span>
+            </div>
+            <div className={styles.total}>
+              <div className={styles.totalValue}>
+                <span>200</span>
+                <span>当日巡检总数</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/*  */}
+        <div className={styles.middle}>
+          <Title title={'无人机巡检统计'} />
           <Row className={styles.radar}>
-            <Col span={23} offset={1}>
-              <div className={styles.radar}>{DemoRadar(value.radar)}</div>
+            <Col span={24}>
+              <Radar />
             </Col>
           </Row>
-          {/*  */}
+        </div>
+        {/*  */}
+        <div className={styles.bottom}>
           <Title title={'历史告警'} />
-          {/*  */}
           <Row>
             <Col span={24} className={styles.chart}>
-              <Area {...config} />
+              <Line />
             </Col>
           </Row>
-          <div className={'boxfoot'} />
         </div>
+        {/*  */}
       </div>
     </>
   );

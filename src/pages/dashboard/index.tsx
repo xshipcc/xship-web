@@ -325,14 +325,12 @@ const Dashboard: React.FC = () => {
         return (
           <>
             <div className={styles.awarenesstimeLine} />
-            <Row className={styles.content}>
-              <Col span={5} className={styles.awarenessleft}>
-                <Awareness initValue={initView} />
-              </Col>
-              <Col span={5} offset={14} className={styles.right}>
-                <AwarenessRight initValue={initView} />
-              </Col>
-            </Row>
+            <div span={5} className={styles.awarenessleft}>
+              <Awareness initValue={initView} />
+            </div>
+            <div span={5} offset={14} className={styles.right}>
+              <AwarenessRight initValue={initView} />
+            </div>
           </>
         );
       case 'Monitor':
@@ -340,22 +338,22 @@ const Dashboard: React.FC = () => {
           <>
             <div className={styles.monitortimeLine} />
             <Row>
-              <Col span={24} className={styles.monitorContent}>
+              <div span={24} className={styles.monitorContent}>
                 <Monitor initValue={initView} />
-              </Col>
+              </div>
             </Row>
           </>
         );
       case 'Routemark':
         return (
-          <Row className={styles.content}>
-            {/* <Col span={19} className={styles.timeline}>
+          <>
+            {/* <div span={19} className={styles.timeline}>
             1111
-          </Col> */}
-            <Col span={5} offset={19} className={styles.left}>
+          </div> */}
+            <div span={5} offset={19} className={styles.left}>
               <Routemark initValue={initView} />
-            </Col>
-          </Row>
+            </div>
+          </>
         );
     }
   };

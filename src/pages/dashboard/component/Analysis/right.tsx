@@ -122,7 +122,7 @@ const AnalysisRight: React.FC = (props) => {
 
           {/*  */}
           <Row className={styles.column}>
-            <Col className={styles.content} span={24}>
+            <Col className={styles.content1} span={24}>
               {DemoBar(value.bar)}
             </Col>
           </Row>
