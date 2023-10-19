@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-02 03:50:16
+ * @LastEditTime: 2023-10-19 10:41:47
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\right.tsx
  * @Description:
  *
@@ -15,6 +15,7 @@ import AlertList from '@/pages/dashboard/component/AlertList';
 import type { DatePickerProps, TimePickerProps } from 'antd';
 import { DatePicker, Select, Space, TimePicker } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
+import Title from '../common/Title';
 
 type PickerType = 'time' | 'date';
 
@@ -66,18 +67,9 @@ const AwarenessRight: React.FC = () => {
 
   return (
     <>
-      <div className={'boxall'}>
-        <div className={styles.content}>
-          <Row>
-            <Col span={2} className={'arrow'} />
-            <Col span={22} className={'title'}>
-              告警情况
-            </Col>
-          </Row>
-          <Row>
-            <Col span={24} className={'titleLine'} />
-          </Row>
-          {/*  */}
+      <div className={styles.content}>
+        <div className={styles.top}>
+          <Title title={'告警情况'} />
           <Row className={styles.buttonRow}>
             <Col span={10} offset={2}>
               <Button
@@ -120,14 +112,17 @@ const AwarenessRight: React.FC = () => {
               </Col>
             </Row>
           </div>
-          {/*  */}
+        </div>
+        {/*  */}
+        <div className={styles.middle}>
+          <Title title={'无人机画面'} />
           <Row>
             <Col span={24} className={styles.listcontent}>
               <AlertList height={370} />
             </Col>
           </Row>
         </div>
-        <div className={'boxfoot'} />
+        {/*  */}
       </div>
     </>
   );

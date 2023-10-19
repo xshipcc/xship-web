@@ -91,11 +91,15 @@ const AnalysisRight: React.FC = (props) => {
 
   return (
     <>
-      <div className={'boxall'}>
-        <div className={styles.content}>
+      <div className={styles.content}>
+        <div className={styles.top}>
           <Title title={'巡检数量'} />
-          {/*  */}
-          <Row>
+          <Row className={styles.radar}>
+            <Col span={24}></Col>
+          </Row>
+        </div>
+        {/*  */}
+        {/* <Row>
             <Col span={8} className={styles.text}>
               今日巡检
             </Col>
@@ -116,27 +120,25 @@ const AnalysisRight: React.FC = (props) => {
             <Col span={8} className={styles.textRed}>
               {value.inspection.warning}
             </Col>
-          </Row>
-          {/*  */}
+          </Row> */}
+        {/*  */}
+        <div className={styles.middle}>
           <Title title={'告警发送频率'} />
-
-          {/*  */}
           <Row className={styles.column}>
             <Col className={styles.content1} span={24}>
               {DemoBar(value.bar)}
             </Col>
           </Row>
-          {/*  */}
+        </div>
+        {/*  */}
+        <div className={styles.bottom}>
           <Title title={'严重报警比例'} />
-
-          {/*  */}
           <Row>
             <Col span={24} className={styles.chart}>
               {DemoRose()}
             </Col>
           </Row>
         </div>
-        <div className={'boxfoot'} />
       </div>
     </>
   );
