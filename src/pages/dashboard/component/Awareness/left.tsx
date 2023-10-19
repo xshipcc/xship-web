@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-19 10:31:29
+ * @LastEditTime: 2023-10-19 14:24:16
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\left.tsx
  * @Description:
  *
@@ -131,12 +131,12 @@ const Awareness: React.FC = () => {
           </Row>
         </div>
         {/*  */}
-        <div className={styles.bottom}>
+        {/* <div className={styles.bottom}>
           <Title title={'无人机画面'} />
           <Row>
             <Col span={24} className={styles.video}></Col>
           </Row>
-        </div>
+        </div> */}
         {/*  */}
       </div>
     </>

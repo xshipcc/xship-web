@@ -2,16 +2,16 @@
   width: 460px;
   height: 940px;
   padding: 10px;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #0114419d 100%);
+
   border-radius: 8px;
   .top {
     height: 260px;
     padding: 0px 0px;
-    // background-color: rgba(245, 238, 238, 0.436);
+    // background-color: #031644b5;
   }
   .middle {
     height: 270px;
-    // padding: 10px 0px;
+    padding: 10px 0px;
     background-color: rgba(85, 245, 5, 0.436);
   }
   .bottom {
@@ -27,7 +27,7 @@
 }
 .column {
   width: 100%;
-  height: 250px;
+  height: 220px;
 }
 
 .sum {
@@ -103,6 +103,7 @@
       margin: auto;
       p {
         display: table-cell;
+        font-family: YouSheBiaoTiHei;
         vertical-align: middle;
       }
     }
@@ -121,11 +122,12 @@
     }
     span {
       font-size: 20px;
+      font-family: YouSheBiaoTiHei;
     }
   }
   .data1 {
     top: 10%;
-    left: 0%;
+    left: 3%;
     .qiu {
       background: url(../../../../assets/dashboard/cicle04.png) no-repeat center;
       background-size: 100%;
@@ -141,7 +143,7 @@
   }
   .data3 {
     bottom: 3%;
-    left: 0;
+    left: 3%;
     .qiu {
       background: url(../../../../assets/dashboard/cicle03.png) no-repeat center;
       background-size: 100%;
@@ -154,5 +156,24 @@
       background: url(../../../../assets/dashboard/cicle02.png) no-repeat center;
       background-size: 100%;
     }
+  }
+}
+@keyframes circle {
+  0% {
+    transform: rotateX(70deg) rotateZ(0);
+  }
+  100% {
+    transform: rotateX(70deg) rotateZ(360deg);
+  }
+}
+// 扩散动画
+@keyframes scale {
+  0% {
+    transform: translate(-50%, -50%) scale(0.9);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1.5);
+    opacity: 0;
   }
 }

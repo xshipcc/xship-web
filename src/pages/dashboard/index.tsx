@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-09 20:12:31
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-18 00:23:11
+ * @LastEditTime: 2023-10-19 14:20:09
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\index.tsx
  * @Description:
  *
@@ -16,13 +16,13 @@ import { Col, Row } from 'antd';
 import Monitor from '@/pages/dashboard/component/Monitor';
 import Routemark from '@/pages/dashboard/component/Routemark';
 import Awareness from '@/pages/dashboard/component/Awareness/left';
+import AwarenessCenter from '@/pages/dashboard/component/Awareness/center';
 import AwarenessRight from '@/pages/dashboard/component/Awareness/right';
 import Analysis from '@/pages/dashboard/component/Analysis/left';
+import AnalysisCenter from '@/pages/dashboard/component/Analysis/center';
 import AnalysisRight from '@/pages/dashboard/component/Analysis/right';
 import Map from '@/pages/dashboard/component/Map';
 import { Header } from '@/pages/dashboard/component/Header';
-import AnalysisCenter from '@/pages/dashboard/component/Analysis/center';
-import NoFoundPage from '@/pages/404';
 import { useSelector, useDispatch } from 'umi';
 const initView = {
   drone: {
@@ -324,11 +324,13 @@ const Dashboard: React.FC = () => {
       case 'Awareness':
         return (
           <>
-            <div className={styles.awarenesstimeLine} />
-            <div span={5} className={styles.awarenessleft}>
+            <div className={styles.awarenessLeft}>
               <Awareness initValue={initView} />
             </div>
-            <div span={5} offset={14} className={styles.right}>
+            <div className={styles.awarenessCenter}>
+              <AwarenessCenter initValue={initView} />
+            </div>
+            <div className={styles.right}>
               <AwarenessRight initValue={initView} />
             </div>
           </>
@@ -350,7 +352,7 @@ const Dashboard: React.FC = () => {
             {/* <div span={19} className={styles.timeline}>
             1111
           </div> */}
-            <div span={5} offset={19} className={styles.left}>
+            <div span={5} offset={19} className={styles.right}>
               <Routemark initValue={initView} />
             </div>
           </>

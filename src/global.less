@@ -177,7 +177,133 @@ ol {
   font-family: 'YouSheBiaoTiHei';
   src: url('./assets/font/YouSheBiaoTiHei-2.ttf');
 }
+@font-face {
+  font-family: 'electronicFont';
+  src: url('./assets/font/DSDIGIT.ttf');
+}
+
 //#endregion -----------------------------------------------------------------------
 /**
  * @end
  */
+.area-inbox-1 {
+  width: 293px;
+  height: 270px;
+  background: url(../src/assets/dashboard/awareness//bg01rightarea.png);
+  background-repeat: no-repeat; //不重复
+  background-size: 100% 100% // 满屏 ;
+}
+.area-text p {
+  width: 115px;
+}
+
+.area-inbox-1 dl {
+  padding: 55px 0 0 130px;
+}
+.area-inbox-1 dl dt {
+  margin-top: 4px;
+  color: rgb(255, 255, 255);
+}
+.area-inbox-1 dl dd {
+  position: relative;
+}
+.area-inbox-1 dl dd.font12 {
+  font-size: 12px;
+}
+.area-inbox-1 dl dd.ml-20,
+.area-inbox-1 dl dt.ml-20 {
+  margin-left: -15px;
+}
+.area-inbox-1 dl dd span {
+  position: relative;
+  z-index: 1;
+  // margin-top: 2px;
+  font-size: 16px;
+  font-family: 'electronicFont';
+  // letter-spacing: 1px;
+  opacity: 1;
+}
+.area-inbox-1 dl dd b {
+  position: absolute;
+  top: 30%;
+  left: -5px;
+  display: block;
+  width: 74px;
+  height: 17px;
+  background: url(../src/assets/dashboard/awareness//bg07rightarea.png) left bottom no-repeat;
+  animation: flash2 3000ms infinite;
+}
+.area-inbox-1 dl dd:nth-child(2) b {
+  animation: flash2 5000ms infinite;
+}
+.area-inbox-1 dl dd:nth-child(3) b {
+  animation: flash2 1000ms infinite;
+}
+
+.round-1 {
+  position: absolute;
+  top: 48px;
+  left: 84px;
+  width: 198px;
+  height: 198px;
+  border: 1px dashed #fff;
+  border-radius: 100%;
+  animation: forotate 19000ms infinite;
+}
+.round-2 {
+  position: absolute;
+  top: 34px;
+  left: 70px;
+  width: 228px;
+  height: 228px;
+  border: 1px dashed rgba(255, 255, 255, 0.5);
+  border-radius: 100%;
+  animation: forotate1 8000ms infinite;
+}
+.round-3 {
+  position: absolute;
+  top: 28px;
+  left: 20px;
+  width: 60px;
+  height: 60px;
+  padding-top: 8px;
+  color: rgb(255, 255, 255);
+  font-size: 20px;
+  font-family: 'electronicFont';
+  line-height: 40px;
+  text-align: center;
+  background: 1px dashed rgba(255, 255, 255, 0.719);
+  border: 1px solid rgba(255, 255, 255, 0.505);
+  border-radius: 100%;
+}
+
+@keyframes forotate {
+  from {
+    transform: rotate(-360deg);
+    opacity: 0.9;
+  }
+  to {
+    transform: rotate(0);
+    opacity: 1;
+  }
+}
+
+@keyframes forotate1 {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(-180deg);
+  }
+}
+@keyframes flash2 {
+  0%,
+  50%,
+  100% {
+    opacity: 0.2;
+  }
+  25%,
+  75% {
+    opacity: 0;
+  }
+}
