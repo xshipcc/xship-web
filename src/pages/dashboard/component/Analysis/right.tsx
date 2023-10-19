@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-16 15:23:44
+ * @LastEditTime: 2023-10-19 12:57:29
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Analysis\right.tsx
  * @Description:
  *
@@ -93,42 +93,46 @@ const AnalysisRight: React.FC = (props) => {
     <>
       <div className={styles.content}>
         <div className={styles.top}>
-          <Title title={'巡检数量'} />
-          <Row className={styles.radar}>
-            <Col span={24}></Col>
-          </Row>
+          {/*  */}
+          <div className={styles.sum}>
+            <div className={styles.data}>
+              <div className={styles.title}>总巡检次数</div>
+              <div className={styles.number}>32</div>
+            </div>
+            <div className={styles.cicle1} />
+            {/* <canvas id="canvas1"></canvas>
+            <canvas id="canvas2"></canvas> */}
+            <div className={styles.data1}>
+              <div className={styles.qiu}>
+                <p>80%</p>
+              </div>
+              <span>完成率</span>
+            </div>
+            <div className={styles.data2}>
+              <div className={styles.qiu}>
+                <p>70%</p>
+              </div>
+              <span>故障率</span>
+            </div>
+            <div className={styles.data3}>
+              <div className={styles.qiu}>
+                <p>73%</p>
+              </div>
+              <span>处理率</span>
+            </div>
+            <div className={styles.data4}>
+              <div className={styles.qiu}>
+                <p>73%</p>
+              </div>
+              <span>同比</span>
+            </div>
+          </div>
+          {/*  */}
         </div>
-        {/*  */}
-        {/* <Row>
-            <Col span={8} className={styles.text}>
-              今日巡检
-            </Col>
-            <Col span={8} className={styles.text}>
-              异常次数
-            </Col>
-            <Col span={8} className={styles.text}>
-              告警次数
-            </Col>
-          </Row>
-          <Row>
-            <Col span={8} className={styles.textnumber}>
-              {value.inspection.today}
-            </Col>
-            <Col span={8} className={styles.textnumber}>
-              {value.inspection.breakdown}
-            </Col>
-            <Col span={8} className={styles.textRed}>
-              {value.inspection.warning}
-            </Col>
-          </Row> */}
         {/*  */}
         <div className={styles.middle}>
           <Title title={'告警发送频率'} />
-          <Row className={styles.column}>
-            <Col className={styles.content1} span={24}>
-              {DemoBar(value.bar)}
-            </Col>
-          </Row>
+          <div className={styles.column}>{DemoBar(value.bar)}</div>
         </div>
         {/*  */}
         <div className={styles.bottom}>
