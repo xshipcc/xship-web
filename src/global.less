@@ -187,12 +187,13 @@ ol {
  * @end
  */
 .area-inbox-1 {
-  width: 293px;
+  width: 340px;
   height: 270px;
-  background: url(../src/assets/dashboard/awareness//bg01rightarea.png);
+  background: url(../src/assets/dashboard/awareness/leftArea.png);
   background-repeat: no-repeat; //不重复
   background-size: 100% 100% // 满屏 ;
 }
+
 .area-text p {
   width: 115px;
 }
@@ -242,41 +243,142 @@ ol {
 
 .round-1 {
   position: absolute;
-  top: 48px;
+  top: 36px;
   left: 84px;
-  width: 198px;
-  height: 198px;
+  width: 218px;
+  height: 218px;
   border: 1px dashed #fff;
   border-radius: 100%;
   animation: forotate 19000ms infinite;
 }
 .round-2 {
   position: absolute;
-  top: 34px;
-  left: 70px;
-  width: 228px;
-  height: 228px;
+  top: 24px;
+  left: 72px;
+  width: 240px;
+  height: 240px;
   border: 1px dashed rgba(255, 255, 255, 0.5);
   border-radius: 100%;
   animation: forotate1 8000ms infinite;
 }
 .round-3 {
   position: absolute;
-  top: 28px;
+  top: 20px;
   left: 20px;
-  width: 60px;
-  height: 60px;
-  padding-top: 8px;
+  width: 73px;
+  height: 73px;
+  padding-top: 0px;
   color: rgb(255, 255, 255);
   font-size: 20px;
   font-family: 'electronicFont';
   line-height: 40px;
   text-align: center;
   background: 1px dashed rgba(255, 255, 255, 0.719);
-  border: 1px solid rgba(255, 255, 255, 0.505);
+  border: 1px dashed rgba(255, 255, 255, 0.5);
   border-radius: 100%;
+  animation: forotate1 8000ms infinite;
 }
 
+/**
+*  @file global.less
+*  @time 2023/10/20
+ * @category :
+ * @function :
+ */
+//#region -------------------------------------------------------------------------
+.area-inbox-2 {
+  width: 320px;
+  height: 270px;
+  // background: rgb(255, 0, 0);
+  background: url(../src/assets/dashboard/awareness/rightArea.png);
+  background-repeat: no-repeat; //不重复
+  background-size: 100% 100% // 满屏 ;
+}
+.area-inbox-2 dl {
+  padding: 60px 0 0 60px;
+}
+.area-inbox-2 dl dt {
+  margin-top: 4px;
+  color: rgb(255, 255, 255);
+}
+.area-inbox-2 dl dd {
+  position: relative;
+}
+.area-inbox-2 dl dd.font12 {
+  font-size: 12px;
+}
+.area-inbox-2 dl dd.ml-20,
+.area-inbox-2 dl dt.ml-20 {
+  margin-left: 5px;
+}
+.area-inbox-2 dl dd span {
+  position: relative;
+  z-index: 1;
+  // margin-top: 2px;
+  font-size: 16px;
+  font-family: 'electronicFont';
+  // letter-spacing: 1px;
+  opacity: 1;
+}
+.area-inbox-2 dl dd b {
+  position: absolute;
+  top: 30%;
+  left: -5px;
+  display: block;
+  width: 74px;
+  height: 17px;
+  background: url(../src/assets/dashboard/awareness//bg07rightarea.png) left bottom no-repeat;
+  animation: flash2 3000ms infinite;
+}
+.area-inbox-2 dl dd:nth-child(2) b {
+  animation: flash2 5000ms infinite;
+}
+.area-inbox-2 dl dd:nth-child(3) b {
+  animation: flash2 1000ms infinite;
+}
+
+.round-1-right {
+  position: absolute;
+  top: 36px;
+  right: 94px;
+  width: 218px;
+  height: 218px;
+  border: 1px dashed #fff;
+  border-radius: 100%;
+  animation: forotate 19000ms infinite;
+}
+.round-2-right {
+  position: absolute;
+  top: 24px;
+  right: 82px;
+  width: 240px;
+  height: 240px;
+  border: 1px dashed rgba(255, 255, 255, 0.5);
+  border-radius: 100%;
+  animation: forotate1 8000ms infinite;
+}
+.round-3-right {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  width: 73px;
+  height: 73px;
+  padding-top: 0px;
+  color: rgb(255, 255, 255);
+  font-size: 20px;
+  font-family: 'electronicFont';
+  line-height: 40px;
+  text-align: center;
+  background: 1px dashed rgba(255, 255, 255, 0.719);
+  border: 1px dashed rgba(255, 255, 255, 0.5);
+  border-radius: 100%;
+  animation: forotate1 8000ms infinite;
+}
+
+//#endregion -----------------------------------------------------------------------
+/**
+ * @end
+ */
 @keyframes forotate {
   from {
     transform: rotate(-360deg);
