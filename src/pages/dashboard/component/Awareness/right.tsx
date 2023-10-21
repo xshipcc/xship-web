@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-19 10:41:47
+ * @LastEditTime: 2023-10-21 23:19:48
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\right.tsx
  * @Description:
  *
@@ -16,6 +16,8 @@ import type { DatePickerProps, TimePickerProps } from 'antd';
 import { DatePicker, Select, Space, TimePicker } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import Title from '../common/Title';
+import AwarenessButton from './component/button';
+import TimeLine from './component/timeLine';
 
 type PickerType = 'time' | 'date';
 
@@ -69,10 +71,15 @@ const AwarenessRight: React.FC = () => {
     <>
       <div className={styles.content}>
         <div className={styles.top}>
-          <Title title={'告警情况'} />
-          <Row className={styles.buttonRow}>
-            <Col span={10} offset={2}>
-              <Button
+          <Title title={'当前进度'} />
+          <Row className={styles.timeLine}>
+            <Col span={24}>
+              <TimeLine />
+            </Col>
+          </Row>
+          <Row gutter={[32, 0]} className={styles.buttonRow}>
+            <Col span={12}>
+              {/* <Button
                 type="text"
                 className={activeIndex === 0 ? styles.buttonActive : styles.button}
                 onClick={() => {
@@ -82,10 +89,11 @@ const AwarenessRight: React.FC = () => {
                 }}
               >
                 即时告警
-              </Button>
+              </Button> */}
+              <AwarenessButton name={'及时告警'} over={'查看历史'} url={'/demo'} />
             </Col>
-            <Col span={10} offset={2}>
-              <Button
+            <Col span={12}>
+              {/* <Button
                 type="text"
                 className={activeIndex === 1 ? styles.buttonActive : styles.button}
                 onClick={() => {
@@ -95,7 +103,8 @@ const AwarenessRight: React.FC = () => {
                 }}
               >
                 历史查看
-              </Button>
+              </Button> */}
+              <AwarenessButton name={'查看历史'} over={'查看历史'} url={'/demo'} />
             </Col>
           </Row>
           {/*  */}

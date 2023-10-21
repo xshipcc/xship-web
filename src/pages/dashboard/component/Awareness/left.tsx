@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-19 14:24:16
+ * @LastEditTime: 2023-10-21 21:50:15
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\left.tsx
  * @Description:
  *
@@ -85,58 +85,7 @@ const Awareness: React.FC = () => {
           </Row>
         </div>
         {/*  */}
-        <div className={styles.middle}>
-          <Title title={'无人机画面'} />
-          <Row>
-            <Col span={2} className={'arrow'} />
-            <Col span={22} className={'title'}>
-              无人机态势信息
-            </Col>
-          </Row>
-          <Row>
-            <Col span={24}>
-              <Row>
-                <Col className={styles.text} span={4} offset={1}>
-                  速度:
-                </Col>
-                <Col className={styles.text} span={19}>
-                  {DroneData.speed}
-                </Col>
-              </Row>
-              <Row>
-                <Col className={styles.text} span={4} offset={1}>
-                  坐标:
-                </Col>
-                <Col className={styles.text} span={19}>
-                  {'[' + DroneData.lon + ',' + DroneData.lat + ']'}
-                </Col>
-              </Row>
-              <Row>
-                <Col className={styles.text} span={4} offset={1}>
-                  高度:
-                </Col>
-                <Col className={styles.text} span={19}>
-                  {DroneData.height}
-                </Col>
-              </Row>
-              <Row>
-                <Col className={styles.text} span={4} offset={1}>
-                  角度:
-                </Col>
-                <Col className={styles.text} span={19}>
-                  {DroneData.target_angle}
-                </Col>
-              </Row>
-            </Col>
-          </Row>
-        </div>
-        {/*  */}
-        {/* <div className={styles.bottom}>
-          <Title title={'无人机画面'} />
-          <Row>
-            <Col span={24} className={styles.video}></Col>
-          </Row>
-        </div> */}
+
         {/*  */}
       </div>
     </>

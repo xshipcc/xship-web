@@ -66,6 +66,7 @@
     "commitizen": "^4.2.4",
     "dva-socket.io": "^0.0.8",
     "echarts": "^5.4.3",
+    "echarts-gl": "^2.0.9",
     "flv.js": "^1.6.2",
     "lodash": "^4.17.0",
     "moment": "^2.29.0",

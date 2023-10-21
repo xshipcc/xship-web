@@ -256,7 +256,7 @@ ol {
   display: block;
   width: 74px;
   height: 17px;
-  background: url(../src/assets/dashboard/awareness//bg07rightarea.png) left bottom no-repeat;
+  background: url(../src/assets/dashboard/awareness/bg07rightarea.png) left bottom no-repeat;
   animation: flash2 3000ms infinite;
 }
 .area-inbox-1 dl dd:nth-child(2) b {
@@ -394,3 +394,38 @@ input[type='number'] {
 /**
   * @end
   */
+
+/**
+  *  @file global.less
+  *  @time 2023/10/21
+   * @category :timeLine
+   * @function :
+   */
+//#region -------------------------------------------------------------------------
+
+.time-base-outer {
+  position: relative;
+  // bottom: -360px;
+}
+.time-base-outer .line1 {
+  position: absolute;
+  bottom: 76px;
+  left: 0;
+  display: block;
+  width: 100%;
+  height: 1px;
+  background: url(../src/assets/dashboard/awareness/bg02slider2.png) 50% 50% no-repeat;
+}
+.time-base {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  width: 1200px;
+  margin-left: -600px;
+  background: url(../src/assets/dashboard/awareness/bg01slider2.png) 50% 50% no-repeat;
+}
+
+//#endregion -----------------------------------------------------------------------
+/**
+   * @end
+   */

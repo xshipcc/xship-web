@@ -10,6 +10,7 @@
  */
 import * as echarts from 'echarts';
 import React, { useEffect } from 'react';
+import styles from './index.less';
 
 const LineChart = (props: any) => {
   const initChart = () => {
@@ -103,6 +104,6 @@ const LineChart = (props: any) => {
   useEffect(() => {
     initChart();
   }, []);
-  return <div id="lineDiv" style={{ width: '100%', margin: '0 auto', height: '170px' }} />;
+  return <div id="lineDiv" className={styles.line} />;
 };
 export default LineChart;

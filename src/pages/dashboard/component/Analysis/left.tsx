@@ -13,7 +13,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './left.less';
 import type { DashboardInfoType } from '@/pages/dashboard/typings';
 import Title from '@/pages/dashboard/component/common/Title';
-import Radar from './component/Radar';
+import Radar from './component/road';
 import Line from './component/Line';
 
 const Analysis: React.FC = (props) => {
@@ -81,7 +81,7 @@ const Analysis: React.FC = (props) => {
         </div>
         {/*  */}
         <div className={styles.middle}>
-          <Title title={'无人机巡检统计'} />
+          <Title title={'巡检路线可视化'} />
           <Row className={styles.radar}>
             <Col span={24}>
               <Radar />

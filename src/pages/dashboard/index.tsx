@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-09 20:12:31
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-19 14:20:09
+ * @LastEditTime: 2023-10-22 00:53:24
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\index.tsx
  * @Description:
  *
@@ -21,6 +21,7 @@ import AwarenessRight from '@/pages/dashboard/component/Awareness/right';
 import Analysis from '@/pages/dashboard/component/Analysis/left';
 import AnalysisCenter from '@/pages/dashboard/component/Analysis/center';
 import AnalysisRight from '@/pages/dashboard/component/Analysis/right';
+import TimeLine from '@/pages/dashboard/component/Awareness/component/timeLine';
 import Map from '@/pages/dashboard/component/Map';
 import { Header } from '@/pages/dashboard/component/Header';
 import { useSelector, useDispatch } from 'umi';
