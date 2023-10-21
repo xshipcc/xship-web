@@ -17,37 +17,6 @@ body,
 .ant-pro-sider.ant-layout-sider.ant-pro-sider-fixed {
   left: unset;
 }
-// .ant-picker {
-//   position: relative;
-//   display: inline-flex;
-//   align-items: center;
-//   box-sizing: border-box;
-//   margin: 4px;
-//   padding: 0;
-//   padding: 4px 11px 4px;
-//   // color: rgb(110, 150, 175);
-//   color: rgb(255, 255, 255);
-
-//   font-size: 14px;
-//   font-variant: tabular-nums;
-//   line-height: 1.5715;
-//   list-style: none;
-//   background: #0d2b3a;
-//   border: 0px solid #efefef;
-//   border-radius: 2px;
-//   transition: border 0.3s, box-shadow 0.3s;
-//   font-feature-settings: 'tnum', 'tnum';
-// }
-// .ant-select:not(.ant-select-customize-input) .ant-select-selector {
-//   background-color: rgb(10, 38, 53);
-//   border: 1px solid rgb(10, 38, 53);
-// }
-// .ant-select {
-//   color: rgb(110, 150, 175);
-// }
-// rgba(252, 252, 252, 0.85) canvas {
-//   display: block;
-// }
 
 body {
   text-rendering: optimizeLegibility;
@@ -66,56 +35,10 @@ ol {
     min-height: 100vh;
   }
 }
-// .boxall {
-//   width: 100%;
-//   height: 100%;
-//   margin: 0;
-//   padding: 1vh;
-//   // position: relative;
-//   // background: rgba(0, 19, 32, 0.7);
-//   background: linear-gradient(180deg, rgba(5, 48, 74, 0.769) 0%, #011032cc 100%);
-
-//   background-size: 100% auto;
-//   border: 1.8px solid #3a8686a6;
-// }
-// .boxall:before,
-// .boxall:after {
-//   position: absolute;
-//   top: 0;
-//   width: 0.7rem;
-//   height: 0.7rem;
-//   border-top: 2.5px solid #02a6b5bd;
-//   content: '';
-// }
-// .boxall:before,
-// .boxfoot:before {
-//   left: 0;
-//   border-left: 2.5px solid #02a6b5bd;
-// }
-// .boxall:after,
-// .boxfoot:after {
-//   right: 0;
-//   border-right: 2.5px solid #02a6b5bd;
-// }
-// .boxfoot {
-//   position: absolute;
-//   bottom: 0;
-//   left: 0;
-//   width: 100%;
-// }
-// .boxfoot:before,
-// .boxfoot:after {
-//   position: absolute;
-//   bottom: 0;
-//   width: 0.7rem;
-//   height: 0.7rem;
-//   border-bottom: 2.5px solid #02a6b5bd;
-//   content: '';
-// }
 /**
 *  @file global.less
-*  @time 2023/10/16
- * @category :
+*  @time 2023/10/20
+ * @category :无人机面板背景
  * @function :
  */
 //#region -------------------------------------------------------------------------
@@ -186,103 +109,11 @@ ol {
 /**
  * @end
  */
-.area-inbox-1 {
-  width: 340px;
-  height: 270px;
-  background: url(../src/assets/dashboard/awareness/leftArea.png);
-  background-repeat: no-repeat; //不重复
-  background-size: 100% 100% // 满屏 ;
-}
-
-.area-text p {
-  width: 115px;
-}
-
-.area-inbox-1 dl {
-  padding: 55px 0 0 130px;
-}
-.area-inbox-1 dl dt {
-  margin-top: 4px;
-  color: rgb(255, 255, 255);
-}
-.area-inbox-1 dl dd {
-  position: relative;
-}
-.area-inbox-1 dl dd.font12 {
-  font-size: 12px;
-}
-.area-inbox-1 dl dd.ml-20,
-.area-inbox-1 dl dt.ml-20 {
-  margin-left: -15px;
-}
-.area-inbox-1 dl dd span {
-  position: relative;
-  z-index: 1;
-  // margin-top: 2px;
-  font-size: 16px;
-  font-family: 'electronicFont';
-  // letter-spacing: 1px;
-  opacity: 1;
-}
-.area-inbox-1 dl dd b {
-  position: absolute;
-  top: 30%;
-  left: -5px;
-  display: block;
-  width: 74px;
-  height: 17px;
-  background: url(../src/assets/dashboard/awareness//bg07rightarea.png) left bottom no-repeat;
-  animation: flash2 3000ms infinite;
-}
-.area-inbox-1 dl dd:nth-child(2) b {
-  animation: flash2 5000ms infinite;
-}
-.area-inbox-1 dl dd:nth-child(3) b {
-  animation: flash2 1000ms infinite;
-}
-
-.round-1 {
-  position: absolute;
-  top: 36px;
-  left: 84px;
-  width: 218px;
-  height: 218px;
-  border: 1px dashed #fff;
-  border-radius: 100%;
-  animation: forotate 19000ms infinite;
-}
-.round-2 {
-  position: absolute;
-  top: 24px;
-  left: 72px;
-  width: 240px;
-  height: 240px;
-  border: 1px dashed rgba(255, 255, 255, 0.5);
-  border-radius: 100%;
-  animation: forotate1 8000ms infinite;
-}
-.round-3 {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  width: 73px;
-  height: 73px;
-  padding-top: 0px;
-  color: rgb(255, 255, 255);
-  font-size: 20px;
-  font-family: 'electronicFont';
-  line-height: 40px;
-  text-align: center;
-  background: 1px dashed rgba(255, 255, 255, 0.719);
-  border: 1px dashed rgba(255, 255, 255, 0.5);
-  border-radius: 100%;
-  animation: forotate1 8000ms infinite;
-}
 
 /**
 *  @file global.less
 *  @time 2023/10/20
- * @category :
+ * @category :态势感知面板右
  * @function :
  */
 //#region -------------------------------------------------------------------------
@@ -379,6 +210,99 @@ ol {
 /**
  * @end
  */
+
+/**
+*  @file global.less
+*  @time 2023/10/21
+ * @category :态势感知左
+ * @function :
+ */
+//#region -------------------------------------------------------------------------
+
+.area-inbox-1 {
+  width: 340px;
+  height: 270px;
+  background: url(../src/assets/dashboard/awareness/leftArea.png);
+  background-repeat: no-repeat; //不重复
+  background-size: 100% 100% // 满屏 ;
+}
+
+.area-text p {
+  width: 115px;
+}
+
+.area-inbox-1 dl {
+  padding: 60px 0 0 140px;
+}
+.area-inbox-1 dl dt {
+  margin-top: 4px;
+  color: rgb(255, 255, 255);
+}
+.area-inbox-1 dl dd {
+  position: relative;
+}
+.area-inbox-1 dl dd.font12 {
+  font-size: 16px;
+}
+.area-inbox-1 dl dd.ml-20,
+.area-inbox-1 dl dt.ml-20 {
+  margin-left: -15px;
+}
+
+.area-inbox-1 dl dd b {
+  position: absolute;
+  top: 30%;
+  left: -5px;
+  display: block;
+  width: 74px;
+  height: 17px;
+  background: url(../src/assets/dashboard/awareness//bg07rightarea.png) left bottom no-repeat;
+  animation: flash2 3000ms infinite;
+}
+.area-inbox-1 dl dd:nth-child(2) b {
+  animation: flash2 5000ms infinite;
+}
+.area-inbox-1 dl dd:nth-child(3) b {
+  animation: flash2 1000ms infinite;
+}
+
+.round-1 {
+  position: absolute;
+  top: 36px;
+  left: 84px;
+  width: 218px;
+  height: 218px;
+  border: 1px dashed #fff;
+  border-radius: 100%;
+  animation: forotate 19000ms infinite;
+}
+.round-2 {
+  position: absolute;
+  top: 24px;
+  left: 72px;
+  width: 240px;
+  height: 240px;
+  border: 1px dashed rgba(255, 255, 255, 0.5);
+  border-radius: 100%;
+  animation: forotate1 8000ms infinite;
+}
+.round-3 {
+  position: absolute;
+  top: 20px;
+  left: 18px;
+  width: 73px;
+  height: 73px;
+  padding-top: 0px;
+  color: rgb(255, 255, 255);
+  font-size: 20px;
+  font-family: 'electronicFont';
+  line-height: 40px;
+  text-align: center;
+  background: 1px dashed rgba(255, 255, 255, 0.719);
+  border: 1px dashed rgba(255, 255, 255, 0.5);
+  border-radius: 100%;
+  animation: forotate1 8000ms infinite;
+}
 @keyframes forotate {
   from {
     transform: rotate(-360deg);
@@ -409,3 +333,64 @@ ol {
     opacity: 0;
   }
 }
+//#endregion -----------------------------------------------------------------------
+/**
+ * @end
+ */
+
+/**
+ *  @file global.less
+ *  @time 2023/10/21
+  * @category :input
+  * @function :
+  */
+//#region -------------------------------------------------------------------------
+
+.Message {
+  width: 100%;
+  height: auto;
+  max-height: 48px;
+  background: rgba(14, 70, 116, 0.548);
+  border: 1px solid #5cb6ff;
+  border-radius: 8px;
+}
+
+.MsgInput {
+  width: 70%;
+  height: 36px;
+  padding: 0px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  background-color: rgba(19, 136, 231, 0.365);
+  border: none;
+  border-radius: 5px;
+  outline: none;
+  transform: translate(10px, -12px);
+}
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  margin: 0;
+  -webkit-appearance: none;
+}
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+.SendSVG {
+  width: 20%;
+  height: 42px;
+  background-size: 10px;
+  border-width: 50px;
+  border-radius: 10px;
+  transform: translate(18px, 2px);
+  transition: 0.3s;
+}
+
+.SendSVG:hover {
+  background: rgba(14, 70, 116, 0.548);
+}
+
+//#endregion -----------------------------------------------------------------------
+/**
+  * @end
+  */

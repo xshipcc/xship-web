@@ -2,14 +2,14 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-20 09:51:43
+ * @LastEditTime: 2023-10-21 19:05:50
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\center.tsx
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
 import { DualAxes } from '@ant-design/plots';
-import { Button, Col, Row } from 'antd';
+import { Button, Col, Row, Switch } from 'antd';
 import Title from '../common/Title';
 import AwarenessButton from './component/button';
 
@@ -62,46 +62,60 @@ const AnalysisCenter: React.FC = (props) => {
                   显示无人机状态信息
                   <dt>无人机状态</dt>
                   <dt>无人机状态</dt> */}
+                  {/*  */}
                   <dl>
-                    <dt style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
-                      无人机通讯状态
-                    </dt>
-                    <dd className="font12">
-                      <span style={{ color: '#40e10f' }}>76ms</span>
-                      <b></b>
-                    </dd>
                     <dd className="font-red ml-20">
-                      <Row className="font-red ml-20">
+                      <Row>
                         <Col span={6} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
                           经度
                         </Col>
-                        <Col span={18} style={{ color: 'turquoise' }}>
+                        <Col span={17} offset={1} style={{ color: 'turquoise' }}>
                           114.231231 <b></b>
                         </Col>
                       </Row>
-                      <Row className="font-red ml-20">
+                      <Row>
                         <Col span={6} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
                           维度
                         </Col>
-                        <Col span={18} style={{ color: 'turquoise' }}>
+                        <Col span={17} offset={1} style={{ color: 'turquoise' }}>
                           37.1133 <b></b>
                         </Col>
                       </Row>
-                      <Row className="font-red ml-20">
+                      <Row>
                         <Col span={6} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
                           高度
                         </Col>
-                        <Col span={18} style={{ color: 'turquoise' }}>
+                        <Col span={17} offset={1} style={{ color: 'turquoise' }}>
                           37.113m <b></b>
                         </Col>
                       </Row>
-                    </dd>
-                    <dt style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>传感器状态</dt>
-                    <dd>
-                      <span style={{ color: '#40e10f' }}>正常</span>
-                      <b></b>
+                      <Row>
+                        <Col span={6} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
+                          电池功率
+                        </Col>
+                        <Col span={17} offset={1} style={{ color: 'turquoise' }}>
+                          11w <b></b>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col span={6} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
+                          工作电流
+                        </Col>
+                        <Col span={17} offset={1} style={{ color: 'turquoise' }}>
+                          3A <b></b>
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col span={6} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
+                          通讯状态
+                        </Col>
+                        <Col span={17} offset={1} style={{ color: 'turquoise' }}>
+                          好 <b></b>
+                        </Col>
+                      </Row>
                     </dd>
                   </dl>
+                  {/*  */}
                   <div className={styles.powerLeft}>
                     <div>电量</div>
                     <div style={{ color: '#40e10f' }}>37%</div>
@@ -112,32 +126,71 @@ const AnalysisCenter: React.FC = (props) => {
                 </div>
               </Col>
               <Col span={12} className={styles.rightContent}>
-                <Row gutter={[16, 24]} className={styles.buttonRow}>
+                <Row gutter={[4, 4]} className={styles.buttonRow}>
                   <Col span={8}>
                     {/* @ts-ignore */}
-                    <AwarenessButton name={'自检'} over={'自检完成'} url={'/demo'} />
+                    <AwarenessButton name={'自检'} over={'成功'} url={'/demo'} />
                   </Col>
                   <Col span={8}>
                     {/* @ts-ignore */}
-                    <AwarenessButton name={'解锁'} over={'解锁完成'} url={'/demo'} />
+                    <AwarenessButton name={'解锁'} over={'加锁'} url={'/demo'} />
                   </Col>
                   <Col span={8}>
                     {/* @ts-ignore */}
-                    <AwarenessButton name={'加锁'} over={'加锁完成'} url={'/demo'} />
+                    <AwarenessButton name={'起飞'} over={'降落'} url={'/demo'} />
                   </Col>
                 </Row>
-                <Row gutter={[16, 24]} className={styles.buttonRow}>
+                <Row gutter={[4, 4]} className={styles.buttonRow}>
                   <Col span={8}>
                     {/* @ts-ignore */}
-                    <AwarenessButton name={'起飞'} over={'自检完成'} url={'/demo'} />
+                    <AwarenessButton name={'回家'} over={'完成'} url={'/demo'} />
                   </Col>
-                  <Col span={8}>
-                    {/* @ts-ignore */}
-                    <AwarenessButton name={'降落'} over={'降落完成'} url={'/demo'} />
+                  <Col span={16}>
+                    <div className="Message">
+                      <input
+                        style={{ color: '#fff' }}
+                        title="航向角度"
+                        pattern="\d+"
+                        placeholder="请输入航向角度"
+                        className="MsgInput"
+                        type="number"
+                        min="0"
+                        max="360"
+                      />
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        version="1.0"
+                        width="30.000000pt"
+                        height="30.000000pt"
+                        viewBox="0 0 30.000000 30.000000"
+                        preserveAspectRatio="xMidYMid meet"
+                        className="SendSVG"
+                      >
+                        <g
+                          transform="translate(0.000000,30.000000) scale(0.100000,-0.100000)"
+                          fill="#ffffff70"
+                          stroke="none"
+                        >
+                          <path d="M44 256 c-3 -8 -4 -29 -2 -48 3 -31 5 -33 56 -42 28 -5 52 -13 52 -16 0 -3 -24 -11 -52 -16 -52 -9 -53 -9 -56 -48 -2 -21 1 -43 6 -48 10 -10 232 97 232 112 0 7 -211 120 -224 120 -4 0 -9 -6 -12 -14z"></path>
+                        </g>
+                      </svg>
+                    </div>
                   </Col>
-                  <Col span={8}>
-                    {/* @ts-ignore */}
-                    <AwarenessButton name={'回家'} over={'回家完成'} url={'/demo'} />
+                </Row>
+                <Row gutter={[4, 4]} className={styles.switchRow}>
+                  <Col span={12}>
+                    <Switch
+                      checkedChildren="航线模式"
+                      unCheckedChildren="遥感模式"
+                      defaultChecked
+                    />
+                  </Col>
+                  <Col span={12}>
+                    <Switch
+                      checkedChildren="防撞灯开"
+                      unCheckedChildren="防撞灯关"
+                      defaultChecked
+                    />
                   </Col>
                 </Row>
               </Col>
@@ -152,86 +205,83 @@ const AnalysisCenter: React.FC = (props) => {
             <div className={styles.box}>
               <Row>
                 <Col span={12} className={styles.leftContent}>
-                  <Row gutter={[16, 24]} className={styles.buttonRow}>
-                    <Col span={8}>
-                      {/* @ts-ignore */}
-                      <AwarenessButton name={'自检'} over={'自检完成'} url={'/demo'} />
-                    </Col>
-                    <Col span={8}>
-                      {/* @ts-ignore */}
-                      <AwarenessButton name={'解锁'} over={'解锁完成'} url={'/demo'} />
-                    </Col>
-                    <Col span={8}>
-                      {/* @ts-ignore */}
-                      <AwarenessButton name={'加锁'} over={'加锁完成'} url={'/demo'} />
-                    </Col>
-                  </Row>
-                  <Row gutter={[16, 24]} className={styles.buttonRow}>
-                    <Col span={8}>
-                      {/* @ts-ignore */}
-                      <AwarenessButton name={'起飞'} over={'自检完成'} url={'/demo'} />
-                    </Col>
-                    <Col span={8}>
-                      {/* @ts-ignore */}
-                      <AwarenessButton name={'降落'} over={'降落完成'} url={'/demo'} />
-                    </Col>
-                    <Col span={8}>
-                      {/* @ts-ignore */}
-                      <AwarenessButton name={'回家'} over={'回家完成'} url={'/demo'} />
-                    </Col>
-                  </Row>
+                  <div className={styles.hangarInfo}>
+                    <Row>
+                      <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
+                        风速
+                      </Col>
+                      <Col span={12} style={{ color: 'turquoise' }}>
+                        220M/s <b></b>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
+                        风向
+                      </Col>
+                      <Col span={12} style={{ color: 'turquoise' }}>
+                        东 <b></b>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
+                        雨雪传感器
+                      </Col>
+                      <Col span={12} style={{ color: 'turquoise' }}>
+                        东 <b></b>
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
+                        舱盖角度
+                      </Col>
+                      <Col span={12} style={{ color: 'turquoise' }}>
+                        东 <b></b>
+                      </Col>
+                    </Row>
+                    <Row className={styles.switchInfo}>
+                      <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
+                        舱盖状态
+                      </Col>
+                      <Col span={12} style={{ color: 'turquoise' }}>
+                        <Switch
+                          checkedChildren="舱盖开"
+                          unCheckedChildren="舱盖关"
+                          defaultChecked
+                        />
+                      </Col>
+                    </Row>
+                    <Row className={styles.switchInfo}>
+                      <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
+                        充电机状态
+                      </Col>
+                      <Col span={12} style={{ color: 'turquoise' }}>
+                        <Switch
+                          checkedChildren="机场充电"
+                          unCheckedChildren="机场断电"
+                          defaultChecked
+                        />
+                      </Col>
+                    </Row>
+                    <Row className={styles.switchInfo}>
+                      <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
+                        归位机构状态
+                      </Col>
+                      <Col span={12} style={{ color: 'turquoise' }}>
+                        <Switch
+                          checkedChildren="归位锁定"
+                          unCheckedChildren="归位解锁"
+                          defaultChecked
+                        />
+                      </Col>
+                    </Row>
+                  </div>
                 </Col>
                 {/*  */}
                 <Col span={12} className={styles.RightContent}>
                   <div className="area-inbox-2">
-                    {/* 1.电池电压(数值)、2.电池温度(数值)、3.电池状态(数值)、4.风速M/s
-                    (数值)、5.风向(数值)、6.雨雪传感器
-                    (数值)、7.舱外温度C(数值)、8.舱外湿度%(数值)、9.舱内温度C数值
-                    )10.舱内湿度%(数值)、11.舱盖状态(文字 )、12.舱盖角度 (数值
-                    )、13.归位机构状态(文字)、14.充电机状态 (文字)、15.无人机状态(文字 ) */}
                     <dl>
                       <dd className="font-red ml-20">
-                        {/* <Row className="font-red ml-20">
-                          <Col span={6} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
-                            风速
-                          </Col>
-                          <Col span={18} style={{ color: 'turquoise' }}>
-                            31M/s <b></b>
-                          </Col>
-                        </Row>
-                        <Row className="font-red ml-20">
-                          <Col span={6} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
-                            风向
-                          </Col>
-                          <Col span={18} style={{ color: 'turquoise' }}>
-                            310° <b></b>
-                          </Col>
-                        </Row>
-                        <Row className="font-red ml-20">
-                          <Col span={6} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
-                            雨雪传感器
-                          </Col>
-                          <Col span={18} style={{ color: 'turquoise' }}>
-                            31% <b></b>
-                          </Col>
-                        </Row>
-                        <Row className="font-red ml-20">
-                          <Col span={6} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
-                            充电机状态
-                          </Col>
-                          <Col span={18} style={{ color: 'turquoise' }}>
-                            31% <b></b>
-                          </Col>
-                        </Row>
-                        <Row className="font-red ml-20">
-                          <Col span={6} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
-                            归位机构状态
-                          </Col>
-                          <Col span={18} style={{ color: 'turquoise' }}>
-                            31% <b></b>
-                          </Col>
-                        </Row> */}
-                        <Row className="font-red ml-20">
+                        <Row>
                           <Col span={6} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
                             电池电压
                           </Col>
@@ -239,7 +289,7 @@ const AnalysisCenter: React.FC = (props) => {
                             220v <b></b>
                           </Col>
                         </Row>
-                        <Row className="font-red ml-20">
+                        <Row>
                           <Col span={6} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
                             电池温度
                           </Col>
@@ -247,7 +297,7 @@ const AnalysisCenter: React.FC = (props) => {
                             37.1133 <b></b>
                           </Col>
                         </Row>
-                        <Row className="font-red ml-20">
+                        <Row>
                           <Col span={6} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
                             电池状态
                           </Col>
@@ -255,7 +305,7 @@ const AnalysisCenter: React.FC = (props) => {
                             37.1M/s <b></b>
                           </Col>
                         </Row>
-                        <Row className="font-red ml-20">
+                        <Row>
                           <Col span={6} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
                             舱外温度
                           </Col>
@@ -263,7 +313,7 @@ const AnalysisCenter: React.FC = (props) => {
                             C <b></b>
                           </Col>
                         </Row>
-                        <Row className="font-red ml-20">
+                        <Row>
                           <Col span={6} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
                             舱外湿度
                           </Col>
@@ -271,7 +321,7 @@ const AnalysisCenter: React.FC = (props) => {
                             40% <b></b>
                           </Col>
                         </Row>
-                        <Row className="font-red ml-20">
+                        <Row>
                           <Col span={6} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
                             舱内温度
                           </Col>
@@ -279,7 +329,7 @@ const AnalysisCenter: React.FC = (props) => {
                             37.1C <b></b>
                           </Col>
                         </Row>
-                        <Row className="font-red ml-20">
+                        <Row>
                           <Col span={6} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
                             舱内湿度
                           </Col>
