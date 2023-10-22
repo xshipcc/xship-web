@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-19 16:30:18
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-21 22:32:13
+ * @LastEditTime: 2023-10-22 17:18:00
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\AlertList\index.tsx
  * @Description:
  *
@@ -211,7 +211,7 @@ const AlertList: React.FC<AlertListType> = (props: AlertListType) => {
   return (
     // <></>
     <List className={styles.lists} bordered={false} split={false}>
-      {/* <div className={styles.drawercontent} style={{ zIndex: open ? 1 : -1 }}>
+      <div className={styles.drawercontent} style={{ zIndex: open ? 1 : -1 }}>
         <Drawer
           title={drawerData.name}
           // @ts-ignore
@@ -376,13 +376,8 @@ const AlertList: React.FC<AlertListType> = (props: AlertListType) => {
             </Col>
           </Row>
         </Drawer>
-      </div> */}
-      {/* <VirtualList
-        data={data}
-        height={containerHeightInPx}
-        className={styles.virtualList}
-        itemKey="id"
-      >
+      </div>
+      <VirtualList data={data} height={containerHeightInPx} itemHeight={10} itemKey="id">
         {(item: ListAlertHistoryData) => (
           <List.Item
             key={item.id}
@@ -433,7 +428,7 @@ const AlertList: React.FC<AlertListType> = (props: AlertListType) => {
             </Row>
           </List.Item>
         )}
-      </VirtualList> */}
+      </VirtualList>
     </List>
   );
 };

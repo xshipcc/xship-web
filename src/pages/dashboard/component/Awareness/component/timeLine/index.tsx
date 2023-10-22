@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-18 15:51:21
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-22 01:04:50
+ * @LastEditTime: 2023-10-22 17:10:52
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\component\timeLine\index.tsx
  * @Description:
  *
@@ -60,14 +60,30 @@ const LineChart = (props: any) => {
           animation: false,
         },
       },
+      //   axisLine: {
+      //     lineStyle: {
+      //       color: '#050c12',
+      //       opacity: 1,
+      //     },
+      //     show: true,
+      //   },
+      //   splitLine: {
+      //     lineStyle: {
+      //       color: '#050c12',
+      //       opacity: 1,
+      //     },
+      //     show: true,
+      //   },
+
       dataZoom: [
         {
           type: 'slider',
           show: true,
-          height: 14,
-          bottom: 10,
+          height: 25,
+          top: 85,
+          //   bottom: 10,
           borderColor: 'transparent',
-          backgroundColor: '#e2e2e2',
+          backgroundColor: '#28679d',
           // 拖拽手柄样式 svg 路径
           handleIcon:
             'M512 512m-208 0a6.5 6.5 0 1 0 416 0 6.5 6.5 0 1 0-416 0Z M512 192C335.264 192 192 335.264 192 512c0 176.736 143.264 320 320 320s320-143.264 320-320C832 335.264 688.736 192 512 192zM512 800c-159.072 0-288-128.928-288-288 0-159.072 128.928-288 288-288s288 128.928 288 288C800 671.072 671.072 800 512 800z',
@@ -93,16 +109,28 @@ const LineChart = (props: any) => {
       },
       xAxis: {
         type: 'time',
-        splitLine: {
-          show: false,
+        axisLabel: {
+          show: true,
+          textStyle: {
+            color: '#fff',
+          },
         },
+        // splitLine: {
+        //   show: false,
+        // },
       },
       yAxis: {
         type: 'value',
         boundaryGap: [0, '100%'],
-        splitLine: {
-          show: false,
+        axisLabel: {
+          show: true,
+          textStyle: {
+            color: '#fff',
+          },
         },
+        // splitLine: {
+        //   show: false,
+        // },
       },
       series: [
         {

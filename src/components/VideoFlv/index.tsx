@@ -4,7 +4,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-05 02:49:02
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-08 17:19:23
+ * @LastEditTime: 2023-10-22 17:14:53
  * @FilePath: \zero-admin-ui-master\src\components\VideoFlv\index.tsx
  * @Description:
  *
@@ -46,11 +46,7 @@ const FLVPlayer = (props) => {
 
   return (
     <div>
-      <video
-        ref={videoRef}
-        controls
-        style={{ width: props.width + '%', height: props.height + 'vh' }}
-      />
+      <video ref={videoRef} controls style={{ width: '100%', height: '100%' }} />
     </div>
   );
 };

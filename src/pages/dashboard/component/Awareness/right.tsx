@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-21 23:19:48
+ * @LastEditTime: 2023-10-22 15:04:12
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\right.tsx
  * @Description:
  *
@@ -11,7 +11,7 @@
 import { Button, Col, Row } from 'antd';
 import React, { useEffect, useState } from 'react';
 import styles from './right.less';
-import AlertList from '@/pages/dashboard/component/AlertList';
+import AlertList from '@/pages/dashboard/component/AlertList/demo';
 import type { DatePickerProps, TimePickerProps } from 'antd';
 import { DatePicker, Select, Space, TimePicker } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
@@ -71,15 +71,19 @@ const AwarenessRight: React.FC = () => {
     <>
       <div className={styles.content}>
         <div className={styles.top}>
-          <Title title={'当前进度'} />
+          <Title title={'当前航线进度'} />
           <Row className={styles.timeLine}>
             <Col span={24}>
               <TimeLine />
             </Col>
           </Row>
-          <Row gutter={[32, 0]} className={styles.buttonRow}>
-            <Col span={12}>
-              {/* <Button
+        </div>
+        {/*  */}
+        <div className={styles.middle}>
+          <Title title={'告警情况'} />
+          {/* <Row gutter={[32, 0]} className={styles.buttonRow}>
+            <Col span={12}> */}
+          {/* <Button
                 type="text"
                 className={activeIndex === 0 ? styles.buttonActive : styles.button}
                 onClick={() => {
@@ -90,10 +94,10 @@ const AwarenessRight: React.FC = () => {
               >
                 即时告警
               </Button> */}
-              <AwarenessButton name={'及时告警'} over={'查看历史'} url={'/demo'} />
+          {/* <AwarenessButton name={'及时告警'} over={'查看历史'} url={'/demo'} />
             </Col>
-            <Col span={12}>
-              {/* <Button
+            <Col span={12}> */}
+          {/* <Button
                 type="text"
                 className={activeIndex === 1 ? styles.buttonActive : styles.button}
                 onClick={() => {
@@ -104,11 +108,11 @@ const AwarenessRight: React.FC = () => {
               >
                 历史查看
               </Button> */}
-              <AwarenessButton name={'查看历史'} over={'查看历史'} url={'/demo'} />
+          {/* <AwarenessButton name={'查看历史'} over={'查看历史'} url={'/demo'} />
             </Col>
-          </Row>
+          </Row> */}
           {/*  */}
-          <div className={styles.picker}>
+          {/* <div className={styles.picker}>
             <Row>
               <Col span={15}>
                 <Space>
@@ -120,16 +124,8 @@ const AwarenessRight: React.FC = () => {
                 搜索
               </Col>
             </Row>
-          </div>
-        </div>
-        {/*  */}
-        <div className={styles.middle}>
-          <Title title={'无人机画面'} />
-          <Row>
-            <Col span={24} className={styles.listcontent}>
-              <AlertList height={370} />
-            </Col>
-          </Row>
+          </div> */}
+          <AlertList />
         </div>
         {/*  */}
       </div>
