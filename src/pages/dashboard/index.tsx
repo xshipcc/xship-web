@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-09 20:12:31
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-22 00:53:24
+ * @LastEditTime: 2023-10-23 01:45:51
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\index.tsx
  * @Description:
  *
@@ -339,7 +339,6 @@ const Dashboard: React.FC = () => {
       case 'Monitor':
         return (
           <>
-            <div className={styles.monitortimeLine} />
             <Row>
               <div span={24} className={styles.monitorContent}>
                 <Monitor initValue={initView} />

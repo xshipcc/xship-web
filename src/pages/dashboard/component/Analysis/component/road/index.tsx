@@ -4,7 +4,7 @@ import styles from './index.less';
 import 'echarts-gl';
 const RadarChart = (props: any) => {
   const initChart = () => {
-    const element = document.getElementById('radarDiv');
+    const element = document.getElementById('roadDiv');
     const myChart = echarts.init(element);
     const l1 = 2;
     const l2 = 5;
@@ -75,7 +75,7 @@ const RadarChart = (props: any) => {
         },
 
         viewControl: {
-          distance: 200,
+          distance: 250,
           alpha: 10,
           beta: 30,
           animation: true,
@@ -165,6 +165,6 @@ const RadarChart = (props: any) => {
   useEffect(() => {
     initChart();
   }, []);
-  return <div id="radarDiv" className={styles.box} />;
+  return <div id="roadDiv" className={styles.box} />;
 };
 export default RadarChart;

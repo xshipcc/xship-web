@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-19 22:19:16
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-06 02:36:37
+ * @LastEditTime: 2023-10-23 01:27:01
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Monitor\index.tsx
  * @Description:
  *
@@ -15,7 +15,7 @@ import type { DatePickerProps } from 'antd';
 import { DatePicker, Space } from 'antd';
 // import Player from '@/components/VideoReact';
 import Player from '@/components/VideoFlv';
-
+import Video from './component/video';
 const Monitor: React.FC = () => {
   //#region    -----------------------------------------------------------------------
   /**
@@ -39,7 +39,7 @@ const Monitor: React.FC = () => {
         {/*  */}
         <Row>{/* <Col span={24}>{VideoList()}</Col> */}</Row>
         {/*  */}
-        <div className={styles.container}>
+        {/* <div className={styles.container}>
           {new Array(6).fill(null).map((_, index) => (
             <div key={index} className={styles.item}>
               <div key={index} className={styles.video}>
@@ -62,13 +62,13 @@ const Monitor: React.FC = () => {
               </div>
             </div>
           ))}
-        </div>
-
-        <Row className={styles.dateButton}>
+        </div> */}
+        {/* <Row className={styles.dateButton}>
           <Space direction="vertical">
             <DatePicker onChange={onChange} />
           </Space>
-        </Row>
+        </Row> */}
+        <Video />
         {/*  */}
       </div>
     </>

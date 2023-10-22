@@ -12,6 +12,8 @@
 import { Col, Row } from 'antd';
 import React, { useEffect, useState } from 'react';
 import styles from './right.less';
+import Column from './component/column';
+import Pie from './component/pie';
 
 import type { DashboardInfoType } from '@/pages/dashboard/typings';
 import Title from '@/pages/dashboard/component/common/Title';
@@ -132,16 +134,13 @@ const AnalysisRight: React.FC = (props) => {
         {/*  */}
         <div className={styles.middle}>
           <Title title={'告警发送频率'} />
-          <div className={styles.column}>{DemoBar(value.bar)}</div>
+          <Column />
+          {/* <div className={styles.column}>{DemoBar(value.bar)}</div> */}
         </div>
         {/*  */}
         <div className={styles.bottom}>
           <Title title={'严重报警比例'} />
-          <Row>
-            <Col span={24} className={styles.chart}>
-              {DemoRose()}
-            </Col>
-          </Row>
+          <Pie />
         </div>
       </div>
     </>

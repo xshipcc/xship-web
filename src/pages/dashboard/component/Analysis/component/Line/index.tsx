@@ -70,6 +70,7 @@ const LineChart = (props: any) => {
       },
       series: yData.map((item: { data: any }, index: string | number) => {
         return {
+          smooth: true, // 设置为 true，使折线图线段圆滑
           name: 'PM值',
           data: item.data,
           type: 'line',
