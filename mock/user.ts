@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-25 09:55:46
+ * @LastEditTime: 2023-10-23 09:27:00
  * @FilePath: \zero-admin-ui-master\mock\user.ts
  * @Description:
  *
@@ -66,6 +66,13 @@ export default {
           name: '智能告警',
           parentId: 0,
           icon: 'AlertOutlined',
+        },
+        {
+          id: 18,
+          path: '/monitor/list',
+          name: '监控管理',
+          parentId: 0,
+          icon: 'FundOutlined',
         },
         {
           id: 2,

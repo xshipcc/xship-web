@@ -102,6 +102,13 @@
       },
     ],
   },
+  // 监控设备管理
+  {
+    name: '监控管理',
+    icon: 'FundOutlined',
+    path: '/monitor/list',
+    component: './monitor',
+  },
   // 无人机管理
   {
     path: '/drone',

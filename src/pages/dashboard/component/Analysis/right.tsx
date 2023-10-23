@@ -21,59 +21,6 @@ import { Rose } from '@ant-design/plots';
 
 import { Bar } from '@ant-design/plots';
 
-const DemoBar = (data: any[]) => {
-  const config = {
-    data,
-    xField: 'value',
-    yField: 'name',
-    seriesField: 'name',
-    legend: false,
-    barBackground: {
-      style: {
-        fill: 'rgb(15, 72, 138)',
-      },
-    },
-  };
-  return <Bar {...config} />;
-};
-
-const DemoRose = () => {
-  const data = [
-    {
-      type: '分类一',
-      value: 27,
-    },
-    {
-      type: '分类二',
-      value: 25,
-    },
-    {
-      type: '分类三',
-      value: 18,
-    },
-    {
-      type: '分类四',
-      value: 15,
-    },
-    {
-      type: '分类五',
-      value: 10,
-    },
-    {
-      type: '其他',
-      value: 5,
-    },
-  ];
-  const config = {
-    data,
-    xField: 'type',
-    yField: 'value',
-    seriesField: 'type',
-    radius: 0.8,
-    legend: false,
-  };
-  return <Rose {...config} />;
-};
 const AnalysisRight: React.FC = (props) => {
   // @ts-ignore
   const [value] = useState<DashboardInfoType>(props.initValue);

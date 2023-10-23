@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 11:45:31
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-26 13:52:53
+ * @LastEditTime: 2023-10-23 09:31:53
  * @FilePath: \zero-admin-ui-master\src\app.tsx
  * @Description:
  *
@@ -28,6 +28,7 @@ import {
   FrownOutlined,
   GiftOutlined,
   DollarCircleOutlined,
+  FundOutlined,
   AlertOutlined,
 } from '@ant-design/icons';
 import type { RequestConfig } from '@@/plugin-request/request';
@@ -36,6 +37,7 @@ import { notification } from 'antd';
 
 const IconMap = {
   LaptopOutlined: <LaptopOutlined />,
+  FundOutlined: <FundOutlined />,
   BarsOutlined: <BarsOutlined />,
   OneToOneOutlined: <OneToOneOutlined />,
   SmileOutlined: <SmileOutlined />,
