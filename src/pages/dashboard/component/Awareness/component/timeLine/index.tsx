@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-18 15:51:21
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-22 17:10:52
+ * @LastEditTime: 2023-10-23 13:32:02
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\component\timeLine\index.tsx
  * @Description:
  *
@@ -77,6 +77,9 @@ const LineChart = (props: any) => {
 
       dataZoom: [
         {
+          textStyle: {
+            color: '#65d5ff',
+          },
           type: 'slider',
           show: true,
           height: 25,
@@ -109,10 +112,15 @@ const LineChart = (props: any) => {
       },
       xAxis: {
         type: 'time',
-        axisLabel: {
-          show: true,
+        axisLine: {
+          lineStyle: {
+            color: '#65d5ff',
+          },
+        },
+        splitLine: {
+          show: false,
           textStyle: {
-            color: '#fff',
+            color: '#65d5ff',
           },
         },
         // splitLine: {
@@ -120,12 +128,17 @@ const LineChart = (props: any) => {
         // },
       },
       yAxis: {
+        splitLine: {
+          lineStyle: {
+            color: '#65d5ff',
+          },
+        },
         type: 'value',
         boundaryGap: [0, '100%'],
         axisLabel: {
           show: true,
           textStyle: {
-            color: '#fff',
+            color: '#65d5ff',
           },
         },
         // splitLine: {

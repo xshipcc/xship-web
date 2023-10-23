@@ -88,3 +88,26 @@
     }
   }
 }
+
+.round {
+  position: absolute;
+  top: 20%;
+  z-index: 1006;
+  // left: 50%;
+  width: 400px;
+  height: 400px;
+  // margin: -12rem 0 0 -15rem;
+  background: url(../../../../assets/dashboard/circle.png) no-repeat center;
+  background-size: contain;
+  transform: rotateX(10deg) rotateZ(90deg);
+  transform-style: preserve-3d;
+  // animation: circle 5s linear infinite;
+}
+@keyframes circle {
+  0% {
+    transform: rotateX(70deg) rotateZ(0);
+  }
+  100% {
+    transform: rotateX(70deg) rotateZ(360deg);
+  }
+}

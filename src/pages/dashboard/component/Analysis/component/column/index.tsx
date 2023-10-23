@@ -74,12 +74,12 @@ const Column = (props: any) => {
         axisLabel: {
           show: true,
           textStyle: {
-            color: '#fff',
+            color: '#65d5ff',
           },
         },
         axisLine: {
           lineStyle: {
-            color: '#fff',
+            color: '#65d5ff',
           },
           show: true, //显示Y轴
         },
@@ -95,14 +95,16 @@ const Column = (props: any) => {
         type: 'category',
         axisLine: {
           lineStyle: {
-            color: '#fff',
+            color: '#65d5ff',
           },
           show: true, //显示X轴
         },
         axisLabel: {
           show: true,
           textStyle: {
-            color: '#fff',
+            fontSize: 13,
+            fontWeight: 'bold', // 设置标签字体加粗
+            color: '#65d5ff',
           },
         },
         axisTick: {

@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-18 15:51:21
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-23 01:16:53
+ * @LastEditTime: 2023-10-23 13:22:03
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Analysis\component\pie\index.tsx
  * @Description:
  *
@@ -46,7 +46,7 @@ const LineChart = (props: any) => {
         itemWidth: 12,
         itemHeight: 12,
         textStyle: {
-          color: '#fff',
+          color: '#65d5ff',
           fontSize: 12,
         },
         data: datas,

@@ -49,7 +49,7 @@ const LineChart = (props: any) => {
             show: false,
           },
           axisLabel: {
-            color: 'rgba(209, 239, 255, 0.65)',
+            color: '#65d5ff',
             fontSize: 14,
           },
         },
@@ -64,7 +64,7 @@ const LineChart = (props: any) => {
           show: false,
         },
         axisLabel: {
-          color: 'rgba(193, 233, 255, 0.8)',
+          color: '#65d5ff',
           fontSize: 14,
         },
       },

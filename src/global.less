@@ -368,6 +368,11 @@ ol {
   outline: none;
   transform: translate(10px, -12px);
 }
+/* 使用 ::placeholder 伪类，修改 input 中 placeholder 的颜色 */
+input::placeholder {
+  color: #ffffff;
+}
+
 input[type='number']::-webkit-inner-spin-button,
 input[type='number']::-webkit-outer-spin-button {
   margin: 0;
@@ -500,7 +505,7 @@ input[type='number'] {
     background-size: 100%;
     // transform: translateX(-50%) rotateX(75deg);
     transform-style: preserve-3d;
-    animation: rotate3 20s linear infinite;
+    animation: rotate3 10s linear infinite;
   }
 
   .cicle8,
@@ -540,7 +545,7 @@ input[type='number'] {
 
   .cicle9 {
     top: 10%;
-    right: -50%;
+    right: -45%;
     color: #0ac1c7;
     background: url(../src/assets/dashboard/routemark/circle2.png) no-repeat;
     background-size: 100%;
@@ -548,7 +553,7 @@ input[type='number'] {
   }
 
   .cicle10 {
-    right: -50%;
+    right: -45%;
     bottom: 20%;
     color: #f29701;
     background: url(../src/assets/dashboard/routemark/circle1.png) no-repeat;

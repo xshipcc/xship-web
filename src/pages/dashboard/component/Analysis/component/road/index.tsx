@@ -59,8 +59,7 @@ const RadarChart = (props: any) => {
         boxDepth: 100,
         axisLine: {
           lineStyle: {
-            color: '#ffffff',
-            opacity: 0.8,
+            color: '#65d5ff',
           },
         },
         axisPointer: {
@@ -68,8 +67,7 @@ const RadarChart = (props: any) => {
         },
         splitLine: {
           lineStyle: {
-            color: '#ffffff',
-            opacity: 0.8,
+            color: '#65d5ff',
           },
           show: true,
         },
@@ -101,7 +99,7 @@ const RadarChart = (props: any) => {
         // interval:200,//x,y坐标轴刻度标签的显示间隔，在类目轴中有效。
         lineStyle: {
           //坐标轴样式
-          color: 'red',
+
           opacity: 1, //(单个刻度不会受影响)
           width: 2, //线条宽度
         },

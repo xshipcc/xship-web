@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-18 16:36:30
+ * @LastEditTime: 2023-10-23 14:03:00
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Analysis\left.tsx
  * @Description:
  *
@@ -73,6 +73,7 @@ const Analysis: React.FC = (props) => {
             </div>
             <div className={styles.total}>
               <div className={styles.totalValue}>
+                {/* <div className={styles.round}></div> */}
                 <span>200</span>
                 <span>当日巡检总数</span>
               </div>
@@ -81,7 +82,7 @@ const Analysis: React.FC = (props) => {
         </div>
         {/*  */}
         <div className={styles.middle}>
-          <Title title={'巡检路线可视化'} />
+          <Title title={'告警信息可视化'} />
           <Row className={styles.radar}>
             <Col span={24}>
               <Radar />
