@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-19 16:30:18
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-22 17:18:00
+ * @LastEditTime: 2023-10-24 08:45:38
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\AlertList\index.tsx
  * @Description:
  *
@@ -24,11 +24,12 @@ import * as mqtt from 'mqtt';
 interface AlertListType {
   height: number;
 }
-const clientId = 'alertList' + Math.random().toString(16).substring(2, 8);
-const username = 'emqx_test';
-const password = 'emqx_test';
+const clientId = 'wei' + Math.random().toString(16).substring(2, 8);
+const username = 'weiTest';
+const password = 'weiTest';
 
 const client = mqtt.connect(WS_MQTT_URL, {
+  clean: true,
   clientId,
   username,
   password,
@@ -60,7 +61,6 @@ const AlertList: React.FC<AlertListType> = (props: AlertListType) => {
    */
   //#region -------------------------------------------------------------------------
   // @ts-ignore
-  const [containerHeight] = useState(props.height);
   const initView = useSelector((state: any) => state.dashboardModel.alertList);
   const dispatch = useDispatch();
   // useEffect(() => {
@@ -72,13 +72,7 @@ const AlertList: React.FC<AlertListType> = (props: AlertListType) => {
 
   // Topic: uavQoS: 0
   // {"speed": 27648, "lat": -3.0635518035181046e-19, "lon": -1.703710237260978e+38, "height": 20223, "target_angle": 10753}
-  interface DroneDataType {
-    speed: number;
-    lat: number;
-    lon: number;
-    height: number;
-    target_angle: number;
-  }
+
   const [data, setData] = useState<ListAlertHistoryData[]>([]);
   // id: number;
   // name: string;
@@ -124,7 +118,7 @@ const AlertList: React.FC<AlertListType> = (props: AlertListType) => {
         //   confirm: number;
         const response = await queryAlert({
           current: 1,
-          pageSize: 50,
+          pageSize: 8,
           type: 0,
           start_time: '',
           end_time: '',
@@ -197,17 +191,6 @@ const AlertList: React.FC<AlertListType> = (props: AlertListType) => {
   /**
    * @end
    */
-  const vhToPx = (vh: number) => {
-    const windowHeight = window.innerHeight;
-    return (vh / 100) * windowHeight;
-  };
-
-  const containerHeightInVh = 60;
-
-  const [containerHeightInPx, setContainerHeightInPx] = useState(vhToPx(containerHeightInVh));
-  window.addEventListener('resize', () => {
-    setContainerHeightInPx(vhToPx(containerHeightInVh));
-  });
   return (
     // <></>
     <List className={styles.lists} bordered={false} split={false}>

@@ -288,7 +288,7 @@ const LineChart = (props: any) => {
           data: [4, 3, 12, 4, 15, 2, 3, 12, 34, 23],
         },
         {
-          name: '变化占比',
+          name: '同比',
           type: 'line',
           data: [0.3, 0.5, 0.3, 0.35, 0.15, 0.05, 0.05, 0.3, 0.35, 0.4, 0.5],
           smooth: true,
@@ -316,7 +316,7 @@ const LineChart = (props: any) => {
           yAxisIndex: 1,
         },
         {
-          name: '变化占比',
+          name: '同比',
           yAxisIndex: 1,
           type: 'effectScatter',
           showEffectOn: 'render',
