@@ -597,3 +597,200 @@ input[type='number'] {
 /**
  * @end
  */
+
+/**
+ *  @file global.less
+ *  @time 2023/10/25
+  * @category :
+  * @function :
+  */
+//#region -------------------------------------------------------------------------
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  color: #ffffff;
+  font-weight: 400;
+  font-size: 24px;
+  font-family: YouSheBiaoTiHei;
+  text-align: center;
+  text-shadow: 0px 0px 12px 0px rgba(50, 160, 244, 0.6);
+  background: rgba(14, 70, 116, 0.548);
+  border: 1px solid #5cb6ff;
+}
+
+.up {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.down {
+  display: flex;
+  flex-direction: row;
+  gap: 5px;
+}
+
+.card1 {
+  width: 90px;
+  height: 90px;
+  color: #ffffff;
+  font-weight: 400;
+  font-size: 24px;
+  font-family: YouSheBiaoTiHei;
+  text-align: center;
+  text-shadow: 0px 0px 12px 0px rgba(50, 160, 244, 0.6);
+  background: rgba(14, 70, 116, 0.548);
+  border: 1px solid #5cb6ff;
+
+  border-radius: 90px 5px 5px 5px;
+  outline: none;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  transition: 0.2s ease-in-out;
+}
+
+.card2 {
+  width: 90px;
+  height: 90px;
+  color: #ffffff;
+  font-weight: 400;
+  font-size: 24px;
+  font-family: YouSheBiaoTiHei;
+  text-align: center;
+  text-shadow: 0px 0px 12px 0px rgba(50, 160, 244, 0.6);
+  background: rgba(14, 70, 116, 0.548);
+  border: 1px solid #5cb6ff;
+
+  border-radius: 5px 90px 5px 5px;
+  outline: none;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  transition: 0.2s ease-in-out;
+}
+
+.card3 {
+  width: 90px;
+  height: 90px;
+  color: #ffffff;
+  font-weight: 400;
+  font-size: 24px;
+  font-family: YouSheBiaoTiHei;
+  text-align: center;
+  text-shadow: 0px 0px 12px 0px rgba(50, 160, 244, 0.6);
+  background: rgba(14, 70, 116, 0.548);
+  border: 1px solid #5cb6ff;
+
+  border-radius: 5px 5px 5px 90px;
+  outline: none;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  transition: 0.2s ease-in-out;
+}
+
+.card4 {
+  width: 90px;
+  height: 90px;
+  color: #ffffff;
+  font-weight: 400;
+  font-size: 24px;
+  font-family: YouSheBiaoTiHei;
+  text-align: center;
+  text-shadow: 0px 0px 12px 0px rgba(50, 160, 244, 0.6);
+  background: rgba(14, 70, 116, 0.548);
+  border: 1px solid #5cb6ff;
+
+  border-radius: 5px 5px 90px 5px;
+  outline: none;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+  transition: 0.2s ease-in-out;
+}
+
+.card1:hover {
+  background-color: #1046a3;
+  cursor: pointer;
+  scale: 1.1;
+}
+
+.card2:hover {
+  background-color: #117bac;
+  cursor: pointer;
+  scale: 1.1;
+}
+
+.card3:hover {
+  background-color: rgb(16, 75, 202);
+  cursor: pointer;
+  scale: 1.1;
+}
+
+.card4:hover {
+  background-color: #8c9eff;
+  cursor: pointer;
+  scale: 1.1;
+}
+
+//#endregion -----------------------------------------------------------------------
+/**
+  * @end
+  */
+/**
+*  @file global.less
+*  @time 2023/10/25
+ * @category :
+ * @function :
+ */
+//#region -------------------------------------------------------------------------
+
+.number-control {
+  display: flex;
+  align-items: center;
+}
+
+.number-left::before,
+.number-right::after {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 40px;
+  color: white;
+  background-color: #072f6b;
+  border: 1px solid #5cb6ff;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  content: attr(data-content);
+}
+
+.number-left::before {
+  content: '-';
+}
+
+.number-right::after {
+  content: '+';
+}
+
+.number-quantity {
+  width: 80px;
+  height: 40px;
+  margin: 1px;
+  padding: 2px;
+  color: #ffffff;
+  font-weight: 400;
+  font-size: 20px;
+  font-family: YouSheBiaoTiHei;
+  text-align: center;
+  text-shadow: 0px 0px 12px 0px rgba(50, 160, 244, 0.6);
+  background: rgba(14, 70, 116, 0.548);
+  border: 1px solid #5cb6ff;
+  -moz-appearance: textfield;
+}
+
+.number-left:hover::before,
+.number-right:hover::after {
+  background-color: #666666;
+}
+
+//#endregion -----------------------------------------------------------------------
+/**
+ * @end
+ */
