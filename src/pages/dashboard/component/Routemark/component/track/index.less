@@ -1,247 +1,68 @@
-.list {
+.trackList {
   :global {
-    :where(.css-dev-only-do-not-override-1ainthx).ant-pro-table
-      :where(.css-dev-only-do-not-override-1ainthx).ant-pro-table-search {
-      height: 100px;
-      background: #0d70c600;
-      margin-block-end: 0px;
-    }
-    :where(.css-dev-only-do-not-override-1ainthx).ant-pro-query-filter:where(
-        .css-dev-only-do-not-override-1ainthx
-      ).ant-pro-query-filter {
-      padding: 0px;
-    }
-    :where(.css-dev-only-do-not-override-1ainthx).ant-pro-query-filter-row {
-      row-gap: 0px;
-    }
-
-    .ant-form-vertical .ant-form-item-label,
-    .ant-col-24.ant-form-item-label,
-    .ant-col-xl-24.ant-form-item-label {
-      display: none;
-      padding: 0 0 8px;
-      line-height: 1.5715;
-      white-space: normal;
-      white-space: initial;
-      text-align: left;
-    }
-    .ant-col-24 {
-      display: block;
-      flex: 0 0 100%;
-      max-width: 50%;
-    }
-    :where(.css-dev-only-do-not-override-1ainthx).ant-pro-query-filter-collapse-button {
-      display: none;
-      align-items: center;
-      color: #1677ff;
-    }
-    .ant-space-align-center {
-      align-items: center;
-      width: 100%;
-      background: #8c585800;
-    }
-    .ant-picker {
+    .ant-table {
       position: relative;
-      display: inline-flex;
-      align-items: center;
       box-sizing: border-box;
-      width: 180px;
-      height: 42px;
       margin: 0;
       padding: 0;
-      color: #ffffff;
-      font-size: 16px;
-      font-family: YouSheBiaoTiHei;
-      line-height: 1.5715;
-      white-space: nowrap;
-      text-align: center;
-      text-shadow: 0px 0px 12px 0px rgba(50, 160, 244, 0.6);
-      background: rgba(14, 70, 116, 0.3);
-      border: 1px solid #5cb6ff;
-      border-radius: 4px;
-      transition: border 0.3s, box-shadow 0.3s;
-      font-feature-settings: 'tnum', 'tnum';
-    }
-    .ant-picker-input > input {
-      position: relative;
-      display: inline-block;
-      flex: auto;
-      width: 100%;
-      height: auto;
-      margin: 0;
-      padding: 0;
-      color: rgb(251, 251, 251);
-      font-size: 16px;
-      line-height: 1.5715;
-      background: transparent;
-      background: rgba(14, 70, 116, 0.3);
-      border: 0px;
-      border-radius: 2px;
-      transition: all 0.3s;
-    }
-    .ant-select:not(.ant-select-customize-input) .ant-select-selector {
-      position: relative;
-      font-size: 16px;
-      font-family: YouSheBiaoTiHei;
-      background: rgba(14, 70, 116, 0.3);
-      border: 1px solid #5cb6ff;
-      border-radius: 4px;
-      transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-    }
-
-    .ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
-      width: 180px;
-      height: 42px;
-      padding: 0 11px;
-    }
-    .ant-select-single.ant-select-show-arrow .ant-select-selection-search {
-      right: 25px;
-    }
-    .ant-select-single .ant-select-selector .ant-select-selection-search {
-      position: absolute;
-      top: 0;
-      right: 11px;
-      bottom: 0;
-      left: 11px;
-    }
-    .ant-select-single .ant-select-selector .ant-select-selection-item {
-      position: relative;
-      color: #ffffff;
-      font-size: 16px;
-      font-family: YouSheBiaoTiHei;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-    }
-    .ant-btn:nth-child(1) {
-      position: relative;
-      display: inline-block;
-      width: 180px;
-      height: 42px;
-      // margin-right: 15px;
-      // margin-left: 15px;
-      padding: 0px;
-      color: #ffffff;
-      font-weight: 400;
-      font-size: 24px;
-      font-family: YouSheBiaoTiHei;
-      line-height: 1.5715;
-      white-space: nowrap;
-      text-align: center;
-      text-shadow: 0px 0px 12px 0px rgba(50, 160, 244, 0.6);
-      background: rgba(14, 70, 116, 0.3);
-      border: 1px solid #5cb6ff;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: 0.5s linear;
-      user-select: none;
-      touch-action: manipulation;
-    }
-    .ant-btn:nth-child(2) {
-      position: relative;
-      display: inline-block;
-      width: 180px;
-      height: 42px;
-      // margin-right: 15px;
-      margin-left: 15px;
-      padding: 0px;
-      color: #ffffff;
-      font-weight: 400;
-      font-size: 24px;
-      font-family: YouSheBiaoTiHei;
-      line-height: 1.5715;
-      white-space: nowrap;
-      text-align: center;
-      text-shadow: 0px 0px 12px 0px rgba(50, 160, 244, 0.6);
-      background: rgba(14, 70, 116, 0.3);
-      border: 1px solid #5cb6ff;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: 0.5s linear;
-      user-select: none;
-      touch-action: manipulation;
-    }
-    .ant-form-item {
-      box-sizing: border-box;
-      width: 180px;
-      margin: 0px;
-      padding: 0;
-      font-variant: tabular-nums;
-      line-height: 1.5715;
-      vertical-align: top;
-      list-style: none;
-      // background: #fff;
-      font-feature-settings: 'tnum', 'tnum';
-    }
-
-    //
-    :where(.css-dev-only-do-not-override-1ainthx).ant-pro-card {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      box-sizing: border-box;
-      width: 100%;
-      height: 120px;
-      margin: 0;
-      padding: 0;
-      color: rgba(0, 0, 0, 0.88);
-      font-size: 14px;
-      line-height: 1.5714285714285714;
-      list-style: none;
-      background-color: rgba(0, 0, 0, 0);
-      border-radius: 4px;
-      margin-block: 0;
-      margin-inline: 0;
-      padding-block: 0;
-      padding-inline: 0;
-    }
-    :where(.css-dev-only-do-not-override-1ainthx).ant-pro-card .ant-pro-card-body {
-      display: block;
-      box-sizing: border-box;
-      height: 231px;
-      padding-inline: 4px;
-      padding-block: 16px;
-    }
-    .ant-list {
-      position: relative;
-      box-sizing: border-box;
-      margin: 0px;
-      padding: 0;
-      color: rgb(255 255 255 / 85%);
-      font-size: 10px;
-      font-variant: tabular-nums;
-      line-height: 1.5715;
-      list-style: none;
-      font-feature-settings: 'tnum', 'tnum';
-    }
-    .ant-list-split .ant-list-item {
-      border-bottom: 0px solid rgba(0, 0, 0, 0.06);
-    }
-    .ant-list-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0px;
       color: rgba(0, 0, 0, 0.85);
-      background: rgba(14, 70, 116, 0.619);
+      font-size: 14px;
+      font-variant: tabular-nums;
+      line-height: 1.5715;
+      list-style: none;
+      background: rgba(14, 70, 116, 0.548);
       border: 1px solid #5cb6ff;
+      border-radius: 8px;
+      font-feature-settings: 'tnum', 'tnum';
+    }
+    .ant-table-thead > tr > th {
+      position: relative;
+      margin: 0px;
+      padding: 0px;
+      color: rgb(14, 170, 209);
+      font-weight: 200;
+      font-size: 18px;
+      font-family: YouSheBiaoTiHei;
+      text-align: center;
+      background: rgba(14, 70, 116, 0.548);
+      transition: background 0.3s ease;
+    }
+    .ant-btn {
+      position: relative;
+      display: inline-block;
+      width: 100%;
+      margin: 0px;
+      padding: 0px;
+      color: #ffffff;
+      font-weight: 400;
+      font-size: 18px;
+      font-family: YouSheBiaoTiHei;
+      line-height: 1.5715;
+      white-space: nowrap;
+      text-align: center;
+      background: rgba(12, 121, 210, 0.3);
+      cursor: pointer;
+      transition: 0.5s linear;
     }
 
-    :where(.css-dev-only-do-not-override-1ainthx).ant-pro-list-row-description {
-      word-break: break-all;
-      margin-block-start: 0px;
-    }
-    :where(.css-dev-only-do-not-override-1ainthx).ant-pro-list-row .ant-list-item-meta-title {
+    .ant-table-tbody > tr > td {
       margin: 0px;
-      color: rgb(253, 253, 253);
-      font-size: 16px;
-      border-block-end: none;
+      padding: 0px;
+      color: #ffffff;
+      font-weight: 100;
+      font-size: 15px;
+      text-align: center;
     }
-    //
+
+    .ant-table-tbody > tr:hover:not(.ant-table-expanded-row):not(.ant-table-row-selected) > td {
+      background: rgba(13, 105, 180, 0.619);
+    }
     .ant-pagination {
       box-sizing: border-box;
-      margin: 0;
+      margin-top: 10px;
+      margin-right: 0px;
+      margin-bottom: 0px;
+      margin-left: 0px;
       padding: 0;
       color: #ffffff;
       font-weight: 200;
@@ -321,79 +142,6 @@
       color: rgb(0, 0, 0);
       text-align: center;
       transition: none;
-    }
-  }
-}
-.drawercontent {
-  position: absolute;
-
-  top: 0%;
-  width: 100%;
-  height: 100%;
-  background-color: #fff;
-}
-.listinfo {
-  width: 100%;
-  height: 60px;
-  background: rgba(14, 70, 116, 0.548);
-  border: 1px solid #5cb6ff;
-  border-radius: 8px;
-  cursor: pointer;
-  :global {
-    .ant-image-img {
-      width: 120px;
-      height: 60px;
-      vertical-align: middle;
-    }
-    .ant-badge-status-text {
-      margin-left: 8px;
-      color: rgb(255, 255, 255);
-      font-size: 20px;
-    }
-  }
-
-  .alertcontent {
-    width: 100%;
-    margin: 0%;
-    // margin-top: 0.2vh;
-    padding: 0%;
-    // font-weight: bold;
-    text-align: center; /* 设置文本水平对齐方式为居中 */
-
-    .alertTitle {
-      // margin-top: 0.2vh;
-      width: 100%;
-      margin: 0%;
-      padding: 0%;
-      overflow: hidden;
-      color: #ffffff;
-      font-weight: 400;
-      font-weight: bolder;
-      font-size: 16px;
-      font-family: YouSheBiaoTiHei;
-      text-align: center;
-      text-shadow: 0px 0px 12px 0px rgba(50, 160, 244, 0.6);
-    }
-    .alertInfo {
-      width: 100%;
-      max-height: 3vh;
-      overflow: hidden;
-      // margin-top: 0.2vh;
-      color: rgb(229, 229, 229);
-      font-size: 0.6vh;
-      // font-weight: bold;
-      text-align: left; /* 设置文本水平对齐方式为居中 */
-    }
-    .alertInfoTitle {
-      width: 100%;
-      max-height: 3vh;
-      padding-left: 3px;
-      overflow: hidden;
-      // margin-top: 0.2vh;
-      color: rgb(236, 236, 236);
-      font-weight: 600px;
-      font-size: 0.6vh;
-      text-align: right; /* 设置文本水平对齐方式为居中 */
     }
   }
 }

@@ -17,22 +17,6 @@ import { queryAlert } from '@/pages/AIalert/service';
 import { ListAlertHistoryData, ListAlertHistoryRespType } from '@/pages/AIalert/data';
 import { Drawer, Divider, Image } from 'antd';
 
-type GithubIssueItem = {
-  url: string;
-  id: number;
-  number: number;
-  title: string;
-  labels: {
-    name: string;
-    color: string;
-  }[];
-  state: string;
-  comments: number;
-  created_at: string;
-  updated_at: string;
-  closed_at?: string;
-};
-
 export default () => {
   const [open, setOpen] = useState(false);
 
@@ -42,7 +26,7 @@ export default () => {
   return (
     <div className={styles.list}>
       {/* <div className={styles.drawercontent} style={{ zIndex: open ? 1 : -1 }}></div> */}
-      <ProList<GithubIssueItem>
+      <ProList
         search={{
           defaultCollapsed: false,
         }}

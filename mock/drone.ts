@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-24 17:48:22
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-03 16:25:30
+ * @LastEditTime: 2023-10-26 13:00:39
  * @FilePath: \zero-admin-ui-master\mock\drone.ts
  * @Description:
  *
@@ -342,8 +342,8 @@ export default {
 
     const listUavFlyRespType = {
       current: 1,
-      'data|5': [listUavFlyDataType], // 随机生成1-10页的数据
-      pageSize: 10,
+      'data|10': [listUavFlyDataType], // 随机生成1-10页的数据
+      pageSize: 8,
       success: true,
       total: 100,
       code: '0000',

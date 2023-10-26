@@ -1,142 +1,238 @@
-/*
- * @Author: weiaodi 1635654853@qq.com
- * @Date: 2023-10-22 14:51:44
- * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-26 11:52:47
- * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Routemark\component\track\index.tsx
- * @Description:
- *
- * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
- */
-import { ProList } from '@ant-design/pro-components';
-import { Badge, Button, Col, List, Row, Space, Tag } from 'antd';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import type { InputRef } from 'antd';
+import { Button, Form, Input, Table } from 'antd';
+import type { FormInstance } from 'antd/es/form';
 import styles from './index.less';
-import { useState } from 'react';
-import Title from '@/pages/dashboard/component/common/Title';
-import { queryAlert } from '@/pages/AIalert/service';
-import { ListAlertHistoryData, ListAlertHistoryRespType } from '@/pages/AIalert/data';
-import { Drawer, Divider, Image } from 'antd';
+import type { ListUavFlyReqType } from '@/pages/drone/routePlan/data';
 
-type GithubIssueItem = {
-  url: string;
-  id: number;
-  number: number;
-  title: string;
-  labels: {
-    name: string;
-    color: string;
-  }[];
-  state: string;
-  comments: number;
-  created_at: string;
-  updated_at: string;
-  closed_at?: string;
+import { queryFly } from '@/pages/drone/routePlan/service';
+
+const EditableContext = React.createContext<FormInstance<any> | null>(null);
+
+interface Item {
+  key: string;
+  name: string;
+  age: string;
+  address: string;
+}
+
+interface EditableRowProps {
+  index: number;
+}
+
+const EditableRow: React.FC<EditableRowProps> = ({ index, ...props }) => {
+  const [form] = Form.useForm();
+  return (
+    <Form form={form} component={false}>
+      <EditableContext.Provider value={form}>
+        <tr {...props} />
+      </EditableContext.Provider>
+    </Form>
+  );
 };
 
-export default () => {
-  const [open, setOpen] = useState(false);
+interface EditableCellProps {
+  title: React.ReactNode;
+  editable: boolean;
+  children: React.ReactNode;
+  dataIndex: keyof Item;
+  record: Item;
+  handleSave: (record: Item) => void;
+}
 
-  const onClose = () => {
-    setOpen(false);
+const EditableCell: React.FC<EditableCellProps> = ({
+  title,
+  editable,
+  children,
+  dataIndex,
+  record,
+  handleSave,
+  ...restProps
+}) => {
+  const [editing, setEditing] = useState(false);
+  const inputRef = useRef<InputRef>(null);
+  const form = useContext(EditableContext)!;
+
+  useEffect(() => {
+    if (editing) {
+      inputRef.current!.focus();
+    }
+  }, [editing]);
+
+  const toggleEdit = () => {
+    setEditing(!editing);
+    form.setFieldsValue({ [dataIndex]: record[dataIndex] });
   };
+
+  const save = async () => {
+    try {
+      const values = await form.validateFields();
+
+      toggleEdit();
+      handleSave({ ...record, ...values });
+    } catch (errInfo) {
+      console.log('Save failed:', errInfo);
+    }
+  };
+
+  let childNode = children;
+
+  if (editable) {
+    childNode = editing ? (
+      <Form.Item
+        style={{ margin: 0 }}
+        name={dataIndex}
+        rules={[
+          {
+            required: true,
+            message: `${title} is required.`,
+          },
+        ]}
+      >
+        <Input ref={inputRef} onPressEnter={save} onBlur={save} />
+      </Form.Item>
+    ) : (
+      <div className="editable-cell-value-wrap" style={{ paddingRight: 24 }} onClick={toggleEdit}>
+        {children}
+      </div>
+    );
+  }
+
+  return <td {...restProps}>{childNode}</td>;
+};
+
+type EditableTableProps = Parameters<typeof Table>[0];
+
+interface DataType {
+  id: number;
+  name: string;
+  data: string;
+  create_time: string;
+  creator: string;
+}
+
+type ColumnTypes = Exclude<EditableTableProps['columns'], undefined>;
+
+const App: React.FC = () => {
+  const [dataSource, setDataSource] = useState([
+    {
+      id: 0,
+      name: 'string',
+      data: 'string',
+      create_time: 'string',
+      creator: 'string',
+    },
+  ]);
+
+  // 获取航线数据列表
+  useEffect(() => {
+    const fetchFlyData = async (params: ListUavFlyReqType) => {
+      try {
+        const Data = await queryFly(params);
+        setDataSource(Data.data);
+        return true;
+      } catch (error) {
+        console.log('fetchFlyData -> error:', error);
+        return false;
+      }
+    };
+    fetchFlyData({ pageSize: 10, current: 1 });
+  }, []);
+
+  const handleAdd = () => {
+    const newData: DataType = {
+      id: dataSource.length + 1,
+      creator: '',
+      name: `Edward King`,
+      data: '32',
+      create_time: `London, Park Lane no`,
+    };
+    setDataSource([newData, ...dataSource]);
+  };
+
+  const defaultColumns: (ColumnTypes[number] & { editable?: boolean; dataIndex: string })[] = [
+    {
+      title: '航线名称',
+      dataIndex: 'name',
+      editable: true,
+    },
+    {
+      title: '创建者',
+      dataIndex: 'creator',
+      editable: true,
+    },
+    {
+      title: '创建时间',
+      dataIndex: 'create_time',
+    },
+    {
+      title: (
+        <div>
+          <Button onClick={handleAdd} type="primary">
+            添加航线
+          </Button>
+        </div>
+      ),
+      dataIndex: 'operation',
+      // @ts-ignore
+      render: (_, record: { key: React.Key }) =>
+        dataSource.length >= 1 ? (
+          <Button onClick={handleAdd} type="primary">
+            航线预览
+          </Button>
+        ) : null,
+    },
+  ];
+
+  const handleSave = (row: DataType) => {
+    const newData = [...dataSource];
+    const index = newData.findIndex((item) => row.id === item.id);
+    const item = newData[index];
+    newData.splice(index, 1, {
+      ...item,
+      ...row,
+    });
+    setDataSource(newData);
+  };
+
+  const components = {
+    body: {
+      row: EditableRow,
+      cell: EditableCell,
+    },
+  };
+
+  const columns = defaultColumns.map((col) => {
+    if (!col.editable) {
+      return col;
+    }
+    return {
+      ...col,
+      onCell: (record: DataType) => ({
+        record,
+        editable: col.editable,
+        dataIndex: col.dataIndex,
+        title: col.title,
+        handleSave,
+      }),
+    };
+  });
+
   return (
-    <div className={styles.list}>
-      {/* <div className={styles.drawercontent} style={{ zIndex: open ? 1 : -1 }}></div> */}
-      <ProList<GithubIssueItem>
-        search={{
-          defaultCollapsed: false,
-        }}
-        grid={{ gutter: 0, column: 2 }}
-        // @ts-ignore
-        renderItem={(item: ListAlertHistoryData) => (
-          <List.Item>
-            <Row className={styles.listinfo}>
-              <Col span={5} className={styles.alertImage}>
-                11
-                {/* <Image preview={false} src={item.image} /> */}
-              </Col>
-              <Col span={19} className={styles.alertcontent}>
-                <p className={styles.alertTitle}>
-                  <Badge
-                    status={item.confirm ? 'success' : 'error'}
-                    text={'无人机巡检告警' + item.id}
-                  />
-                </p>
-                <Row>
-                  <Col span={9} className={styles.alertInfoTitle}>
-                    发现时间 :
-                  </Col>
-                  <Col span={15} className={styles.alertInfo}>
-                    {item.start_time}
-                  </Col>
-                </Row>
-                <Row>
-                  <Col span={9} className={styles.alertInfoTitle}>
-                    报警内容 :
-                  </Col>
-                  <Col span={15} className={styles.alertInfo}>
-                    {item.name}
-                  </Col>
-                </Row>
-              </Col>
-            </Row>
-          </List.Item>
-        )}
-        rowKey="name"
-        // @ts-ignore
-        request={async (params = {}) => {
-          // @ts-ignore
-          const res: ListAlertHistoryRespType = await queryAlert(params);
-          console.log('request={ -> res:', res);
-          return res;
-        }}
+    <div className={styles.trackList}>
+      <Table
         pagination={{
-          pageSize: 8,
+          pageSize: 9,
           showSizeChanger: false,
         }}
-        showActions="hover"
-        onItem={(record: any) => {
-          return {
-            onMouseEnter: () => {
-              console.log(record);
-            },
-            onClick: () => {
-              console.log(record);
-            },
-          };
-        }}
-        metas={{
-          date: {
-            dataIndex: 'date',
-            valueType: 'text',
-          },
-          type: {
-            // 自己扩展的字段，主要用于筛选，不在列表中显示
-            //  type     '消息类型:0-发现人员 1-車輛 2-入侵 3-烟火 4-',
-            //
-            valueType: 'select',
-            valueEnum: {
-              all: { text: '全部', type: 'Default' },
-              people: {
-                text: '人员告警',
-                type: '0',
-              },
-              car: {
-                text: '车辆告警',
-                type: '1',
-              },
-              invade: {
-                text: '入侵告警',
-                type: '2',
-              },
-              smoke: {
-                text: '烟火告警',
-                type: '2',
-              },
-            },
-          },
-        }}
+        components={components}
+        rowClassName={() => 'editable-row'}
+        bordered
+        dataSource={dataSource}
+        columns={columns as ColumnTypes}
       />
     </div>
   );
 };
+
+export default App;
