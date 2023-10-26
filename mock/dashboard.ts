@@ -211,7 +211,7 @@ export default {
     res.json(
       Mock.mock({
         result: {
-          'results|15': [
+          'results|20': [
             {
               'id|1-10': '2',
               alert: {

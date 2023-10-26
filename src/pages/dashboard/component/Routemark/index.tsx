@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-22 23:44:23
+ * @LastEditTime: 2023-10-26 11:46:44
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Routemark\index.tsx
  * @Description:
  *
@@ -14,6 +14,7 @@ import styles from './index.less';
 import TreeList from '@/pages/dashboard/component/TreeList/index';
 import Title from '../common/Title';
 import Line from './component/statistic/demo';
+import Track from './component/track';
 
 // export default App;
 
@@ -54,7 +55,8 @@ const Routemark: React.FC = (props) => {
         {/*  */}
         <div className={styles.middle}>
           <Title title={' 智能巡检'} />
-          <TreeList />
+          {/* <TreeList /> */}
+          <Track />
         </div>
         {/*  */}
       </div>

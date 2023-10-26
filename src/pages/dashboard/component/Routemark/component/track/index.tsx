@@ -2,15 +2,15 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-22 14:51:44
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-25 11:23:14
- * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\AlertList\demo.tsx
+ * @LastEditTime: 2023-10-26 11:52:47
+ * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Routemark\component\track\index.tsx
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
 import { ProList } from '@ant-design/pro-components';
 import { Badge, Button, Col, List, Row, Space, Tag } from 'antd';
-import styles from './demo.less';
+import styles from './index.less';
 import { useState } from 'react';
 import Title from '@/pages/dashboard/component/common/Title';
 import { queryAlert } from '@/pages/AIalert/service';
@@ -46,12 +46,14 @@ export default () => {
         search={{
           defaultCollapsed: false,
         }}
+        grid={{ gutter: 0, column: 2 }}
         // @ts-ignore
         renderItem={(item: ListAlertHistoryData) => (
           <List.Item>
             <Row className={styles.listinfo}>
               <Col span={5} className={styles.alertImage}>
-                <Image preview={false} src={item.image} />
+                11
+                {/* <Image preview={false} src={item.image} /> */}
               </Col>
               <Col span={19} className={styles.alertcontent}>
                 <p className={styles.alertTitle}>
@@ -93,10 +95,20 @@ export default () => {
           showSizeChanger: false,
         }}
         showActions="hover"
+        onItem={(record: any) => {
+          return {
+            onMouseEnter: () => {
+              console.log(record);
+            },
+            onClick: () => {
+              console.log(record);
+            },
+          };
+        }}
         metas={{
           date: {
             dataIndex: 'date',
-            valueType: 'dateRange',
+            valueType: 'text',
           },
           type: {
             // 自己扩展的字段，主要用于筛选，不在列表中显示
