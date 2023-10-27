@@ -59,7 +59,6 @@ const Map: React.FC = () => {
   const initFlyData = useSelector((state: any) => state.dashboardModel.currentFlyData);
   const [coords, setCoords] = useState(null);
 
-  console.log('editSignal:', editSignal);
   useEffect(() => {
     viewer.current = new Cesium.Viewer(divRef.current as Element, {
       animation: false, //左下角的动画仪表盘

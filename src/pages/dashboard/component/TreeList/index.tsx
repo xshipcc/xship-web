@@ -19,18 +19,10 @@ import type {
 } from '@/pages/drone/routePlan/data';
 
 const App = () => {
-  /**
-   *  @file index.tsx
-   *  @time 2023/10/26
-   * @category :数据初始化
-   * @function :
-   */
-  //#region -------------------------------------------------------------------------
-
   const [flyData, setFlyData] = useState<ListUavFlyDataType[]>(null);
-  const [flyNameList, setFlyNameList] = useState([]);
+  const [flyNameList, setflyNameList] = useState([]);
 
-  // 获取航线数据和航线名称列表
+  // 获取航线数据
   useEffect(() => {
     const fetchFlyData = async (params: ListUavFlyReqType) => {
       try {
@@ -43,16 +35,12 @@ const App = () => {
       }
     };
     fetchFlyData({ pageSize: 10, current: 1 });
-    const nameListData = flyData?.map((item) => item.name);
-    setFlyNameList(nameListData);
   }, []);
   // 获取名称列表
-  useEffect(() => {}, [flyData]);
-
-  //#endregion -----------------------------------------------------------------------
-  /**
-   * @end
-   */
+  useEffect(() => {
+    const nameListData = flyData?.map((item) => item.name);
+    setflyNameList(nameListData);
+  }, [flyData]);
 
   /**
    *  @file index.tsx
@@ -126,7 +114,7 @@ const App = () => {
   }, [currentFly]);
   const addItem = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
     e.preventDefault();
-    setFlyNameList([...flyNameList, name || `路线${indexItem++}`]);
+    setflyNameList([...flyNameList, name || `路线${indexItem++}`]);
     setName('');
     setTimeout(() => {
       inputRef.current?.focus();
@@ -337,7 +325,7 @@ const App = () => {
               handleAdd();
             }}
           >
-            保存航线
+            保存信息
           </Button>
         </Col>
       </Row>
@@ -345,10 +333,44 @@ const App = () => {
         {currentFly?.data.map((item: NodeType) => (
           <div key={item.id}>
             <Row className={styles.header}>
-              <Col span={6}></Col>
-              <Col span={18}></Col>
+              <Col span={6}>
+                <Input
+                  defaultValue={item.name}
+                  placeholder="请输入名称"
+                  onChange={(e) => {
+                    changename(e, item.name);
+                  }}
+                />
+              </Col>
+              <Col span={18}>
+                <Space.Compact size="middle">
+                  <Input
+                    defaultValue={JSON.parse(item.coord)[0]}
+                    placeholder="请输入经度"
+                    readOnly="true"
+                    onChange={(e) => {
+                      changelan(e, item.name);
+                    }}
+                  />
+                  <Input
+                    defaultValue={JSON.parse(item.coord)[1]}
+                    placeholder="请输入维度"
+                    readOnly="true"
+                    onChange={(e) => {
+                      changelat(e, item.name);
+                    }}
+                  />
+                  <Input
+                    defaultValue={JSON.parse(item.coord)[2]}
+                    placeholder="请输入高度"
+                    readOnly="true"
+                    onChange={(e) => {
+                      changealt(e, item.name);
+                    }}
+                  />
+                </Space.Compact>
+              </Col>
             </Row>
-
             {/* <div className={styles.tableContent}>
               <TableEditable listData={item} />
             </div> */}
@@ -360,42 +382,3 @@ const App = () => {
 };
 
 export default App;
-// <Row className={styles.header}>
-//   <Col span={6}>
-//     <Input
-//       defaultValue={item.name}
-//       placeholder="请输入名称"
-//       onChange={(e) => {
-//         changename(e, item.name);
-//       }}
-//     />
-//   </Col>
-//   <Col span={18}>
-//     <Space.Compact size="middle">
-//       <Input
-//         defaultValue={JSON.parse(item.coord)[0]}
-//         placeholder="请输入经度"
-//         readOnly="true"
-//         onChange={(e) => {
-//           changelan(e, item.name);
-//         }}
-//       />
-//       <Input
-//         defaultValue={JSON.parse(item.coord)[1]}
-//         placeholder="请输入维度"
-//         readOnly="true"
-//         onChange={(e) => {
-//           changelat(e, item.name);
-//         }}
-//       />
-//       <Input
-//         defaultValue={JSON.parse(item.coord)[2]}
-//         placeholder="请输入高度"
-//         readOnly="true"
-//         onChange={(e) => {
-//           changealt(e, item.name);
-//         }}
-//       />
-//     </Space.Compact>
-//   </Col>
-// </Row>
