@@ -70,7 +70,7 @@ export interface ListUavFlyRespType {
 export interface UpdateUavFlyReqType {
   id: number;
   name: string;
-  data: ListUavFlyDataType;
+  data: string;
   create_time: string;
   creator: string;
 }

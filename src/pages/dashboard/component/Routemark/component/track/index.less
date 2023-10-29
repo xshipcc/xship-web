@@ -150,12 +150,14 @@
   height: 100%;
   background: rgba(14, 70, 116, 0.548);
   border: 1px solid #5cb6ff;
+  border-radius: 8px;
+
   :global {
     .ant-btn {
       position: relative;
       display: inline-block;
       width: 100%;
-      margin: 5px;
+      margin-top: 5px;
       padding: 0px;
       color: #ffffff;
       font-weight: 400;
@@ -164,9 +166,10 @@
       line-height: 1.5715;
       white-space: nowrap;
       text-align: center;
-      background: rgba(12, 121, 210, 0.3);
+      background: rgba(7, 50, 86, 0.548);
       border: 1px solid #5cb6ff;
-      border-radius: 8px;
+      border-radius: 4px;
+      border-radius: 0px;
       cursor: pointer;
       transition: 0.5s linear;
     }
@@ -277,10 +280,24 @@
       transition: none;
     }
   }
+  .title {
+    padding-top: 10px;
+    color: #ffffff;
+    font-weight: 400;
+    font-size: 24px;
+    font-family: YouSheBiaoTiHei;
+    text-align: center;
+    cursor: pointer;
+  }
 }
 .back {
   position: absolute;
   top: 0px;
   left: 0px;
   z-index: 1;
+}
+.nodeList {
+  width: 100%;
+  background: rgba(11, 92, 158, 0.548);
+  border: 1px solid #5cb6ff;
 }

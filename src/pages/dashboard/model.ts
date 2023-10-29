@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-16 18:32:55
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-17 13:18:25
+ * @LastEditTime: 2023-10-27 13:18:54
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\model.ts
  * @Description:
  *
@@ -34,6 +34,22 @@ export interface DashboardState {
   alertList: string[];
   currentFlyData: ListUavFlyDataType;
   alertData: ListAlertHistoryData;
+
+  /**
+   *
+   *
+   * @type {boolean} 路线编辑信号
+   * @memberof DashboardState
+   */
+  editRoadSignal: boolean;
+
+  /**
+   *
+   *
+   * @type {[]}
+   * @memberof DashboardState
+   */
+  currentRoad: [];
 }
 export interface DashboardModelType {
   namespace: 'dashboardModel';
@@ -44,6 +60,8 @@ export interface DashboardModelType {
     saveAlertList: ImmerReducer<string> | any;
     saveCurrentFlyData: ImmerReducer<string> | any;
     saveAlertData: ImmerReducer<string> | any;
+    saveCurrentRoad: ImmerReducer<string> | any;
+    changeEditRoadSignal: ImmerReducer<boolean> | any;
   };
   effects: {
     fetchDashboardInfo: Effect;
@@ -104,6 +122,8 @@ const CompanyModel: DashboardModelType = {
       altitude: 0,
       confirm: 0,
     },
+    editRoadSignal: false,
+    currentRoad: [],
   },
   reducers: {
     changeCurrentComponent(state: DashboardState, action: { payload: string }) {
@@ -116,6 +136,14 @@ const CompanyModel: DashboardModelType = {
     },
     saveAlertList(state: DashboardState, action: { payload: [] }) {
       state.alertList = action.payload;
+    },
+    changeEditRoadSignal(state: DashboardState, action: { payload: boolean }) {
+      state.editRoadSignal = action.payload;
+      console.log('changeEditRoadSignal -> action.payload:', action.payload);
+    },
+    saveCurrentRoad(state: DashboardState, action: { payload: [] }) {
+      state.currentRoad = action.payload;
+      console.log('saveCurrentRoad ->  action.payload:', action.payload);
     },
     saveCurrentFlyData(state: DashboardState, action: { payload: ListUavFlyDataType }) {
       if (action.payload?.data) {

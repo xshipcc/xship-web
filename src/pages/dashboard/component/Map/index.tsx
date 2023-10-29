@@ -115,6 +115,79 @@ const Map: React.FC = () => {
      */
     //#region -------------------------------------------------------------------------
   }, []);
+
+  /**
+   *  @file index.tsx
+   *  @time 2023/10/27
+   * @category :航线编辑和展示
+   * @function :
+   */
+  //#region -------------------------------------------------------------------------
+  const editRoadSignal = useSelector((state: any) => state.dashboardModel.editRoadSignal);
+  useEffect(() => {
+    if (editRoadSignal) {
+      const start = (item: any) => {
+        console.log('start -> item:', item);
+        if (!MeasureTools.current) return;
+        if (MeasureTools.current.nowDrawMeasureObj || MeasureTools.current.nowEditMeasureObj) {
+          alert('请结束当前量算');
+          return;
+        }
+        // 开始量算
+        MeasureTools.current
+          .start({
+            type: item.type,
+          })
+          .then((trackPosition) => {
+            console.log('.then -> trackPosition:', trackPosition);
+            // dispatch({
+            //   type: 'trackModel/saveTrackList',
+            //   payload: trackPosition,
+            // });
+            // TODO 设置当前路径
+            dispatch({
+              type: 'dashboardModel/saveCurrentRoad',
+              payload: trackPosition,
+            });
+          })
+          .catch((error) => {
+            console.error('发生错误:', error);
+            // 在这里处理错误
+          });
+
+        return null;
+      };
+      // 调用
+      start({
+        name: '空间距离',
+        type: '1',
+        unitType: 'dis',
+      });
+    }
+
+    // if (!editRoadSignal) {
+    //   MeasureTools.current.clear();
+    // }
+  }, [editRoadSignal]);
+
+  // 路线展示
+
+  /** @type {*} 当前路线数据*/
+  const roadData = useSelector((state: any) => state.dashboardModel.currentRoad);
+
+  useEffect(() => {
+    console.log('roadData:', roadData);
+    if (roadData?.length > 0) {
+    }
+
+    // 飞行模拟数据
+  }, [roadData]);
+
+  //#endregion -----------------------------------------------------------------------
+  /**
+   * @end
+   */
+
   // 菜单相关信号切换
   useEffect(() => {
     viewer.current.entities.removeAll();
@@ -356,23 +429,6 @@ const Map: React.FC = () => {
     }
   }, [initFlyData]);
   useEffect(() => {
-    // const b = [
-    //   {
-    //     shootId: 1, // 拍摄点ID
-    //     aircraftAltitude: 294.4321622812281, // 无人机高度
-    //     aircraftLatitude: 38.06337, // 无人机纬度
-    //     aircraftLongitude: 114.2937, // 无人机经度
-    //     gimbalPitchValue: -34.86589098646805, // 无人机云台俯仰角
-    //     gimbalYawValue: -141.52559172027878, // 无人机云台偏航角
-    //     isShoot: false, // 是否为拍摄点
-    //   }
-    // ];
-
-    // console.log('coords -> transformedArray:', transformedArray);
-    // console.log('coords -> coords:', coords);
-    // 判断是否可以进行飞行
-
-    // if (editSignal[1]) {
     /**
      * @param {*} viewer
      * @param {*} options.speed 速度m/s
@@ -382,8 +438,6 @@ const Map: React.FC = () => {
      * @param {*} options.shootCallback  拍摄点回调函数返回isShoot为true的shootId
      * @memberof Track
      */
-    console.log('useEffect -> coords:', coords);
-
     if (coords?.length > 0) {
       const roaming = new Track(viewer.current, {
         rt: false,

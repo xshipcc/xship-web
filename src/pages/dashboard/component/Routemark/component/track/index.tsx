@@ -9,9 +9,10 @@ import type { NodeType } from '@/pages/drone/routePlan/data';
 import { Divider } from 'antd';
 
 import { queryFly, updateFly, addFly } from '@/pages/drone/routePlan/service';
-import { RollbackOutlined } from '@ant-design/icons';
+import { CheckOutlined, RollbackOutlined } from '@ant-design/icons';
 import { message, Drawer, Modal } from 'antd';
-import { useModel } from 'umi';
+import { useDispatch, useModel, useSelector } from 'umi';
+import { stringify } from '@ant-design/pro-components';
 
 const EditableContext = React.createContext<FormInstance<any> | null>(null);
 
@@ -188,6 +189,8 @@ const App: React.FC = () => {
    * @function :
    */
   //#region -------------------------------------------------------------------------
+  const dispatch = useDispatch();
+
   const [showDrawer, setShowDrawer] = useState(false);
   const [currentRoad, setcurrentRoad] = useState<ListUavFlyDataType>({
     id: 1,
@@ -196,28 +199,66 @@ const App: React.FC = () => {
     data: [],
     create_time: `default`,
   });
+  const roadData = useSelector((state: any) => state.dashboardModel.currentRoad);
+
+  /**
+   *打开当前路线,设置当前的路线值
+   *
+   * @param {*} data
+   */
   const toggleDrawer = (data: any) => {
     console.log('toggleDrawer -> param2:', data);
     setcurrentRoad(data);
     setShowDrawer(true);
   };
-  const closeDrawer = () => {
-    // setcurrentRoad({
-    //   id: 1,
-    //   creator: 'default',
-    //   name: `default`,
-    //   data: [],
-    //   create_time: `default`,
-    // });
-
+  const closeDrawer = async (data: any) => {
     setShowDrawer(false);
   };
-  const changeName = (e: any, index: any) => {
-    // console.log('changeName -> index:', index);
-    // console.log('changeName -> data:', e.target.value);
-    currentRoad.data = e.target.value;
+  const saveDrawer = async (data: any) => {
+    console.log('saveDrawer -> data:', data);
+    try {
+      // @ts-ignore
+      const response = await updateFly(data);
+      // console.log('*fetchDashboardInfo -> response:', response);
+      const { code, result } = response;
+      if (code === '000000') {
+        message.success('修改成功');
+        fetchFlyData({ pageSize: 10, current: 1 });
+      }
+    } catch (error) {
+      message.success('修改失败');
+      console.log('catch getData:', error);
+    }
+    setShowDrawer(false);
+  };
+  const changeNodeName = (e: any, index: any) => {
+    // console.log('changeNodeName -> index:', index);
+    // console.log('changeNodeName -> data:', e.target.value);
+    currentRoad.data[index].name = e.target.value;
     setcurrentRoad(currentRoad);
   };
+  const [editRoadSignal, setEditRoadSignal] = useState(false);
+
+  /**
+   *路线编辑
+   *
+   * @param {*} e
+   */
+  const editRoad = (e: any) => {
+    setEditRoadSignal(e);
+    dispatch({
+      type: 'dashboardModel/changeEditRoadSignal',
+      payload: e,
+    });
+    // 路线编辑完成
+    if (!e) {
+      // @ts-ignore
+      currentRoad.data = stringify(roadData);
+      console.log('editRoad -> currentRoad:', currentRoad);
+      setcurrentRoad(currentRoad);
+    }
+  };
+  ////////////////////
   const defaultColumns: (ColumnTypes[number] & { editable?: boolean; dataIndex: string })[] = [
     {
       title: '航线名称',
@@ -246,7 +287,7 @@ const App: React.FC = () => {
       render: (_, record: { key: React.Key }) =>
         dataSource.length >= 1 ? (
           <Button type="primary" onClick={() => toggleDrawer(record)}>
-            航线预览
+            航线查看
           </Button>
         ) : null,
     },
@@ -313,30 +354,51 @@ const App: React.FC = () => {
       {showDrawer ? (
         <div className={styles.drawer}>
           {/*  */}
-          <Divider style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
-            {/* <RollbackOutlined className={styles.back} /> */}
-            {currentRoad.name}
-          </Divider>
+          <Row>
+            <Col
+              span={5}
+              className={styles.title}
+              onClick={() => {
+                closeDrawer(currentRoad);
+              }}
+            >
+              <RollbackOutlined /> 返回
+            </Col>
+            <Col span={14}>
+              <div className={styles.title}>{currentRoad.name}</div>
+            </Col>
+            <Col
+              span={5}
+              className={styles.title}
+              onClick={() => {
+                saveDrawer(currentRoad);
+              }}
+            >
+              <CheckOutlined />
+              保存
+            </Col>
+          </Row>
           <List
             pagination={{
-              pageSize: 9,
+              pageSize: 4,
               showSizeChanger: false,
             }}
             dataSource={currentRoad.data}
             renderItem={(item: NodeType, index) => (
-              <>
+              <div className={styles.nodeList}>
+                {console.log('nodeitem', item)}
                 <Row>
                   <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
                     节点名称
                   </Col>
                   <Col span={12} style={{ color: 'white' }}>
-                    <Input
+                    {/* <Input
                       defaultValue={item.name}
-                      placeholder="请输入经度"
+                      placeholder="请输入节点名称"
                       onChange={(e) => {
-                        changeName(e, index);
+                        changeNodeName(e, index);
                       }}
-                    />
+                    /> */}
                   </Col>
                 </Row>
                 <Row>
@@ -344,26 +406,26 @@ const App: React.FC = () => {
                     坐标
                   </Col>
                   <Col span={12} style={{ color: 'white' }}>
-                    {item.name}
+                    {'[' + item.coord + ']'}
                   </Col>
                 </Row>
-              </>
+              </div>
             )}
           />
           <Row>
             <Col span={9} offset={2}>
-              <Button type="primary" onClick={() => {}}>
-                航线编辑
-              </Button>
-            </Col>
-            <Col span={9} offset={2}>
               <Button
                 type="primary"
                 onClick={() => {
-                  closeDrawer();
+                  editRoad(!editRoadSignal);
                 }}
               >
-                保存航线
+                {editRoadSignal ? '编辑完成' : '航线编辑'}
+              </Button>
+            </Col>
+            <Col span={9} offset={2}>
+              <Button type="primary" onClick={() => {}}>
+                预览航线
               </Button>
             </Col>
           </Row>
