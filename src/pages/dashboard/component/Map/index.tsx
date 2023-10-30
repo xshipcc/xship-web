@@ -145,9 +145,16 @@ const Map: React.FC = () => {
             //   payload: trackPosition,
             // });
             // TODO 设置当前路径
+            const RoadLonLatAlt = trackPosition.map((coord, index) => {
+              return {
+                aircraftAltitude: coord[2],
+                aircraftLatitude: coord[1],
+                aircraftLongitude: coord[0],
+              };
+            });
             dispatch({
               type: 'dashboardModel/saveCurrentRoad',
-              payload: trackPosition,
+              payload: RoadLonLatAlt,
             });
           })
           .catch((error) => {
@@ -172,8 +179,8 @@ const Map: React.FC = () => {
 
   // 路线展示
 
-  /** @type {*} 当前路线数据*/
-  const roadData = useSelector((state: any) => state.dashboardModel.currentRoad);
+  /** @type {number[][]} 当前路线数据*/
+  const roadData: number[][] = useSelector((state: any) => state.dashboardModel.currentRoad);
 
   useEffect(() => {
     console.log('roadData:', roadData);
@@ -193,53 +200,6 @@ const Map: React.FC = () => {
     viewer.current.entities.removeAll();
     viewer.current.dataSources.removeAll();
   }, [destoryTackSignal]);
-  useEffect(() => {
-    if (editSignal[0]) {
-      const start = (item: any) => {
-        console.log('start -> item:', item);
-        if (!MeasureTools.current) return;
-        if (MeasureTools.current.nowDrawMeasureObj || MeasureTools.current.nowEditMeasureObj) {
-          alert('请结束当前量算');
-          return;
-        }
-        // 开始量算
-        MeasureTools.current
-          .start({
-            type: item.type,
-          })
-          .then((trackPosition) => {
-            dispatch({
-              type: 'trackModel/saveTrackList',
-              payload: trackPosition,
-            });
-            // console.log('trackPosition:', trackPosition);
-            // 在这里处理 trackPosition 的值
-            dispatch({
-              type: 'trackModel/saveEntities',
-              payload: viewer.current.entities,
-            });
-          })
-          .catch((error) => {
-            console.error('发生错误:', error);
-            // 在这里处理错误
-          });
-        console.log(
-          'start -> MeasureTools.current.trackPosition:',
-          MeasureTools.current.trackPosition,
-        );
-        return MeasureTools.current.trackPosition;
-      };
-      // 调用
-      start({
-        name: '空间距离',
-        type: '1',
-        unitType: 'dis',
-      });
-    }
-    if (editSignal[1]) {
-      MeasureTools.current.clear();
-    }
-  }, [editSignal]);
   // 添加告警信息到场景
   useEffect(() => {
     client.on('message', (topic: string, mqttMessage: any) => {
@@ -405,139 +365,6 @@ const Map: React.FC = () => {
       }
     });
   }, []);
-  useEffect(() => {
-    if (editSignal[1]) {
-      const coordsTemp = initFlyData?.data.map((item, index) => {
-        // 解析 coord 字符串为数组
-        const coordArray = JSON.parse(item.coord);
-        return {
-          shootId: index,
-          aircraftAltitude: coordArray[2],
-          aircraftLatitude: coordArray[1],
-          aircraftLongitude: coordArray[0],
-          gimbalPitchValue: -34.86589, // 无人机云台俯仰角
-          gimbalYawValue: -143.699,
-          isShoot: false,
-        };
-      });
-      setCoords(coordsTemp);
-      trackCahe.current = coordsTemp;
-      dispatch({
-        type: 'trackModel/changeEditSignal',
-        payload: [false, false],
-      });
-    }
-  }, [initFlyData]);
-  useEffect(() => {
-    /**
-     * @param {*} viewer
-     * @param {*} options.speed 速度m/s
-     * @param {*} options.stayTime 拍摄点等待时间
-     * @param {*} options.Lines  点集合
-     * @param {*} options.frustumFar  视锥长度
-     * @param {*} options.shootCallback  拍摄点回调函数返回isShoot为true的shootId
-     * @memberof Track
-     */
-    if (coords?.length > 0) {
-      const roaming = new Track(viewer.current, {
-        rt: false,
-        Lines: coords,
-        stayTime: 1,
-        speed: 3,
-        frustumFar: 10,
-        shootCallback: function (shootId) {
-          console.log(shootId);
-        },
-      });
-      setTimeout(function () {
-        /**
-         *航迹模拟开始飞行
-         * @memberof roaming.StartFlying()
-         */
-        setCoords([]);
-        const b = [
-          {
-            shootId: 1, // 拍摄点ID
-            aircraftAltitude: 294.4321622812281, // 无人机高度
-            aircraftLatitude: 29.332291372123606, // 无人机纬度
-            aircraftLongitude: 106.3275423851136, // 无人机经度
-            gimbalPitchValue: -34.86589098646805, // 无人机云台俯仰角
-            gimbalYawValue: -141.52559172027878, // 无人机云台偏航角
-            isShoot: false, // 是否为拍摄点
-          },
-          {
-            shootId: 2,
-            aircraftAltitude: 296.4321622812281,
-            aircraftLatitude: 29.33218636728018,
-            aircraftLongitude: 106.3274449132526,
-            gimbalPitchValue: -29.77056379217234,
-            gimbalYawValue: -141.52559171972544,
-            isShoot: true,
-          },
-          {
-            shootId: 3,
-            aircraftAltitude: 296.4321622812281,
-            aircraftLatitude: 29.332086291515342,
-            aircraftLongitude: 106.32743456106668,
-            gimbalPitchValue: -49.79999923706055,
-            gimbalYawValue: -143.6999969482422,
-            isShoot: true,
-          },
-          {
-            shootId: 4,
-            aircraftAltitude: 273.1146622812281,
-            aircraftLatitude: 29.3320829466482,
-            aircraftLongitude: 106.32743569795478,
-            gimbalPitchValue: 0,
-            gimbalYawValue: -96.52559172238325,
-            isShoot: true,
-          },
-        ];
-
-        roaming.StartFlying();
-        roaming.TrackPath(coords, false);
-        // setTimeout(() => {
-        //   // roaming.StartFlying(b);
-        //   // roaming.TrackPath([...coords, ...b], true);
-        //   // console.log(1111111);
-        // }, 3000);
-        /**
-         *航迹模拟的暂停和继续
-         *
-         * @param {*} state bool类型 false为暂停，ture为继续
-         * @memberof roaming.PauseOrContinue(state)
-         */
-        //roaming.PauseOrContinue(true)//false为暂停，ture为继续
-        /**
-         *改变飞行的速度
-         *
-         * @param {*} value  整数类型 建议（1-20）
-         * @memberof roaming.ChangeRoamingSpeed(value)
-         */
-        roaming.ChangeRoamingSpeed(4);
-        /**
-         * 改变观看角度
-         *
-         * @param {*} name string
-         *
-         * ViewTopDown:顶视图
-         * ViewSide ：正视图
-         * trackedEntity：跟随模型
-         *
-         * @memberof ChangePerspective(name)
-         */
-        // roaming.ChangePerspective('trackedEntity');
-        /**
-         *取消航迹模拟
-         *
-         * @memberof roaming.EndRoaming()
-         */
-        // roaming.EndRoaming();
-      }, 1000);
-    }
-
-    // 飞行模拟数据
-  }, [coords]);
 
   return (
     <>

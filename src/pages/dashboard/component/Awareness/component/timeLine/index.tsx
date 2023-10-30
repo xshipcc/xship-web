@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-18 15:51:21
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-23 13:32:02
+ * @LastEditTime: 2023-10-29 23:50:45
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\component\timeLine\index.tsx
  * @Description:
  *
@@ -17,7 +17,7 @@ const LineChart = (props: any) => {
   const initChart = () => {
     const element = document.getElementById('lineDiv');
     const myChart = echarts.init(element);
-    const data: { name: string; value: (string | number)[] }[] = [];
+    const data: { value: (string | number)[] }[] = [];
     let now = +new Date(1997, 9, 3);
     const oneDay = 24 * 3600 * 1000;
     let value = Math.random() * 10;
@@ -26,7 +26,6 @@ const LineChart = (props: any) => {
       now = new Date(+now + oneDay);
       value = value + Math.random() * 21 - 10;
       return {
-        name: now.toString(),
         value: [
           [now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'),
           Math.round(value),
@@ -147,7 +146,6 @@ const LineChart = (props: any) => {
       },
       series: [
         {
-          name: '模拟数据',
           type: 'line',
           data: data,
         },
@@ -159,6 +157,7 @@ const LineChart = (props: any) => {
       for (let i = 0; i < 4; i++) {
         data.shift();
         data.push(randomData());
+        // console.log('data:', data);
       }
 
       myChart.setOption({

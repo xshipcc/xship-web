@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-22 14:51:44
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-23 01:43:30
+ * @LastEditTime: 2023-10-30 08:59:52
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Monitor\component\video\index.tsx
  * @Description:
  *
@@ -14,6 +14,7 @@ import request from 'umi-request';
 import styles from './index.less';
 import Player from '@/components/VideoFlv';
 import Title from '@/pages/dashboard/component/common/Title';
+import { queryAlert } from '@/pages/AIalert/service';
 
 type GithubIssueItem = {
   url: string;
@@ -49,49 +50,39 @@ export default () => (
         defaultCollapsed: false,
       }}
       rowKey="name"
-      request={async (params = {}) =>
-        request<{
-          data: GithubIssueItem[];
-        }>('https://proapi.azurewebsites.net/github/issues', {
-          params,
-        })
-      }
+      request={async (params = {}) => {
+        console.log('request={ -> params:', params);
+        // @ts-ignore
+        const res = await queryAlert(params);
+        console.log('request={ -> res:', res);
+        return res;
+      }}
       pagination={{
         pageSize: 6,
       }}
       showActions="hover"
       metas={{
-        title: {
-          dataIndex: 'user',
+        date: {
           title: '时间',
-          valueType: 'dateTime',
+          valueType: 'date',
         },
-        avatar: {
-          dataIndex: 'avatar',
-          search: false,
-        },
-        description: {
-          dataIndex: 'title',
-          search: false,
-        },
-
-        status: {
+        type: {
           // 自己扩展的字段，主要用于筛选，不在列表中显示
           title: '状态',
           valueType: 'select',
           valueEnum: {
             all: { text: '全部', status: 'Default' },
-            open: {
+            online: {
               text: '在线',
-              status: 'Error',
+              status: 'Processing',
             },
-            closed: {
+            offline: {
               text: '未在线',
               status: 'Success',
             },
-            processing: {
+            breakdown: {
               text: '故障',
-              status: 'Processing',
+              status: 'Error',
             },
           },
         },

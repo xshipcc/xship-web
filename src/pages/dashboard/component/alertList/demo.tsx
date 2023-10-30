@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-22 14:51:44
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-25 11:23:14
+ * @LastEditTime: 2023-10-29 23:03:47
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\AlertList\demo.tsx
  * @Description:
  *
@@ -23,6 +23,7 @@ export default () => {
   const onClose = () => {
     setOpen(false);
   };
+
   return (
     <div className={styles.list}>
       {/* <div className={styles.drawercontent} style={{ zIndex: open ? 1 : -1 }}></div> */}
@@ -67,6 +68,8 @@ export default () => {
         rowKey="name"
         // @ts-ignore
         request={async (params = {}) => {
+          console.log('request={ -> params:', params);
+          if (params?.type) params.type = Number(params.type);
           // @ts-ignore
           const res: ListAlertHistoryRespType = await queryAlert(params);
           console.log('request={ -> res:', res);
@@ -80,30 +83,29 @@ export default () => {
         metas={{
           date: {
             dataIndex: 'date',
-            valueType: 'dateRange',
+            valueType: 'date',
           },
           type: {
             // 自己扩展的字段，主要用于筛选，不在列表中显示
             //  type     '消息类型:0-发现人员 1-車輛 2-入侵 3-烟火 4-',
-            //
             valueType: 'select',
             valueEnum: {
-              all: { text: '全部', type: 'Default' },
-              people: {
+              0: { text: '全部' },
+              1: { text: '巡检路线' },
+              2: {
                 text: '人员告警',
-                type: '0',
               },
-              car: {
+              3: {
                 text: '车辆告警',
-                type: '1',
               },
-              invade: {
+              4: {
                 text: '入侵告警',
-                type: '2',
               },
-              smoke: {
+              5: {
                 text: '烟火告警',
-                type: '2',
+              },
+              6: {
+                text: '烟火告警',
               },
             },
           },
