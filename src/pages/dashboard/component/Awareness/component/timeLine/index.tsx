@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-18 15:51:21
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-29 23:50:45
+ * @LastEditTime: 2023-10-30 15:44:00
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\component\timeLine\index.tsx
  * @Description:
  *
@@ -18,47 +18,57 @@ const LineChart = (props: any) => {
     const element = document.getElementById('lineDiv');
     const myChart = echarts.init(element);
     const data: { value: (string | number)[] }[] = [];
-    let now = +new Date(1997, 9, 3);
-    const oneDay = 24 * 3600 * 1000;
-    let value = Math.random() * 10;
-
+    const currentTime = new Date();
+    let Hours = currentTime.getHours();
+    let minutes = currentTime.getMinutes();
+    let second = currentTime.getSeconds();
     function randomData() {
-      now = new Date(+now + oneDay);
-      value = value + Math.random() * 21 - 10;
-      return {
-        value: [
-          [now.getFullYear(), now.getMonth() + 1, now.getDate()].join('/'),
-          Math.round(value),
-        ],
-      };
+      const value = Math.random() * 10;
+      second += 0.5;
+      return ['2023-11-1' + ' ' + Hours + ':' + minutes + ':' + second];
     }
-    for (let i = 0; i < 1000; i++) {
+    // 7200 一个小时
+    for (let i = 0; i < 7200; i++) {
+      if (i % 120 == 0) minutes += 1;
+      if (i % 7200 == 0) minutes = 0;
+      if (i % 7200 == 0) Hours += 1;
+      if (i % 120 == 0) second = 0;
       data.push(randomData());
     }
+    console.log('initChart -> data:', data);
+
+    // const data1 = [
+    //   ['2019-11-1 08:00:20', 123],
+    //   ['2019-11-1 09:00:20', 55],
+    //   ['2019-11-1 11:00:20', 23],
+    //   ['2019-11-2 08:00:20', 123],
+    //   ['2019-11-2 12:00:20', 552],
+    //   ['2019-11-2 15:00:20', 22],
+    // ];
     const option = {
-      tooltip: {
-        title: {
-          show: false, // 隐藏标题
-        },
-        trigger: 'axis',
-        formatter: function (params: any[]) {
-          // eslint-disable-next-line no-param-reassign
-          params = params[0];
-          const date = new Date(params.name);
-          return (
-            date.getDate() +
-            '/' +
-            (date.getMonth() + 1) +
-            '/' +
-            date.getFullYear() +
-            ' : ' +
-            params.value[1]
-          );
-        },
-        axisPointer: {
-          animation: false,
-        },
-      },
+      // tooltip: {
+      //   title: {
+      //     show: false, // 隐藏标题
+      //   },
+      //   trigger: 'axis',
+      //   formatter: function (params: any[]) {
+      //     // eslint-disable-next-line no-param-reassign
+      //     params = params[0];
+      //     const date = new Date(params.name);
+      //     return (
+      //       date.getDate() +
+      //       '/' +
+      //       (date.getMonth() + 1) +
+      //       '/' +
+      //       date.getFullYear() +
+      //       ' : ' +
+      //       params.value[1]
+      //     );
+      //   },
+      //   axisPointer: {
+      //     animation: false,
+      //   },
+      // },
       //   axisLine: {
       //     lineStyle: {
       //       color: '#050c12',
@@ -82,7 +92,7 @@ const LineChart = (props: any) => {
           type: 'slider',
           show: true,
           height: 25,
-          top: 85,
+          top: 60,
           //   bottom: 10,
           borderColor: 'transparent',
           backgroundColor: '#28679d',
@@ -98,15 +108,15 @@ const LineChart = (props: any) => {
             shadowOffsetY: 1,
             shadowColor: '#e5e5e5',
           },
-          start: 0,
-          end: 100,
+          start: 0, // 缩放范围的起始位置，数值表示对应 x 轴上的索引
+          end: 100, // 缩放范围的结束位置，数值表示对应 x 轴上的索引
         },
       ],
       grid: {
         top: '3%',
         left: '3%',
         right: '4%',
-        bottom: '25%',
+        bottom: '45%',
         containLabel: true,
       },
       xAxis: {
@@ -127,6 +137,7 @@ const LineChart = (props: any) => {
         // },
       },
       yAxis: {
+        show: false,
         splitLine: {
           lineStyle: {
             color: '#65d5ff',
@@ -151,14 +162,17 @@ const LineChart = (props: any) => {
         },
       ],
     };
+    // 绑定 dataZoom 缩放事件
+    myChart.on('datazoom', function (params) {
+      console.log('datazoom:', params);
+    });
+
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     option && myChart.setOption(option);
     setInterval(function () {
-      for (let i = 0; i < 4; i++) {
-        data.shift();
-        data.push(randomData());
-        // console.log('data:', data);
-      }
+      data.shift();
+      // console.log('data:', data);
+      // data.push(randomData());
 
       myChart.setOption({
         series: [
