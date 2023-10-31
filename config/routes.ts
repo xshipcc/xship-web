@@ -147,6 +147,32 @@
       },
     ],
   },
+  // ai识别管理
+  {
+    path: '/AIrecognition',
+    name: 'AI',
+    icon: 'crown',
+    routes: [
+      {
+        name: '摄像头管理',
+        icon: 'table',
+        path: '/AIrecognition/camera/list',
+        component: './AIrecognition/camera',
+      },
+      {
+        name: '车辆管理',
+        icon: 'table',
+        path: '/AIrecognition/car/list',
+        component: './AIrecognition/car',
+      },
+      {
+        name: '人员管理',
+        icon: 'table',
+        path: '/AIrecognition/people/list',
+        component: './AIrecognition/people',
+      },
+    ],
+  },
   //
   {
     component: './404',

@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-23 09:27:00
+ * @LastEditTime: 2023-10-31 15:42:24
  * @FilePath: \zero-admin-ui-master\mock\user.ts
  * @Description:
  *
@@ -66,13 +66,6 @@ export default {
           name: '智能告警',
           parentId: 0,
           icon: 'AlertOutlined',
-        },
-        {
-          id: 18,
-          path: '/monitor/list',
-          name: '监控管理',
-          parentId: 0,
-          icon: 'FundOutlined',
         },
         {
           id: 2,
@@ -177,6 +170,34 @@ export default {
           path: '/drone/network/list',
           name: '无人机网络管理',
           parentId: 12,
+          icon: '',
+        },
+        {
+          id: 18,
+          path: '/AIrecognition',
+          name: 'AI识别管理',
+          parentId: 0,
+          icon: 'BarsOutlined',
+        },
+        {
+          id: 19,
+          path: '/AIrecognition/camera/list',
+          name: '摄像头管理',
+          parentId: 18,
+          icon: '',
+        },
+        {
+          id: 20,
+          path: '/AIrecognition/car/list',
+          name: '车辆管理',
+          parentId: 18,
+          icon: '',
+        },
+        {
+          id: 21,
+          path: '/AIrecognition/people/list',
+          name: '人员管理',
+          parentId: 18,
           icon: '',
         },
       ],

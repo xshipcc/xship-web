@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-18 15:51:21
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-30 15:44:00
+ * @LastEditTime: 2023-10-30 16:14:59
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\component\timeLine\index.tsx
  * @Description:
  *
@@ -28,7 +28,7 @@ const LineChart = (props: any) => {
       return ['2023-11-1' + ' ' + Hours + ':' + minutes + ':' + second];
     }
     // 7200 一个小时
-    for (let i = 0; i < 7200; i++) {
+    for (let i = 0; i < 72; i++) {
       if (i % 120 == 0) minutes += 1;
       if (i % 7200 == 0) minutes = 0;
       if (i % 7200 == 0) Hours += 1;

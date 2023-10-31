@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-24 17:48:22
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-24 09:39:52
+ * @LastEditTime: 2023-10-31 15:39:11
  * @FilePath: \zero-admin-ui-master\mock\aialert.ts
  * @Description:
  *
@@ -21,6 +21,144 @@ export default {
 
   // 巡检计划查询
   'POST /api/uav/alert/list': (req: Request, res: Response) => {
+    // 生成 ListtAlertHistoryData 的模拟数据
+    const mockListtAlertHistoryData = () => {
+      return Mock.mock({
+        id: '999',
+        name: '@cname',
+        image: '@image',
+        type: '@integer(0, 3)',
+        code: '@string("number", 6)',
+        level: '@integer(1, 5)',
+        count: '@integer(1, 10)',
+        platform: '@integer(0, 4)',
+        start_time: '@datetime("yyyy-MM-dd HH:mm:ss")',
+        end_time: '@datetime("yyyy-MM-dd HH:mm:ss")',
+        note: '@sentence(6, 12)',
+        lan: '@integer(1, 100)',
+        lon: '@integer(1, 100)',
+        altitude: '@integer(1, 100)',
+        confirm: '@integer(0, 1)',
+      });
+    };
+
+    // 生成 ListAlertHistoryResp 的模拟数据
+    const mockListAlertHistoryResp = () => {
+      const data = [];
+      for (let i = 0; i < 8; i++) {
+        data.push(mockListtAlertHistoryData());
+      }
+
+      return Mock.mock({
+        data: data,
+        current: 1,
+        pageSize: 10,
+        success: true,
+        total: 100,
+        code: '200',
+        message: '成功',
+      });
+    };
+
+    // 调用函数生成模拟数据
+    const mockData = mockListAlertHistoryResp();
+
+    res.json(mockData);
+  },
+  // 摄像头设备
+  'POST /api/uav/camera/list': (req: Request, res: Response) => {
+    // 生成 ListtAlertHistoryData 的模拟数据
+    const mockListtAlertHistoryData = () => {
+      return Mock.mock({
+        id: '999',
+        name: '@cname',
+        image: '@image',
+        type: '@integer(0, 3)',
+        code: '@string("number", 6)',
+        level: '@integer(1, 5)',
+        count: '@integer(1, 10)',
+        platform: '@integer(0, 4)',
+        start_time: '@datetime("yyyy-MM-dd HH:mm:ss")',
+        end_time: '@datetime("yyyy-MM-dd HH:mm:ss")',
+        note: '@sentence(6, 12)',
+        lan: '@integer(1, 100)',
+        lon: '@integer(1, 100)',
+        altitude: '@integer(1, 100)',
+        confirm: '@integer(0, 1)',
+      });
+    };
+
+    // 生成 ListAlertHistoryResp 的模拟数据
+    const mockListAlertHistoryResp = () => {
+      const data = [];
+      for (let i = 0; i < 8; i++) {
+        data.push(mockListtAlertHistoryData());
+      }
+
+      return Mock.mock({
+        data: data,
+        current: 1,
+        pageSize: 10,
+        success: true,
+        total: 100,
+        code: '200',
+        message: '成功',
+      });
+    };
+
+    // 调用函数生成模拟数据
+    const mockData = mockListAlertHistoryResp();
+
+    res.json(mockData);
+  },
+  // 告警人员识别
+  'POST /api/uav/people/list': (req: Request, res: Response) => {
+    // 生成 ListtAlertHistoryData 的模拟数据
+    const mockListtAlertHistoryData = () => {
+      return Mock.mock({
+        id: '999',
+        name: '@cname',
+        image: '@image',
+        type: '@integer(0, 3)',
+        code: '@string("number", 6)',
+        level: '@integer(1, 5)',
+        count: '@integer(1, 10)',
+        platform: '@integer(0, 4)',
+        start_time: '@datetime("yyyy-MM-dd HH:mm:ss")',
+        end_time: '@datetime("yyyy-MM-dd HH:mm:ss")',
+        note: '@sentence(6, 12)',
+        lan: '@integer(1, 100)',
+        lon: '@integer(1, 100)',
+        altitude: '@integer(1, 100)',
+        confirm: '@integer(0, 1)',
+      });
+    };
+
+    // 生成 ListAlertHistoryResp 的模拟数据
+    const mockListAlertHistoryResp = () => {
+      const data = [];
+      for (let i = 0; i < 8; i++) {
+        data.push(mockListtAlertHistoryData());
+      }
+
+      return Mock.mock({
+        data: data,
+        current: 1,
+        pageSize: 10,
+        success: true,
+        total: 100,
+        code: '200',
+        message: '成功',
+      });
+    };
+
+    // 调用函数生成模拟数据
+    const mockData = mockListAlertHistoryResp();
+
+    res.json(mockData);
+  },
+  // 巡检计划查询
+  'POST /api/uav/car/list': (req: Request, res: Response) => {
     // 生成 ListtAlertHistoryData 的模拟数据
     const mockListtAlertHistoryData = () => {
       return Mock.mock({
