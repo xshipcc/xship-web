@@ -2,14 +2,14 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-24 18:10:03
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-31 16:39:21
- * @FilePath: \zero-admin-ui-master\src\pages\AIrecognition\car\components\CreateFlashForm.tsx
+ * @LastEditTime: 2023-11-01 10:26:05
+ * @FilePath: \zero-admin-ui-master\src\pages\AIrecognition\people\components\CreateFlashForm.tsx
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
 import React, { useEffect, useState } from 'react';
-import { Form, Input, Modal, InputNumber, Upload, Select } from 'antd';
+import { Form, Input, Modal, InputNumber, Upload, Select, DatePicker, DatePickerProps } from 'antd';
 import type { AddPeopleReq } from '../data.d';
 import { PlusOutlined } from '@ant-design/icons';
 
@@ -28,6 +28,7 @@ const formLayout = {
 
 const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
   const [form] = Form.useForm();
+  const [create_time, setCreate_time] = useState<string>('');
 
   // const [startDate, setStartDate] = useState<string>('');
   // const [endDate, setEndDate] = useState<string>('');
@@ -47,12 +48,23 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
 
   const handleFinish = (values: AddPeopleReq) => {
     if (onSubmit) {
-      onSubmit({ ...values });
-      // onSubmit({ ...values, startDate, endDate });
+      onSubmit({ ...values, create_time });
     }
   };
 
-  // export interface AddPeopleReq {
+  const normFile = (e: any) => {
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e?.fileList;
+  };
+
+  const onChangeCreate: DatePickerProps['onChange'] = (date, dateString) => {
+    console.log('dateString:', dateString);
+    setCreate_time(dateString);
+  };
+  // export interface ListPeopleData {
+  //   id: number;
   //   level: number;
   //   username: string;
   //   phone: string;
@@ -62,33 +74,17 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
   //   create_time: string;
   // }
 
-  const normFile = (e: any) => {
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e?.fileList;
-  };
   const renderContent = () => {
     return (
       <>
         <FormItem
-          name="name"
-          label="车辆名称"
-          rules={[{ required: true, message: '请输入车辆名称!' }]}
+          name="username"
+          label="用户名称"
+          rules={[{ required: true, message: '请输入用户名称!' }]}
         >
-          <Input id="update-title" placeholder={'请输入车辆名称'} />
+          <Input id="update-title" placeholder={'请输入用户名称'} />
         </FormItem>
-        <FormItem name="card" label="车牌号" rules={[{ required: true, message: '请输入车牌号!' }]}>
-          <Input id="update-title" placeholder={'请输入车牌号'} />
-        </FormItem>
-        {/* <FormItem
-          name="photo"
-          label="车辆照片"
-          rules={[{ required: true, message: '请输入车辆照片!' }]}
-        >
-          <InputNumber placeholder={'请输入车辆照片'} />
-        </FormItem> */}
-        <FormItem label="车辆照片" name="photo" getValueFromEvent={normFile}>
+        <FormItem label="用户头像" name="icon" getValueFromEvent={normFile}>
           <Upload action="/upload.do" listType="picture-card">
             <div>
               <PlusOutlined />
@@ -97,9 +93,9 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
           </Upload>
         </FormItem>
         <FormItem
-          name="type"
-          label="车辆等级"
-          rules={[{ required: true, message: '请输入车辆等级!' }]}
+          name="level"
+          label="人员等级"
+          rules={[{ required: true, message: '请输入人员等级!' }]}
         >
           <Select id="showStatus">
             <Select.Option value={0}>本部</Select.Option>
@@ -108,11 +104,11 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
           </Select>
         </FormItem>
         <FormItem
-          name="agency"
-          label="所属机构"
-          rules={[{ required: true, message: '请输入所属机构!' }]}
+          name="phone"
+          label="手机号码"
+          rules={[{ required: true, message: '请输入手机号码!' }]}
         >
-          <InputNumber id="update-title" placeholder={'请输入所属机构'} />
+          <InputNumber id="update-title" placeholder={'请输入手机号码'} />
         </FormItem>
         <FormItem
           name="status"
@@ -124,15 +120,20 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
             <Select.Option value={1}>启用</Select.Option>
           </Select>
         </FormItem>
-        {/* <FormItem name="rangeDate" label="活动日期">
-          <RangePicker onChange={onChange} />
-        </FormItem>
-        <FormItem name="status" label="上下线状态" initialValue={1}>
-          <Select id="status" placeholder={'请选择状态'}>
-            <Option value={0}>停用</Option>
-            <Option value={1}>启用</Option>
+        <FormItem
+          name="gender"
+          label="账号状态"
+          rules={[{ required: true, message: '请输入账号状态!' }]}
+        >
+          <Select id="showStatus">
+            <Select.Option value={0}>未知</Select.Option>
+            <Select.Option value={1}>男</Select.Option>
+            <Select.Option value={2}>女</Select.Option>
           </Select>
-        </FormItem> */}
+        </FormItem>
+        <FormItem label="创建时间">
+          <DatePicker showTime onChange={onChangeCreate} />
+        </FormItem>
       </>
     );
   };
@@ -143,7 +144,7 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
     <Modal
       forceRender
       destroyOnClose
-      title="新建无人机信息"
+      title="新建人员信息"
       open={createModalVisible}
       {...modalFooter}
     >

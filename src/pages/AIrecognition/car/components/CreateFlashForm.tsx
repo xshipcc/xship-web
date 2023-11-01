@@ -142,7 +142,7 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
     <Modal
       forceRender
       destroyOnClose
-      title="新建无人机信息"
+      title="新建车辆信息"
       open={createModalVisible}
       {...modalFooter}
     >

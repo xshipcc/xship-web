@@ -187,7 +187,7 @@ const FlashPromotionList: React.FC = () => {
   return (
     <PageContainer>
       <ProTable<ListCarData>
-        headerTitle="无人机列表"
+        headerTitle="车辆列表"
         actionRef={actionRef}
         rowKey="id"
         search={{

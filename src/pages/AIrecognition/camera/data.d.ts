@@ -1,3 +1,13 @@
+/*
+ * @Author: weiaodi 1635654853@qq.com
+ * @Date: 2023-11-01 10:34:48
+ * @LastEditors: weiaodi 1635654853@qq.com
+ * @LastEditTime: 2023-11-01 10:35:47
+ * @FilePath: \zero-admin-ui-master\src\pages\AIrecognition\camera\data.d.ts
+ * @Description:
+ *
+ * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
+ */
 /**
  *  @file data.d.ts
  *  @time 2023/10/31

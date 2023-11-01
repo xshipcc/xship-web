@@ -144,7 +144,7 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
     <Modal
       forceRender
       destroyOnClose
-      title="修改无人机信息"
+      title="修改车辆信息"
       open={updateModalVisible}
       {...modalFooter}
     >

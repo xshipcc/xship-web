@@ -14,28 +14,19 @@ import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
 import CreateFlashForm from './components/CreateFlashForm';
 import UpdateFlashForm from './components/UpdateFlashForm';
 
-import type { ListUavNetworkDataType, AddUavNetworkReqType } from './data.d';
+import type { ListCamerasData, AddCamerasReq } from './data.d';
 
-import { addNetwork, queryNetwork, removeNetwork, updateNetwork } from './service';
+import { addCameras, queryCameras, removeCameras, updateCameras } from './service';
 
 const { confirm } = Modal;
 /**
  * 添加节点
  * @param fields
  */
-const handleAdd = async (fields: AddUavNetworkReqType) => {
+const handleAdd = async (fields: AddCamerasReq) => {
   const hide = message.loading('正在添加');
   try {
-    // const demodata = await addNetwork({
-    //   name: 'test',
-    //   ip: '192.1.1.1',
-    //   port: 111,
-    //   hangar_ip: '222',
-    //   hangar_port: 22,
-    // });
-    // console.log('handleAdd -> demodata:', demodata);
-
-    await addNetwork({ ...fields });
+    await addCameras({ ...fields });
     hide();
     message.success('添加成功');
     return true;
@@ -50,11 +41,11 @@ const handleAdd = async (fields: AddUavNetworkReqType) => {
  * 更新节点
  * @param fields
  */
-const handleUpdate = async (fields: ListUavNetworkDataType) => {
+const handleUpdate = async (fields: ListCamerasData) => {
   console.log('handleUpdate -> fields:', fields);
   const hide = message.loading('正在更新');
   try {
-    await updateNetwork(fields);
+    await updateCameras(fields);
     hide();
 
     message.success('更新成功');
@@ -70,11 +61,11 @@ const handleUpdate = async (fields: ListUavNetworkDataType) => {
  *  删除节点
  * @param selectedRows
  */
-const handleRemove = async (selectedRows: ListUavNetworkDataType[]) => {
+const handleRemove = async (selectedRows: ListCamerasData[]) => {
   const hide = message.loading('正在删除');
   if (!selectedRows) return true;
   try {
-    await removeNetwork({
+    await removeCameras({
       ids: selectedRows.map((row) => row.id),
     });
     hide();
@@ -92,12 +83,10 @@ const FlashPromotionList: React.FC = () => {
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
   const [showDetail, setShowDetail] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
-  const [currentRow, setCurrentRow] = useState<ListUavNetworkDataType>();
-  const [selectedRowsState, setSelectedRows] = useState<ListUavNetworkDataType[]>([]);
+  const [currentRow, setCurrentRow] = useState<ListCamerasData>();
+  const [selectedRowsState, setSelectedRows] = useState<ListCamerasData[]>([]);
 
-  // queryNetwork();
-
-  const showDeleteConfirm = (item: ListUavNetworkDataType) => {
+  const showDeleteConfirm = (item: ListCamerasData) => {
     confirm({
       title: '是否删除记录?',
       icon: <ExclamationCircleOutlined />,
@@ -111,29 +100,72 @@ const FlashPromotionList: React.FC = () => {
     });
   };
 
-  // interface ListtUavNetworkDataType {
+  // export interface ListCamerasData {
   //   id: number;
-  //   name: string; // 频段名称
-  //   band: number; // 频段号
-  //   type: number; // 频段类型
+  //   name: string;
+  //   ip: string;
+  //   platform: number; //监控的平台 '使用平台：0-全部 1-飞机 2-摄像头;3-机库;4-AI',
+  //   tunnel: number;
+  //   url: string;
+  //   lat: number;
+  //   lon: number;
+  //   alt: number;
+  //   status: number;
   // }
-  const columns: ProColumns<ListUavNetworkDataType>[] = [
+
+  const columns: ProColumns<ListCamerasData>[] = [
     {
       title: '主键',
       dataIndex: 'id',
       hideInSearch: true,
     },
     {
-      title: '频段名称',
+      title: '摄像头名称',
       dataIndex: 'name',
     },
     {
-      title: '频段号',
-      dataIndex: 'band',
+      title: '摄像头ip地址',
+      dataIndex: 'ip',
     },
     {
-      title: '频段类型',
-      dataIndex: 'type',
+      title: '摄像头平台',
+      dataIndex: 'platform',
+      valueEnum: {
+        0: { text: '全部', color: '#282c34' },
+        1: { text: '飞机', color: '#4d78cc' },
+        2: { text: '摄像头', color: '#d4504d' },
+        3: { text: '机库', color: '#d4504d' },
+        4: { text: 'AI', color: '#d4504d' },
+      },
+    },
+    {
+      title: '摄像头通道',
+      dataIndex: 'tunnel',
+    },
+    {
+      title: '摄像头地址',
+      dataIndex: 'url',
+    },
+    {
+      title: '经度',
+      dataIndex: 'lon',
+    },
+    {
+      title: '维度',
+      dataIndex: 'lat',
+    },
+    {
+      title: '高度',
+      dataIndex: 'alt',
+    },
+    {
+      title: '摄像头状态',
+      dataIndex: 'status',
+      valueEnum: {
+        0: { text: '禁用', color: '#4d78cc' },
+        1: { text: '启用', color: '#282c34' },
+        3: { text: '故障', color: '#282c34' },
+      },
     },
     {
       title: '操作',
@@ -169,8 +201,8 @@ const FlashPromotionList: React.FC = () => {
 
   return (
     <PageContainer>
-      <ProTable<ListUavNetworkDataType>
-        headerTitle="无人机网络频段列表"
+      <ProTable<ListCamerasData>
+        headerTitle="摄像头列表"
         actionRef={actionRef}
         rowKey="id"
         search={{
@@ -178,10 +210,10 @@ const FlashPromotionList: React.FC = () => {
         }}
         toolBarRender={() => [
           <Button type="primary" onClick={() => handleModalVisible(true)}>
-            <PlusOutlined /> 新建网络频段
+            <PlusOutlined /> 新建摄像头
           </Button>,
         ]}
-        request={queryNetwork}
+        request={queryCameras}
         columns={columns}
         rowSelection={{
           onChange: (_, selectedRows) => setSelectedRows(selectedRows),
@@ -251,6 +283,30 @@ const FlashPromotionList: React.FC = () => {
         updateModalVisible={updateModalVisible}
         values={currentRow || {}}
       />
+
+      <Drawer
+        width={600}
+        visible={showDetail}
+        onClose={() => {
+          setCurrentRow(undefined);
+          setShowDetail(false);
+        }}
+        closable={false}
+      >
+        {currentRow?.id && (
+          <ProDescriptions<ListCamerasData>
+            column={2}
+            title={currentRow?.id}
+            request={async () => ({
+              data: currentRow || {},
+            })}
+            params={{
+              id: currentRow?.id,
+            }}
+            columns={columns as ProDescriptionsItemProps<ListCamerasData>[]}
+          />
+        )}
+      </Drawer>
     </PageContainer>
   );
 };

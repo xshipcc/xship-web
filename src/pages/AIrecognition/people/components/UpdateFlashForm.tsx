@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Form, Input, InputNumber, Modal, Select, Upload } from 'antd';
+import { DatePicker, Form, Input, InputNumber, Modal, Select, Upload } from 'antd';
 import type { UpdatePeopleReq } from '../data.d';
 import { PlusOutlined } from '@ant-design/icons';
 // interface UpdatePeopleReq {
@@ -82,23 +82,13 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
           <InputNumber id="update-id" placeholder="请输入主键" />
         </FormItem>
         <FormItem
-          name="name"
-          label="车辆名称"
-          rules={[{ required: true, message: '请输入车辆名称!' }]}
+          name="username"
+          label="用户名称"
+          rules={[{ required: true, message: '请输入用户名称!' }]}
         >
-          <Input id="update-title" placeholder={'请输入车辆名称'} />
+          <Input id="update-title" placeholder={'请输入用户名称'} />
         </FormItem>
-        <FormItem name="card" label="车牌号" rules={[{ required: true, message: '请输入车牌号!' }]}>
-          <Input id="update-title" placeholder={'请输入车牌号'} />
-        </FormItem>
-        {/* <FormItem
-          name="photo"
-          label="车辆照片"
-          rules={[{ required: true, message: '请输入车辆照片!' }]}
-        >
-          <InputNumber placeholder={'请输入车辆照片'} />
-        </FormItem> */}
-        <FormItem label="车辆照片" name="photo" getValueFromEvent={normFile}>
+        <FormItem label="用户头像" name="icon" getValueFromEvent={normFile}>
           <Upload action="/upload.do" listType="picture-card">
             <div>
               <PlusOutlined />
@@ -107,9 +97,9 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
           </Upload>
         </FormItem>
         <FormItem
-          name="type"
-          label="车辆等级"
-          rules={[{ required: true, message: '请输入车辆等级!' }]}
+          name="level"
+          label="人员等级"
+          rules={[{ required: true, message: '请输入人员等级!' }]}
         >
           <Select id="showStatus">
             <Select.Option value={0}>本部</Select.Option>
@@ -118,11 +108,11 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
           </Select>
         </FormItem>
         <FormItem
-          name="agency"
-          label="所属机构"
-          rules={[{ required: true, message: '请输入所属机构!' }]}
+          name="phone"
+          label="手机号码"
+          rules={[{ required: true, message: '请输入手机号码!' }]}
         >
-          <InputNumber id="update-title" placeholder={'请输入所属机构'} />
+          <InputNumber id="update-title" placeholder={'请输入手机号码'} />
         </FormItem>
         <FormItem
           name="status"
@@ -134,6 +124,20 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
             <Select.Option value={1}>启用</Select.Option>
           </Select>
         </FormItem>
+        <FormItem
+          name="gender"
+          label="账号状态"
+          rules={[{ required: true, message: '请输入账号状态!' }]}
+        >
+          <Select id="showStatus">
+            <Select.Option value={0}>未知</Select.Option>
+            <Select.Option value={1}>男</Select.Option>
+            <Select.Option value={2}>女</Select.Option>
+          </Select>
+        </FormItem>
+        {/* <FormItem label="创建时间">
+          <DatePicker showTime onChange={onChangeCreate} />
+        </FormItem> */}
       </>
     );
   };
@@ -144,7 +148,7 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
     <Modal
       forceRender
       destroyOnClose
-      title="修改无人机信息"
+      title="修改人员信息"
       open={updateModalVisible}
       {...modalFooter}
     >

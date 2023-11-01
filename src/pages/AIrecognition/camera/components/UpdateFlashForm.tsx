@@ -1,12 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import { DatePicker, DatePickerProps, Form, Input, InputNumber, Modal, Select } from 'antd';
-import { ListUavNetworkDataType } from '../data.d';
+import React, { useEffect } from 'react';
+import { Form, Input, InputNumber, Modal, Select, Upload } from 'antd';
+import type { UpdateCamerasReq } from '../data.d';
+import { PlusOutlined } from '@ant-design/icons';
+// interface UpdateCamerasReq {
+//   id: number;
+//   name: string;
+//   growth: number;
+//   intergration: number;
+//   type: number;
+// }
 
 export interface UpdateFormProps {
   onCancel: () => void;
-  onSubmit: (values: ListUavNetworkDataType) => void;
+  onSubmit: (values: UpdateCamerasReq) => void;
   updateModalVisible: boolean;
-  values: Partial<ListUavNetworkDataType>;
+  values: Partial<UpdateCamerasReq>;
 }
 
 const FormItem = Form.Item;
@@ -47,16 +55,25 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
 
   const handleFinish = (item: { [key: string]: any }) => {
     if (onSubmit) {
-      // onSubmit({ ...(item as ListUavNetworkDataType), startDate, endDate });
-      onSubmit({ ...(item as ListUavNetworkDataType) });
+      // onSubmit({ ...(item as UpdateCamerasReq), startDate, endDate });
+      onSubmit({ ...(item as UpdateCamerasReq) });
     }
   };
-
-  // export interface ListUavNetworkDataType {
+  const normFile = (e: any) => {
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e?.fileList;
+  };
+  // export interface UpdateCamerasReq {
   //   id: number;
-  //   name: string; // 频段名称
-  //   band: number; // 频段号
-  //   type: number; // 频段类型
+  //   name: string;
+  //   camerad: string;
+  //   photo: string;
+  //   type: number;
+  //   phone: string;
+  //   agency: string;
+  //   status: number;
   // }
   const renderContent = () => {
     return (
@@ -66,24 +83,58 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
         </FormItem>
         <FormItem
           name="name"
-          label="频段名称"
-          rules={[{ required: true, message: '请输入频段名称!' }]}
+          label="摄像头名称"
+          rules={[{ required: true, message: '请输入摄像头名称!' }]}
         >
-          <Input id="update-title" placeholder={'请输入频段名称'} />
+          <Input id="update-title" placeholder={'请输入摄像头名称'} />
         </FormItem>
         <FormItem
-          name="band"
-          label="无人机频段"
-          rules={[{ required: true, message: '请输入无人机频段!' }]}
+          name="ip"
+          label="摄像头ip"
+          rules={[{ required: true, message: '请输入摄像头ip!' }]}
         >
-          <InputNumber id="update-title" placeholder={'请输入无人机频段'} />
+          <Input id="update-title" placeholder={'请输入摄像头ip'} />
+        </FormItem>
+
+        <FormItem
+          name="platform"
+          label="摄像头平台"
+          rules={[{ required: true, message: '请输入摄像头平台!' }]}
+        >
+          <Select id="showStatus">
+            <Select.Option value={0}>全部</Select.Option>
+            <Select.Option value={1}>飞机</Select.Option>
+            <Select.Option value={2}>摄像头</Select.Option>
+            <Select.Option value={3}>机库</Select.Option>
+            <Select.Option value={4}>AI</Select.Option>
+          </Select>
         </FormItem>
         <FormItem
-          name="type"
-          label="无人机频段类型"
-          rules={[{ required: true, message: '请输入无人机频段类型!' }]}
+          name="tunnel"
+          label="摄像头通道"
+          rules={[{ required: true, message: '请输入摄像头通道!' }]}
         >
-          <InputNumber id="update-title" placeholder={'请输入无人机频段类型'} />
+          <InputNumber id="update-title" placeholder={'请输入摄像头通道'} />
+        </FormItem>
+        <FormItem name="lat" label="维度" rules={[{ required: true, message: '请输入维度!' }]}>
+          <InputNumber id="update-title" placeholder={'请输入维度'} />
+        </FormItem>
+        <FormItem name="lon" label="经度" rules={[{ required: true, message: '请输入经度!' }]}>
+          <InputNumber id="update-title" placeholder={'请输入经度'} />
+        </FormItem>
+        <FormItem name="alt" label="高度" rules={[{ required: true, message: '请输入高度!' }]}>
+          <InputNumber id="update-title" placeholder={'请输入摄像头通道'} />
+        </FormItem>
+        <FormItem
+          name="status"
+          label="摄像头状态"
+          rules={[{ required: true, message: '请输入摄像头状态!' }]}
+        >
+          <Select id="showStatus">
+            <Select.Option value={0}>禁止</Select.Option>
+            <Select.Option value={1}>启用</Select.Option>
+            <Select.Option value={1}>故障</Select.Option>
+          </Select>
         </FormItem>
       </>
     );
@@ -95,7 +146,7 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
     <Modal
       forceRender
       destroyOnClose
-      title="修改无人机频段信息"
+      title="修改摄像头信息"
       open={updateModalVisible}
       {...modalFooter}
     >

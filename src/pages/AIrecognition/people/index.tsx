@@ -120,6 +120,7 @@ const FlashPromotionList: React.FC = () => {
     {
       title: '人员等级',
       dataIndex: 'level',
+      hideInSearch: true,
       valueEnum: {
         0: { text: '本部', color: '#282c34' },
         1: { text: '外来', color: '#4d78cc' },
@@ -143,32 +144,35 @@ const FlashPromotionList: React.FC = () => {
       },
     },
     {
-      title: '车辆照片',
-      dataIndex: 'photo',
+      title: '用户头像',
+      dataIndex: 'icon',
       valueType: 'image',
       fieldProps: { width: 100, height: 80 },
       hideInSearch: true,
     },
     {
-      title: '车辆等级',
-      dataIndex: 'type',
-      valueEnum: {
-        0: { text: '本部', color: '#282c34' },
-        1: { text: '外来', color: '#4d78cc' },
-        2: { text: '工程', color: '#d4504d' },
-      },
-    },
-    {
-      title: '所属机构',
-      dataIndex: 'agency',
-    },
-    {
       title: '账号状态',
+      hideInSearch: true,
       dataIndex: 'status',
       valueEnum: {
         0: { text: '禁用', color: '#4d78cc' },
         1: { text: '启用', color: '#282c34' },
       },
+    },
+    {
+      title: '性别',
+      hideInSearch: true,
+      dataIndex: 'gender',
+      valueEnum: {
+        0: { text: '未知', color: '#4d78cc' },
+        1: { text: '男', color: '#282c34' },
+        2: { text: '女', color: '#212c34' },
+      },
+    },
+    {
+      hideInSearch: true,
+      title: '创建时间',
+      dataIndex: 'create_time',
     },
     {
       title: '操作',
@@ -205,7 +209,7 @@ const FlashPromotionList: React.FC = () => {
   return (
     <PageContainer>
       <ProTable<ListPeopleData>
-        headerTitle="无人机列表"
+        headerTitle="人员列表"
         actionRef={actionRef}
         rowKey="id"
         search={{
@@ -213,7 +217,7 @@ const FlashPromotionList: React.FC = () => {
         }}
         toolBarRender={() => [
           <Button type="primary" onClick={() => handleModalVisible(true)}>
-            <PlusOutlined /> 新建车辆
+            <PlusOutlined /> 新建人员
           </Button>,
         ]}
         request={queryPeople}
