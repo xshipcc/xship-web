@@ -115,7 +115,7 @@
       -ms-user-select: none;
       user-select: none;
     }
-    .ant-btn {
+    .ant-btn:nth-child(1) {
       position: relative;
       display: inline-block;
       width: 180px;
@@ -139,7 +139,30 @@
       user-select: none;
       touch-action: manipulation;
     }
-
+    .ant-btn:nth-child(2) {
+      position: relative;
+      display: inline-block;
+      width: 180px;
+      height: 42px;
+      // margin-right: 15px;
+      margin-left: 15px;
+      padding: 0px;
+      color: #ffffff;
+      font-weight: 400;
+      font-size: 24px;
+      font-family: YouSheBiaoTiHei;
+      line-height: 1.5715;
+      white-space: nowrap;
+      text-align: center;
+      text-shadow: 0px 0px 12px 0px rgba(50, 160, 244, 0.6);
+      background: rgba(14, 70, 116, 0.3);
+      border: 1px solid #5cb6ff;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: 0.5s linear;
+      user-select: none;
+      touch-action: manipulation;
+    }
     .ant-form-item {
       box-sizing: border-box;
       width: 180px;
@@ -305,104 +328,50 @@
 
 .listinfo {
   width: 100%;
-  height: 80px;
-  background: rgba(14, 70, 116, 0.548);
-  border: 1px solid #5cb6ff;
-  border-radius: 0px;
-  cursor: pointer;
-  :global {
-    .ant-image-img {
-      width: 120px;
-      height: 80px;
-      vertical-align: middle;
-    }
-    .ant-badge-status-text {
-      margin-left: 8px;
-      color: rgb(255, 255, 255);
-      font-size: 20px;
-    }
-  }
-
-  .alertcontent {
-    width: 100%;
-    margin: 0%;
-    // margin-top: 0.2vh;
-    padding: 0%;
-    // font-weight: bold;
-    text-align: center; /* 设置文本水平对齐方式为居中 */
-
-    .alertTitle {
-      // margin-top: 0.2vh;
-      width: 100%;
-      margin: 0%;
-      padding: 0%;
-      overflow: hidden;
-      color: #ffffff;
-      font-weight: 400;
-      font-weight: bolder;
-      font-size: 16px;
-      font-family: YouSheBiaoTiHei;
-      text-align: center;
-      text-shadow: 0px 0px 12px 0px rgba(50, 160, 244, 0.6);
-    }
-    .alertInfo {
-      width: 100%;
-      max-height: 3vh;
-      overflow: hidden;
-      // margin-top: 0.2vh;
-      color: rgb(229, 229, 229);
-      font-size: 14px;
-      // font-weight: bold;
-      text-align: left; /* 设置文本水平对齐方式为居中 */
-    }
-    .alertInfoTitle {
-      width: 100%;
-      max-height: 3vh;
-      padding-left: 3px;
-      overflow: hidden;
-      // margin-top: 0.2vh;
-      color: rgb(236, 236, 236);
-      font-weight: 200px;
-      font-size: 14px;
-      text-align: right; /* 设置文本水平对齐方式为居中 */
-    }
-  }
-}
-
-.drawer {
-  width: 100%;
-  height: 750px;
-  font-size: 18px;
+  height: 110px;
+  padding: 5px;
+  color: #ffffff;
   background: rgba(14, 70, 116, 0.548);
   border: 1px solid #5cb6ff;
   border-radius: 8px;
-
-  :global {
-    .ant-image-img {
-      width: 380px;
-      height: 200px;
-      padding-right: 20px;
-      padding-bottom: 5px;
-      padding-left: 20px;
-      vertical-align: middle;
-    }
-  }
-  .title {
-    padding-top: 10px;
+  cursor: pointer;
+  .historyTitle {
+    // margin-top: 0.2vh;
+    width: 100%;
+    margin: 0%;
+    padding: 0%;
+    overflow: hidden;
     color: #ffffff;
     font-weight: 400;
+    font-weight: bolder;
     font-size: 24px;
     font-family: YouSheBiaoTiHei;
     text-align: center;
-    cursor: pointer;
+    text-shadow: 0px 0px 12px 0px rgba(50, 160, 244, 0.6);
   }
-}
-.buttonRow {
-  position: absolute;
-  z-index: 1;
-}
-.buttonRow2 {
-  position: absolute;
-  top: 250px;
-  z-index: 1;
+  .historyInfo {
+    width: 100%;
+    overflow: hidden;
+    color: #ffffff;
+    // margin-top: 0.2vh;
+    color: rgb(229, 229, 229);
+    font-weight: 400;
+    font-size: 16px;
+    font-family: YouSheBiaoTiHei;
+    // font-weight: bold;
+    text-align: left; /* 设置文本水平对齐方式为居中 */
+  }
+  .historyInfoTitle {
+    width: 100%;
+    padding-left: 3px;
+    overflow: hidden;
+    color: #ffffff;
+    // margin-top: 0.2vh;
+    color: rgb(236, 236, 236);
+    font-weight: 400;
+    font-weight: 600px;
+    font-size: 16px;
+    font-family: YouSheBiaoTiHei;
+    text-align: left; /* 设置文本水平对齐方式为居中 */
+  }
 }

@@ -278,11 +278,11 @@ export default {
       'data|10': [
         {
           id: '@integer(1, 100)',
-          uavId: '@integer(1, 100)',
-          flyId: '@integer(1, 100)',
+          uav_id: '@integer(1, 100)',
+          fly_id: '@integer(1, 100)',
           operator: '@cname',
-          createTime: '@datetime',
-          endTime: '@datetime',
+          create_time: '@datetime',
+          end_time: '@datetime',
         },
       ],
       current: 1,

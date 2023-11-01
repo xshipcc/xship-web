@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-09 20:12:31
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-18 00:07:49
+ * @LastEditTime: 2023-11-02 00:12:20
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Header\index.tsx
  * @Description:
  *
@@ -19,19 +19,17 @@ import { history } from 'umi';
 export const Header: React.FC = () => {
   //   const currentComponent = useSelector((state: any) => state.dashboardModel.currentComponent);
   const dispatch = useDispatch();
+  const currentComponent = useSelector((state: any) => state.dashboardModel.currentComponent);
+  const [activeIndex, setActiveIndex] = useState(currentComponent);
 
   const ChangeComponent = (componentName: string) => {
     dispatch({
       type: 'dashboardModel/changeCurrentComponent',
       payload: componentName,
     });
+    setActiveIndex(componentName);
   };
 
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  const handleClick = (index: number) => {
-    setActiveIndex(index);
-  };
   return (
     <div>
       <Timer />
@@ -44,10 +42,9 @@ export const Header: React.FC = () => {
           <Col span={2} offset={8}>
             <Button
               type="text"
-              className={activeIndex === 0 ? styles.buttonActive : styles.button}
+              className={activeIndex === 'Analysis' ? styles.buttonActive : styles.button}
               onClick={() => {
                 ChangeComponent('Analysis');
-                handleClick(0);
               }}
             >
               统计分析
@@ -56,10 +53,9 @@ export const Header: React.FC = () => {
           <Col span={2}>
             <Button
               type="text"
-              className={activeIndex === 1 ? styles.buttonActive : styles.button}
+              className={activeIndex === 'Awareness' ? styles.buttonActive : styles.button}
               onClick={() => {
                 ChangeComponent('Awareness');
-                handleClick(1);
               }}
             >
               态势感知
@@ -68,10 +64,9 @@ export const Header: React.FC = () => {
           <Col span={2}>
             <Button
               type="text"
-              className={activeIndex === 2 ? styles.buttonActive : styles.button}
+              className={activeIndex === 'Monitor' ? styles.buttonActive : styles.button}
               onClick={() => {
                 ChangeComponent('Monitor');
-                handleClick(2);
               }}
             >
               监控查看
@@ -80,10 +75,9 @@ export const Header: React.FC = () => {
           <Col span={2}>
             <Button
               type="text"
-              className={activeIndex === 3 ? styles.buttonActive : styles.button}
+              className={activeIndex === 'Routemark' ? styles.buttonActive : styles.button}
               onClick={() => {
                 ChangeComponent('Routemark');
-                handleClick(3);
               }}
             >
               路径规划

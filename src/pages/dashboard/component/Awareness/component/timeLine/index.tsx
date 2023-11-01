@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-18 15:51:21
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-30 16:14:59
+ * @LastEditTime: 2023-11-01 11:13:44
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\component\timeLine\index.tsx
  * @Description:
  *
@@ -91,8 +91,8 @@ const LineChart = (props: any) => {
           },
           type: 'slider',
           show: true,
-          height: 25,
-          top: 60,
+          height: 15,
+          top: 30,
           //   bottom: 10,
           borderColor: 'transparent',
           backgroundColor: '#28679d',
@@ -100,23 +100,24 @@ const LineChart = (props: any) => {
           handleIcon:
             'M512 512m-208 0a6.5 6.5 0 1 0 416 0 6.5 6.5 0 1 0-416 0Z M512 192C335.264 192 192 335.264 192 512c0 176.736 143.264 320 320 320s320-143.264 320-320C832 335.264 688.736 192 512 192zM512 800c-159.072 0-288-128.928-288-288 0-159.072 128.928-288 288-288s288 128.928 288 288C800 671.072 671.072 800 512 800z',
           handleColor: '#aab6c6',
-          handleSize: 20,
+          handleSize: 15,
           handleStyle: {
             borderColor: '#aab6c6',
-            shadowBlur: 4,
+            shadowBlur: 1,
             shadowOffsetX: 1,
             shadowOffsetY: 1,
             shadowColor: '#e5e5e5',
           },
+          zoomLock: true, //锁定选择的区域，不可以缩放，只能平移。不设置的话直接有默认值就行。
           start: 0, // 缩放范围的起始位置，数值表示对应 x 轴上的索引
-          end: 100, // 缩放范围的结束位置，数值表示对应 x 轴上的索引
+          end: 10, // 缩放范围的结束位置，数值表示对应 x 轴上的索引
         },
       ],
       grid: {
         top: '3%',
         left: '3%',
         right: '4%',
-        bottom: '45%',
+        bottom: '75%',
         containLabel: true,
       },
       xAxis: {
