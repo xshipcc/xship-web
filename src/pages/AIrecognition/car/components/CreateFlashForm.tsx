@@ -2,19 +2,20 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-24 18:10:03
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-28 16:21:44
- * @FilePath: \zero-admin-ui-master\src\pages\drone\device\components\CreateFlashForm.tsx
+ * @LastEditTime: 2023-10-31 16:39:21
+ * @FilePath: \zero-admin-ui-master\src\pages\AIrecognition\car\components\CreateFlashForm.tsx
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
 import React, { useEffect, useState } from 'react';
-import { Form, Input, Modal, InputNumber } from 'antd';
-import type { AddUavDeviceReqType } from '../data.d';
+import { Form, Input, Modal, InputNumber, Upload, Select } from 'antd';
+import type { AddCarReq } from '../data.d';
+import { PlusOutlined } from '@ant-design/icons';
 
 export interface CreateFormProps {
   onCancel: () => void;
-  onSubmit: (values: AddUavDeviceReqType) => void;
+  onSubmit: (values: AddCarReq) => void;
   createModalVisible: boolean;
 }
 
@@ -44,58 +45,83 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
     form.submit();
   };
 
-  const handleFinish = (values: AddUavDeviceReqType) => {
+  const handleFinish = (values: AddCarReq) => {
     if (onSubmit) {
       onSubmit({ ...values });
       // onSubmit({ ...values, startDate, endDate });
     }
   };
 
-  //
-  // interface AddUavDeviceReqType {
+  //   export interface AddCarReq {
   //   name: string;
-  //   ip: string;
-  //   port: number;
-  //   hangar_ip: string;
-  //   hangar_port: number;
+  //   card: string;
+  //   photo: string;
+  //   type: number;
+  //   phone: string;
+  //   agency: string;
+  //   status: number;
   // }
+  const normFile = (e: any) => {
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e?.fileList;
+  };
   const renderContent = () => {
     return (
       <>
         <FormItem
           name="name"
-          label="无人机名称"
-          rules={[{ required: true, message: '请输入无人机名称!' }]}
+          label="车辆名称"
+          rules={[{ required: true, message: '请输入车辆名称!' }]}
         >
-          <Input id="update-title" placeholder={'请输入无人机名称'} />
+          <Input id="update-title" placeholder={'请输入车辆名称'} />
+        </FormItem>
+        <FormItem name="card" label="车牌号" rules={[{ required: true, message: '请输入车牌号!' }]}>
+          <Input id="update-title" placeholder={'请输入车牌号'} />
+        </FormItem>
+        {/* <FormItem
+          name="photo"
+          label="车辆照片"
+          rules={[{ required: true, message: '请输入车辆照片!' }]}
+        >
+          <InputNumber placeholder={'请输入车辆照片'} />
+        </FormItem> */}
+        <FormItem label="车辆照片" name="photo" getValueFromEvent={normFile}>
+          <Upload action="/upload.do" listType="picture-card">
+            <div>
+              <PlusOutlined />
+              <div style={{ marginTop: 8 }}>上传</div>
+            </div>
+          </Upload>
         </FormItem>
         <FormItem
-          name="ip"
-          label="无人机ip地址"
-          rules={[{ required: true, message: '请输入无人机ip地址!' }]}
+          name="type"
+          label="车辆等级"
+          rules={[{ required: true, message: '请输入车辆等级!' }]}
         >
-          <Input id="update-title" placeholder={'请输入无人机ip地址'} />
+          <Select id="showStatus">
+            <Select.Option value={0}>本部</Select.Option>
+            <Select.Option value={1}>外来</Select.Option>
+            <Select.Option value={2}>工程</Select.Option>
+          </Select>
         </FormItem>
         <FormItem
-          name="port"
-          label="端口号"
-          rules={[{ required: true, message: '请输入无人机端口号!' }]}
+          name="agency"
+          label="所属机构"
+          rules={[{ required: true, message: '请输入所属机构!' }]}
         >
-          <InputNumber placeholder={'请输入端口号'} />
+          <InputNumber id="update-title" placeholder={'请输入所属机构'} />
         </FormItem>
         <FormItem
-          name="hangar_ip"
-          label="机库ip地址"
-          rules={[{ required: true, message: '请输入机库ip地址!' }]}
+          name="status"
+          label="账号状态"
+          rules={[{ required: true, message: '请输入账号状态!' }]}
         >
-          <Input id="update-title" placeholder={'请输入机库ip地址'} />
-        </FormItem>
-        <FormItem
-          name="hangar_port"
-          label="机库端口"
-          rules={[{ required: true, message: '请输入机库端口!' }]}
-        >
-          <InputNumber id="update-title" placeholder={'请输入机库端口'} />
+          <Select id="showStatus">
+            <Select.Option value={0}>禁止</Select.Option>
+            <Select.Option value={1}>启用</Select.Option>
+          </Select>
         </FormItem>
         {/* <FormItem name="rangeDate" label="活动日期">
           <RangePicker onChange={onChange} />

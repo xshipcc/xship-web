@@ -1,60 +1,76 @@
-/*
- * @Author: weiaodi 1635654853@qq.com
- * @Date: 2023-09-24 22:27:17
- * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-28 14:44:30
- * @FilePath: \zero-admin-ui-master\src\pages\drone\history\data.d.ts
- * @Description:
- *
- * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
- */
-
 /**
  *  @file data.d.ts
- *  @time 2023/09/27
+ *  @time 2023/10/31
  * @category :
  * @function :
  */
 //#region -------------------------------------------------------------------------
 
-export interface AddUavHistoryReqType {
-  uav_id: number; // 无人机id
-  fly_id: number; // 巡检路线id
-  operator: string; // 操作者
-  create_time: string; // 创建时间
-  end_time: string; // 结束时间
+export interface AddPeopleReq {
+  level: number;
+  username: string;
+  phone: string;
+  status: number;
+  icon: string;
+  gender: number;
+  create_time: string;
 }
 
-export interface AddUavHistoryRespType {
+export interface AddPeopleResp {
   code: string;
   message: string;
 }
 
-export interface ListUavHistoryReqType {
+export interface ListPeopleReq {
   current?: number;
   pageSize?: number;
-  operator?: string; // 操作者
-  create_time?: string; // 创建时间
-  end_time?: string; // 结束时间
-  uav_id?: number; // 无人机id
-  fly_id?: number; // 巡检路线id
+  username?: string;
+  phone?: string;
+  status?: number;
 }
 
-export interface ListUavHistoryDataType {
+export interface ListPeopleData {
   id: number;
-  uav_id: number; // 无人机id
-  fly_id: number; // 巡检路线id
-  operator: string; // 操作者
-  create_time: string; // 创建时间
-  end_time: string; // 结束时间
+  level: number;
+  username: string;
+  phone: string;
+  status: number;
+  icon: string;
+  gender: number;
+  create_time: string;
 }
 
-export interface ListUavHistoryRespType {
+export interface ListPeopleResp {
+  code: string;
+  message: string;
   current: number;
-  data: ListUavHistoryDataType[];
+  data: ListPeopleData[];
   pageSize: number;
   success: boolean;
   total: number;
+}
+
+export interface UpdatePeopleReq {
+  id: number;
+  level: number;
+  username: string;
+  phone: string;
+  status: number;
+  icon: string;
+  gender: number;
+  create_time: string;
+}
+
+export interface UpdatePeopleResp {
+  code: string;
+  message: string;
+}
+
+export interface DeletePeopleReq {
+  ids: number[];
+}
+
+export interface DeletePeopleResp {
   code: string;
   message: string;
 }

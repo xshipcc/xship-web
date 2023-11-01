@@ -12,24 +12,21 @@ import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProDescriptions from '@ant-design/pro-descriptions';
 import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
 import CreateFlashForm from './components/CreateFlashForm';
-import type {
-  ListUavHistoryDataType,
-  AddUavHistoryReqType,
-  ListUavHistoryRespType,
-} from './data.d';
-import { queryHistory, addHistory } from './service';
+import UpdateFlashForm from './components/UpdateFlashForm';
+
+import type { ListPeopleData, AddPeopleReq } from './data.d';
+
+import { addPeople, queryPeople, removePeople, updatePeople } from './service';
 
 const { confirm } = Modal;
-
 /**
  * 添加节点
  * @param fields
  */
-const handleAdd = async (fields: AddUavHistoryReqType) => {
-  console.log('handleAdd -> fields:', fields);
+const handleAdd = async (fields: AddPeopleReq) => {
   const hide = message.loading('正在添加');
   try {
-    await addHistory({ ...fields });
+    await addPeople({ ...fields });
     hide();
     message.success('添加成功');
     return true;
@@ -40,69 +37,175 @@ const handleAdd = async (fields: AddUavHistoryReqType) => {
   }
 };
 
+/**
+ * 更新节点
+ * @param fields
+ */
+const handleUpdate = async (fields: ListPeopleData) => {
+  console.log('handleUpdate -> fields:', fields);
+  const hide = message.loading('正在更新');
+  try {
+    await updatePeople(fields);
+    hide();
+
+    message.success('更新成功');
+    return true;
+  } catch (error) {
+    hide();
+    message.error('更新失败请重试！');
+    return false;
+  }
+};
+
+/**
+ *  删除节点
+ * @param selectedRows
+ */
+const handleRemove = async (selectedRows: ListPeopleData[]) => {
+  const hide = message.loading('正在删除');
+  if (!selectedRows) return true;
+  try {
+    await removePeople({
+      ids: selectedRows.map((row) => row.id),
+    });
+    hide();
+    message.success('删除成功，即将刷新');
+    return true;
+  } catch (error) {
+    hide();
+    message.error('删除失败，请重试');
+    return false;
+  }
+};
+
 const FlashPromotionList: React.FC = () => {
   const [createModalVisible, handleModalVisible] = useState<boolean>(false);
+  const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
   const [showDetail, setShowDetail] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
-  const [currentRow, setCurrentRow] = useState<ListUavHistoryDataType>();
+  const [currentRow, setCurrentRow] = useState<ListPeopleData>();
+  const [selectedRowsState, setSelectedRows] = useState<ListPeopleData[]>([]);
 
-  // interface ListUavHistoryDataType {
+  const showDeleteConfirm = (item: ListPeopleData) => {
+    confirm({
+      title: '是否删除记录?',
+      icon: <ExclamationCircleOutlined />,
+      content: '删除的记录不能恢复,请确认!',
+      onOk() {
+        handleRemove([item]).then((r) => {
+          actionRef.current?.reloadAndRest?.();
+        });
+      },
+      onCancel() {},
+    });
+  };
+
+  // export interface ListPeopleData {
   //   id: number;
-  //   uav_id: number; // 无人机id
-  //   fly_id: number; // 巡检路线id
-  //   operator: string; // 操作者
-  //   create_time: string; // 创建时间
-  //   end_time: string; // 结束时间
+  //   level: number;
+  //   username: string;
+  //   phone: string;
+  //   status: number;
+  //   icon: string;
+  //   gender: number;
+  //   create_time: string;
   // }
 
-  const columns: ProColumns<ListUavHistoryDataType>[] = [
+  const columns: ProColumns<ListPeopleData>[] = [
     {
-      title: '编号',
+      title: '主键',
       dataIndex: 'id',
       hideInSearch: true,
     },
     {
-      title: '无人机id',
-      dataIndex: 'uav_id',
-      valueType: 'digit',
-    },
-    {
-      title: '巡检路线id',
-      dataIndex: 'fly_id',
-      valueType: 'digit',
-      render: (dom, entity) => {
-        return (
-          <a
-            onClick={() => {
-              setCurrentRow(entity);
-              setShowDetail(true);
-            }}
-          >
-            {dom}
-          </a>
-        );
+      title: '人员等级',
+      dataIndex: 'level',
+      valueEnum: {
+        0: { text: '本部', color: '#282c34' },
+        1: { text: '外来', color: '#4d78cc' },
+        2: { text: '工程', color: '#d4504d' },
       },
     },
     {
-      title: '操作者',
-      dataIndex: 'operator',
+      title: '用户名',
+      dataIndex: 'username',
     },
     {
-      title: '创建时间',
-      dataIndex: 'create_time',
-      valueType: 'dateTime',
+      title: '手机号',
+      dataIndex: 'phone',
     },
     {
-      title: '结束时间',
-      dataIndex: 'end_time',
-      valueType: 'dateTime',
+      title: '账号状态',
+      dataIndex: 'status',
+      valueEnum: {
+        0: { text: '禁用', color: '#4d78cc' },
+        1: { text: '启用', color: '#282c34' },
+      },
+    },
+    {
+      title: '车辆照片',
+      dataIndex: 'photo',
+      valueType: 'image',
+      fieldProps: { width: 100, height: 80 },
+      hideInSearch: true,
+    },
+    {
+      title: '车辆等级',
+      dataIndex: 'type',
+      valueEnum: {
+        0: { text: '本部', color: '#282c34' },
+        1: { text: '外来', color: '#4d78cc' },
+        2: { text: '工程', color: '#d4504d' },
+      },
+    },
+    {
+      title: '所属机构',
+      dataIndex: 'agency',
+    },
+    {
+      title: '账号状态',
+      dataIndex: 'status',
+      valueEnum: {
+        0: { text: '禁用', color: '#4d78cc' },
+        1: { text: '启用', color: '#282c34' },
+      },
+    },
+    {
+      title: '操作',
+      dataIndex: 'option',
+      valueType: 'option',
+      render: (_, record) => (
+        <>
+          <Button
+            type="primary"
+            icon={<EditOutlined />}
+            onClick={() => {
+              handleUpdateModalVisible(true);
+              setCurrentRow(record);
+            }}
+          >
+            编辑
+          </Button>
+          <Divider type="vertical" />
+          <Button
+            type="primary"
+            danger
+            icon={<DeleteOutlined />}
+            onClick={() => {
+              showDeleteConfirm(record);
+            }}
+          >
+            删除
+          </Button>
+        </>
+      ),
     },
   ];
 
   return (
     <PageContainer>
-      <ProTable<ListUavHistoryDataType>
-        headerTitle="无人机巡检历史"
+      <ProTable<ListPeopleData>
+        headerTitle="无人机列表"
         actionRef={actionRef}
         rowKey="id"
         search={{
@@ -110,31 +213,35 @@ const FlashPromotionList: React.FC = () => {
         }}
         toolBarRender={() => [
           <Button type="primary" onClick={() => handleModalVisible(true)}>
-            <PlusOutlined /> 新建巡检历史
+            <PlusOutlined /> 新建车辆
           </Button>,
         ]}
-        request={async (params: any = {}, sort, filter) => {
-          console.log('request={ -> params:', params);
-          const data = {
-            ...params,
-            create_time: params?.create_time ? params.create_time : '',
-            end_time: params?.end_time ? params.end_time : '',
-            operator: params?.operator ? params.operator : '',
-            uav_id: params?.uav_id ? params.uav_id : -1,
-            fly_id: params?.fly_id ? params.fly_id : -1,
-          };
-          const res: ListUavHistoryRespType = await queryHistory(data);
-          return {
-            data: res.data,
-            pageSize: res.pageSize,
-            current: 1,
-            total: +res.total,
-            success: res.success,
-          };
-        }}
+        request={queryPeople}
         columns={columns}
-        pagination={{ pageSize: 10 }}
+        rowSelection={{
+          onChange: (_, selectedRows) => setSelectedRows(selectedRows),
+        }}
+        pagination={{ pageSize: 20 }}
       />
+      {selectedRowsState?.length > 0 && (
+        <FooterToolbar
+          extra={
+            <div>
+              已选择 <a style={{ fontWeight: 600 }}>{selectedRowsState.length}</a> 项&nbsp;&nbsp;
+            </div>
+          }
+        >
+          <Button
+            onClick={async () => {
+              await handleRemove(selectedRowsState);
+              setSelectedRows([]);
+              actionRef.current?.reloadAndRest?.();
+            }}
+          >
+            批量删除
+          </Button>
+        </FooterToolbar>
+      )}
 
       <CreateFlashForm
         key={'CreateFlashForm'}
@@ -157,6 +264,29 @@ const FlashPromotionList: React.FC = () => {
         createModalVisible={createModalVisible}
       />
 
+      <UpdateFlashForm
+        key={'UpdateFlashForm'}
+        onSubmit={async (value) => {
+          console.log('onSubmit={ -> value:', value);
+          const success = await handleUpdate(value);
+          if (success) {
+            handleUpdateModalVisible(false);
+            setCurrentRow(undefined);
+            if (actionRef.current) {
+              actionRef.current.reload();
+            }
+          }
+        }}
+        onCancel={() => {
+          handleUpdateModalVisible(false);
+          if (!showDetail) {
+            setCurrentRow(undefined);
+          }
+        }}
+        updateModalVisible={updateModalVisible}
+        values={currentRow || {}}
+      />
+
       <Drawer
         width={600}
         visible={showDetail}
@@ -167,16 +297,16 @@ const FlashPromotionList: React.FC = () => {
         closable={false}
       >
         {currentRow?.id && (
-          <ProDescriptions<ListUavHistoryDataType>
+          <ProDescriptions<ListPeopleData>
             column={2}
-            title={currentRow?.operator}
+            title={currentRow?.id}
             request={async () => ({
               data: currentRow || {},
             })}
             params={{
               id: currentRow?.id,
             }}
-            columns={columns as ProDescriptionsItemProps<ListUavHistoryDataType>[]}
+            columns={columns as ProDescriptionsItemProps<ListPeopleData>[]}
           />
         )}
       </Drawer>

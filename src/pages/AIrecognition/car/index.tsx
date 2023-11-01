@@ -14,28 +14,19 @@ import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
 import CreateFlashForm from './components/CreateFlashForm';
 import UpdateFlashForm from './components/UpdateFlashForm';
 
-import type { ListUavDeviceData, AddUavDeviceReqType } from './data.d';
+import type { ListCarData, AddCarReq } from './data.d';
 
-import { addDevice, queryDevice, removeDevice, updateDevice } from './service';
+import { addCar, queryCar, removeCar, updateCar } from './service';
 
 const { confirm } = Modal;
 /**
  * 添加节点
  * @param fields
  */
-const handleAdd = async (fields: AddUavDeviceReqType) => {
+const handleAdd = async (fields: AddCarReq) => {
   const hide = message.loading('正在添加');
   try {
-    // const demodata = await addDevice({
-    //   name: 'test',
-    //   ip: '192.1.1.1',
-    //   port: 111,
-    //   hangar_ip: '222',
-    //   hangar_port: 22,
-    // });
-    // console.log('handleAdd -> demodata:', demodata);
-
-    await addDevice({ ...fields });
+    await addCar({ ...fields });
     hide();
     message.success('添加成功');
     return true;
@@ -50,11 +41,11 @@ const handleAdd = async (fields: AddUavDeviceReqType) => {
  * 更新节点
  * @param fields
  */
-const handleUpdate = async (fields: ListUavDeviceData) => {
+const handleUpdate = async (fields: ListCarData) => {
   console.log('handleUpdate -> fields:', fields);
   const hide = message.loading('正在更新');
   try {
-    await updateDevice(fields);
+    await updateCar(fields);
     hide();
 
     message.success('更新成功');
@@ -66,29 +57,15 @@ const handleUpdate = async (fields: ListUavDeviceData) => {
   }
 };
 
-// const queryDeviceData = async () => {
-//   try {
-//     const response = await queryDevice({ pageSize: 10, current: 1 });
-//     console.log('queryDeviceData -> response:', response);
-
-//     message.success('更新成功');
-//     return true;
-//   } catch (error) {
-//     message.error('更新失败请重试！');
-//     return false;
-//   }
-// };
-
-// queryDeviceData();
 /**
  *  删除节点
  * @param selectedRows
  */
-const handleRemove = async (selectedRows: ListUavDeviceData[]) => {
+const handleRemove = async (selectedRows: ListCarData[]) => {
   const hide = message.loading('正在删除');
   if (!selectedRows) return true;
   try {
-    await removeDevice({
+    await removeCar({
       ids: selectedRows.map((row) => row.id),
     });
     hide();
@@ -106,12 +83,10 @@ const FlashPromotionList: React.FC = () => {
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
   const [showDetail, setShowDetail] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
-  const [currentRow, setCurrentRow] = useState<ListUavDeviceData>();
-  const [selectedRowsState, setSelectedRows] = useState<ListUavDeviceData[]>([]);
+  const [currentRow, setCurrentRow] = useState<ListCarData>();
+  const [selectedRowsState, setSelectedRows] = useState<ListCarData[]>([]);
 
-  // queryDevice();
-
-  const showDeleteConfirm = (item: ListUavDeviceData) => {
+  const showDeleteConfirm = (item: ListCarData) => {
     confirm({
       title: '是否删除记录?',
       icon: <ExclamationCircleOutlined />,
@@ -124,31 +99,58 @@ const FlashPromotionList: React.FC = () => {
       onCancel() {},
     });
   };
+  // export interface ListCarData {
+  //   id: number;
+  //   name: string;
+  //   card: string;
+  //   photo: string;
+  //   type: number;
+  //   phone: string;
+  //   agency: string;
+  //   status: number;
+  // }
 
-  const columns: ProColumns<ListUavDeviceData>[] = [
+  const columns: ProColumns<ListCarData>[] = [
     {
       title: '主键',
       dataIndex: 'id',
       hideInSearch: true,
     },
     {
-      title: '名称',
+      title: '车辆名称',
       dataIndex: 'name',
     },
     {
-      title: '无人机id',
-      dataIndex: 'ip',
+      title: '车牌号',
+      dataIndex: 'card',
     },
     {
-      title: '端口',
-      dataIndex: 'port',
+      title: '车辆照片',
+      dataIndex: 'photo',
+      valueType: 'image',
+      fieldProps: { width: 100, height: 80 },
+      hideInSearch: true,
     },
     {
-      title: '无人机库ip',
+      title: '车辆等级',
+      dataIndex: 'type',
+      valueEnum: {
+        0: { text: '本部', color: '#282c34' },
+        1: { text: '外来', color: '#4d78cc' },
+        2: { text: '工程', color: '#d4504d' },
+      },
     },
     {
-      title: '无人机库端口',
-      dataIndex: 'hangar_port',
+      title: '所属机构',
+      dataIndex: 'agency',
+    },
+    {
+      title: '账号状态',
+      dataIndex: 'status',
+      valueEnum: {
+        0: { text: '禁用', color: '#4d78cc' },
+        1: { text: '启用', color: '#282c34' },
+      },
     },
     {
       title: '操作',
@@ -184,7 +186,7 @@ const FlashPromotionList: React.FC = () => {
 
   return (
     <PageContainer>
-      <ProTable<ListUavDeviceData>
+      <ProTable<ListCarData>
         headerTitle="无人机列表"
         actionRef={actionRef}
         rowKey="id"
@@ -193,10 +195,10 @@ const FlashPromotionList: React.FC = () => {
         }}
         toolBarRender={() => [
           <Button type="primary" onClick={() => handleModalVisible(true)}>
-            <PlusOutlined /> 新建无人机列表
+            <PlusOutlined /> 新建车辆
           </Button>,
         ]}
-        request={queryDevice}
+        request={queryCar}
         columns={columns}
         rowSelection={{
           onChange: (_, selectedRows) => setSelectedRows(selectedRows),
@@ -277,16 +279,16 @@ const FlashPromotionList: React.FC = () => {
         closable={false}
       >
         {currentRow?.id && (
-          <ProDescriptions<ListUavDeviceData>
+          <ProDescriptions<ListCarData>
             column={2}
-            title={currentRow?.hangar_port}
+            title={currentRow?.id}
             request={async () => ({
               data: currentRow || {},
             })}
             params={{
               id: currentRow?.id,
             }}
-            columns={columns as ProDescriptionsItemProps<ListUavDeviceData>[]}
+            columns={columns as ProDescriptionsItemProps<ListCarData>[]}
           />
         )}
       </Drawer>

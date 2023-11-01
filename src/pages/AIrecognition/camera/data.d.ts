@@ -1,70 +1,79 @@
-/*
- * @Author: weiaodi 1635654853@qq.com
- * @Date: 2023-09-28 14:57:45
- * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-28 15:00:56
- * @FilePath: \zero-admin-ui-master\src\pages\drone\network\data.d.ts
- * @Description:
- *
- * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
- */
 /**
  *  @file data.d.ts
- *  @time 2023/09/27
+ *  @time 2023/10/31
  * @category :
  * @function :
  */
 //#region -------------------------------------------------------------------------
-export interface AddUavNetworkReqType {
-  name: string; // 频段名称
-  band: number; // 频段号
-  type: number; // 频段类型
+
+export interface AddCamerasReq {
+  name: string;
+  ip: string;
+  platform: number;
+  tunnel: number;
+  url: string;
+  lat: number;
+  lon: number;
+  alt: number;
+  status: number;
 }
 
-export interface AddUavNetworkRespType {
+export interface AddCamerasResp {
   code: string;
   message: string;
 }
 
-export interface ListUavNetworkReqType {
+export interface ListCamerasReq {
   current?: number;
   pageSize?: number;
 }
 
-export interface ListUavNetworkDataType {
+export interface ListCamerasData {
   id: number;
-  name: string; // 频段名称
-  band: number; // 频段号
-  type: number; // 频段类型
+  name: string;
+  ip: string;
+  platform: number;
+  tunnel: number;
+  url: string;
+  lat: number;
+  lon: number;
+  alt: number;
+  status: number;
 }
 
-export interface ListUavNetworkRespType {
+export interface ListCamerasResp {
   code: string;
   message: string;
   current: number;
-  data: ListtUavNetworkData[];
+  data: ListCamerasData[];
   pageSize: number;
   success: boolean;
   total: number;
 }
 
-export interface UpdateUavNetworkReqType {
+export interface UpdateCamerasReq {
   id: number;
-  name: string; // 频段名称
-  band: number; // 频段号
-  type: number; // 频段类型
+  name: string;
+  ip: string;
+  platform: number;
+  tunnel: number;
+  url: string;
+  lat: number;
+  lon: number;
+  alt: number;
+  status: number;
 }
 
-export interface UpdateUavNetworkRespType {
+export interface UpdateCamerasResp {
   code: string;
   message: string;
 }
 
-export interface DeleteUavNetworkReqType {
+export interface DeleteCamerasReq {
   ids: number[];
 }
 
-export interface DeleteUavNetworkRespType {
+export interface DeleteCamerasResp {
   code: string;
   message: string;
 }

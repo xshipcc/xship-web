@@ -1,22 +1,20 @@
-/*
- * @Author: weiaodi 1635654853@qq.com
- * @Date: 2023-09-24 18:10:03
- * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-31 16:39:21
- * @FilePath: \zero-admin-ui-master\src\pages\AIrecognition\car\components\CreateFlashForm.tsx
- * @Description:
- *
- * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
- */
-import React, { useEffect, useState } from 'react';
-import { Form, Input, Modal, InputNumber, Upload, Select } from 'antd';
-import type { AddPeopleReq } from '../data.d';
+import React, { useEffect } from 'react';
+import { Form, Input, InputNumber, Modal, Select, Upload } from 'antd';
+import type { UpdatePeopleReq } from '../data.d';
 import { PlusOutlined } from '@ant-design/icons';
+// interface UpdatePeopleReq {
+//   id: number;
+//   name: string;
+//   growth: number;
+//   intergration: number;
+//   type: number;
+// }
 
-export interface CreateFormProps {
+export interface UpdateFormProps {
   onCancel: () => void;
-  onSubmit: (values: AddPeopleReq) => void;
-  createModalVisible: boolean;
+  onSubmit: (values: UpdatePeopleReq) => void;
+  updateModalVisible: boolean;
+  values: Partial<UpdatePeopleReq>;
 }
 
 const FormItem = Form.Item;
@@ -26,51 +24,63 @@ const formLayout = {
   wrapperCol: { span: 13 },
 };
 
-const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
+const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
   const [form] = Form.useForm();
 
   // const [startDate, setStartDate] = useState<string>('');
   // const [endDate, setEndDate] = useState<string>('');
 
-  const { onSubmit, onCancel, createModalVisible } = props;
+  const { onSubmit, onCancel, updateModalVisible, values } = props;
 
   useEffect(() => {
-    if (form && !createModalVisible) {
+    if (form && !updateModalVisible) {
       form.resetFields();
     }
-  }, [props.createModalVisible]);
+  }, [props.updateModalVisible]);
+
+  useEffect(() => {
+    if (values) {
+      form.setFieldsValue({
+        ...values,
+      });
+      // setStartDate(values.startDate || '');
+      // setEndDate(values.endDate || '');
+    }
+  }, [props.values]);
 
   const handleSubmit = () => {
     if (!form) return;
     form.submit();
   };
 
-  const handleFinish = (values: AddPeopleReq) => {
+  const handleFinish = (item: { [key: string]: any }) => {
     if (onSubmit) {
-      onSubmit({ ...values });
-      // onSubmit({ ...values, startDate, endDate });
+      // onSubmit({ ...(item as UpdatePeopleReq), startDate, endDate });
+      onSubmit({ ...(item as UpdatePeopleReq) });
     }
   };
-
-  // export interface AddPeopleReq {
-  //   level: number;
-  //   username: string;
-  //   phone: string;
-  //   status: number;
-  //   icon: string;
-  //   gender: number;
-  //   create_time: string;
-  // }
-
   const normFile = (e: any) => {
     if (Array.isArray(e)) {
       return e;
     }
     return e?.fileList;
   };
+  // export interface UpdatePeopleReq {
+  //   id: number;
+  //   name: string;
+  //   card: string;
+  //   photo: string;
+  //   type: number;
+  //   phone: string;
+  //   agency: string;
+  //   status: number;
+  // }
   const renderContent = () => {
     return (
       <>
+        <FormItem name="id" label="主键" hidden>
+          <InputNumber id="update-id" placeholder="请输入主键" />
+        </FormItem>
         <FormItem
           name="name"
           label="车辆名称"
@@ -124,15 +134,6 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
             <Select.Option value={1}>启用</Select.Option>
           </Select>
         </FormItem>
-        {/* <FormItem name="rangeDate" label="活动日期">
-          <RangePicker onChange={onChange} />
-        </FormItem>
-        <FormItem name="status" label="上下线状态" initialValue={1}>
-          <Select id="status" placeholder={'请选择状态'}>
-            <Option value={0}>停用</Option>
-            <Option value={1}>启用</Option>
-          </Select>
-        </FormItem> */}
       </>
     );
   };
@@ -143,8 +144,8 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
     <Modal
       forceRender
       destroyOnClose
-      title="新建无人机信息"
-      open={createModalVisible}
+      title="修改无人机信息"
+      open={updateModalVisible}
       {...modalFooter}
     >
       <Form {...formLayout} form={form} onFinish={handleFinish}>
@@ -154,4 +155,4 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
   );
 };
 
-export default CreateFlashForm;
+export default UpdateFlashForm;

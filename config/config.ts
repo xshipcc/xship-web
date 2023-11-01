@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-16 16:01:11
+ * @LastEditTime: 2023-10-31 16:25:11
  * @FilePath: \zero-admin-ui-master\config\config.ts
  * @Description:
  *
@@ -88,13 +88,13 @@ export default defineConfig({
   esbuild: {},
   title: false,
   ignoreMomentLocale: true,
-  proxy: {
-    '/api': {
-      target: 'http://47.243.162.50:8888',
-      changeOrigin: true,
-      // "pathRewrite": { "^/api": "" }
-    },
-  },
+  // proxy: {
+  //   '/api': {
+  //     target: 'http://47.243.162.50:8888',
+  //     changeOrigin: true,
+  //     // "pathRewrite": { "^/api": "" }
+  //   },
+  // },
   manifest: {
     basePath: '/',
   },
