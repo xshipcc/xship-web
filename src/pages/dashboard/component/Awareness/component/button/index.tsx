@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-21 17:20:44
+ * @LastEditTime: 2023-11-02 10:32:56
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\component\button\index.tsx
  * @Description:
  *
@@ -48,9 +48,10 @@ const AwarenessButton: React.FC = (props: any) => {
       className={
         activeIndex === 0 ? styles.botao : activeIndex === 1 ? styles.waiting : styles.over
       }
-      onClick={() => {
-        handleClick(1);
-      }}
+      // onClick={() => {
+      //   handleClick(1);
+      //   console.log('messagedemo', 1111);
+      // }}
     >
       <div className={styles.icon}>
         <LoadingOutlined />

@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-25 13:14:44
+ * @LastEditTime: 2023-11-02 11:28:01
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\center.tsx
  * @Description:
  *
@@ -12,14 +12,57 @@ import { DualAxes } from '@ant-design/plots';
 import { Button, Col, Row, Select, Switch, Tabs } from 'antd';
 import Title from '../common/Title';
 import AwarenessButton from './component/button';
-
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './center.less';
 import type { DashboardInfoType } from '@/pages/dashboard/typings';
 import { ControlOutlined } from '@ant-design/icons';
+import * as mqtt from 'mqtt';
+
 const AnalysisCenter: React.FC = (props) => {
+  const def: any = '';
+  const client = useRef(def);
+
+  useEffect(() => {
+    const clientId = 'awareness' + Math.random().toString(16).substring(2, 8);
+    const username = 'emqx_test';
+    const password = 'emqx_test';
+    client.current = mqtt.connect(WS_MQTT_URL, {
+      clientId,
+      username,
+      password,
+      // ...other options
+    });
+    const mqttSub = (subscription: { topic: any; qos: any }) => {
+      if (client) {
+        const { topic, qos } = subscription;
+        client.current.subscribe(topic, { qos }, (error: any) => {
+          if (error) {
+            console.log('Subscribe to topics error', error);
+            return;
+          }
+          console.log(`Subscribe to topics: ${topic}`);
+        });
+      }
+    };
+    mqttSub({ topic: 'info', qos: 0 });
+    setTimeout(() => {
+      mqttSub({ topic: 'control', qos: 0 });
+    }, 1000);
+
+    client.current.on('message', (topic: string, mqttMessage: any) => {
+      if (topic === 'info') {
+        // const jsonObject = JSON.parse(mqttMessage);
+        const jsonObject = JSON.parse(mqttMessage);
+        // console.log('client.on -> jsonObject:', jsonObject);
+        // setDroneData(JSON.parse(mqttMessage));
+      }
+    });
+
+    return () => {
+      if (client.current) client.current.end();
+    };
+  }, []);
   // @ts-ignore
-  const [value] = useState<DashboardInfoType>(props.initValue);
   const [activeIndex, setActiveIndex] = useState(0);
   const handleClick = (index: number) => {
     setActiveIndex(1);
@@ -41,9 +84,15 @@ const AnalysisCenter: React.FC = (props) => {
     console.log(`selected ${params}`);
   };
 
-  // const handleClickTab = (index: string) => {
-  //   setActiveTab(index);
-  // };
+  /**
+   *  @file center.tsx
+   *  @time 2023/11/02
+   * @category :面板的按钮和数据加载
+   * @function :
+   */
+  //#region -------------------------------------------------------------------------
+
+  // 面板信息加载
   const droneInfoList = [
     {
       key: `水平速度`,
@@ -90,34 +139,6 @@ const AnalysisCenter: React.FC = (props) => {
     {
       key: `航向`,
       unit: '°',
-    },
-  ];
-
-  const droneButtonList = [
-    {
-      key: `自检`,
-      button: '自检',
-      over: '自检成功',
-    },
-    {
-      key: `解锁`,
-      button: '解锁',
-      over: '成功',
-    },
-    {
-      key: `起飞`,
-      button: '起飞',
-      over: '成功',
-    },
-    {
-      key: `回家降落`,
-      button: '回家降落',
-      over: '成功',
-    },
-    {
-      key: `加锁`,
-      button: '加锁',
-      over: '加锁成功',
     },
   ];
   const hangarInfoList1 = [
@@ -176,6 +197,34 @@ const AnalysisCenter: React.FC = (props) => {
       unit: '°',
     },
   ];
+  // 面板控制加载
+  const droneButtonList = [
+    {
+      key: `Check`,
+      button: '自检',
+      over: '自检成功',
+    },
+    {
+      key: `Unlock`,
+      button: '解锁',
+      over: '成功',
+    },
+    {
+      key: `Takeoff`,
+      button: '起飞',
+      over: '成功',
+    },
+    {
+      key: `Return`,
+      button: '回家降落',
+      over: '成功',
+    },
+    {
+      key: `Lock`,
+      button: '加锁',
+      over: '加锁成功',
+    },
+  ];
   const monitorButtonList1 = [
     {
       key: `跟踪`,
@@ -226,18 +275,44 @@ const AnalysisCenter: React.FC = (props) => {
         </Col>
       </Row>
     ));
-  const RenderButtonList = (params: any[]) =>
+  const sendMqttControl = (param: any, type: string) => {
+    console.log('sendMqttControl -> type:', type);
+    console.log('sendMqttControl -> param:', param);
+    const data = { data: 'on' };
+    const controlInfo = {
+      [type]: {
+        [param]: { data },
+      },
+    };
+    console.log('sendMqttControl -> controlInfo:', controlInfo);
+    client.current.publish('control', JSON.stringify(controlInfo));
+  };
+  const RenderButtonList = (params: any[], type: string) =>
     params?.map((item: any) => (
       <Row key={item.key}>
         <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
           {item.key}
         </Col>
-        <Col span={12} style={{ color: 'white' }}>
+        <Col
+          span={12}
+          style={{ color: 'white' }}
+          onClick={() => {
+            sendMqttControl(item.key, type);
+          }}
+        >
           {/* @ts-ignore */}
           <AwarenessButton name={item.button} over={item.over} url={'/demo'} />
         </Col>
       </Row>
     ));
+
+  //#endregion -----------------------------------------------------------------------
+  /**
+   * @end
+   */
+  const [ValueView, setValueView] = useState(1);
+  const [ValueFocus, setValueFocus] = useState(1);
+
   const RenderComponent = (component: string) => {
     switch (component) {
       case 'drone':
@@ -251,14 +326,21 @@ const AnalysisCenter: React.FC = (props) => {
                 {/*  */}
                 <Col span={5}>{RenderList(droneStateList)}</Col>
                 {/*  */}
-                <Col span={5}>{RenderButtonList(droneButtonList)}</Col>
+                <Col span={5}>{RenderButtonList(droneButtonList, 'drone')}</Col>
                 <Col span={8} offset={1}>
                   <Row style={{ padding: '8px' }}>
                     <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
                       控制模式
                     </Col>
                     <Col span={12} style={{ color: 'turquoise' }}>
-                      <Switch checkedChildren="程控" unCheckedChildren="手控" defaultChecked />
+                      <Switch
+                        checkedChildren="程控"
+                        unCheckedChildren="手控"
+                        defaultChecked
+                        onClick={() => {
+                          sendMqttControl('Mode', 'drone');
+                        }}
+                      />
                     </Col>
                   </Row>
                   <Row style={{ padding: '8px' }}>
@@ -270,6 +352,9 @@ const AnalysisCenter: React.FC = (props) => {
                         checkedChildren="防撞灯开"
                         unCheckedChildren="防撞灯关"
                         defaultChecked
+                        onClick={() => {
+                          sendMqttControl('Light', 'drone');
+                        }}
                       />
                     </Col>
                   </Row>
@@ -290,18 +375,7 @@ const AnalysisCenter: React.FC = (props) => {
                       />
                     </Col>
                   </Row>
-                  <Row style={{ padding: '8px' }}>
-                    <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
-                      航向角度
-                    </Col>
-                    <Col span={12}>
-                      <div className="number-control">
-                        <div className="number-left"></div>
-                        <input type="number" name="number" className="number-quantity" />
-                        <div className="number-right"></div>
-                      </div>
-                    </Col>
-                  </Row>
+                  {/*  */}
                 </Col>
               </Row>
             </div>
@@ -324,7 +398,14 @@ const AnalysisCenter: React.FC = (props) => {
                       舱盖
                     </Col>
                     <Col span={12} style={{ color: 'turquoise' }}>
-                      <Switch checkedChildren="舱盖开" unCheckedChildren="舱盖关" defaultChecked />
+                      <Switch
+                        checkedChildren="舱盖开"
+                        unCheckedChildren="舱盖关"
+                        defaultChecked
+                        onClick={() => {
+                          sendMqttControl('Hatch', 'hangar');
+                        }}
+                      />
                     </Col>
                   </Row>
                   <Row style={{ padding: '8px' }}>
@@ -332,7 +413,14 @@ const AnalysisCenter: React.FC = (props) => {
                       充电装置
                     </Col>
                     <Col span={12} style={{ color: 'turquoise' }}>
-                      <Switch checkedChildren="连接" unCheckedChildren="断开" defaultChecked />
+                      <Switch
+                        checkedChildren="连接"
+                        unCheckedChildren="断开"
+                        defaultChecked
+                        onClick={() => {
+                          sendMqttControl('Charging', 'hangar');
+                        }}
+                      />
                     </Col>
                   </Row>
                   <Row style={{ padding: '8px' }}>
@@ -340,7 +428,14 @@ const AnalysisCenter: React.FC = (props) => {
                       归位机构
                     </Col>
                     <Col span={12} style={{ color: 'turquoise' }}>
-                      <Switch checkedChildren="锁定" unCheckedChildren="解锁" defaultChecked />
+                      <Switch
+                        checkedChildren="锁定"
+                        unCheckedChildren="解锁"
+                        defaultChecked
+                        onClick={() => {
+                          sendMqttControl('Mechanism', 'hangar');
+                        }}
+                      />
                     </Col>
                   </Row>
                 </Col>
@@ -360,35 +455,105 @@ const AnalysisCenter: React.FC = (props) => {
                 {/*  */}
                 <Col span={5}>
                   {RenderList(monitorTFList)}
-                  {RenderButtonList(monitorButtonList2)}
+                  {RenderButtonList(monitorButtonList2, 'monitor')}
                 </Col>
                 {/*  */}
                 <Col span={5} offset={1}>
-                  {RenderButtonList(monitorButtonList1)}
+                  {RenderButtonList(monitorButtonList1, 'monitor')}
                 </Col>
                 <Col span={7} offset={1}>
                   <div className="main">
                     <div className="up">
-                      <button className="card1">上</button>
-                      <button className="card2">下</button>
+                      <button
+                        className="card1"
+                        onClick={() => {
+                          sendMqttControl('Up', 'monitor');
+                        }}
+                      >
+                        上
+                      </button>
+                      <button
+                        className="card2"
+                        onClick={() => {
+                          sendMqttControl('Down', 'monitor');
+                        }}
+                      >
+                        下
+                      </button>
                       <div>
                         <div>视场变倍</div>
                         <div className="number-control">
-                          <div className="number-left"></div>
-                          <input type="number" name="number" className="number-quantity" />
-                          <div className="number-right"></div>
+                          <div
+                            className="number-left"
+                            onClick={() => {
+                              const value = ValueView - 1;
+                              setValueView(value);
+                              console.log('RenderComponent -> ValueView:', ValueView);
+                              sendMqttControl('View', 'monitor');
+                            }}
+                          />
+                          <input
+                            type="number"
+                            value={ValueView}
+                            name="number"
+                            className="number-quantity"
+                          />
+                          <div
+                            className="number-right"
+                            onClick={() => {
+                              const value = ValueView + 1;
+                              setValueView(value);
+                              console.log('RenderComponent -> ValueView:', ValueView);
+
+                              sendMqttControl('View', 'monitor');
+                            }}
+                          />
                         </div>
                       </div>
                     </div>
                     <div className="down">
-                      <button className="card3">左</button>
-                      <button className="card4">右</button>
+                      <button
+                        className="card3"
+                        onClick={() => {
+                          sendMqttControl('Left', 'monitor');
+                        }}
+                      >
+                        左
+                      </button>
+                      <button
+                        className="card4"
+                        onClick={() => {
+                          sendMqttControl('Right', 'monitor');
+                        }}
+                      >
+                        右
+                      </button>
                       <div>
                         <div>焦距设置</div>
                         <div className="number-control">
-                          <div className="number-left"></div>
-                          <input type="number" name="number" className="number-quantity" />
-                          <div className="number-right"></div>
+                          <div
+                            className="number-left"
+                            onClick={() => {
+                              const value = ValueFocus - 1;
+                              setValueFocus(value);
+
+                              sendMqttControl('Focus', 'monitor');
+                            }}
+                          />
+                          <input
+                            type="number"
+                            name="number"
+                            value={ValueFocus}
+                            className="number-quantity"
+                          />
+                          <div
+                            className="number-right"
+                            onClick={() => {
+                              const value = ValueFocus + 1;
+                              setValueFocus(value);
+                              sendMqttControl('Focus', 'monitor');
+                            }}
+                          />
                         </div>
                       </div>
                     </div>

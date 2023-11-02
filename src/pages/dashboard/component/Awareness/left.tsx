@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-21 21:50:15
+ * @LastEditTime: 2023-11-02 08:45:27
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\left.tsx
  * @Description:
  *
@@ -14,8 +14,7 @@ import styles from './left.less';
 // import Player from '@/components/VideoReact';
 import Player from '@/components/VideoFlv';
 import { useSelector } from 'umi';
-import { DroneDataType } from '../../typings';
-import * as mqtt from 'mqtt';
+// import * as mqtt from 'mqtt';
 import Title from '../common/Title';
 
 const Awareness: React.FC = () => {
@@ -27,48 +26,40 @@ const Awareness: React.FC = () => {
    * @function :
    */
 
-  const [DroneData, setDroneData] = useState({
-    speed: 0,
-    lat: 0,
-    lon: 0,
-    height: 0,
-    target_angle: 0,
-  });
+  // useEffect(() => {
+  //   const clientId = 'awareness' + Math.random().toString(16).substring(2, 8);
+  //   const username = 'emqx_test';
+  //   const password = 'emqx_test';
 
-  useEffect(() => {
-    const clientId = 'awareness' + Math.random().toString(16).substring(2, 8);
-    const username = 'emqx_test';
-    const password = 'emqx_test';
+  //   const client = mqtt.connect(WS_MQTT_URL, {
+  //     clientId,
+  //     username,
+  //     password,
+  //     // ...other options
+  //   });
+  //   const mqttSub = (subscription: { topic: any; qos: any }) => {
+  //     if (client) {
+  //       const { topic, qos } = subscription;
+  //       client.subscribe(topic, { qos }, (error) => {
+  //         if (error) {
+  //           console.log('Subscribe to topics error', error);
+  //           return;
+  //         }
+  //         console.log(`Subscribe to topics: ${topic}`);
+  //       });
+  //     }
+  //   };
+  //   mqttSub({ topic: 'uav', qos: 0 });
 
-    const client = mqtt.connect(WS_MQTT_URL, {
-      clientId,
-      username,
-      password,
-      // ...other options
-    });
-    const mqttSub = (subscription: { topic: any; qos: any }) => {
-      if (client) {
-        const { topic, qos } = subscription;
-        client.subscribe(topic, { qos }, (error) => {
-          if (error) {
-            console.log('Subscribe to topics error', error);
-            return;
-          }
-          console.log(`Subscribe to topics: ${topic}`);
-        });
-      }
-    };
-    mqttSub({ topic: 'uav', qos: 0 });
-
-    client.on('message', (topic: string, mqttMessage: any) => {
-      if (topic === 'uav') {
-        // const jsonObject = JSON.parse(mqttMessage);
-        const jsonObject = JSON.parse(mqttMessage);
-        // console.log('client.on -> jsonObject:', jsonObject);
-        setDroneData(JSON.parse(mqttMessage));
-      }
-    });
-  }, []);
+  //   client.on('message', (topic: string, mqttMessage: any) => {
+  //     if (topic === 'uav') {
+  //       // const jsonObject = JSON.parse(mqttMessage);
+  //       const jsonObject = JSON.parse(mqttMessage);
+  //       // console.log('client.on -> jsonObject:', jsonObject);
+  //       setDroneData(JSON.parse(mqttMessage));
+  //     }
+  //   });
+  // }, []);
   /**
    * @end
    */
