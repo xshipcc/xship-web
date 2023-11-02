@@ -281,7 +281,7 @@ const AnalysisCenter: React.FC = (props) => {
     const data = { data: 'on' };
     const controlInfo = {
       [type]: {
-        [param]: { data },
+        [param]: data,
       },
     };
     console.log('sendMqttControl -> controlInfo:', controlInfo);
