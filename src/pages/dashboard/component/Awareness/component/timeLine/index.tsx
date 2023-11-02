@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-18 15:51:21
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-01 11:13:44
+ * @LastEditTime: 2023-11-02 12:58:12
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\component\timeLine\index.tsx
  * @Description:
  *
@@ -92,7 +92,7 @@ const LineChart = (props: any) => {
           type: 'slider',
           show: true,
           height: 15,
-          top: 30,
+          top: 25,
           //   bottom: 10,
           borderColor: 'transparent',
           backgroundColor: '#28679d',
@@ -117,7 +117,7 @@ const LineChart = (props: any) => {
         top: '3%',
         left: '3%',
         right: '4%',
-        bottom: '75%',
+        bottom: '55%',
         containLabel: true,
       },
       xAxis: {

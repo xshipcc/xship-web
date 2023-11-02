@@ -2,13 +2,13 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-01 23:23:33
+ * @LastEditTime: 2023-11-02 13:00:23
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\right.tsx
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
-import { Button, Col, Row } from 'antd';
+import { Button, Col, Row, Select } from 'antd';
 import React, { useEffect, useState } from 'react';
 import styles from './right.less';
 import AlertList from '@/pages/dashboard/component/AlertList/demo';
@@ -39,7 +39,13 @@ const AwarenessRight: React.FC = () => {
   /**
    * @end
    */
+  const ChangeComponent = async (params = {}) => {
+    console.log('request={ -> params:', params);
+  };
 
+  const onChangeSelector = (value: string) => {
+    console.log('onChangeSelector -> value:', value);
+  };
   return (
     <>
       <div className={styles.content}>
@@ -48,6 +54,42 @@ const AwarenessRight: React.FC = () => {
           <Row className={styles.timeLine}>
             <Col span={24}>
               <TimeLine />
+              {showDetail ? (
+                <Row className={styles.playButton}>
+                  <Col span={8}>
+                    <Button
+                      type="text"
+                      onClick={() => {
+                        ChangeComponent('Awareness');
+                      }}
+                    >
+                      播放
+                    </Button>
+                  </Col>
+                  <Col span={8}>
+                    <Button
+                      type="text"
+                      onClick={() => {
+                        ChangeComponent('Awareness');
+                      }}
+                    >
+                      暂停
+                    </Button>
+                  </Col>
+                  <Col span={8}>
+                    <Button
+                      type="text"
+                      onClick={() => {
+                        ChangeComponent('Awareness');
+                      }}
+                    >
+                      正常
+                    </Button>
+                  </Col>
+                </Row>
+              ) : (
+                <></>
+              )}
             </Col>
           </Row>
         </div>
