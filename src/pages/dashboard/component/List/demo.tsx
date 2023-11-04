@@ -2,8 +2,8 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-22 14:51:44
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-02 00:41:46
- * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\AlertList\demo.tsx
+ * @LastEditTime: 2023-11-04 19:30:51
+ * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\List\demo.tsx
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
@@ -61,7 +61,7 @@ export default () => {
         confirm: drawerData.confirm,
         id: drawerData.id,
       });
-      console.log('onClick={ -> success:', success);
+      // console.log('onClick={ -> success:', success);
       message.success('更新成功');
       setShowDrawer(false);
     } catch (error) {
