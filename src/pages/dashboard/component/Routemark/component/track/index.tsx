@@ -183,117 +183,6 @@ const App: React.FC = () => {
   };
 
   /**
-   *  @file index.tsx
-   *  @time 2023/10/27
-   * @category :drawer
-   * @function :
-   */
-  //#region -------------------------------------------------------------------------
-  const dispatch = useDispatch();
-
-  const [showDrawer, setShowDrawer] = useState(false);
-  const [currentRoad, setcurrentRoad] = useState<ListUavFlyDataType>({
-    id: 1,
-    creator: 'default',
-    name: `default`,
-    data: [],
-    create_time: `default`,
-  });
-  const roadData = useSelector((state: any) => state.dashboardModel.currentRoad);
-
-  /**
-   *打开当前路线,设置当前的路线值
-   *
-   * @param {*} data
-   */
-  const toggleDrawer = (data: any) => {
-    console.log('toggleDrawer -> param2:', data);
-    setcurrentRoad(data);
-    setShowDrawer(true);
-  };
-  const closeDrawer = async (data: any) => {
-    setShowDrawer(false);
-  };
-  const saveDrawer = async (data: any) => {
-    console.log('saveDrawer -> data:', data);
-    try {
-      // @ts-ignore
-      const response = await updateFly(data);
-      // console.log('*fetchDashboardInfo -> response:', response);
-      const { code, result } = response;
-      if (code === '000000') {
-        message.success('修改成功');
-        fetchFlyData({ pageSize: 10, current: 1 });
-      }
-    } catch (error) {
-      message.success('修改失败');
-      console.log('catch getData:', error);
-    }
-    setShowDrawer(false);
-  };
-  const changeNodeName = (e: any, index: any) => {
-    // console.log('changeNodeName -> index:', index);
-    // console.log('changeNodeName -> data:', e.target.value);
-    currentRoad.data[index].name = e.target.value;
-    setcurrentRoad(currentRoad);
-  };
-  const [editRoadSignal, setEditRoadSignal] = useState(false);
-
-  /**
-   *路线编辑
-   *
-   * @param {*} e
-   */
-  const editRoad = (e: any) => {
-    setEditRoadSignal(e);
-    dispatch({
-      type: 'dashboardModel/changeEditRoadSignal',
-      payload: e,
-    });
-    // 路线编辑完成
-    if (!e) {
-      // @ts-ignore
-      currentRoad.data = stringify(roadData);
-      console.log('editRoad -> currentRoad:', currentRoad);
-      setcurrentRoad(currentRoad);
-    }
-  };
-  ////////////////////
-  const defaultColumns: (ColumnTypes[number] & { editable?: boolean; dataIndex: string })[] = [
-    {
-      title: '航线名称',
-      dataIndex: 'name',
-      editable: true,
-    },
-    {
-      title: '创建者',
-      dataIndex: 'creator',
-      editable: false,
-    },
-    {
-      title: '创建时间',
-      dataIndex: 'create_time',
-    },
-    {
-      title: (
-        <div>
-          <Button type="primary" onClick={handleAdd}>
-            添加航线
-          </Button>
-        </div>
-      ),
-      dataIndex: 'operation',
-      // @ts-ignore
-      render: (_, record: { key: React.Key }) =>
-        dataSource.length >= 1 ? (
-          <Button type="primary" onClick={() => toggleDrawer(record)}>
-            航线查看
-          </Button>
-        ) : null,
-    },
-  ];
-
-  /**
    *保存编辑航线的信息
    *
    * @param {DataType} row
@@ -321,6 +210,151 @@ const App: React.FC = () => {
       console.log('catch getData:', error);
     }
   };
+  /**
+   *  @file index.tsx
+   *  @time 2023/10/27
+   * @category :drawer
+   * @function :
+   */
+  //#region -------------------------------------------------------------------------
+  const dispatch = useDispatch();
+
+  const [showDrawer, setShowDrawer] = useState(false);
+  const [currentRoad, setcurrentRoad] = useState<ListUavFlyDataType>({
+    id: 1,
+    creator: 'default',
+    name: `default`,
+    data: [],
+    create_time: `default`,
+  });
+  const [nodeData, setNodeData] = useState({
+    name: `default`,
+    coord: '',
+  });
+  const roadData = useSelector((state: any) => state.dashboardModel.currentRoad);
+
+  /**
+   *打开当前路线,设置当前的路线值
+   *
+   * @param {*} data
+   */
+  const toggleDrawer = (data: any) => {
+    console.log('toggleDrawer -> param2:', data);
+    setcurrentRoad(data);
+    setShowDrawer(true);
+  };
+
+  const closeDrawer = async (data: any) => {
+    setShowDrawer(false);
+  };
+
+  const saveDrawer = async (data: any) => {
+    console.log('saveDrawer -> data:', data);
+    try {
+      // @ts-ignore
+      const response = await updateFly(data);
+      // console.log('*fetchDashboardInfo -> response:', response);
+      const { code, result } = response;
+      if (code === '000000') {
+        message.success('修改成功');
+        fetchFlyData({ pageSize: 10, current: 1 });
+      }
+    } catch (error) {
+      message.success('修改失败');
+      console.log('catch getData:', error);
+    }
+    setShowDrawer(false);
+  };
+  const changeNodeName = (e: any, index: any) => {
+    // console.log('changeNodeName -> index:', index);
+    // console.log('changeNodeName -> data:', e.target.value);
+    currentRoad.data[index].name = e.target.value;
+    setcurrentRoad(currentRoad);
+  };
+  const [editRoadSignal, setEditRoadSignal] = useState(false);
+
+  // 路线完成进行更新
+  useEffect(() => {
+    console.log('roadData:', roadData);
+    // 格式坐标数据为节点数据
+    if (roadData?.length > 0) {
+      const data: any = [];
+      roadData.map((item: any, index: any) => {
+        console.log('roadData.map -> item:', item);
+        data.push({
+          coord: item,
+          name: index,
+        });
+        return;
+      });
+      currentRoad.data = data;
+      console.log('editRoad -> currentRoad:', currentRoad);
+      setcurrentRoad(currentRoad);
+    }
+
+    // 飞行模拟数据
+  }, [roadData]);
+
+  /**
+   *路线编辑
+   *
+   * @param {*} e
+   */
+  const editRoad = (e: any) => {
+    setEditRoadSignal(e);
+    // 发送编辑信号
+    dispatch({
+      type: 'dashboardModel/changeEditRoadSignal',
+      payload: e,
+    });
+
+    // 路线编辑完成
+    if (!e) {
+      // @ts-ignore
+      // currentRoad.data = roadData;
+      // 发送当前路径数据
+      // dispatch({
+      //   type: 'dashboardModel/changeEditRoadSignal',
+      //   payload: currentRoad,
+      // });
+      console.log('editRoad -> currentRoad:', currentRoad.data);
+      setcurrentRoad(currentRoad);
+    }
+  };
+  ////////////////////
+  const defaultColumns: (ColumnTypes[number] & { editable?: boolean; dataIndex: string })[] = [
+    {
+      title: '航线名称',
+      dataIndex: 'name',
+      editable: true,
+    },
+    {
+      title: '创建者',
+      dataIndex: 'creator',
+      editable: false,
+    },
+    {
+      title: '创建时间',
+      dataIndex: 'create_time',
+    },
+    {
+      title: (
+        <div>
+          <Button type="primary" onClick={handleAdd}>
+            添加
+          </Button>
+        </div>
+      ),
+      dataIndex: 'operation',
+      // @ts-ignore
+      render: (_, record: { key: React.Key }) =>
+        dataSource.length >= 1 ? (
+          <Button type="primary" onClick={() => toggleDrawer(record)}>
+            查看
+          </Button>
+        ) : null,
+    },
+  ];
 
   const components = {
     body: {
@@ -371,7 +405,8 @@ const App: React.FC = () => {
               span={5}
               className={styles.title}
               onClick={() => {
-                saveDrawer(currentRoad);
+                // @ts-ignore
+                handleSave(currentRoad);
               }}
             >
               <CheckOutlined />
@@ -380,7 +415,7 @@ const App: React.FC = () => {
           </Row>
           <List
             pagination={{
-              pageSize: 4,
+              pageSize: 3,
               showSizeChanger: false,
             }}
             dataSource={currentRoad.data}
@@ -392,21 +427,39 @@ const App: React.FC = () => {
                     节点名称
                   </Col>
                   <Col span={12} style={{ color: 'white' }}>
-                    {/* <Input
+                    <Input
+                      className={styles.inputName}
+                      readOnly={!editRoadSignal}
                       defaultValue={item.name}
                       placeholder="请输入节点名称"
                       onChange={(e) => {
                         changeNodeName(e, index);
                       }}
-                    /> */}
+                    />
                   </Col>
                 </Row>
                 <Row>
                   <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
-                    坐标
+                    经度
                   </Col>
                   <Col span={12} style={{ color: 'white' }}>
-                    {'[' + item.coord + ']'}
+                    {item.coord[0]}
+                  </Col>
+                </Row>
+                <Row>
+                  <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
+                    维度
+                  </Col>
+                  <Col span={12} style={{ color: 'white' }}>
+                    {item.coord[1]}
+                  </Col>
+                </Row>
+                <Row>
+                  <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
+                    高度
+                  </Col>
+                  <Col span={12} style={{ color: 'white' }}>
+                    {item.coord[2]}
                   </Col>
                 </Row>
               </div>

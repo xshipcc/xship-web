@@ -124,8 +124,11 @@ const Map: React.FC = () => {
    */
   //#region -------------------------------------------------------------------------
   const editRoadSignal = useSelector((state: any) => state.dashboardModel.editRoadSignal);
+  // 编辑路线
   useEffect(() => {
     if (editRoadSignal) {
+      viewer.current.entities.removeAll();
+      viewer.current.dataSources.removeAll();
       const start = (item: any) => {
         console.log('start -> item:', item);
         if (!MeasureTools.current) return;
@@ -144,17 +147,19 @@ const Map: React.FC = () => {
             //   type: 'trackModel/saveTrackList',
             //   payload: trackPosition,
             // });
+
             // TODO 设置当前路径
-            const RoadLonLatAlt = trackPosition.map((coord, index) => {
-              return {
-                aircraftAltitude: coord[2],
-                aircraftLatitude: coord[1],
-                aircraftLongitude: coord[0],
-              };
-            });
+            // const RoadLonLatAlt = trackPosition.map((coord, index) => {
+            //   return {
+            //     aircraftAltitude: coord[2],
+            //     aircraftLatitude: coord[1],
+            //     aircraftLongitude: coord[0],
+            //   };
+            // });
+            // console.log('RoadLonLatAlt -> RoadLonLatAlt:', RoadLonLatAlt);
             dispatch({
               type: 'dashboardModel/saveCurrentRoad',
-              payload: RoadLonLatAlt,
+              payload: trackPosition,
             });
           })
           .catch((error) => {

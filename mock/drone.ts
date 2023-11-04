@@ -318,18 +318,9 @@ export default {
   },
   // 航线查询
   'POST /api/uav/fly/list': (req: Request, res: Response) => {
-    // 定义数据类型
-    const nodeDataType = {
-      'key|+1': 1,
-      'horizontal|100-999.2': 0,
-      'vertical|100-999.2': 0,
-      'stayTime|0-100': 0,
-    };
-
     const nodeType = {
       name: '@city()',
-      coord: '[111.11,37.11,112]',
-      nodeData: () => Mock.mock({ 'list|3-6': [nodeDataType] }).list, // 随机生成3-6个节点
+      coord: [111.11, 37.11, 112],
     };
 
     const listUavFlyDataType = {
