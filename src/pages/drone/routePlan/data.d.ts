@@ -19,7 +19,7 @@
 
 export interface AddUavFlyReqType {
   name: string | undefined;
-  data: string | undefined;
+  data: { name: string; coord: string }[] | undefined;
   create_time: string | undefined;
   creator: string | undefined;
 }

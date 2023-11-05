@@ -90,13 +90,13 @@ export default defineConfig({
   esbuild: {},
   title: false,
   ignoreMomentLocale: true,
-  // proxy: {
-  //   '/api': {
-  //     target: 'http://47.243.162.50:8888',
-  //     changeOrigin: true,
-  //     // "pathRewrite": { "^/api": "" }
-  //   },
-  // },
+  proxy: {
+    '/api': {
+      target: 'http://47.243.162.50:8888',
+      changeOrigin: true,
+      // "pathRewrite": { "^/api": "" }
+    },
+  },
   manifest: {
     basePath: '/',
   },

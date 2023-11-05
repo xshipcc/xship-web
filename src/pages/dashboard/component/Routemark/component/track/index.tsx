@@ -12,7 +12,6 @@ import { queryFly, updateFly, addFly } from '@/pages/drone/routePlan/service';
 import { CheckOutlined, RollbackOutlined } from '@ant-design/icons';
 import { message, Drawer, Modal } from 'antd';
 import { useDispatch, useModel, useSelector } from 'umi';
-import { stringify } from '@ant-design/pro-components';
 
 const EditableContext = React.createContext<FormInstance<any> | null>(null);
 
@@ -141,8 +140,15 @@ const App: React.FC = () => {
    */
   const fetchFlyData = async (params: ListUavFlyReqType) => {
     try {
-      const Data = await queryFly(params);
-      setDataSource(Data.data);
+      const res = await queryFly(params);
+      console.log('fetchFlyData -> res:', res);
+      // JSON.parse(res.data.data);
+      // res.data.map((item: any) => {
+      //   item.data = JSON.parse(item.data);
+      //   console.log('res.data.map -> item:', item);
+      //   return item;
+      // });
+      setDataSource(res.data);
       return true;
     } catch (error) {
       console.log('fetchFlyData -> error:', error);
@@ -163,10 +169,18 @@ const App: React.FC = () => {
     const newData: AddUavFlyReqType = {
       creator: initialState?.currentUser?.name,
       name: `demo`,
-      data: 'demo',
+      data: [
+        {
+          name: `default`,
+          coord: 'default',
+        },
+      ],
       create_time: `demo`,
     };
     try {
+      // @ts-ignore
+      newData.data = newData.data + '';
+      console.log('handleAdd -> newData:', newData);
       const response = await addFly(newData);
       // console.log('*fetchDashboardInfo -> response:', response);
       const { code, result } = response;
@@ -183,6 +197,28 @@ const App: React.FC = () => {
   };
 
   /**
+   *  @file index.tsx
+   *  @time 2023/10/27
+   * @category :drawer
+   * @function :
+   */
+  //#region -------------------------------------------------------------------------
+  const dispatch = useDispatch();
+  const [editRoadSignal, setEditRoadSignal] = useState(false);
+  const [showDrawer, setShowDrawer] = useState(false);
+  const [currentRoad, setcurrentRoad] = useState<ListUavFlyDataType>({
+    id: 1,
+    creator: 'default',
+    name: `default`,
+    data: [],
+    create_time: `default`,
+  });
+  // const [nodeData, setNodeData] = useState({
+  //   name: `default`,
+  //   coord: '',
+  // });
+
+  /**
    *保存编辑航线的信息
    *
    * @param {DataType} row
@@ -197,6 +233,9 @@ const App: React.FC = () => {
     });
     try {
       // @ts-ignore
+      console.log('handleSave -> row:', row);
+      row.data = JSON.stringify(row.data);
+      console.log('handleSave -> row:', row);
       const response = await updateFly(row);
       // console.log('*fetchDashboardInfo -> response:', response);
       const { code, result } = response;
@@ -205,42 +244,41 @@ const App: React.FC = () => {
         message.success('修改成功');
         fetchFlyData({ pageSize: 10, current: 1 });
       }
+      setShowDrawer(false);
     } catch (error) {
       message.success('修改失败');
       console.log('catch getData:', error);
     }
   };
-  /**
-   *  @file index.tsx
-   *  @time 2023/10/27
-   * @category :drawer
-   * @function :
-   */
-  //#region -------------------------------------------------------------------------
-  const dispatch = useDispatch();
-
-  const [showDrawer, setShowDrawer] = useState(false);
-  const [currentRoad, setcurrentRoad] = useState<ListUavFlyDataType>({
-    id: 1,
-    creator: 'default',
-    name: `default`,
-    data: [],
-    create_time: `default`,
-  });
-  const [nodeData, setNodeData] = useState({
-    name: `default`,
-    coord: '',
-  });
-  const roadData = useSelector((state: any) => state.dashboardModel.currentRoad);
+  function isJSON(jsonString: any) {
+    try {
+      JSON.parse(jsonString);
+      console.log('toggleDrawer -> jsonString:', jsonString);
+      return true;
+    } catch (error) {
+      console.log('toggleDrawer -> jsonString:', jsonString);
+      return false;
+    }
+  }
 
   /**
    *打开当前路线,设置当前的路线值
    *
    * @param {*} data
    */
-  const toggleDrawer = (data: any) => {
-    console.log('toggleDrawer -> param2:', data);
-    setcurrentRoad(data);
+  const toggleDrawer = (item: any) => {
+    console.log('toggleDrawer -> item:', item);
+    // isJSON(item.data);
+    let parsedArray;
+    if (isJSON(item.data)) {
+      parsedArray = JSON.parse(item.data);
+      // const parsedArray1 = JSON.parse(parsedArray);
+      console.log('toggleDrawer -> parsedArray:', parsedArray);
+      item.data = parsedArray;
+    }
+    // 将解析后的对象转换为数组
+
+    setcurrentRoad(item);
     setShowDrawer(true);
   };
 
@@ -248,30 +286,39 @@ const App: React.FC = () => {
     setShowDrawer(false);
   };
 
-  const saveDrawer = async (data: any) => {
-    console.log('saveDrawer -> data:', data);
-    try {
-      // @ts-ignore
-      const response = await updateFly(data);
-      // console.log('*fetchDashboardInfo -> response:', response);
-      const { code, result } = response;
-      if (code === '000000') {
-        message.success('修改成功');
-        fetchFlyData({ pageSize: 10, current: 1 });
-      }
-    } catch (error) {
-      message.success('修改失败');
-      console.log('catch getData:', error);
-    }
-    setShowDrawer(false);
-  };
+  // const saveDrawer = async (data: any) => {
+  //   console.log('saveDrawer -> data:', data);
+  //   try {
+  //     // @ts-ignore
+  //     const response = await updateFly(data);
+  //     // console.log('*fetchDashboardInfo -> response:', response);
+  //     const { code, result } = response;
+  //     if (code === '000000') {
+  //       message.success('修改成功');
+  //       fetchFlyData({ pageSize: 10, current: 1 });
+  //     }
+  //   } catch (error) {
+  //     message.success('修改失败');
+  //     console.log('catch getData:', error);
+  //   }
+  //   setShowDrawer(false);
+  // };
   const changeNodeName = (e: any, index: any) => {
+    console.log('changeNodeName -> e:', e);
+    console.log('changeNodeName -> index:', index);
     // console.log('changeNodeName -> index:', index);
     // console.log('changeNodeName -> data:', e.target.value);
-    currentRoad.data[index].name = e.target.value;
+    const tempNode = {
+      coord: currentRoad.data[index]?.coord ? currentRoad.data[index].coord : '1',
+      name: e.target.value,
+    };
+    currentRoad.data[index] = tempNode;
+    console.log('changeNodeName -> currentRoad:', currentRoad);
     setcurrentRoad(currentRoad);
   };
-  const [editRoadSignal, setEditRoadSignal] = useState(false);
+
+  //
+  const roadData = useSelector((state: any) => state.dashboardModel.currentRoad);
 
   // 路线完成进行更新
   useEffect(() => {
@@ -414,10 +461,10 @@ const App: React.FC = () => {
             </Col>
           </Row>
           <List
-            pagination={{
-              pageSize: 3,
-              showSizeChanger: false,
-            }}
+            // pagination={{
+            //   pageSize: 3,
+            //   showSizeChanger: false,
+            // }}
             dataSource={currentRoad.data}
             renderItem={(item: NodeType, index) => (
               <div className={styles.nodeList}>
@@ -429,7 +476,7 @@ const App: React.FC = () => {
                   <Col span={12} style={{ color: 'white' }}>
                     <Input
                       className={styles.inputName}
-                      readOnly={!editRoadSignal}
+                      readOnly={editRoadSignal}
                       defaultValue={item.name}
                       placeholder="请输入节点名称"
                       onChange={(e) => {
@@ -443,7 +490,8 @@ const App: React.FC = () => {
                     经度
                   </Col>
                   <Col span={12} style={{ color: 'white' }}>
-                    {item.coord[0]}
+                    {/* {item?.coord[0]} */}
+                    {item?.coord ? item.coord[0] : 'default'}
                   </Col>
                 </Row>
                 <Row>
@@ -451,7 +499,8 @@ const App: React.FC = () => {
                     维度
                   </Col>
                   <Col span={12} style={{ color: 'white' }}>
-                    {item.coord[1]}
+                    {/* {item?.coord[1]} */}
+                    {item?.coord ? item.coord[1] : 'default'}
                   </Col>
                 </Row>
                 <Row>
@@ -459,7 +508,9 @@ const App: React.FC = () => {
                     高度
                   </Col>
                   <Col span={12} style={{ color: 'white' }}>
-                    {item.coord[2]}
+                    {item?.coord ? item.coord[2] : 'default'}
+
+                    {/* {item?.coord[2]} */}
                   </Col>
                 </Row>
               </div>

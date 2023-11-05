@@ -147,14 +147,14 @@
 }
 .drawer {
   width: 100%;
-  height: 450px;
+  height: 550px;
   background: rgba(14, 70, 116, 0.548);
   border: 1px solid #5cb6ff;
   border-radius: 8px;
   .inputName {
     color: #ffffff;
     font-weight: 400;
-    font-size: 24px;
+    font-size: 22px;
     font-family: YouSheBiaoTiHei;
     background: rgba(14, 70, 116, 0.548);
     border: 1px solid #5cb6ff;
@@ -199,92 +199,19 @@
     //   cursor: pointer;
     //   transition: 0.5s linear;
     // }
-
-    .ant-pagination {
+    .ant-list {
+      position: relative;
       box-sizing: border-box;
-      margin-top: 10px;
-      margin-right: 0px;
-      margin-bottom: 0px;
-      margin-left: 0px;
+      height: 450px;
+      margin: 0;
       padding: 0;
-      color: #ffffff;
-      font-weight: 200;
-      font-size: 18px;
-      font-family: YouSheBiaoTiHei;
+      overflow: scroll;
+      color: rgba(0, 0, 0, 0.85);
+      font-size: 22px;
       font-variant: tabular-nums;
       line-height: 1.5715;
-      line-height: 1.5715;
       list-style: none;
-    }
-    .ant-list-pagination {
-      margin-top: 4px;
-      text-align: left;
-    }
-    .ant-pagination-total-text {
-      display: inline-block;
-      height: 30px;
-      margin-right: 8px;
-      line-height: 30px;
-      vertical-align: middle;
-    }
-    .ant-pagination-prev,
-    .ant-pagination-next,
-    .ant-pagination-jump-prev,
-    .ant-pagination-jump-next {
-      display: inline-block;
-      min-width: 16px;
-      height: 30px;
-      color: rgba(0, 0, 0, 0.85);
-
-      line-height: 32px;
-      text-align: center;
-      vertical-align: middle;
-      list-style: none;
-      border-radius: 2px;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-    .ant-pagination-item {
-      display: inline-block;
-      min-width: 25px;
-      height: 30px;
-      margin-right: 8px;
-      padding: 0px;
-      line-height: 30px;
-      text-align: center;
-      vertical-align: middle;
-      list-style: none;
-      background-color: rgb(255, 255, 255);
-      border: 1px solid #5cb6ff;
-      border-radius: 2px;
-      outline: 0;
-      cursor: pointer;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-    }
-    .ant-pagination-prev .ant-pagination-item-link,
-    .ant-pagination-next .ant-pagination-item-link {
-      display: block;
-      width: 100%;
-      height: 100%;
-      padding: 0;
-      color: rgb(250 250 250 / 85%);
-      font-size: 14px;
-      text-align: center;
-      background-color: rgb(255, 255, 255);
-      border: 1px solid #5cb6ff;
-      border-radius: 2px;
-      outline: none;
-      transition: all 0.3s;
-    }
-    .ant-pagination-item a {
-      display: block;
-      padding: 0px;
-      color: rgb(0, 0, 0);
-      text-align: center;
-      transition: none;
+      font-feature-settings: 'tnum', 'tnum';
     }
   }
   .title {
@@ -305,6 +232,8 @@
 }
 .nodeList {
   width: 100%;
+  padding-right: 20px;
+  padding-left: 20px;
   background: rgba(11, 92, 158, 0.548);
   border: 1px solid #5cb6ff;
 }

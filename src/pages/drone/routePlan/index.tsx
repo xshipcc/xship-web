@@ -159,11 +159,7 @@ const FlashPromotionList: React.FC = () => {
         search={{
           labelWidth: 120,
         }}
-        toolBarRender={() => [
-          <Button type="primary" onClick={() => handleModalVisible(true)}>
-            <PlusOutlined /> 新建航线
-          </Button>,
-        ]}
+        toolBarRender={() => []}
         request={queryFly}
         columns={columns}
         rowSelection={{

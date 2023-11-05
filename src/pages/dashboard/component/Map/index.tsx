@@ -7,6 +7,7 @@ import 'cesium/Source/Widgets/widgets.css';
 import type { Alert } from '../../typings';
 import * as mqtt from 'mqtt';
 import Track from '../../../../utils/js/track';
+import Road from '../../../../utils/js/road';
 import Tool from '@/utils/js/measure/measureTool';
 import { useSelector, useDispatch } from 'umi';
 
@@ -58,7 +59,7 @@ const Map: React.FC = () => {
   // const alertData: ListAlertHistoryData = useSelector((state: any) => state.trackModel.alertData);
   const initFlyData = useSelector((state: any) => state.dashboardModel.currentFlyData);
   const [coords, setCoords] = useState(null);
-
+  // 场景初始化
   useEffect(() => {
     viewer.current = new Cesium.Viewer(divRef.current as Element, {
       animation: false, //左下角的动画仪表盘
@@ -190,6 +191,16 @@ const Map: React.FC = () => {
   useEffect(() => {
     console.log('roadData:', roadData);
     if (roadData?.length > 0) {
+      const roaming = new Road(viewer.current, {
+        rt: false,
+        Lines: coords,
+        stayTime: 1,
+        speed: 3,
+        frustumFar: 10,
+        shootCallback: function (shootId) {
+          console.log(shootId);
+        },
+      });
     }
 
     // 飞行模拟数据

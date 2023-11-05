@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-27 14:41:11
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-29 21:32:38
+ * @LastEditTime: 2023-11-05 22:32:41
  * @FilePath: \zero-admin-ui-master\src\utils\js\road.js
  * @Description:
  *
@@ -54,6 +54,7 @@ class Road {
         Lines[i].aircraftLatitude,
         Lines[i].aircraftAltitude,
       );
+      //添加点
       this.dataSource.entities.add({
         position: LinesIndex,
         point: {
@@ -65,7 +66,7 @@ class Road {
       lins.push(Lines[i].aircraftLatitude);
       lins.push(Lines[i].aircraftAltitude);
     }
-
+    // 添加线
     this.dataSource.entities.add({
       polyline: {
         positions: new Cesium.Cartesian3.fromDegreesArrayHeights(lins),
@@ -73,7 +74,20 @@ class Road {
         material: Cesium.Color.YELLOW,
       },
     });
-
+    // 添加标签
+    this.dataSource.entities.add({
+      position: LinesIndex,
+      label: {
+        text: '111111111' || '',
+        font: '18px Helvetica',
+        fillColor: Cesium.Color.WHITE,
+        outlineColor: Cesium.Color.BLACK,
+        outlineWidth: 2,
+        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+        style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+        pixelOffset: new Cesium.Cartesian2(0, -20),
+      },
+    });
     this.viewer.dataSources.add(this.dataSource);
   }
   getLength(c1, c2) {
