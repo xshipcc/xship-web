@@ -166,21 +166,22 @@ const App: React.FC = () => {
    *
    */
   const handleAdd = async () => {
-    const newData: AddUavFlyReqType = {
+    const newData = {
       creator: initialState?.currentUser?.name,
-      name: `demo`,
+      name: `default`,
       data: [
         {
           name: `default`,
-          coord: 'default',
+          coord: [111, 37, 111],
         },
       ],
-      create_time: `demo`,
+      create_time: `default`,
     };
     try {
       // @ts-ignore
       newData.data = newData.data + '';
       console.log('handleAdd -> newData:', newData);
+      // @ts-ignore
       const response = await addFly(newData);
       // console.log('*fetchDashboardInfo -> response:', response);
       const { code, result } = response;
@@ -210,7 +211,7 @@ const App: React.FC = () => {
     id: 1,
     creator: 'default',
     name: `default`,
-    data: [],
+    data: [{ name: 'default', coord: [111, 37, 111] }],
     create_time: `default`,
   });
   // const [nodeData, setNodeData] = useState({
@@ -267,6 +268,10 @@ const App: React.FC = () => {
    * @param {*} data
    */
   const toggleDrawer = (item: any) => {
+    dispatch({
+      type: 'trackModel/changeDestoryTackSignal',
+      payload: [true],
+    });
     console.log('toggleDrawer -> item:', item);
     // isJSON(item.data);
     let parsedArray;
@@ -284,6 +289,10 @@ const App: React.FC = () => {
 
   const closeDrawer = async (data: any) => {
     setShowDrawer(false);
+    dispatch({
+      type: 'trackModel/changeDestoryTackSignal',
+      payload: [true],
+    });
   };
 
   // const saveDrawer = async (data: any) => {
@@ -330,7 +339,7 @@ const App: React.FC = () => {
         console.log('roadData.map -> item:', item);
         data.push({
           coord: item,
-          name: index,
+          name: index + '号',
         });
         return;
       });
@@ -368,6 +377,22 @@ const App: React.FC = () => {
       setcurrentRoad(currentRoad);
     }
   };
+
+  /**
+   *查看当前路径
+   *
+   */
+  const lookCurrentRoad = () => {
+    if (currentRoad.data[0]?.coord != 'default') {
+      console.log('lookCurrentRoad -> currentRoad:', currentRoad);
+      dispatch({
+        type: 'dashboardModel/saveCurrentFlyingRoad',
+        payload: currentRoad.data,
+      });
+    } else {
+      message.success('请先绘制航线');
+    }
+  };
   ////////////////////
   const defaultColumns: (ColumnTypes[number] & { editable?: boolean; dataIndex: string })[] = [
     {
@@ -393,6 +418,7 @@ const App: React.FC = () => {
         </div>
       ),
       dataIndex: 'operation',
+      width: '20%',
       // @ts-ignore
       render: (_, record: { key: React.Key }) =>
         dataSource.length >= 1 ? (
@@ -528,7 +554,12 @@ const App: React.FC = () => {
               </Button>
             </Col>
             <Col span={9} offset={2}>
-              <Button type="primary" onClick={() => {}}>
+              <Button
+                type="primary"
+                onClick={() => {
+                  lookCurrentRoad();
+                }}
+              >
                 预览航线
               </Button>
             </Col>

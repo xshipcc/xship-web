@@ -187,24 +187,26 @@ const Map: React.FC = () => {
 
   /** @type {number[][]} 当前路线数据*/
   const roadData: number[][] = useSelector((state: any) => state.dashboardModel.currentRoad);
+  const currentFlyingRoad: number[][] = useSelector(
+    (state: any) => state.dashboardModel.currentFlyingRoad,
+  );
 
   useEffect(() => {
     console.log('roadData:', roadData);
-    if (roadData?.length > 0) {
-      const roaming = new Road(viewer.current, {
-        rt: false,
-        Lines: coords,
-        stayTime: 1,
-        speed: 3,
-        frustumFar: 10,
-        shootCallback: function (shootId) {
-          console.log(shootId);
-        },
-      });
-    }
+    console.log('currentFlyingRoad:', currentFlyingRoad);
 
+    if (currentFlyingRoad?.length > 0) {
+      const roaming = new Road(viewer.current, {
+        // Lines: currentFlyingRoad,
+      });
+
+      viewer.current.dataSources.removeAll();
+
+      // 绘制飞行路径
+      roaming.TrackPath(currentFlyingRoad);
+    }
     // 飞行模拟数据
-  }, [roadData]);
+  }, [currentFlyingRoad]);
 
   //#endregion -----------------------------------------------------------------------
   /**
@@ -303,18 +305,14 @@ const Map: React.FC = () => {
         minimumPixelSize: 64,
         maximumSize: 128,
         // 设置模型最大放大大小
-        maximumScale: 200,
+        maximumScale: 100,
         // 模型是否可见
         show: true,
-        // 模型轮廓颜色
-        silhouetteColor: Cesium.Color.WHITE,
-        // 模型颜色  ，这里可以设置颜色的变化
-        // color: color,
         // 仅用于调试，显示魔仙绘制时的线框
         debugWireframe: false,
         // 仅用于调试。显示模型绘制时的边界球。
         debugShowBoundingVolume: false,
-        scale: 200,
+        scale: 100,
         runAnimations: false, // 是否运行模型中的动画效果(由于我的模型是不会动所以就很呆哈哈哈)
       },
     });

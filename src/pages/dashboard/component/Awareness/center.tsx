@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-02 11:28:01
+ * @LastEditTime: 2023-11-06 01:48:00
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\center.tsx
  * @Description:
  *
@@ -17,6 +17,9 @@ import styles from './center.less';
 import type { DashboardInfoType } from '@/pages/dashboard/typings';
 import { ControlOutlined } from '@ant-design/icons';
 import * as mqtt from 'mqtt';
+import { queryFly } from '@/pages/drone/routePlan/service';
+import { ListUavFlyReqType } from '@/pages/drone/routePlan/data';
+import { useDispatch } from 'umi';
 
 const AnalysisCenter: React.FC = (props) => {
   const def: any = '';
@@ -80,9 +83,6 @@ const AnalysisCenter: React.FC = (props) => {
 
   const [activeTab, setActiveTab] = useState('drone');
   const [Collapase, setCollapase] = useState(false);
-  const handleChange = (params: string) => {
-    console.log(`selected ${params}`);
-  };
 
   /**
    *  @file center.tsx
@@ -312,7 +312,47 @@ const AnalysisCenter: React.FC = (props) => {
    */
   const [ValueView, setValueView] = useState(1);
   const [ValueFocus, setValueFocus] = useState(1);
+  const [roadList, setroadList] = useState([{ value: 'demo', label: 'demo' }]);
+  const [currentRoad, setcurrentRoad] = useState([]);
 
+  /**
+   *
+   * 获取当前的航线信息并且更新航线数据
+   * @param {ListUavFlyReqType} params
+   * @return {*}
+   */
+  const fetchFlyData = async (params: ListUavFlyReqType) => {
+    try {
+      const res = await queryFly(params);
+      console.log('fetchFlyData -> res:', res);
+      // JSON.parse(res.data.data);
+      const road = res.data.map((item: any) => {
+        return { value: item.data, label: item.name };
+      });
+      console.log('road -> road:', road);
+      setroadList(road);
+      return true;
+    } catch (error) {
+      console.log('fetchFlyData -> error:', error);
+      return false;
+    }
+  };
+  useEffect(() => {
+    fetchFlyData({ pageSize: 10, current: 1 });
+  }, []);
+
+  const handleChange = (params: string) => {
+    setcurrentRoad(JSON.parse(params));
+    console.log(`selected ${params}`);
+  };
+  const dispatch = useDispatch();
+
+  const loadCurrentRoad = () => {
+    dispatch({
+      type: 'dashboardModel/saveCurrentFlyingRoad',
+      payload: currentRoad,
+    });
+  };
   const RenderComponent = (component: string) => {
     switch (component) {
       case 'drone':
@@ -359,20 +399,18 @@ const AnalysisCenter: React.FC = (props) => {
                     </Col>
                   </Row>
                   <Row style={{ padding: '8px' }}>
-                    <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
-                      航线加载
+                    <Col span={16}>
+                      <Select defaultValue="default" onChange={handleChange} options={roadList} />
                     </Col>
-                    <Col span={12}>
-                      <Select
-                        defaultValue="lucy"
-                        onChange={handleChange}
-                        options={[
-                          { value: 'jack', label: 'Jack' },
-                          { value: 'lucy', label: 'Lucy' },
-                          { value: 'Yiminghe', label: 'yiminghe' },
-                          { value: 'disabled', label: 'Disabled', disabled: true },
-                        ]}
-                      />
+                    <Col
+                      span={8}
+                      style={{ color: 'white' }}
+                      onClick={() => {
+                        loadCurrentRoad();
+                      }}
+                    >
+                      {/* @ts-ignore */}
+                      <AwarenessButton name={'加载航线'} over={'加载成功'} />
                     </Col>
                   </Row>
                   {/*  */}

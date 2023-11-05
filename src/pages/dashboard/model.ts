@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-16 18:32:55
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-27 13:18:54
+ * @LastEditTime: 2023-11-06 01:44:15
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\model.ts
  * @Description:
  *
@@ -50,17 +50,22 @@ export interface DashboardState {
    * @memberof DashboardState
    */
   currentRoad: [];
+  currentFlyingRoad: [];
+  destoryTackSignal: [boolean];
 }
 export interface DashboardModelType {
   namespace: 'dashboardModel';
   state: DashboardState;
   reducers: {
+    changeDestoryTackSignal: ImmerReducer<string> | any;
+
     changeCurrentComponent: ImmerReducer<string> | any;
     saveDashboardInfo: ImmerReducer<string> | any;
     saveAlertList: ImmerReducer<string> | any;
     saveCurrentFlyData: ImmerReducer<string> | any;
     saveAlertData: ImmerReducer<string> | any;
     saveCurrentRoad: ImmerReducer<string> | any;
+    saveCurrentFlyingRoad: ImmerReducer<string> | any;
     changeEditRoadSignal: ImmerReducer<boolean> | any;
   };
   effects: {
@@ -72,6 +77,8 @@ const CompanyModel: DashboardModelType = {
   namespace: 'dashboardModel',
 
   state: {
+    destoryTackSignal: [false],
+
     currentComponent: 'Analysis',
     dashboardInfo: {
       drone: {
@@ -124,12 +131,17 @@ const CompanyModel: DashboardModelType = {
     },
     editRoadSignal: false,
     currentRoad: [],
+    currentFlyingRoad: [],
   },
   reducers: {
     changeCurrentComponent(state: DashboardState, action: { payload: string }) {
       state.currentComponent = action.payload;
     },
-
+    changeDestoryTackSignal(state: DashboardState, action: { payload: [boolean] }) {
+      // console.log('changeEditSignal -> payload:', action.payload);
+      state.destoryTackSignal = action.payload;
+      // console.log('changeEditSignal ->   state.editSignal:', state.editSignal);
+    },
     saveDashboardInfo(state: DashboardState, action: { payload: DashboardInfoType }) {
       // console.log('saveDashboardInfo -> payload:', action.payload);
       state.dashboardInfo = action.payload;
@@ -144,6 +156,9 @@ const CompanyModel: DashboardModelType = {
     saveCurrentRoad(state: DashboardState, action: { payload: [] }) {
       state.currentRoad = action.payload;
       console.log('saveCurrentRoad ->  action.payload:', action.payload);
+    },
+    saveCurrentFlyingRoad(state: DashboardState, action: { payload: [] }) {
+      state.currentFlyingRoad = action.payload;
     },
     saveCurrentFlyData(state: DashboardState, action: { payload: ListUavFlyDataType }) {
       if (action.payload?.data) {
