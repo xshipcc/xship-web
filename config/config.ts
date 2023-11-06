@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-02 13:06:15
+ * @LastEditTime: 2023-11-06 14:35:33
  * @FilePath: \zero-admin-ui-master\config\config.ts
  * @Description:
  *
@@ -51,7 +51,7 @@ export default defineConfig({
     // MAP_TILES_URL: 'http://ai.javodata.com/luquantile/{z}/{x}/{y}.png',
     // WS_MQTT_URL: 'ws://127.0.0.1:8083/mqtt',//本地测试
     // WS_MQTT_URL: 'ws://192.168.174.128:8883/mqtt',
-    WS_MQTT_URL: 'ws://192.168.2.105:8883/mqtt', //远程机器部署地址
+    WS_MQTT_URL: 'ws://192.168.2.105:1883/mqtt', //远程机器部署地址
     // WS_MQTT_URL: 'ws://ai.javodata.com:8883/mqtt',//远程测试
   },
   hash: true,
