@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-06 12:05:23
+ * @LastEditTime: 2023-11-06 12:14:17
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\center.tsx
  * @Description:
  *
@@ -200,66 +200,66 @@ const AnalysisCenter: React.FC = (props) => {
   // 面板控制加载
   const droneButtonList = [
     {
-      key: `Check`,
+      key: `check`,
       button: '自检',
       over: '自检成功',
     },
     {
-      key: `Unlock`,
+      key: `unlock`,
       button: '解锁',
       over: '成功',
     },
     {
-      key: `Takeoff`,
+      key: `takeoff`,
       button: '起飞',
       over: '成功',
     },
     {
-      key: `Return`,
+      key: `return`,
       button: '回家降落',
       over: '成功',
     },
     {
-      key: `Lock`,
+      key: `lock`,
       button: '加锁',
       over: '加锁成功',
     },
   ];
   const monitorButtonList1 = [
     {
-      key: `跟踪`,
+      key: `tracking`,
       button: '跟踪',
       over: '成功',
     },
     {
-      key: `激光定位`,
+      key: `positioning`,
       button: '激光定位',
       over: '成功',
     },
     {
-      key: `下视`,
+      key: `downward`,
       button: '下视',
       over: '成功',
     },
     {
-      key: `归中`,
+      key: `centering`,
       button: '归中',
       over: '归中',
     },
     {
-      key: `扫描`,
+      key: `scanning`,
       button: '扫描',
       over: '成功',
     },
   ];
   const monitorButtonList2 = [
     {
-      key: `拍照`,
+      key: `photo`,
       button: '拍照',
       over: '成功',
     },
     {
-      key: `录像`,
+      key: `video`,
       button: '录像 ',
       over: '成功',
     },
