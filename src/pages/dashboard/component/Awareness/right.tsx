@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-02 13:00:23
+ * @LastEditTime: 2023-11-06 08:37:45
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\right.tsx
  * @Description:
  *
@@ -15,7 +15,7 @@ import AlertList from '@/pages/dashboard/component/AlertList/demo';
 import HistoryList from '@/pages/dashboard/component/AlertList/history';
 import Title from '../common/Title';
 import TimeLine from './component/timeLine';
-import { SwapOutlined } from '@ant-design/icons';
+import { FastForwardOutlined, SwapOutlined } from '@ant-design/icons';
 
 const AwarenessRight: React.FC = () => {
   /**
@@ -83,7 +83,7 @@ const AwarenessRight: React.FC = () => {
                         ChangeComponent('Awareness');
                       }}
                     >
-                      正常
+                      <FastForwardOutlined />
                     </Button>
                   </Col>
                 </Row>

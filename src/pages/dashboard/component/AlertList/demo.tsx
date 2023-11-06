@@ -2,8 +2,8 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-22 14:51:44
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-04 19:30:51
- * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\List\demo.tsx
+ * @LastEditTime: 2023-11-06 09:34:50
+ * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\AlertList\demo.tsx
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
@@ -40,9 +40,9 @@ export default () => {
     start_time: '',
     end_time: '',
     note: '',
-    lan: 0,
+    lat: 0,
     lon: 0,
-    altitude: 0,
+    alt: 0,
     confirm: 0,
   });
   const openDrawer = (data: ListAlertHistoryData) => {
@@ -57,25 +57,27 @@ export default () => {
     console.log('saveDrawer -> data:', data);
     const hide = message.loading('正在更新');
     try {
-      const success = await upadtaAlert({
+      const response = await upadtaAlert({
         confirm: drawerData.confirm,
         id: drawerData.id,
       });
-      // console.log('onClick={ -> success:', success);
-      message.success('更新成功');
-      setShowDrawer(false);
+      const { code, result } = response;
+      console.log('getData', code);
+      if (code === '000000') {
+        message.success(result);
+        setShowDrawer(false);
+      }
     } catch (error) {
       hide();
       message.error('更新失败请重试！');
     }
   };
-  const onChange = (e: RadioChangeEvent) => {
+  const onChangeConfirm = (e: RadioChangeEvent) => {
     console.log('radio checked', e.target.value);
     setdrawerData({
       ...drawerData,
       confirm: e.target.value,
     });
-    console.log('onChange -> drawerData:', drawerData);
   };
 
   //#endregion -----------------------------------------------------------------------
@@ -90,23 +92,36 @@ export default () => {
    * @function :
    */
   //#region -------------------------------------------------------------------------
+  const [reqParams, setreqParams] = useState({
+    type: 0,
+    platform: 0,
+    confirm: 0,
+    start_time: '',
+    end_time: '',
+  });
   const getList = async (params = {}) => {
     console.log('request={ -> params:', params);
-    // if (params?.type) params.type = Number(params.type);
+    const req = {
+      ...params,
+      ...reqParams,
+    };
     // @ts-ignore
-    const res: ListAlertHistoryRespType = await queryAlert(params);
+    const res: ListAlertHistoryRespType = await queryAlert(req);
     console.log('request={ -> res:', res);
     return res;
   };
-  const ChangeComponent = async (params = {}) => {
-    console.log('request={ -> params:', params);
-  };
+
   const onChangePicker: DatePickerProps['onChange'] = (date, dateString) => {
     console.log(date, dateString);
+    reqParams.start_time = dateString;
+    setreqParams(reqParams);
   };
-  const onChangeSelector = (value: string) => {
+  const onChangeSelector = (value: number) => {
     console.log('onChangeSelector -> value:', value);
+    reqParams.type = value;
+    setreqParams(reqParams);
   };
+
   //#endregion -----------------------------------------------------------------------
   /**
    * @end
@@ -149,7 +164,7 @@ export default () => {
             </Col>
           </Row>
           <Row>
-            <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
+            <Col span={11} offset={1} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
               发现时间
             </Col>
             <Col span={12} style={{ color: 'white' }}>
@@ -157,7 +172,7 @@ export default () => {
             </Col>
           </Row>
           <Row>
-            <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
+            <Col span={11} offset={1} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
               告警类型
             </Col>
             <Col span={12} style={{ color: 'white' }}>
@@ -165,15 +180,15 @@ export default () => {
             </Col>
           </Row>
           <Row>
-            <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
+            <Col span={11} offset={1} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
               告警等级
             </Col>
-            <Col span={12} style={{ color: 'white' }}>
+            <Col span={11} offset={1} style={{ color: 'white' }}>
               {drawerData.level}
             </Col>
           </Row>
           <Row>
-            <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
+            <Col span={11} offset={1} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
               告警计数
             </Col>
             <Col span={12} style={{ color: 'white' }}>
@@ -181,7 +196,7 @@ export default () => {
             </Col>
           </Row>
           <Row>
-            <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
+            <Col span={11} offset={1} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
               告警平台
             </Col>
             <Col span={12} style={{ color: 'white' }}>
@@ -189,21 +204,44 @@ export default () => {
             </Col>
           </Row>
           <Row>
-            <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
-              坐标
+            <Col span={11} offset={1} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
+              经度
             </Col>
             <Col span={12} style={{ color: 'white' }}>
-              {('[' + drawerData.lon + ',' + drawerData.lan, ',' + drawerData.altitude + ']')}
+              {drawerData.lon}
+              {console.log('ChangeComponent -> drawerData:', drawerData)}
+            </Col>
+          </Row>
+          <Row>
+            <Col span={11} offset={1} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
+              维度
+            </Col>
+            <Col span={12} style={{ color: 'white' }}>
+              {drawerData.lat}
+            </Col>
+          </Row>
+          <Row>
+            <Col span={11} offset={1} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
+              高度
+            </Col>
+            <Col span={12} style={{ color: 'white' }}>
+              {drawerData.alt}
             </Col>
           </Row>
           <Divider style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>备注信息</Divider>
-          <div style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>{drawerData.note}</div>
+          <div>
+            <Row>
+              <Col span={22} offset={1} style={{ color: 'white' }}>
+                {drawerData.note}
+              </Col>
+            </Row>
+          </div>
           <Row>
-            <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
+            <Col span={11} offset={1} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
               告警确认
             </Col>
             <Col span={12} style={{ color: 'white' }}>
-              <Radio.Group onChange={onChange} value={drawerData.confirm}>
+              <Radio.Group onChange={onChangeConfirm} value={drawerData.confirm}>
                 <Radio style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }} value={1}>
                   是
                 </Radio>
@@ -224,26 +262,9 @@ export default () => {
             </Col>
             <Col span={10} offset={4}>
               <Select
-                defaultValue="lucy"
+                defaultValue={0}
                 onChange={onChangeSelector}
                 options={[
-                  //     0: { text: '全部' },
-                  //     1: { text: '巡检路线' },
-                  //     2: {
-                  //       text: '人员告警',
-                  //     },
-                  //     3: {
-                  //       text: '车辆告警',
-                  //     },
-                  //     4: {
-                  //       text: '入侵告警',
-                  //     },
-                  //     5: {
-                  //       text: '烟火告警',
-                  //     },
-                  //     6: {
-                  //       text: '烟火告警',
-                  //     },
                   { value: 0, label: '全部' },
                   { value: 1, label: '巡检路线' },
                   { value: 2, label: '人员告警' },
@@ -259,7 +280,16 @@ export default () => {
               <Button
                 type="text"
                 onClick={() => {
-                  ChangeComponent('Awareness');
+                  // 默认查询结果
+                  queryAlert({
+                    current: 1,
+                    pageSize: 7,
+                    type: 0,
+                    platform: 0,
+                    confirm: 0,
+                    start_time: '',
+                    end_time: '',
+                  });
                 }}
               >
                 重置
@@ -269,7 +299,7 @@ export default () => {
               <Button
                 type="text"
                 onClick={() => {
-                  ChangeComponent('Awareness');
+                  getList({ current: 1, pageSize: 7 });
                 }}
               >
                 查询

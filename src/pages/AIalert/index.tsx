@@ -132,9 +132,9 @@ const TableList: React.FC = () => {
       title: '坐标',
       render: (text, record) => (
         <span>
-          经度 {record.lan}
-          维度 {record.lon}
-          高度 {record.altitude}
+          经度 {record.lon}
+          维度 {record.lat}
+          高度 {record.alt}
         </span>
       ),
       hideInSearch: true,

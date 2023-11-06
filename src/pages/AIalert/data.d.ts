@@ -63,9 +63,9 @@ interface ListAlertHistoryData {
   start_time: string;
   end_time: string;
   note: string;
-  lan: number;
+  lat: number;
   lon: number;
-  altitude: number;
+  alt: number;
   confirm: number;
 }
 
