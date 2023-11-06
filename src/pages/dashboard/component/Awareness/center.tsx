@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-06 09:59:00
+ * @LastEditTime: 2023-11-06 12:05:23
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\center.tsx
  * @Description:
  *
@@ -280,11 +280,11 @@ const AnalysisCenter: React.FC = (props) => {
     console.log('sendMqttControl -> param:', param);
     const data = { data: 'on' };
     const controlInfo = {
-      [type]: {
-        [param]: data,
-      },
+      cmd: type + '/' + param,
+      data: 'on',
     };
     console.log('sendMqttControl -> controlInfo:', controlInfo);
+    console.log('sendMqttControl -> controlInfo:', JSON.stringify(controlInfo));
     client.current.publish('control', JSON.stringify(controlInfo));
   };
   const RenderButtonList = (params: any[], type: string) =>
@@ -379,7 +379,7 @@ const AnalysisCenter: React.FC = (props) => {
                         unCheckedChildren="手控"
                         defaultChecked
                         onClick={() => {
-                          sendMqttControl('Mode', 'drone');
+                          sendMqttControl('mode', 'drone');
                         }}
                       />
                     </Col>
@@ -394,7 +394,7 @@ const AnalysisCenter: React.FC = (props) => {
                         unCheckedChildren="防撞灯关"
                         defaultChecked
                         onClick={() => {
-                          sendMqttControl('Light', 'drone');
+                          sendMqttControl('light', 'drone');
                         }}
                       />
                     </Col>
@@ -442,7 +442,7 @@ const AnalysisCenter: React.FC = (props) => {
                         unCheckedChildren="舱盖关"
                         defaultChecked
                         onClick={() => {
-                          sendMqttControl('Hatch', 'hangar');
+                          sendMqttControl('hatch', 'hangar');
                         }}
                       />
                     </Col>
@@ -457,7 +457,7 @@ const AnalysisCenter: React.FC = (props) => {
                         unCheckedChildren="断开"
                         defaultChecked
                         onClick={() => {
-                          sendMqttControl('Charging', 'hangar');
+                          sendMqttControl('charging', 'hangar');
                         }}
                       />
                     </Col>
@@ -472,7 +472,7 @@ const AnalysisCenter: React.FC = (props) => {
                         unCheckedChildren="解锁"
                         defaultChecked
                         onClick={() => {
-                          sendMqttControl('Mechanism', 'hangar');
+                          sendMqttControl('mechanism', 'hangar');
                         }}
                       />
                     </Col>
@@ -506,7 +506,7 @@ const AnalysisCenter: React.FC = (props) => {
                       <button
                         className="card1"
                         onClick={() => {
-                          sendMqttControl('Up', 'monitor');
+                          sendMqttControl('up', 'monitor');
                         }}
                       >
                         上
@@ -514,7 +514,7 @@ const AnalysisCenter: React.FC = (props) => {
                       <button
                         className="card2"
                         onClick={() => {
-                          sendMqttControl('Down', 'monitor');
+                          sendMqttControl('down', 'monitor');
                         }}
                       >
                         下
@@ -528,7 +528,7 @@ const AnalysisCenter: React.FC = (props) => {
                               const value = ValueView - 1;
                               setValueView(value);
                               console.log('RenderComponent -> ValueView:', ValueView);
-                              sendMqttControl('View', 'monitor');
+                              sendMqttControl('view', 'monitor');
                             }}
                           />
                           <input
@@ -544,7 +544,7 @@ const AnalysisCenter: React.FC = (props) => {
                               setValueView(value);
                               console.log('RenderComponent -> ValueView:', ValueView);
 
-                              sendMqttControl('View', 'monitor');
+                              sendMqttControl('view', 'monitor');
                             }}
                           />
                         </div>
@@ -554,7 +554,7 @@ const AnalysisCenter: React.FC = (props) => {
                       <button
                         className="card3"
                         onClick={() => {
-                          sendMqttControl('Left', 'monitor');
+                          sendMqttControl('left', 'monitor');
                         }}
                       >
                         左
@@ -562,7 +562,7 @@ const AnalysisCenter: React.FC = (props) => {
                       <button
                         className="card4"
                         onClick={() => {
-                          sendMqttControl('Right', 'monitor');
+                          sendMqttControl('light', 'monitor');
                         }}
                       >
                         右
@@ -576,7 +576,7 @@ const AnalysisCenter: React.FC = (props) => {
                               const value = ValueFocus - 1;
                               setValueFocus(value);
 
-                              sendMqttControl('Focus', 'monitor');
+                              sendMqttControl('focus', 'monitor');
                             }}
                           />
                           <input
@@ -590,7 +590,7 @@ const AnalysisCenter: React.FC = (props) => {
                             onClick={() => {
                               const value = ValueFocus + 1;
                               setValueFocus(value);
-                              sendMqttControl('Focus', 'monitor');
+                              sendMqttControl('focus', 'monitor');
                             }}
                           />
                         </div>
