@@ -122,6 +122,9 @@ export default () => {
     setreqParams(reqParams);
   };
 
+  const showAlertPosition = (item: any) => {
+    console.log('onChangeSelector -> value:', item);
+  };
   //#endregion -----------------------------------------------------------------------
   /**
    * @end
@@ -318,6 +321,7 @@ export default () => {
                   className={styles.listinfo}
                   onClick={() => {
                     openDrawer(item);
+                    showAlertPosition(item);
                   }}
                 >
                   <Col span={7} className={styles.alertImage}>

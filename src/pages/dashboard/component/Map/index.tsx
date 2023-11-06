@@ -220,9 +220,29 @@ const Map: React.FC = () => {
   }, [destoryTackSignal]);
   // 添加告警信息到场景
   useEffect(() => {
+    // const alert = {
+    //   id: 1,
+    //   name: 'Alert Name',
+    //   image: 'alert.jpg',
+    //   type: 2,
+    //   code: 'AL001',
+    //   level: 3,
+    //   count: 10,
+    //   platform: 1,
+    //   start_time: '2023-11-06 09:00:00',
+    //   end_time: '2023-11-07 18:00:00',
+    //   note: 'This is an alert',
+    //   lat: 38.0865966192828,
+    //   lon: 114.33264199360657,
+    //   alt: 97.20427051352851,
+    //   history_id: 101,
+    //   confirm: 0,
+    // };
+    // console.log('useEffect -> alert:', JSON.stringify(alert));
     client.on('message', (topic: string, mqttMessage: any) => {
       if (topic === 'alert') {
         const demo: Alert = JSON.parse(mqttMessage);
+        console.log('useEffect.on -> demo:', demo);
         let image;
         switch (demo.type) {
           case 0:
@@ -247,7 +267,7 @@ const Map: React.FC = () => {
             image = '/alert/alert.png';
             break;
         }
-        //绘制图片
+
         const billboard = new Cesium.Entity({
           position: Cesium.Cartesian3.fromDegrees(demo.lon, demo.lat, demo.alt),
           // position: Cesium.Cartesian3.fromDegrees(114.40856, 38.03867, 2000.56),
@@ -256,22 +276,29 @@ const Map: React.FC = () => {
             width: 30, //图片宽度,单位px
             height: 30, //图片高度，单位px
             eyeOffset: new Cesium.Cartesian3(0, 0, -10), //与坐标位置的偏移距离
-            color: Cesium.Color.RED, //颜色
             scale: 1, //缩放比例
           },
+          // billboard: {
+          //   image: "/alertBackground.png",
+          //   width: 30, //图片宽度,单位px
+          //   height: 30, //图片高度，单位px
+          //   eyeOffset: new Cesium.Cartesian3(0, 0, -10), //与坐标位置的偏移距离
+          //   color: Cesium.Color.RED, //颜色
+          //   scale: 1, //缩放比例
+          // },
+          // label: {
+          //   //文字标签
+          //   text: '[' + demo.alt + ',' + demo.level + ',' + demo.history_id + ']',
+          //   font: '800 25px sans-serif', // 15pt monospace
+          //   scale: 0.5,
+          //   style: Cesium.LabelStyle.FILL,
+          //   fillColor: Cesium.Color.WHITE,
+          //   pixelOffset: new Cesium.Cartesian2(0, 20), //偏移量
+          //   showBackground: false,
+          //   // backgroundColor: new this.Cesium.Color(26 / 255, 196 / 255, 228 / 255, 1.0)   //背景顔色
+          // },
         });
-        // util.setCameraView(
-        //   {
-        //     x: demo.lon,
-        //     y: demo.lat,
-        //     z: demo.alt,
-        //     heading: 270.31730998394744,
-        //     pitch: -20.72609786048885,
-        //     roll: 0.97907544797624,
-        //     duration: 0,
-        //   },
-        //   viewer.current,
-        // );
+
         viewer.current.entities.add(billboard);
       }
     });

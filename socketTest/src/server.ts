@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-19 22:04:08
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-20 10:10:41
+ * @LastEditTime: 2023-11-06 14:08:16
  * @FilePath: \zero-admin-ui-master\socketTest\src\server.ts
  * @Description:
  *
@@ -25,10 +25,6 @@ interface Result {
   alert: Alert;
 }
 
-interface Data {
-  results: Result[];
-}
-
 function generateRandomTime(): string {
   const hours = Math.floor(Math.random() * 24);
   const minutes = Math.floor(Math.random() * 60);
@@ -48,27 +44,30 @@ function generateRandomString(length: number): string {
 
   return result;
 }
-
-const randomString = generateRandomString(4);
-function generateData(): Data {
-  const randomNum = Math.floor(Math.random() * 996) + 5;
-  const randomString = randomNum.toString();
-  const data: Data = { results: [] };
-
-  for (let i = 0; i < 4; i++) {
-    const result: Result = {
-      id: randomString,
-      alert: {
-        type: 'server',
-        time: generateRandomTime(),
-        info: generateRandomString(Math.floor(Math.random() * 10)),
-        coordinate: ['111', '111'],
-      },
-    };
-    data.results.push(result);
-  }
-
-  return data;
+const alert = {
+  id: 1,
+  name: 'Alert Name',
+  image: 'alert.jpg',
+  type: 2,
+  code: 'AL001',
+  level: 3,
+  count: 10,
+  platform: 1,
+  start_time: '2023-11-06 09:00:00',
+  end_time: '2023-11-07 18:00:00',
+  note: 'This is an alert',
+  lat: 38.0865966192828,
+  lon: 114.33264199360657,
+  alt: 97.20427051352851,
+  history_id: 101,
+  confirm: 0,
+};
+function generateData() {
+  // 114.33264199360657, 38.0865966192828, 97.20427051352851
+  alert.alt += 0.0001;
+  alert.lon += 0.0001;
+  alert.alt += 10;
+  return alert;
 }
 
 class App {
@@ -95,34 +94,22 @@ class App {
       console.log('App -> this.io.on -> socket:', socket);
       console.log(`${socket.id} join session`);
 
-      let alertMsg = {
-        results: [
-          {
-            id: '0',
-            alert: {
-              type: 'Ms',
-              time: '1111',
-              info: 'Dumas',
-              coordinate: ['111', '111'],
-            },
-          },
-        ],
-      };
       // 执行十遍
       function executeTenTimes(fn: () => void) {
         let count = 0;
         const intervalId = setInterval(() => {
           fn();
           count++;
-          if (count === 100) {
+          if (count === 10) {
             clearInterval(intervalId);
           }
-        }, 5000);
+        }, 10000);
       }
       function test() {
-        const generatedData: Data = generateData();
+        const generatedData = generateData();
+        console.log('App -> test -> generatedData:', generatedData);
         // console.log(generatedData);
-        socket.emit('alert_msg', JSON.stringify(generatedData));
+        socket.emit('alert', JSON.stringify(generatedData));
       }
 
       executeTenTimes(test);

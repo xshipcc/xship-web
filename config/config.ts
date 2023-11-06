@@ -45,14 +45,14 @@ export default defineConfig({
   define: {
     CESIUM_BASE_URL: '/', //cesium默认路径地址配置，没改好,这个地址相对于路由
     VIDEO_URL: 'http://192.168.174.128:10086/flv/live/ifmP0eWIg.flv',
-    // MAP_TERRAIN_URL: '/terrain',
-    // MAP_TILES_URL: '/luquantile/{z}/{x}/{y}.png',
-    MAP_TERRAIN_URL: 'http://ai.javodata.com/terrain',
-    MAP_TILES_URL: 'http://ai.javodata.com/luquantile/{z}/{x}/{y}.png',
-    // WS_MQTT_URL: 'ws://127.0.0.1:8883/mqtt',
+    MAP_TERRAIN_URL: '/terrain',
+    MAP_TILES_URL: '/luquantile/{z}/{x}/{y}.png',
+    // MAP_TERRAIN_URL: 'http://ai.javodata.com/terrain',
+    // MAP_TILES_URL: 'http://ai.javodata.com/luquantile/{z}/{x}/{y}.png',
+    // WS_MQTT_URL: 'ws://127.0.0.1:8083/mqtt',//本地测试
     // WS_MQTT_URL: 'ws://192.168.174.128:8883/mqtt',
-    WS_MQTT_URL: 'ws://192.168.186.105:8083/mqtt',
-    // WS_MQTT_URL: 'ws://ai.javodata.com:8883/mqtt',
+    WS_MQTT_URL: 'ws://192.168.2.105:8883/mqtt', //远程机器部署地址
+    // WS_MQTT_URL: 'ws://ai.javodata.com:8883/mqtt',//远程测试
   },
   hash: true,
   dva: {
