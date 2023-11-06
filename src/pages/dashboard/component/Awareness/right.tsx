@@ -95,7 +95,7 @@ const AwarenessRight: React.FC = () => {
         </div>
         {/*  */}
         <div className={styles.middle}>
-          <Title title={'告警情况'} />
+          <Title title={showDetail ? '巡检历史' : '告警详情'} />
           <div
             className={styles.tabChange}
             onClick={() => {

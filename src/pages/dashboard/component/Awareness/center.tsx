@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-06 01:48:00
+ * @LastEditTime: 2023-11-06 09:59:00
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\center.tsx
  * @Description:
  *
@@ -343,7 +343,8 @@ const AnalysisCenter: React.FC = (props) => {
 
   const handleChange = (params: string) => {
     setcurrentRoad(JSON.parse(params));
-    console.log(`selected ${params}`);
+    console.log('handleChange -> JSON.parse(params):', JSON.parse(params));
+    console.log(`handleChange ${params}`);
   };
   const dispatch = useDispatch();
 

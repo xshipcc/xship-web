@@ -245,6 +245,10 @@ const App: React.FC = () => {
         message.success('修改成功');
         fetchFlyData({ pageSize: 10, current: 1 });
       }
+      dispatch({
+        type: 'trackModel/changeDestoryTackSignal',
+        payload: [true],
+      });
       setShowDrawer(false);
     } catch (error) {
       message.success('修改失败');
@@ -295,23 +299,6 @@ const App: React.FC = () => {
     });
   };
 
-  // const saveDrawer = async (data: any) => {
-  //   console.log('saveDrawer -> data:', data);
-  //   try {
-  //     // @ts-ignore
-  //     const response = await updateFly(data);
-  //     // console.log('*fetchDashboardInfo -> response:', response);
-  //     const { code, result } = response;
-  //     if (code === '000000') {
-  //       message.success('修改成功');
-  //       fetchFlyData({ pageSize: 10, current: 1 });
-  //     }
-  //   } catch (error) {
-  //     message.success('修改失败');
-  //     console.log('catch getData:', error);
-  //   }
-  //   setShowDrawer(false);
-  // };
   const changeNodeName = (e: any, index: any) => {
     console.log('changeNodeName -> e:', e);
     console.log('changeNodeName -> index:', index);
@@ -383,7 +370,7 @@ const App: React.FC = () => {
    *
    */
   const lookCurrentRoad = () => {
-    if (currentRoad.data[0]?.coord != 'default') {
+    if (currentRoad.data[0]?.coord) {
       console.log('lookCurrentRoad -> currentRoad:', currentRoad);
       dispatch({
         type: 'dashboardModel/saveCurrentFlyingRoad',
