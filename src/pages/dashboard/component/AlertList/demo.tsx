@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-22 14:51:44
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-06 09:34:50
+ * @LastEditTime: 2023-11-06 15:08:52
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\AlertList\demo.tsx
  * @Description:
  *
@@ -12,11 +12,12 @@ import { ProList } from '@ant-design/pro-components';
 import type { DatePickerProps, RadioChangeEvent } from 'antd';
 import { Badge, Button, Col, DatePicker, List, Radio, Row, Select, message } from 'antd';
 import styles from './demo.less';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { queryAlert, upadtaAlert } from '@/pages/AIalert/service';
 import type { ListAlertHistoryData, ListAlertHistoryRespType } from '@/pages/AIalert/data';
 import { Divider, Image } from 'antd';
 import { CheckOutlined, RollbackOutlined } from '@ant-design/icons';
+import * as mqtt from 'mqtt';
 
 export default () => {
   /**
@@ -87,6 +88,20 @@ export default () => {
 
   /**
    *  @file demo.tsx
+   *  @time 2023/11/06
+   * @category :mqtt数据接收
+   * @function :
+   */
+  //#region -------------------------------------------------------------------------
+  const def: any = '';
+  const client = useRef(def);
+
+  //#endregion -----------------------------------------------------------------------
+  /**
+   * @end
+   */
+  /**
+   *  @file demo.tsx
    *  @time 2023/11/02
    * @category :列表增删改查
    * @function :
@@ -99,6 +114,8 @@ export default () => {
     start_time: '',
     end_time: '',
   });
+  const [currentList, setcurrentList] = useState([]);
+
   const getList = async (params = {}) => {
     console.log('request={ -> params:', params);
     const req = {
@@ -107,10 +124,62 @@ export default () => {
     };
     // @ts-ignore
     const res: ListAlertHistoryRespType = await queryAlert(req);
-    console.log('request={ -> res:', res);
-    return res;
-  };
+    // @ts-ignore
+    setcurrentList(res.data);
+    console.log('currentList={ -> res:', res);
+    console.log('currentList:', currentList);
 
+    // return { data: currentList };
+  };
+  // 告警列表添加
+  // useEffect(() => {
+  //   getList({ current: 1, pageSize: 7 });
+  // }, [currentList]);
+  // 实时增加告警信息
+  useEffect(() => {
+    const clientId = 'alertList' + Math.random().toString(16).substring(2, 8);
+    const username = 'emqx_test';
+    const password = 'emqx_test';
+    client.current = mqtt.connect(WS_MQTT_URL, {
+      clientId,
+      username,
+      password,
+      // ...other options
+    });
+    const mqttSub = (subscription: { topic: any; qos: any }) => {
+      if (client) {
+        const { topic, qos } = subscription;
+        client.current.subscribe(topic, { qos }, (error: any) => {
+          if (error) {
+            console.log('Subscribe to topics error', error);
+            return;
+          }
+          console.log(`Subscribe to topics: ${topic}`);
+        });
+      }
+    };
+    mqttSub({ topic: 'alert', qos: 0 });
+    setTimeout(() => {
+      mqttSub({ topic: 'control', qos: 0 });
+    }, 1000);
+
+    client.current.on('message', (topic: string, mqttMessage: any) => {
+      if (topic === 'alert') {
+        // const jsonObject = JSON.parse(mqttMessage);
+        // const jsonObject = JSON.parse(mqttMessage);
+        const demo = JSON.parse(mqttMessage);
+        console.log('client.current.on -> demo:', demo);
+        demo.id = currentList.length;
+        demo.name = currentList.length;
+        // @ts-ignore
+        setcurrentList([...currentList, demo]);
+      }
+    });
+
+    return () => {
+      if (client.current) client.current.end();
+    };
+  }, []);
   const onChangePicker: DatePickerProps['onChange'] = (date, dateString) => {
     console.log(date, dateString);
     reqParams.start_time = dateString;
@@ -309,11 +378,11 @@ export default () => {
               </Button>
             </Col>
           </Row>
-
           <ProList
             search={{
               defaultCollapsed: false,
             }}
+            dataSource={currentList}
             // @ts-ignore
             renderItem={(item: ListAlertHistoryData) => (
               <List.Item>
