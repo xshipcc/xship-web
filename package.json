@@ -58,7 +58,7 @@
     "@ant-design/pro-table": "^2.61.0",
     "@turf/turf": "^6.5.0",
     "@umijs/route-utils": "^2.0.0",
-    "antd": "^4.17.0",
+    "antd": "4.17.0",
     "braft-editor": "^2.3.9",
     "braft-utils": "^3.0.12",
     "cesium": "1.67",

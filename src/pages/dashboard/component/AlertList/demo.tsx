@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-22 14:51:44
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-06 15:08:52
+ * @LastEditTime: 2023-11-07 15:51:28
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\AlertList\demo.tsx
  * @Description:
  *
@@ -100,6 +100,7 @@ export default () => {
   /**
    * @end
    */
+
   /**
    *  @file demo.tsx
    *  @time 2023/11/02
@@ -131,6 +132,12 @@ export default () => {
 
     // return { data: currentList };
   };
+
+  // 获取航线数据列表
+  useEffect(() => {
+    getList({ pageSize: 10, current: 1 });
+  }, []);
+
   // 告警列表添加
   // useEffect(() => {
   //   getList({ current: 1, pageSize: 7 });
@@ -171,6 +178,8 @@ export default () => {
         console.log('client.current.on -> demo:', demo);
         demo.id = currentList.length;
         demo.name = currentList.length;
+        console.log('client.current.on -> currentList:', currentList);
+        console.log('client.current.on -> demo:', demo);
         // @ts-ignore
         setcurrentList([...currentList, demo]);
       }
@@ -199,8 +208,7 @@ export default () => {
    * @end
    */
   return (
-    <div className={styles.list}>
-      {/* <div className={styles.drawercontent} style={{ zIndex: open ? 1 : -1 }}></div> */}
+    <div className={styles.alertList}>
       {showDrawer ? (
         <div className={styles.drawer}>
           {/*  */}
@@ -332,7 +340,7 @@ export default () => {
             <Col span={10}>
               <DatePicker onChange={onChangePicker} />
             </Col>
-            <Col span={10} offset={4}>
+            <Col span={10} offset={3}>
               <Select
                 defaultValue={0}
                 onChange={onChangeSelector}
@@ -353,21 +361,20 @@ export default () => {
                 type="text"
                 onClick={() => {
                   // 默认查询结果
-                  queryAlert({
-                    current: 1,
-                    pageSize: 7,
+                  setreqParams({
                     type: 0,
                     platform: 0,
                     confirm: 0,
                     start_time: '',
                     end_time: '',
                   });
+                  getList({ current: 1, pageSize: 7 });
                 }}
               >
                 重置
               </Button>
             </Col>
-            <Col span={10} offset={4}>
+            <Col span={10} offset={3}>
               <Button
                 type="text"
                 onClick={() => {
@@ -378,12 +385,14 @@ export default () => {
               </Button>
             </Col>
           </Row>
-          <ProList
-            search={{
-              defaultCollapsed: false,
+          {/*  */}
+          <List
+            pagination={{
+              pageSize: 7,
+              showSizeChanger: false,
             }}
+            className={styles.list}
             dataSource={currentList}
-            // @ts-ignore
             renderItem={(item: ListAlertHistoryData) => (
               <List.Item>
                 <Row
@@ -423,48 +432,6 @@ export default () => {
                 </Row>
               </List.Item>
             )}
-            rowKey="name"
-            // @ts-ignore
-            request={async (params = {}) => {
-              return getList(params);
-            }}
-            pagination={{
-              pageSize: 7,
-              showSizeChanger: false,
-            }}
-            showActions="hover"
-            metas={
-              {
-                // date: {
-                //   dataIndex: 'date',
-                //   valueType: 'date',
-                // },
-                // type: {
-                //   // 自己扩展的字段，主要用于筛选，不在列表中显示
-                //   //  type     '消息类型:0-发现人员 1-車輛 2-入侵 3-烟火 4-',
-                //   valueType: 'select',
-                //   valueEnum: {
-                //     0: { text: '全部' },
-                //     1: { text: '巡检路线' },
-                //     2: {
-                //       text: '人员告警',
-                //     },
-                //     3: {
-                //       text: '车辆告警',
-                //     },
-                //     4: {
-                //       text: '入侵告警',
-                //     },
-                //     5: {
-                //       text: '烟火告警',
-                //     },
-                //     6: {
-                //       text: '烟火告警',
-                //     },
-                //   },
-                // },
-              }
-            }
           />
         </div>
       )}

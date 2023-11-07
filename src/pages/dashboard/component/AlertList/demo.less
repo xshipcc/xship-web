@@ -1,46 +1,5 @@
-.list {
+.alertList {
   :global {
-    :where(.css-dev-only-do-not-override-1ainthx).ant-pro-table
-      :where(.css-dev-only-do-not-override-1ainthx).ant-pro-table-search {
-      height: 100px;
-      background: #0d70c600;
-      margin-block-end: 0px;
-    }
-    :where(.css-dev-only-do-not-override-1ainthx).ant-pro-query-filter:where(
-        .css-dev-only-do-not-override-1ainthx
-      ).ant-pro-query-filter {
-      display: none;
-      padding: 0px;
-    }
-    :where(.css-dev-only-do-not-override-1ainthx).ant-pro-query-filter-row {
-      row-gap: 0px;
-    }
-
-    .ant-form-vertical .ant-form-item-label,
-    .ant-col-24.ant-form-item-label,
-    .ant-col-xl-24.ant-form-item-label {
-      display: none;
-      padding: 0 0 8px;
-      line-height: 1.5715;
-      white-space: normal;
-      white-space: initial;
-      text-align: left;
-    }
-    .ant-col-24 {
-      display: block;
-      flex: 0 0 100%;
-      max-width: 50%;
-    }
-    :where(.css-dev-only-do-not-override-1ainthx).ant-pro-query-filter-collapse-button {
-      display: none;
-      align-items: center;
-      color: #1677ff;
-    }
-    .ant-space-align-center {
-      align-items: center;
-      width: 100%;
-      background: #8c585800;
-    }
     .ant-picker {
       position: relative;
       display: inline-flex;
@@ -140,47 +99,6 @@
       touch-action: manipulation;
     }
 
-    .ant-form-item {
-      box-sizing: border-box;
-      width: 180px;
-      margin: 0px;
-      padding: 0;
-      font-variant: tabular-nums;
-      line-height: 1.5715;
-      vertical-align: top;
-      list-style: none;
-      // background: #fff;
-      font-feature-settings: 'tnum', 'tnum';
-    }
-
-    //
-    :where(.css-dev-only-do-not-override-1ainthx).ant-pro-card {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      box-sizing: border-box;
-      width: 100%;
-      height: 120px;
-      margin: 0;
-      padding: 0;
-      color: rgba(0, 0, 0, 0.88);
-      font-size: 14px;
-      line-height: 1.5714285714285714;
-      list-style: none;
-      background-color: rgba(0, 0, 0, 0);
-      border-radius: 4px;
-      margin-block: 0;
-      margin-inline: 0;
-      padding-block: 0;
-      padding-inline: 0;
-    }
-    :where(.css-dev-only-do-not-override-1ainthx).ant-pro-card .ant-pro-card-body {
-      display: block;
-      box-sizing: border-box;
-      height: 231px;
-      padding-inline: 4px;
-      padding-block: 16px;
-    }
     .ant-list {
       position: relative;
       box-sizing: border-box;
@@ -206,16 +124,6 @@
       border: 1px solid #5cb6ff;
     }
 
-    :where(.css-dev-only-do-not-override-1ainthx).ant-pro-list-row-description {
-      word-break: break-all;
-      margin-block-start: 0px;
-    }
-    :where(.css-dev-only-do-not-override-1ainthx).ant-pro-list-row .ant-list-item-meta-title {
-      margin: 0px;
-      color: rgb(253, 253, 253);
-      font-size: 16px;
-      border-block-end: none;
-    }
     //
     .ant-pagination {
       box-sizing: border-box;
@@ -300,6 +208,9 @@
       text-align: center;
       transition: none;
     }
+  }
+  .list {
+    margin-top: 100px;
   }
 }
 
@@ -399,6 +310,7 @@
 }
 .buttonRow {
   position: absolute;
+  top: 200px;
   z-index: 1;
 }
 .buttonRow2 {
