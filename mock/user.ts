@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-31 15:42:24
+ * @LastEditTime: 2023-11-08 10:23:03
  * @FilePath: \zero-admin-ui-master\mock\user.ts
  * @Description:
  *
@@ -177,7 +177,7 @@ export default {
           path: '/AIrecognition',
           name: 'AI识别管理',
           parentId: 0,
-          icon: 'BarsOutlined',
+          icon: 'FundOutlined',
         },
         {
           id: 19,

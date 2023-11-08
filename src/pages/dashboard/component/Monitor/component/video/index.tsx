@@ -50,7 +50,7 @@ export default () => {
     };
     const res = await queryCameras(req);
     // @ts-ignore
-    setcurrentList(res.data);
+    if (res?.data) setcurrentList(res.data);
     console.log('currentList={ -> res:', res);
     console.log('currentList:', currentList);
 

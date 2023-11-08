@@ -49,6 +49,7 @@ interface ListAlertHistoryReq {
   end_time: string;
   platform: number;
   confirm: number;
+  history_id: number;
 }
 
 interface ListAlertHistoryData {

@@ -151,7 +151,7 @@
   {
     path: '/AIrecognition',
     name: 'AI',
-    icon: 'crown',
+    icon: 'FundOutlined',
     routes: [
       {
         name: '摄像头管理',

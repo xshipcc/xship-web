@@ -63,6 +63,11 @@ const TableList: React.FC = () => {
       hideInSearch: true,
     },
     {
+      title: '编号',
+      dataIndex: 'history_id',
+      hideInSearch: true,
+    },
+    {
       title: '报警标题',
       dataIndex: 'name',
       hideInSearch: true,
@@ -196,11 +201,12 @@ const TableList: React.FC = () => {
           // }
           const data = {
             ...params,
-            type: params?.type ? params.type : -1,
+            type: params?.type ? params.type : 0,
+            history_id: params?.history_id ? params.history_id : 0,
             start_time: params?.start_time ? params.start_time : '',
             end_time: params?.end_time ? params.end_time : '',
-            platform: params?.uav_id ? params.uav_id : -1,
-            confirm: params?.fly_id ? params.fly_id : -1,
+            platform: params?.uav_id ? params.uav_id : 0,
+            confirm: params?.fly_id ? params.fly_id : 0,
           };
           const res: ListAlertHistoryRespType = await queryAlert(data);
           // {data: [], pageSize: 10, current: 1, total:28, success: true,}

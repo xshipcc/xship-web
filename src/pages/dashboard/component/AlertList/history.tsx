@@ -44,8 +44,8 @@ export default () => {
     confirm: 0,
     create_time: '',
     end_time: '',
-    uav_id: '',
-    fly_id: '',
+    uav_id: 0,
+    fly_id: 0,
     operator: '',
   });
   const getList = async (params = {}) => {
@@ -56,7 +56,7 @@ export default () => {
     };
     // @ts-ignore
     const res = await queryHistory(req);
-    setcurrentList(res.data);
+    if (res?.data) setcurrentList(res.data);
   };
   useEffect(() => {
     getList({ pageSize: 5, current: 1 });
@@ -104,8 +104,8 @@ export default () => {
                 confirm: 0,
                 create_time: '',
                 end_time: '',
-                uav_id: '',
-                fly_id: '',
+                uav_id: 0,
+                fly_id: 0,
                 operator: '',
               });
               getList({ current: 1, pageSize: 7 });

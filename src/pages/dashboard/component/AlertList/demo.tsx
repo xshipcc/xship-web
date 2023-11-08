@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-22 14:51:44
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-07 15:51:28
+ * @LastEditTime: 2023-11-08 09:10:52
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\AlertList\demo.tsx
  * @Description:
  *
@@ -114,6 +114,7 @@ export default () => {
     confirm: 0,
     start_time: '',
     end_time: '',
+    history_id: 1,
   });
   const [currentList, setcurrentList] = useState([]);
 
@@ -125,8 +126,9 @@ export default () => {
     };
     // @ts-ignore
     const res: ListAlertHistoryRespType = await queryAlert(req);
+    console.log('requestres:', res);
     // @ts-ignore
-    setcurrentList(res.data);
+    if (res?.data) setcurrentList(res.data);
     console.log('currentList={ -> res:', res);
     console.log('currentList:', currentList);
 
@@ -367,6 +369,7 @@ export default () => {
                     confirm: 0,
                     start_time: '',
                     end_time: '',
+                    history_id: 0,
                   });
                   getList({ current: 1, pageSize: 7 });
                 }}
