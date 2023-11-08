@@ -49,8 +49,7 @@ export default defineConfig({
     MAP_TILES_URL: '/luquantile/{z}/{x}/{y}.png',
     // MAP_TERRAIN_URL: 'http://ai.javodata.com/terrain',
     // MAP_TILES_URL: 'http://ai.javodata.com/luquantile/{z}/{x}/{y}.png',
-    // WS_MQTT_URL: 'ws://127.0.0.1:8083/mqtt',//本地测试
-    // WS_MQTT_URL: 'ws://192.168.174.128:8883/mqtt',
+    // WS_MQTT_URL: 'ws://127.0.0.1:8083/mqtt', //本地测试
     WS_MQTT_URL: 'ws://192.168.2.105:8083/mqtt', //远程机器部署地址
     // WS_MQTT_URL: 'ws://ai.javodata.com:8883/mqtt',//远程测试
   },

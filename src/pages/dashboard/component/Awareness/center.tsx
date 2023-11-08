@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-06 12:14:17
+ * @LastEditTime: 2023-11-08 15:43:00
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\center.tsx
  * @Description:
  *
@@ -505,16 +505,25 @@ const AnalysisCenter: React.FC = (props) => {
                     <div className="up">
                       <button
                         className="card1"
-                        onClick={() => {
-                          sendMqttControl('up', 'monitor');
+                        onMouseDown={() => {
+                          const timerId = setInterval(() => {
+                            sendMqttControl('up', 'monitor');
+                          }, 80); // 每200毫秒调用一次increaseCount函数
+                          document.addEventListener('mouseup', () => clearInterval(timerId));
                         }}
+                        // onClick={() => {
+                        //   sendMqttControl('up', 'monitor');
+                        // }}
                       >
                         上
                       </button>
                       <button
                         className="card2"
-                        onClick={() => {
-                          sendMqttControl('down', 'monitor');
+                        onMouseDown={() => {
+                          const timerId = setInterval(() => {
+                            sendMqttControl('down', 'monitor');
+                          }, 80); // 每200毫秒调用一次increaseCount函数
+                          document.addEventListener('mouseup', () => clearInterval(timerId));
                         }}
                       >
                         下
@@ -524,12 +533,20 @@ const AnalysisCenter: React.FC = (props) => {
                         <div className="number-control">
                           <div
                             className="number-left"
-                            onClick={() => {
-                              const value = ValueView - 1;
-                              setValueView(value);
-                              console.log('RenderComponent -> ValueView:', ValueView);
-                              sendMqttControl('view', 'monitor');
+                            onMouseDown={() => {
+                              const timerId = setInterval(() => {
+                                setValueView((item) => item - 1);
+                                console.log('RenderComponent -> ValueView:', ValueView);
+                                sendMqttControl('view-', 'monitor');
+                              }, 80); // 每200毫秒调用一次increaseCount函数
+                              document.addEventListener('mouseup', () => clearInterval(timerId));
                             }}
+                            // onClick={() => {
+                            //   const value = ValueView - 1;
+                            //   setValueView(value);
+                            //   console.log('RenderComponent -> ValueView:', ValueView);
+                            //   sendMqttControl('view', 'monitor');
+                            // }}
                           />
                           <input
                             type="number"
@@ -539,12 +556,13 @@ const AnalysisCenter: React.FC = (props) => {
                           />
                           <div
                             className="number-right"
-                            onClick={() => {
-                              const value = ValueView + 1;
-                              setValueView(value);
-                              console.log('RenderComponent -> ValueView:', ValueView);
-
-                              sendMqttControl('view', 'monitor');
+                            onMouseDown={() => {
+                              const timerId = setInterval(() => {
+                                setValueView((item) => item + 1);
+                                console.log('RenderComponent -> ValueView:', ValueView);
+                                sendMqttControl('view+', 'monitor');
+                              }, 80); // 每200毫秒调用一次increaseCount函数
+                              document.addEventListener('mouseup', () => clearInterval(timerId));
                             }}
                           />
                         </div>
@@ -553,16 +571,22 @@ const AnalysisCenter: React.FC = (props) => {
                     <div className="down">
                       <button
                         className="card3"
-                        onClick={() => {
-                          sendMqttControl('left', 'monitor');
+                        onMouseDown={() => {
+                          const timerId = setInterval(() => {
+                            sendMqttControl('left', 'monitor');
+                          }, 80); // 每200毫秒调用一次increaseCount函数
+                          document.addEventListener('mouseup', () => clearInterval(timerId));
                         }}
                       >
                         左
                       </button>
                       <button
                         className="card4"
-                        onClick={() => {
-                          sendMqttControl('light', 'monitor');
+                        onMouseDown={() => {
+                          const timerId = setInterval(() => {
+                            sendMqttControl('right', 'monitor');
+                          }, 80); // 每200毫秒调用一次increaseCount函数
+                          document.addEventListener('mouseup', () => clearInterval(timerId));
                         }}
                       >
                         右
@@ -572,12 +596,20 @@ const AnalysisCenter: React.FC = (props) => {
                         <div className="number-control">
                           <div
                             className="number-left"
-                            onClick={() => {
-                              const value = ValueFocus - 1;
-                              setValueFocus(value);
-
-                              sendMqttControl('focus', 'monitor');
+                            onMouseDown={() => {
+                              const timerId = setInterval(() => {
+                                console.log('timerId -> ValueFocus:', ValueFocus);
+                                setValueFocus((item) => item - 1);
+                                sendMqttControl('focus-', 'monitor');
+                              }, 80); // 每200毫秒调用一次increaseCount函数
+                              document.addEventListener('mouseup', () => clearInterval(timerId));
                             }}
+                            // onClick={() => {
+                            //   const value = ValueFocus - 1;
+                            //   setValueFocus(value);
+
+                            //   sendMqttControl('focus-', 'monitor');
+                            // }}
                           />
                           <input
                             type="number"
@@ -587,10 +619,13 @@ const AnalysisCenter: React.FC = (props) => {
                           />
                           <div
                             className="number-right"
-                            onClick={() => {
-                              const value = ValueFocus + 1;
-                              setValueFocus(value);
-                              sendMqttControl('focus', 'monitor');
+                            onMouseDown={() => {
+                              const timerId = setInterval(() => {
+                                console.log('timerId -> ValueFocus:', ValueFocus);
+                                setValueFocus((item) => item + 1);
+                                sendMqttControl('focus+', 'monitor');
+                              }, 80); // 每200毫秒调用一次increaseCount函数
+                              document.addEventListener('mouseup', () => clearInterval(timerId));
                             }}
                           />
                         </div>
