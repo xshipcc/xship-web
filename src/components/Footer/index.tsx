@@ -27,8 +27,8 @@ const Footer: React.FC = () => {
       links={[
         {
           key: '无人机巡检系统',
-          title: '无人机巡检系统',
-          href: 'https://pro.ant.design',
+          title: '掌沃数据',
+          href: 'http://javodata.com/',
           blankTarget: true,
         },
       ]}

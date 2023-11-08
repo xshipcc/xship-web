@@ -3,9 +3,9 @@
 .container {
   display: flex;
   flex-direction: column;
+  width: 100vw;
   height: 100vh;
-  overflow: auto;
-  background: @layout-body-background;
+  overflow: hidden;
 }
 
 .lang {
@@ -20,20 +20,7 @@
 
 .content {
   flex: 1;
-  padding: 32px 0;
-}
-
-@media (min-width: @screen-md-min) {
-  .container {
-    background-image: url('https://gw.alipayobjects.com/zos/rmsportal/TVYTbAXWheQpRcWDaDMu.svg');
-    background-repeat: no-repeat;
-    background-position: center 110px;
-    background-size: 100%;
-  }
-
-  .content {
-    padding: 32px 0 24px;
-  }
+  // padding: 32px 0;
 }
 
 .icon {
@@ -47,4 +34,62 @@
   &:hover {
     color: @primary-color;
   }
+}
+.video {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+
+  z-index: -1;
+  width: 1920px;
+  height: 100%;
+  object-fit: cover;
+}
+:global {
+  .ant-pro-form-login-title {
+    position: relative;
+    top: 2px;
+    color: rgb(255, 255, 255);
+    font-weight: 900;
+    font-size: 63px;
+  }
+  .ant-layout-footer {
+    color: rgb(201 19 19 / 85%);
+    background: #f0f2f500;
+  }
+  .ant-pro-global-footer-links a {
+    color: rgba(255, 255, 255, 0.795);
+    font-size: 24px;
+    transition: all 0.3s;
+  }
+  .ant-pro-form-login-desc {
+    margin-top: 12px;
+    margin-bottom: 40px;
+    color: rgb(255, 255, 255);
+    font-size: 24px;
+  }
+  .ant-pro-global-footer-copyright {
+    color: rgba(255, 255, 255, 0.655);
+
+    font-size: 18px;
+  }
+  .ant-checkbox + span {
+    padding-right: 8px;
+    padding-left: 8px;
+    color: rgb(255, 255, 255);
+  }
+  .ant-pro-form-login-container {
+    display: flex;
+    flex: 1 1;
+    flex-direction: column;
+    height: 100%;
+    padding: 150px 0;
+    overflow: auto;
+    background: inherit;
+  }
+}
+.footer {
+  position: absolute;
+  top: 80%;
+  left: 42.5%;
 }

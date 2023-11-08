@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-06 14:35:33
+ * @LastEditTime: 2023-11-08 13:54:21
  * @FilePath: \zero-admin-ui-master\config\config.ts
  * @Description:
  *
