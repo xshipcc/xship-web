@@ -286,17 +286,24 @@ const Map: React.FC = () => {
           //   color: Cesium.Color.RED, //颜色
           //   scale: 1, //缩放比例
           // },
-          // label: {
-          //   //文字标签
-          //   text: '[' + demo.alt + ',' + demo.level + ',' + demo.history_id + ']',
-          //   font: '800 25px sans-serif', // 15pt monospace
-          //   scale: 0.5,
-          //   style: Cesium.LabelStyle.FILL,
-          //   fillColor: Cesium.Color.WHITE,
-          //   pixelOffset: new Cesium.Cartesian2(0, 20), //偏移量
-          //   showBackground: false,
-          //   // backgroundColor: new this.Cesium.Color(26 / 255, 196 / 255, 228 / 255, 1.0)   //背景顔色
-          // },
+          label: {
+            //文字标签
+            text:
+              '[' +
+              demo.lat.toFixed(2) +
+              ',' +
+              demo.lon.toFixed(2) +
+              ',' +
+              demo.alt.toFixed(2) +
+              ']',
+            font: '800 25px sans-serif', // 15pt monospace
+            scale: 0.5,
+            style: Cesium.LabelStyle.FILL,
+            fillColor: Cesium.Color.WHITE,
+            pixelOffset: new Cesium.Cartesian2(0, 20), //偏移量
+            showBackground: false,
+            // backgroundColor: new this.Cesium.Color(26 / 255, 196 / 255, 228 / 255, 1.0)   //背景顔色
+          },
         });
 
         viewer.current.entities.add(billboard);

@@ -24,7 +24,7 @@ export default {
     // 生成 ListtAlertHistoryData 的模拟数据
     const mockListtAlertHistoryData = () => {
       return Mock.mock({
-        id: '999',
+        'id|1-100': 1,
         name: '@cname',
         image: '@image',
         type: '@integer(0, 3)',
@@ -32,6 +32,7 @@ export default {
         level: '@integer(1, 5)',
         count: '@integer(1, 10)',
         platform: '@integer(0, 4)',
+        'history_id|1-100': 1,
         start_time: '@datetime("yyyy-MM-dd HH:mm:ss")',
         end_time: '@datetime("yyyy-MM-dd HH:mm:ss")',
         note: '@sentence(6, 12)',

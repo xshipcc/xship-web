@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-22 14:51:44
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-08 09:10:52
+ * @LastEditTime: 2023-11-09 13:23:58
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\AlertList\demo.tsx
  * @Description:
  *
@@ -180,10 +180,12 @@ export default () => {
         console.log('client.current.on -> demo:', demo);
         demo.id = currentList.length;
         demo.name = currentList.length;
-        console.log('client.current.on -> currentList:', currentList);
         console.log('client.current.on -> demo:', demo);
         // @ts-ignore
-        setcurrentList([...currentList, demo]);
+        setcurrentList((item) => {
+          console.log('client -> item:', item);
+          return [...item, demo];
+        });
       }
     });
 
