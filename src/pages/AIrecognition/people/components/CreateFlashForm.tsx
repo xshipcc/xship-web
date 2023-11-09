@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-24 18:10:03
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-01 10:26:05
+ * @LastEditTime: 2023-11-09 12:57:50
  * @FilePath: \zero-admin-ui-master\src\pages\AIrecognition\people\components\CreateFlashForm.tsx
  * @Description:
  *
@@ -53,10 +53,19 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
   };
 
   const normFile = (e: any) => {
+    console.log('normFile -> e:', e.fileList);
+
     if (Array.isArray(e)) {
       return e;
     }
-    return e?.fileList;
+    const fileName: any[] = [];
+    e.fileList.forEach((item: any) => {
+      console.log('normFile -> item:', item);
+      fileName.push(item.name);
+    });
+    console.log('normFile -> fileName:', fileName);
+
+    return JSON.stringify(fileName);
   };
 
   const onChangeCreate: DatePickerProps['onChange'] = (date, dateString) => {
@@ -108,7 +117,7 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
           label="手机号码"
           rules={[{ required: true, message: '请输入手机号码!' }]}
         >
-          <InputNumber id="update-title" placeholder={'请输入手机号码'} />
+          <Input id="update-title" placeholder={'请输入手机号码'} />
         </FormItem>
         <FormItem
           name="status"

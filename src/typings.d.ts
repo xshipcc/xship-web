@@ -1,3 +1,13 @@
+/*
+ * @Author: weiaodi 1635654853@qq.com
+ * @Date: 2023-09-07 11:45:31
+ * @LastEditors: weiaodi 1635654853@qq.com
+ * @LastEditTime: 2023-11-09 11:29:05
+ * @FilePath: \zero-admin-ui-master\src\typings.d.ts
+ * @Description:
+ *
+ * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
+ */
 declare module 'slash2';
 declare module '*.css';
 declare module '*.less';
@@ -23,3 +33,4 @@ declare let ANT_DESIGN_PRO_ONLY_DO_NOT_USE_IN_YOUR_PRODUCTION: 'site' | undefine
 declare module 'postcss-px-to-viewport';
 declare const REACT_APP_ENV: 'test' | 'dev' | 'pre' | false;
 declare const WS_MQTT_URL;
+declare const VIDEO_URL;

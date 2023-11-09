@@ -60,10 +60,19 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
     }
   };
   const normFile = (e: any) => {
+    console.log('normFile -> e:', e.fileList);
+
     if (Array.isArray(e)) {
       return e;
     }
-    return e?.fileList;
+    const fileName: any[] = [];
+    e.fileList.forEach((item: any) => {
+      console.log('normFile -> item:', item);
+      fileName.push(item.name);
+    });
+    console.log('normFile -> fileName:', fileName);
+
+    return JSON.stringify(fileName);
   };
   // export interface UpdatePeopleReq {
   //   id: number;
@@ -112,7 +121,7 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
           label="手机号码"
           rules={[{ required: true, message: '请输入手机号码!' }]}
         >
-          <InputNumber id="update-title" placeholder={'请输入手机号码'} />
+          <Input id="update-title" placeholder={'请输入手机号码'} />
         </FormItem>
         <FormItem
           name="status"

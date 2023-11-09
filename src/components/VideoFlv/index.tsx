@@ -4,7 +4,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-05 02:49:02
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-22 17:14:53
+ * @LastEditTime: 2023-11-09 00:00:49
  * @FilePath: \zero-admin-ui-master\src\components\VideoFlv\index.tsx
  * @Description:
  *
@@ -22,7 +22,7 @@ const FLVPlayer = (props) => {
     if (flvjs.isSupported()) {
       flvPlayerRef.current = flvjs.createPlayer({
         type: 'flv',
-        hasAudio: false, //浏览器安全策略,关闭音频自动播放
+        hasAudio: true, //浏览器安全策略,关闭音频自动播放
         url: props?.url,
         isLive: true, // 是否为直播流
       });

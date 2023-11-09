@@ -401,6 +401,7 @@ export default () => {
                 <Row
                   className={styles.listinfo}
                   onClick={() => {
+                    console.log('client:', item);
                     openDrawer(item);
                     showAlertPosition(item);
                   }}

@@ -136,7 +136,8 @@ export default () => {
             <div>
               <Title title={item.name} />
               <div className={styles.video}>
-                <Player url={item.url} height={'25'} width={'100'} />
+                <Player url={VIDEO_URL} height={'25'} width={'100'} />
+                {/* <Player url={item.url} height={'25'} width={'100'} /> */}
               </div>
             </div>
           </List.Item>
