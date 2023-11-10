@@ -75,6 +75,7 @@ class Road {
   }
   TrackPath(Lines) {
     console.log('Track -> TrackPath -> Lines:', Lines);
+
     var lins = [];
 
     this.dataSource = new Cesium.CustomDataSource('TrackPath');

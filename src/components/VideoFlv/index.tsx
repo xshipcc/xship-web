@@ -4,7 +4,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-05 02:49:02
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-09 14:22:27
+ * @LastEditTime: 2023-11-09 17:21:45
  * @FilePath: \zero-admin-ui-master\src\components\VideoFlv\index.tsx
  * @Description:
  *
@@ -34,14 +34,13 @@ const FLVPlayer = (props) => {
       flvPlayerRef.current.load();
       flvPlayerRef.current.play();
       setInterval(function () {
-        const delayTime = flvPlayerRef.current.buffered.end(0) - flvPlayerRef.current.currentTime;
-        console.log('delayTime.current.currentTime:', flvPlayerRef.current.currentTime);
-        console.log('delayTime.current.buffered:', flvPlayerRef.current.buffered);
-        console.log('delayTime.current.buffered:', videoRef.current.buffered);
-        console.log('delayTime:', delayTime);
+        // const delayTime = flvPlayerRef.current.buffered.end(0) - flvPlayerRef.current.currentTime;
+        // console.log('delayTime.current.currentTime:', flvPlayerRef.current.currentTime);
+        // console.log('delayTime.current.buffered:', flvPlayerRef.current.buffered);
+        // console.log('delayTime.current.buffered:', videoRef.current.buffered);
+        // console.log('delayTime:', delayTime);
         // if (videoRef.current.buffered.length > 0) {
         //   console.log('delayTime.current.buffered:', videoRef.current.buffered);
-
         //   if (flvPlayerRef.current.buffered.end(0) - flvPlayerRef.current.currentTime > 2) {
         //     // flvPlayerRef.current.currentTime = flvPlayerRef.current.buffered.end(0.1);
         //   }

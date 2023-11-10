@@ -10,6 +10,7 @@ import Track from '../../../../utils/js/track';
 import Road from '../../../../utils/js/road';
 import Tool from '@/utils/js/measure/measureTool';
 import { useSelector, useDispatch } from 'umi';
+import { message } from 'antd';
 
 const clientId = 'mapAlert' + Math.random().toString(16).substring(2, 8);
 const username = 'emqx_test';
@@ -56,9 +57,7 @@ const Map: React.FC = () => {
   const trackList = useSelector((state: any) => state.trackModel.trackList);
   const editSignal = useSelector((state: any) => state.trackModel.editSignal);
   const destoryTackSignal = useSelector((state: any) => state.trackModel.destoryTackSignal);
-  // const alertData: ListAlertHistoryData = useSelector((state: any) => state.trackModel.alertData);
-  const initFlyData = useSelector((state: any) => state.dashboardModel.currentFlyData);
-  const [coords, setCoords] = useState(null);
+
   // 场景初始化
   useEffect(() => {
     viewer.current = new Cesium.Viewer(divRef.current as Element, {
@@ -191,6 +190,34 @@ const Map: React.FC = () => {
     (state: any) => state.dashboardModel.currentFlyingRoad,
   );
 
+  function isArrayWithSpecificFormat(arr) {
+    if (!Array.isArray(arr)) {
+      message.success('加载失败' + arr + '不是数组');
+
+      // throw new Error('Input is not an array', arr);
+      return false;
+    }
+
+    for (let i = 0; i < arr.length; i++) {
+      const item = arr[i];
+      if (typeof item !== 'object' || item === null) {
+        message.success('加载失败' + item + '结构不正确');
+
+        // throw new Error(`Item at index ${i} is not an object`, item);
+        return false;
+      }
+      if (!item.hasOwnProperty('name') || !item.hasOwnProperty('coord')) {
+        // throw new Error(`Item at index ${i} does not have "name" or "coord" properties`, item);
+        message.success('加载失败' + item + '结构不正确');
+
+        return false;
+      }
+      if (Array.isArray(item.coord) && item.coord.length === 3) {
+        return true;
+      }
+    }
+  }
+
   useEffect(() => {
     console.log('roadData:', roadData);
     console.log('currentFlyingRoad:', currentFlyingRoad);
@@ -199,13 +226,13 @@ const Map: React.FC = () => {
       const roaming = new Road(viewer.current, {
         // Lines: currentFlyingRoad,
       });
-
-      viewer.current.dataSources.removeAll();
-
-      // 绘制飞行路径
-      roaming.TrackPath(currentFlyingRoad);
+      if (isArrayWithSpecificFormat(currentFlyingRoad)) {
+        viewer.current.dataSources.removeAll();
+        roaming.TrackPath(currentFlyingRoad);
+        message.success('加载成功');
+      }
     }
-    // 飞行模拟数据
+    // 绘制飞行路径
   }, [currentFlyingRoad]);
 
   //#endregion -----------------------------------------------------------------------
