@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-27 14:41:11
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-06 13:44:35
+ * @LastEditTime: 2023-11-10 11:54:03
  * @FilePath: \zero-admin-ui-master\src\utils\js\road.js
  * @Description:
  *
@@ -91,7 +91,7 @@ class Road {
         label: {
           //文字标签
           text: Lines[i].name,
-          font: 'bold 30px sans-serif', // 15pt monospace
+          font: 'bold 22px sans-serif', // 15pt monospace
           scale: 0.5,
           style: Cesium.LabelStyle.FILL,
           fillColor: Cesium.Color.WHITE,
@@ -101,6 +101,7 @@ class Road {
         },
         billboard: {
           //图标
+          scale: 0.8,
           image: '/poi.png',
           width: 95,
           height: 130,
@@ -129,8 +130,8 @@ class Road {
           // backgroundColor: new this.Cesium.Color(26 / 255, 196 / 255, 228 / 255, 1.0)   //背景顔色
         },
         point: {
-          pixelSize: 5,
-          color: Cesium.Color.fromCssColorString('#3163ec'),
+          pixelSize: 10,
+          color: Cesium.Color.fromCssColorString('#ff0000'),
         },
       });
       lins.push(Lines[i].coord[0]);
@@ -142,11 +143,11 @@ class Road {
       polyline: {
         material: new Cesium.PolylineOutlineMaterialProperty({
           color: Cesium.Color.fromCssColorString('#4daefc'),
-          outlineWidth: 1,
-          outlineColor: Cesium.Color.BLACK,
+          outlineWidth: 2,
+          outlineColor: Cesium.Color.fromCssColorString('#4975d4'),
         }),
         disableDepthTestDistance: Number.POSITIVE_INFINITY,
-        width: 6,
+        width: 5,
         // 不带箭头的直线
         positions: new Cesium.Cartesian3.fromDegreesArrayHeights(lins),
         // material: Cesium.Color.YELLOW,
@@ -154,6 +155,14 @@ class Road {
     });
 
     this.viewer.dataSources.add(this.dataSource);
+    this.viewer.flyTo(this.dataSource, {
+      offset: {
+        heading: Cesium.Math.toRadians(-90),
+        pitch: Cesium.Math.toRadians(-15),
+        range: 1000,
+      },
+      duration: 1.5,
+    });
   }
   getLength(c1, c2) {
     if (!c1 || !c2) return 0;

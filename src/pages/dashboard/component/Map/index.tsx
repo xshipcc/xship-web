@@ -40,23 +40,11 @@ setTimeout(() => {
 }, 2000);
 
 const Map: React.FC = () => {
+  const dispatch = useDispatch();
   const divRef = useRef<HTMLDivElement>(null);
   const viewer = useRef(null);
   const trackCahe = useRef(null);
-  const [DroneData, setDroneData] = useState([
-    {
-      speed: 0,
-      lat: 0,
-      lon: 0,
-      height: 0,
-      target_angle: 0,
-    },
-  ]);
   const MeasureTools = useRef(null);
-  const dispatch = useDispatch();
-  const trackList = useSelector((state: any) => state.trackModel.trackList);
-  const editSignal = useSelector((state: any) => state.trackModel.editSignal);
-  const destoryTackSignal = useSelector((state: any) => state.trackModel.destoryTackSignal);
 
   // 场景初始化
   useEffect(() => {
@@ -241,6 +229,18 @@ const Map: React.FC = () => {
    */
 
   // 菜单相关信号切换
+  const currentComponent = useSelector((state: any) => state.dashboardModel.currentComponent);
+  useEffect(() => {
+    console.log('currentComponent:', currentComponent);
+
+    if (currentComponent == 'Awareness') {
+      console.log('useEffect -> currentComponent:', currentComponent);
+      viewer.current.entities.removeAll();
+      viewer.current.dataSources.removeAll();
+    }
+  }, [currentComponent]);
+
+  const destoryTackSignal = useSelector((state: any) => state.trackModel.destoryTackSignal);
   useEffect(() => {
     viewer.current.entities.removeAll();
     viewer.current.dataSources.removeAll();
@@ -356,90 +356,116 @@ const Map: React.FC = () => {
   }, []);
   // 无人机位置实时更新
   useEffect(() => {
-    const point = new Cesium.Entity({
-      position: Cesium.Cartesian3.fromDegrees(114.33919146 + 0.0057, 38.07525226 + 0.0011, 133.45),
-      // point: point_options,
-      model: {
-        // 模型路径
-        uri: '/air.glb',
-        // 模型最小刻度
-        minimumPixelSize: 64,
-        maximumSize: 128,
-        // 设置模型最大放大大小
-        maximumScale: 100,
-        // 模型是否可见
-        show: true,
-        // 仅用于调试，显示魔仙绘制时的线框
-        debugWireframe: false,
-        // 仅用于调试。显示模型绘制时的边界球。
-        debugShowBoundingVolume: false,
-        scale: 100,
-        runAnimations: false, // 是否运行模型中的动画效果(由于我的模型是不会动所以就很呆哈哈哈)
+    console.log(
+      'useEffect -> viewer:',
+      viewer.current.scene.camera.heading,
+      viewer.current.scene.camera.pitch,
+      viewer.current.scene.camera.roll,
+    );
+    viewer.current.scene.camera.setView({
+      destination: new Cesium.Cartesian3.fromDegrees(
+        114.33919146 + 0.0057,
+        38.07525226 + 0.0011,
+        1033.45,
+      ), // 目标位置
+      orientation: {
+        heading: 0, // 水平角度，正东方向为0
+        pitch: -0.3, // 俯仰角度
+        roll: 0, // 翻滚角度
       },
     });
 
-    viewer.current.entities.add(point);
-    // viewer.current.scene.camera.setView({
-    //   destination: new Cesium.Cartesian3.fromDegrees(114.40856, 38.03867, 20.56), // 目标位置
-    //   orientation: {
-    //     heading: 180, // 水平角度，正东方向为0
-    //     pitch: 0, // 俯仰角度
-    //     roll: 0, // 翻滚角度
-    //   },
-    // });
-    // 创建一个距离变换
+    if (currentComponent == 'Awareness') {
+      console.log('useEffect -> currentComponent:', currentComponent);
+      const point = new Cesium.Entity({
+        position: Cesium.Cartesian3.fromDegrees(
+          114.33919146 + 0.0057,
+          38.07525226 + 0.0011,
+          133.45,
+        ),
+        // point: point_options,
+        model: {
+          // 模型路径
+          uri: '/air.glb',
+          // 模型最小刻度
+          minimumPixelSize: 64,
+          maximumSize: 128,
+          // 设置模型最大放大大小
+          maximumScale: 100,
+          // 模型是否可见
+          show: true,
+          // 仅用于调试，显示魔仙绘制时的线框
+          debugWireframe: false,
+          // 仅用于调试。显示模型绘制时的边界球。
+          debugShowBoundingVolume: false,
+          scale: 100,
+          runAnimations: false, // 是否运行模型中的动画效果(由于我的模型是不会动所以就很呆哈哈哈)
+        },
+      });
 
-    viewer.current.trackedEntity = point;
+      viewer.current.entities.add(point);
+      // viewer.current.scene.camera.setView({
+      //   destination: new Cesium.Cartesian3.fromDegrees(114.40856, 38.03867, 20.56), // 目标位置
+      //   orientation: {
+      //     heading: 180, // 水平角度，正东方向为0
+      //     pitch: 0, // 俯仰角度
+      //     roll: 0, // 翻滚角度
+      //   },
+      // });
+      // 创建一个距离变换
 
-    //     heading: 270.31730998394744,
-    // pitch: -20.72609786048885,
-    // roll: 0.97907544797624,
-    const originPosition = point._position.getValue(viewer.current.clock.currentTime);
-    console.log('useEffect -> originPosition:', originPosition);
-    function updatePosition(coord) {
-      // console.log('updatePosition -> coord:', coord);
-      // console.log('updatePosition -> originPosition:', originPosition);
-      const Degrees = Cesium.Cartesian3.fromDegrees(
-        coord.lon + 0.0062,
-        coord.lat + 0.0019,
-        coord.height,
-      );
-      console.log('updatePosition -> Degrees:', Degrees);
-      originPosition.x = Degrees.x;
-      originPosition.y = Degrees.y;
-      originPosition.z = Degrees.z;
-      // originPosition.x += 10;
-      // originPosition.y += 10;
-      // originPosition.z = Degrees.z;
-    }
-    // function updatePosition(coord) {
-    //   originPosition.x += 10;
-    //   originPosition.y += 10;
-    //   originPosition.z += 10;
-    // }
+      viewer.current.trackedEntity = point;
 
-    point._position = new Cesium.CallbackProperty(function () {
-      return originPosition;
-    }, false);
-
-    // setInterval(() => {
-    //   updatePosition();
-    // }, 200);
-
-    client.on('message', (topic: string, mqttMessage: any) => {
-      if (topic === 'uav') {
-        // const jsonObject = JSON.parse(mqttMessage);
-        const jsonObject = JSON.parse(mqttMessage);
-        console.log('client.111 -> jsonObject:', jsonObject);
-        if (jsonObject?.lat && jsonObject?.lon && jsonObject?.height) {
-          updatePosition(jsonObject);
-        }
-        if (trackCahe.current) {
-          setDroneData([...trackCahe.current, JSON.parse(mqttMessage)]);
-        }
+      //     heading: 270.31730998394744,
+      // pitch: -20.72609786048885,
+      // roll: 0.97907544797624,
+      const originPosition = point._position.getValue(viewer.current.clock.currentTime);
+      console.log('useEffect -> originPosition:', originPosition);
+      function updatePosition(coord) {
+        // console.log('updatePosition -> coord:', coord);
+        // console.log('updatePosition -> originPosition:', originPosition);
+        const Degrees = Cesium.Cartesian3.fromDegrees(
+          coord.lon + 0.0062,
+          coord.lat + 0.0019,
+          coord.height,
+        );
+        console.log('updatePosition -> Degrees:', Degrees);
+        originPosition.x = Degrees.x;
+        originPosition.y = Degrees.y;
+        originPosition.z = Degrees.z;
+        // originPosition.x += 10;
+        // originPosition.y += 10;
+        // originPosition.z = Degrees.z;
       }
-    });
-  }, []);
+      // function updatePosition(coord) {
+      //   originPosition.x += 10;
+      //   originPosition.y += 10;
+      //   originPosition.z += 10;
+      // }
+
+      point._position = new Cesium.CallbackProperty(function () {
+        return originPosition;
+      }, false);
+
+      // setInterval(() => {
+      //   updatePosition();
+      // }, 200);
+
+      client.on('message', (topic: string, mqttMessage: any) => {
+        if (topic === 'uav') {
+          // const jsonObject = JSON.parse(mqttMessage);
+          const jsonObject = JSON.parse(mqttMessage);
+          console.log('client.111 -> jsonObject:', jsonObject);
+          if (jsonObject?.lat && jsonObject?.lon && jsonObject?.height) {
+            updatePosition(jsonObject);
+          }
+          if (trackCahe.current) {
+            setDroneData([...trackCahe.current, JSON.parse(mqttMessage)]);
+          }
+        }
+      });
+    }
+  }, [currentComponent]);
 
   return (
     <>
