@@ -7,10 +7,12 @@ import 'cesium/Source/Widgets/widgets.css';
 import type { Alert } from '../../typings';
 import * as mqtt from 'mqtt';
 import Track from '../../../../utils/js/track';
+// import Track from '../../../../utils/js/track';
 import Road from '../../../../utils/js/road';
 import Tool from '@/utils/js/measure/measureTool';
 import { useSelector, useDispatch } from 'umi';
 import { message } from 'antd';
+import type { ListAlertHistoryData } from '@/pages/AIalert/data';
 
 const clientId = 'mapAlert' + Math.random().toString(16).substring(2, 8);
 const username = 'emqx_test';
@@ -240,7 +242,7 @@ const Map: React.FC = () => {
     }
   }, [currentComponent]);
 
-  const destoryTackSignal = useSelector((state: any) => state.trackModel.destoryTackSignal);
+  const destoryTackSignal = useSelector((state: any) => state.dashboardModel.destoryTackSignal);
   useEffect(() => {
     viewer.current.entities.removeAll();
     viewer.current.dataSources.removeAll();
@@ -339,21 +341,41 @@ const Map: React.FC = () => {
 
     // viewer.current.entities.add(billboard);
     // setTimeout(() => {
-    //   util.setCameraView(
-    //     {
-    //       x: demo.lon,
-    //       y: demo.lat,
-    //       z: demo.alt,
-    //       heading: 270.31730998394744,
-    //       pitch: -20.72609786048885,
-    //       roll: 0.97907544797624,
-    //       duration: 0,
-    //     },
-    //     viewer.current,
-    //   );
-    //   viewer.current.entities.add(billboard);
+    // util.setCameraView(
+    //   {
+    //     x: demo.lon,
+    //     y: demo.lat,
+    //     z: demo.alt,
+    //     heading: 270.31730998394744,
+    //     pitch: -20.72609786048885,
+    //     roll: 0.97907544797624,
+    //     duration: 0,
+    //   },
+    //   viewer.current,
+    // );
+    // viewer.current.entities.add(billboard);
     // }, 10000);
   }, []);
+  const alertData: ListAlertHistoryData = useSelector(
+    (state: any) => state.dashboardModel.alertData,
+  );
+  // 显示告警信息位置
+  useEffect(() => {
+    if (alertData.lon != 0 || alertData.lat != 0 || alertData.alt != 0) {
+      const destination = Cesium.Cartesian3.fromDegrees(
+        alertData.lon,
+        alertData.lat,
+        alertData.alt,
+      );
+      // 设置导航模式为导航到指定位置
+      viewer.scene.camera.flyTo(destination, {
+        duration: 1000, // 导航持续时间,单位为毫秒
+        elevation: 1000, // 导航过程中相机的高度
+        heading: 0, // 导航过程中相机的主向量角度
+        pitch: 0, // 导航过程中相机的天向量角度
+      });
+    }
+  }, [alertData]);
   // 无人机位置实时更新
   useEffect(() => {
     console.log(

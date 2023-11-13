@@ -2,13 +2,13 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-08 15:43:00
+ * @LastEditTime: 2023-11-13 11:33:07
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\center.tsx
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
-import { Button, Col, Row, Select, Switch, Tabs } from 'antd';
+import { Button, Col, Popconfirm, Row, Select, Switch, Tabs, message } from 'antd';
 import Title from '../common/Title';
 import AwarenessButton from './component/button';
 import React, { useEffect, useRef, useState } from 'react';
@@ -19,10 +19,80 @@ import { queryFly } from '@/pages/drone/routePlan/service';
 import type { ListUavFlyReqType } from '@/pages/drone/routePlan/data';
 import { useDispatch } from 'umi';
 
+type DroneData = {
+  lat: number;
+  lon: number;
+  height: number;
+  pitch: number;
+  trajectory: number;
+  rollAngle: number;
+  relHeight: number;
+  targetHeight: number;
+  flyTime: number;
+  flyDistance: number;
+  speed: number;
+  gpsSpeed: number;
+};
+
+type HangarData = {
+  batteryV: number;
+  batteryTemp: number;
+  warehouseStatus: number;
+  batteryStatus: number;
+  homingStatus: number;
+  uavPowerStatus: number;
+};
+
+type MonitorData = {
+  lat: number;
+  lon: number;
+  targetHeight: number;
+  tfUsage: number;
+  tfTotal: number;
+};
+type DashboardinfoType = {
+  monitor: MonitorData;
+  hangar: HangarData;
+  drone: DroneData;
+};
+
 const AnalysisCenter: React.FC = (props) => {
   const def: any = '';
   const client = useRef(def);
+  const [dashboardinfo, setdashboardinfo] = useState<DashboardinfoType>({
+    monitor: {
+      lat: 0,
+      lon: 0,
+      targetHeight: 0,
+      tfUsage: 0,
+      tfTotal: 0,
+    },
+    hangar: {
+      batteryV: 0,
+      batteryTemp: 0,
+      warehouseStatus: 0,
+      batteryStatus: 0,
+      homingStatus: 0,
+      uavPowerStatus: 0,
+    },
+    drone: {
+      lat: 0,
+      lon: 0,
+      height: 0,
+      pitch: 0,
+      trajectory: 0,
+      rollAngle: 0,
+      relHeight: 0,
+      targetHeight: 0,
+      flyTime: 0,
+      flyDistance: 0,
+      speed: 0,
+      gpsSpeed: 0,
+    },
+  });
+  console.log('dashboardinfo:', dashboardinfo);
 
+  // mqtt消息接收
   useEffect(() => {
     const clientId = 'awareness' + Math.random().toString(16).substring(2, 8);
     const username = 'emqx_test';
@@ -54,6 +124,12 @@ const AnalysisCenter: React.FC = (props) => {
       if (topic === 'info') {
         // const jsonObject = JSON.parse(mqttMessage);
         const jsonObject = JSON.parse(mqttMessage);
+        console.log('client.current.on -> jsonObject:', jsonObject);
+        setdashboardinfo((item: DashboardinfoType) => {
+          item[jsonObject.type] = jsonObject;
+          console.log('setdashboardinfo -> item[jsonObject.type]:', item[jsonObject.type]);
+          return item;
+        });
         // console.log('client.on -> jsonObject:', jsonObject);
         // setDroneData(JSON.parse(mqttMessage));
       }
@@ -273,10 +349,11 @@ const AnalysisCenter: React.FC = (props) => {
         </Col>
       </Row>
     ));
+
   const sendMqttControl = (param: any, type: string) => {
     console.log('sendMqttControl -> type:', type);
     console.log('sendMqttControl -> param:', param);
-    const data = { data: 'on' };
+    // const data = { data: 'on' };
     const controlInfo = {
       cmd: type + '/' + param,
       data: 'on',
@@ -285,21 +362,38 @@ const AnalysisCenter: React.FC = (props) => {
     console.log('sendMqttControl -> controlInfo:', JSON.stringify(controlInfo));
     client.current.publish('control', JSON.stringify(controlInfo));
   };
+  const [popconfirm, setpopconfirm] = useState(false);
+
   const RenderButtonList = (params: any[], type: string) =>
     params?.map((item: any) => (
       <Row key={item.key}>
         <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
-          {item.key}
+          {item.button}
         </Col>
         <Col
           span={12}
           style={{ color: 'white' }}
-          onClick={() => {
-            sendMqttControl(item.key, type);
-          }}
+          // onClick={() => {
+          //   sendMqttControl(item.key, type);
+          // }}
         >
-          {/* @ts-ignore */}
-          <AwarenessButton name={item.button} over={item.over} url={'/demo'} />
+          <Popconfirm
+            title={'是否执行' + item.button}
+            onConfirm={() => {
+              message.success('确认');
+              sendMqttControl(item.button, type);
+            }}
+            onCancel={() => {
+              message.error('取消');
+            }}
+            okText="确认"
+            cancelText="取消"
+          >
+            <a>
+              {/* @ts-ignore */}
+              <AwarenessButton name={item.button} over={item.over} url={'/demo'} />
+            </a>
+          </Popconfirm>
         </Col>
       </Row>
     ));
@@ -398,18 +492,29 @@ const AnalysisCenter: React.FC = (props) => {
                     </Col>
                   </Row>
                   <Row style={{ padding: '8px' }}>
-                    <Col span={16}>
+                    <Col span={8}>
                       <Select defaultValue="default" onChange={handleChange} options={roadList} />
                     </Col>
+                    <Col span={9} offset={1}>
+                      <div className={styles.circleLoad}>
+                        <div> 圈数</div>
+                        <input
+                          type="number"
+                          // value={ValueView}
+                          name="number"
+                          className="number-quantity"
+                        />
+                      </div>
+                    </Col>
                     <Col
-                      span={8}
+                      span={6}
                       style={{ color: 'white' }}
                       onClick={() => {
                         loadCurrentRoad();
                       }}
                     >
                       {/* @ts-ignore */}
-                      <AwarenessButton name={'加载航线'} over={'加载成功'} />
+                      <AwarenessButton name={'加载'} over={'成功'} />
                     </Col>
                   </Row>
                   {/*  */}

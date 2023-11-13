@@ -2,8 +2,8 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-22 14:51:44
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-09 13:23:58
- * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\AlertList\demo.tsx
+ * @LastEditTime: 2023-11-13 09:17:42
+ * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\AlertList\alert.tsx
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
@@ -17,6 +17,7 @@ import type { ListAlertHistoryData, ListAlertHistoryRespType } from '@/pages/AIa
 import { Divider, Image } from 'antd';
 import { CheckOutlined, RollbackOutlined } from '@ant-design/icons';
 import * as mqtt from 'mqtt';
+import { useDispatch, useSelector } from 'umi';
 
 export default () => {
   /**
@@ -203,8 +204,15 @@ export default () => {
     setreqParams(reqParams);
   };
 
+  // 点击展示当前告警信息位置
+  const dispatch = useDispatch();
+
   const showAlertPosition = (item: any) => {
     console.log('onChangeSelector -> value:', item);
+    dispatch({
+      type: 'dashboardModel/saveAlertData',
+      payload: item,
+    });
   };
   //#endregion -----------------------------------------------------------------------
   /**
