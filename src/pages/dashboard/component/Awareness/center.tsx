@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-13 11:33:07
+ * @LastEditTime: 2023-11-13 13:42:34
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\center.tsx
  * @Description:
  *
@@ -25,55 +25,56 @@ type DroneData = {
   height: number;
   pitch: number;
   trajectory: number;
-  rollAngle: number;
-  relHeight: number;
-  targetHeight: number;
-  flyTime: number;
-  flyDistance: number;
+  roll_angle: number;
+  rel_height: number;
+  target_height: number;
+  fly_time: number;
+  fly_distance: number;
   speed: number;
-  gpsSpeed: number;
+  gps_speed: number;
 };
 
 type HangarData = {
-  batteryV: number;
-  batteryTemp: number;
-  warehouseStatus: number;
-  batteryStatus: number;
-  homingStatus: number;
-  uavPowerStatus: number;
+  battery_v: number;
+  battery_temp: number;
+  warehouse_status: number;
+  battery_status: number;
+  homing_status: number;
+  uavpower_status: number;
 };
 
 type MonitorData = {
   lat: number;
   lon: number;
-  targetHeight: number;
-  tfUsage: number;
-  tfTotal: number;
+  target_height: number;
+  tf_usage: number;
+  tf_total: number;
 };
+
 type DashboardinfoType = {
   monitor: MonitorData;
   hangar: HangarData;
   drone: DroneData;
 };
 
-const AnalysisCenter: React.FC = (props) => {
+const AnalysisCenter: React.FC = () => {
   const def: any = '';
   const client = useRef(def);
   const [dashboardinfo, setdashboardinfo] = useState<DashboardinfoType>({
     monitor: {
       lat: 0,
       lon: 0,
-      targetHeight: 0,
-      tfUsage: 0,
-      tfTotal: 0,
+      target_height: 0,
+      tf_usage: 0,
+      tf_total: 0,
     },
     hangar: {
-      batteryV: 0,
-      batteryTemp: 0,
-      warehouseStatus: 0,
-      batteryStatus: 0,
-      homingStatus: 0,
-      uavPowerStatus: 0,
+      battery_v: 0,
+      battery_temp: 0,
+      warehouse_status: 0,
+      battery_status: 0,
+      homing_status: 0,
+      uavpower_status: 0,
     },
     drone: {
       lat: 0,
@@ -81,13 +82,13 @@ const AnalysisCenter: React.FC = (props) => {
       height: 0,
       pitch: 0,
       trajectory: 0,
-      rollAngle: 0,
-      relHeight: 0,
-      targetHeight: 0,
-      flyTime: 0,
-      flyDistance: 0,
+      roll_angle: 0,
+      rel_height: 0,
+      target_height: 0,
+      fly_time: 0,
+      fly_distance: 0,
       speed: 0,
-      gpsSpeed: 0,
+      gps_speed: 0,
     },
   });
   console.log('dashboardinfo:', dashboardinfo);
@@ -140,13 +141,13 @@ const AnalysisCenter: React.FC = (props) => {
     };
   }, []);
   // @ts-ignore
-  const [activeIndex, setActiveIndex] = useState(0);
-  const handleClick = (index: number) => {
-    setActiveIndex(1);
-    setTimeout(() => {
-      setActiveIndex(2);
-    }, 2000);
-  };
+  // const [activeIndex, setActiveIndex] = useState(0);
+  // const handleClick = (index: number) => {
+  //   setActiveIndex(1);
+  //   setTimeout(() => {
+  //     setActiveIndex(2);
+  //   }, 2000);
+  // };
   /**
    *  @file center.tsx
    *  @time 2023/10/24
@@ -169,105 +170,128 @@ const AnalysisCenter: React.FC = (props) => {
   // 面板信息加载
   const droneInfoList = [
     {
-      key: `水平速度`,
+      key: `speed`,
+      value: `水平速度`,
       unit: 'm/s',
     },
     {
-      key: `垂直速度`,
+      key: `gps_speed`,
+      value: `垂直速度`,
       unit: 'm/s',
     },
     {
-      key: `目标高度`,
+      key: `target_height`,
+      value: `目标高度`,
       unit: 'km',
     },
     {
-      key: `飞行时间`,
-      unit: 'km',
+      key: `fly_time`,
+      value: `飞行时间`,
+      unit: 'h',
     },
     {
-      key: `飞行高度`,
+      key: `rel_height`,
+      value: `飞行高度`,
       unit: 'km',
     },
   ];
   const droneStateList = [
     {
-      key: `经度`,
+      key: `lon`,
+      value: `经度`,
       unit: '°',
     },
     {
-      key: `维度`,
+      key: `lat`,
+      value: `维度`,
       unit: '°',
     },
     {
-      key: `高度`,
+      key: `height`,
+      value: `高度`,
       unit: 'km',
     },
     {
-      key: `俯仰角`,
+      key: `pitch`,
+      value: `俯仰角`,
       unit: '°',
     },
     {
-      key: `滚转角`,
+      key: `roll_angle`,
+      value: `滚转角`,
       unit: '°',
     },
     {
-      key: `航向`,
+      key: `trajectory`,
+      value: `航向`,
       unit: '°',
     },
   ];
   const hangarInfoList1 = [
     {
       key: `电池电压`,
+      value: `电池电压`,
       unit: 'V',
     },
     {
       key: `电池温度`,
+      value: `电池温度`,
       unit: '°C',
     },
     {
       key: `电池状态`,
+      value: `电池状态`,
       unit: '充电中',
     },
   ];
   const hangarInfoList2 = [
     {
       key: `舱盖状态`,
+      value: `舱盖状态`,
       unit: 'km',
     },
     {
       key: `归位机构状态`,
+      value: `归位机构状态`,
       unit: 'km',
     },
   ];
   const monitorList = [
     {
       key: `经度`,
+      value: `经度`,
       unit: '°',
     },
     {
       key: `维度`,
+      value: `维度`,
       unit: '°',
     },
     {
       key: `高度`,
+      value: `高度`,
       unit: 'km',
     },
   ];
   const monitorTFList = [
     {
       key: `TF总容量`,
+      value: `TF总容量`,
       unit: '°',
     },
     {
       key: `使用容量`,
+      value: `使用容量`,
       unit: '°',
     },
     {
       key: `数据保存状态`,
+      value: `数据保存状态`,
       unit: 'km',
     },
     {
       key: `摄像头工作状态`,
+      value: `摄像头工作状态`,
       unit: '°',
     },
   ];
@@ -338,14 +362,15 @@ const AnalysisCenter: React.FC = (props) => {
       over: '成功',
     },
   ];
-  const RenderList = (params: any[]) =>
+  const RenderList = (params: any[], type: string) =>
     params?.map((item: any) => (
-      <Row key={item.key}>
+      <Row key={item.value}>
         <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
-          {item.key}
+          {item.value}
         </Col>
         <Col span={12} style={{ color: 'white' }}>
-          {item.unit} <b></b>
+          {/* {dashboardinfo[type]} */}
+          {item.unit}
         </Col>
       </Row>
     ));
@@ -362,7 +387,6 @@ const AnalysisCenter: React.FC = (props) => {
     console.log('sendMqttControl -> controlInfo:', JSON.stringify(controlInfo));
     client.current.publish('control', JSON.stringify(controlInfo));
   };
-  const [popconfirm, setpopconfirm] = useState(false);
 
   const RenderButtonList = (params: any[], type: string) =>
     params?.map((item: any) => (
@@ -403,6 +427,7 @@ const AnalysisCenter: React.FC = (props) => {
    * @end
    */
   const [ValueView, setValueView] = useState(1);
+  const [circleValue, setcircleValue] = useState(1);
   const [ValueFocus, setValueFocus] = useState(1);
   const [roadList, setroadList] = useState([{ value: 'demo', label: 'demo' }]);
   const [currentRoad, setcurrentRoad] = useState([]);
@@ -445,6 +470,16 @@ const AnalysisCenter: React.FC = (props) => {
       type: 'dashboardModel/saveCurrentFlyingRoad',
       payload: currentRoad,
     });
+    console.log('loadCurrentRoad -> currentRoad:', currentRoad);
+
+    // const data = { data: 'on' };
+    const controlInfo = {
+      cmd: 'drone' + '/' + 'loadRoute',
+      data: { route: currentRoad, circle: circleValue },
+    };
+    console.log('sendMqttControl -> controlInfo:', controlInfo);
+    console.log('sendMqttControl -> controlInfo:', JSON.stringify(controlInfo));
+    client.current.publish('control', JSON.stringify(controlInfo));
   };
   const RenderComponent = (component: string) => {
     switch (component) {
@@ -455,9 +490,9 @@ const AnalysisCenter: React.FC = (props) => {
             <div className={styles.board}>
               <Row>
                 {/*  */}
-                <Col span={5}>{RenderList(droneInfoList)}</Col>
+                <Col span={5}>{RenderList(droneInfoList, 'drone')}</Col>
                 {/*  */}
-                <Col span={5}>{RenderList(droneStateList)}</Col>
+                <Col span={5}>{RenderList(droneStateList, 'drone')}</Col>
                 {/*  */}
                 <Col span={5}>{RenderButtonList(droneButtonList, 'drone')}</Col>
                 <Col span={8} offset={1}>
@@ -500,7 +535,15 @@ const AnalysisCenter: React.FC = (props) => {
                         <div> 圈数</div>
                         <input
                           type="number"
-                          // value={ValueView}
+                          value={circleValue}
+                          onChange={(event) => {
+                            // @ts-ignore
+                            setcircleValue(event.target.value);
+                            console.log(
+                              'RenderComponent -> event.target.value:',
+                              event.target.value,
+                            );
+                          }}
                           name="number"
                           className="number-quantity"
                         />
@@ -530,9 +573,9 @@ const AnalysisCenter: React.FC = (props) => {
             <div className={styles.board}>
               <Row>
                 {/*  */}
-                <Col span={5}>{RenderList(hangarInfoList1)}</Col>
+                <Col span={5}>{RenderList(hangarInfoList1, 'hangar')}</Col>
                 {/*  */}
-                <Col span={5}>{RenderList(hangarInfoList2)}</Col>
+                <Col span={5}>{RenderList(hangarInfoList2, 'hangar')}</Col>
                 {/*  */}
                 <Col span={5}>
                   <Row style={{ padding: '8px' }}>
@@ -593,10 +636,10 @@ const AnalysisCenter: React.FC = (props) => {
             <div className={styles.board}>
               <Row>
                 {/*  */}
-                <Col span={5}>{RenderList(monitorList)}</Col>
+                <Col span={5}>{RenderList(monitorList, 'monitor')}</Col>
                 {/*  */}
                 <Col span={5}>
-                  {RenderList(monitorTFList)}
+                  {RenderList(monitorTFList, 'monitor')}
                   {RenderButtonList(monitorButtonList2, 'monitor')}
                 </Col>
                 {/*  */}
