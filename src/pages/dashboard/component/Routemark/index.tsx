@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-26 11:46:44
+ * @LastEditTime: 2023-11-10 12:05:15
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Routemark\index.tsx
  * @Description:
  *
@@ -11,7 +11,6 @@
 import { Col, Row } from 'antd';
 import React, { useState } from 'react';
 import styles from './index.less';
-import TreeList from '@/pages/dashboard/component/TreeList/index';
 import Title from '../common/Title';
 import Line from './component/statistic/demo';
 import Track from './component/track';

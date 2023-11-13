@@ -8,17 +8,15 @@
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
-import { DualAxes } from '@ant-design/plots';
 import { Button, Col, Row, Select, Switch, Tabs } from 'antd';
 import Title from '../common/Title';
 import AwarenessButton from './component/button';
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './center.less';
-import type { DashboardInfoType } from '@/pages/dashboard/typings';
 import { ControlOutlined } from '@ant-design/icons';
 import * as mqtt from 'mqtt';
 import { queryFly } from '@/pages/drone/routePlan/service';
-import { ListUavFlyReqType } from '@/pages/drone/routePlan/data';
+import type { ListUavFlyReqType } from '@/pages/drone/routePlan/data';
 import { useDispatch } from 'umi';
 
 const AnalysisCenter: React.FC = (props) => {

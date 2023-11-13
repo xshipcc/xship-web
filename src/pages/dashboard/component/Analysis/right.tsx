@@ -9,7 +9,6 @@
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
-import { Col, Row } from 'antd';
 import React, { useEffect, useState } from 'react';
 import styles from './right.less';
 import Column from './component/column';
@@ -17,9 +16,6 @@ import Pie from './component/pie';
 
 import type { DashboardInfoType } from '@/pages/dashboard/typings';
 import Title from '@/pages/dashboard/component/common/Title';
-import { Rose } from '@ant-design/plots';
-
-import { Bar } from '@ant-design/plots';
 
 const AnalysisRight: React.FC = (props) => {
   // @ts-ignore

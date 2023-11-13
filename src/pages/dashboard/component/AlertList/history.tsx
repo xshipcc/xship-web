@@ -8,19 +8,8 @@
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
-import { ProList } from '@ant-design/pro-components';
-import {
-  Button,
-  Col,
-  DatePicker,
-  DatePickerProps,
-  List,
-  Row,
-  Select,
-  Space,
-  Tag,
-  message,
-} from 'antd';
+import type { DatePickerProps } from 'antd';
+import { Button, Col, DatePicker, List, Row, Select } from 'antd';
 import styles from './history.less';
 import { useEffect, useState } from 'react';
 

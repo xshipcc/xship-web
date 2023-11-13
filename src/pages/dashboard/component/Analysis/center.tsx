@@ -8,7 +8,6 @@
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
-import * as echarts from 'echarts';
 import React, { useEffect } from 'react';
 import styles from './center.less';
 import Title from '@/pages/dashboard/component/common/Title';

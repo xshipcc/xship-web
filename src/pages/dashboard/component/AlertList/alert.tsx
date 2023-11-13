@@ -8,10 +8,9 @@
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
-import { ProList } from '@ant-design/pro-components';
 import type { DatePickerProps, RadioChangeEvent } from 'antd';
 import { Badge, Button, Col, DatePicker, List, Radio, Row, Select, message } from 'antd';
-import styles from './demo.less';
+import styles from './alert.less';
 import { useEffect, useRef, useState } from 'react';
 import { queryAlert, upadtaAlert } from '@/pages/AIalert/service';
 import type { ListAlertHistoryData, ListAlertHistoryRespType } from '@/pages/AIalert/data';

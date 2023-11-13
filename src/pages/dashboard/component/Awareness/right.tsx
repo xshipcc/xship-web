@@ -11,7 +11,7 @@
 import { Button, Col, Row, Select } from 'antd';
 import React, { useEffect, useState } from 'react';
 import styles from './right.less';
-import AlertList from '@/pages/dashboard/component/AlertList/demo';
+import AlertList from '@/pages/dashboard/component/AlertList/alert';
 import HistoryList from '@/pages/dashboard/component/AlertList/history';
 import Title from '../common/Title';
 import TimeLine from './component/timeLine';
