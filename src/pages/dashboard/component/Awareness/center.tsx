@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-13 13:42:34
+ * @LastEditTime: 2023-11-13 14:29:23
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\center.tsx
  * @Description:
  *
@@ -474,8 +474,23 @@ const AnalysisCenter: React.FC = () => {
 
     // const data = { data: 'on' };
     const controlInfo = {
-      cmd: 'drone' + '/' + 'loadRoute',
-      data: { route: currentRoad, circle: circleValue },
+      cmd: 'drone' + '/' + 'route',
+      data: currentRoad,
+    };
+    const controlInfoCircle = {
+      cmd: 'drone' + '/' + 'circle',
+      data: 1,
+    };
+    console.log('sendMqttControl -> controlInfo:', controlInfo);
+    console.log('sendMqttControl -> controlInfo:', JSON.stringify(controlInfo));
+    client.current.publish('control', JSON.stringify(controlInfo));
+    client.current.publish('control', JSON.stringify(controlInfoCircle));
+  };
+  const sendCircle = () => {
+    // const data = { data: 'on' };
+    const controlInfo = {
+      cmd: 'drone' + '/' + 'circle',
+      data: circleValue,
     };
     console.log('sendMqttControl -> controlInfo:', controlInfo);
     console.log('sendMqttControl -> controlInfo:', JSON.stringify(controlInfo));
@@ -526,13 +541,27 @@ const AnalysisCenter: React.FC = () => {
                       />
                     </Col>
                   </Row>
-                  <Row style={{ padding: '8px' }}>
+                  {/*  */}
+                  <Row>
                     <Col span={8}>
                       <Select defaultValue="default" onChange={handleChange} options={roadList} />
                     </Col>
-                    <Col span={9} offset={1}>
+                    <Col
+                      span={8}
+                      offset={4}
+                      style={{ color: 'white' }}
+                      onClick={() => {
+                        loadCurrentRoad();
+                      }}
+                    >
+                      {/* @ts-ignore */}
+                      <AwarenessButton name={'加载航线'} over={'成功'} />
+                    </Col>
+                  </Row>
+                  {/*  */}
+                  <Row>
+                    <Col span={8}>
                       <div className={styles.circleLoad}>
-                        <div> 圈数</div>
                         <input
                           type="number"
                           value={circleValue}
@@ -550,14 +579,15 @@ const AnalysisCenter: React.FC = () => {
                       </div>
                     </Col>
                     <Col
-                      span={6}
+                      span={8}
+                      offset={4}
                       style={{ color: 'white' }}
                       onClick={() => {
-                        loadCurrentRoad();
+                        sendCircle();
                       }}
                     >
                       {/* @ts-ignore */}
-                      <AwarenessButton name={'加载'} over={'成功'} />
+                      <AwarenessButton name={'加载圈数'} over={'成功'} />
                     </Col>
                   </Row>
                   {/*  */}

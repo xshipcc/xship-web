@@ -367,12 +367,27 @@ const Map: React.FC = () => {
         alertData.lat,
         alertData.alt,
       );
+      console.log('useEffect -> destination:', destination);
       // 设置导航模式为导航到指定位置
-      viewer.scene.camera.flyTo(destination, {
-        duration: 1000, // 导航持续时间,单位为毫秒
-        elevation: 1000, // 导航过程中相机的高度
-        heading: 0, // 导航过程中相机的主向量角度
-        pitch: 0, // 导航过程中相机的天向量角度
+      viewer.current.scene.camera.flyTo({
+        destination: Cesium.Cartesian3.fromDegrees(
+          alertData.lon,
+          alertData.lat,
+          alertData.alt + 500,
+        ),
+        maximumHeight: 2000,
+        orientation: {
+          // 指向
+          heading: Cesium.Math.toRadians(90, 0),
+          // 视角
+          pitch: Cesium.Math.toRadians(-90),
+          roll: 0.0,
+        },
+        duration: 1,
+        // duration: 1000, // 导航持续时间,单位为毫秒
+        // elevation: 1000, // 导航过程中相机的高度
+        // heading: 0, // 导航过程中相机的主向量角度
+        // pitch: 0, // 导航过程中相机的天向量角度
       });
     }
   }, [alertData]);
