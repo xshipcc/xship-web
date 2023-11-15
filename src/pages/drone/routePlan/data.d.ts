@@ -42,10 +42,17 @@ export interface ListUavFlyReqType {
 //   vertical: number;
 //   stayTime: number;
 // }
+
 // 航线节点
 export interface NodeType {
+  coord: number[];
   name: string;
-  coord: string;
+  speed: number;
+  hovertime: number;
+  radius: number;
+  photo: string;
+  heightmode: string;
+  turning: string;
   // nodeData: NodeDataType[];
 }
 // 航线数据

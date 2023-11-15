@@ -1,5 +1,27 @@
 .trackList {
   :global {
+    .ant-select:not(.ant-select-customize-input) .ant-select-selector {
+      position: relative;
+      background: rgba(14, 70, 116, 0.3);
+      border: 1px solid #5cb6ff;
+      border-radius: 2px;
+      transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    }
+    .ant-select {
+      position: relative;
+      display: inline-block;
+      box-sizing: border-box;
+      width: 200px;
+      margin: 0;
+      padding: 10px;
+      color: #ffffff;
+      font-weight: 400;
+      font-size: 20px;
+      font-family: YouSheBiaoTiHei;
+      list-style: none;
+      cursor: pointer;
+      font-feature-settings: 'tnum', 'tnum';
+    }
     .ant-table {
       position: relative;
       box-sizing: border-box;
@@ -151,13 +173,17 @@
   background: rgba(14, 70, 116, 0.548);
   border: 1px solid #5cb6ff;
   border-radius: 8px;
-  .inputName {
-    color: #ffffff;
-    font-weight: 400;
-    font-size: 22px;
-    font-family: YouSheBiaoTiHei;
-    background: rgba(14, 70, 116, 0.548);
-    border: 1px solid #5cb6ff;
+
+  .inputDiv {
+    padding: 10px;
+    .inputName {
+      color: #ffffff;
+      font-weight: 400;
+      font-size: 22px;
+      font-family: YouSheBiaoTiHei;
+      background: rgba(14, 70, 116, 0.548);
+      border: 1px solid #5cb6ff;
+    }
   }
   :global {
     .ant-btn {

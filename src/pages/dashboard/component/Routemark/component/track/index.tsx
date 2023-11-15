@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import type { InputRef } from 'antd';
-import { Button, Col, Form, Input, List, Row, Table } from 'antd';
+import { Button, Col, Form, Input, List, Row, Select, Table } from 'antd';
 import type { FormInstance } from 'antd/es/form';
 import styles from './index.less';
 import type { AddUavFlyReqType, ListUavFlyReqType } from '@/pages/drone/routePlan/data';
@@ -171,15 +171,23 @@ const App: React.FC = () => {
       name: `default`,
       data: [
         {
-          name: `default`,
+          name: 'default',
           coord: [111, 37, 111],
+          speed: 5,
+          hovertime: 10,
+          radius: 25,
+          photo: '0', //0拍照  ,1不拍照
+          heightmode: '00', //
+          turning: '00',
         },
       ],
       create_time: `default`,
     };
     try {
       // @ts-ignore
-      newData.data = newData.data + '';
+      newData.data = JSON.stringify(newData.data);
+
+      // newData.data = newData.data + '';
       console.log('handleAdd -> newData:', newData);
       // @ts-ignore
       const response = await addFly(newData);
@@ -211,13 +219,30 @@ const App: React.FC = () => {
     id: 1,
     creator: 'default',
     name: `default`,
-    data: [{ name: 'default', coord: [111, 37, 111] }],
+    data: [
+      {
+        name: 'default',
+        coord: [111, 37, 111],
+        speed: 5,
+        hovertime: 10,
+        radius: 25,
+        photo: '0', //0拍照  ,1不拍照
+        heightmode: '00', //
+        turning: '00',
+      },
+    ],
     create_time: `default`,
   });
-  // const [nodeData, setNodeData] = useState({
-  //   name: `default`,
-  //   coord: '',
-  // });
+  // {
+  //   "coord": [114.34485589209454, 38.076836312345094, 105.75749666860541],
+  //     "speed": 5,
+  //       "hovertime": 10,
+  //         "radius": 25,
+  //           "photo": "0=不拍照;1=拍照",
+  //             "heightmode": "00=独立控制;01=高度优先;10=斜线优先",
+  //               "turning": "00=悬停转弯;01=内切转弯"
+
+  // },
 
   /**
    *保存编辑航线的信息
@@ -246,7 +271,7 @@ const App: React.FC = () => {
         fetchFlyData({ pageSize: 10, current: 1 });
       }
       dispatch({
-        type: 'trackModel/changeDestoryTackSignal',
+        type: 'dashboardModel/changeDestoryTackSignal',
         payload: [true],
       });
       setShowDrawer(false);
@@ -273,7 +298,7 @@ const App: React.FC = () => {
    */
   const toggleDrawer = (item: any) => {
     dispatch({
-      type: 'trackModel/changeDestoryTackSignal',
+      type: 'dashboardModel/changeDestoryTackSignal',
       payload: [true],
     });
     console.log('toggleDrawer -> item:', item);
@@ -294,21 +319,24 @@ const App: React.FC = () => {
   const closeDrawer = async (data: any) => {
     setShowDrawer(false);
     dispatch({
-      type: 'trackModel/changeDestoryTackSignal',
+      type: 'dashboardModel/changeDestoryTackSignal',
       payload: [true],
     });
   };
 
-  const changeNodeName = (e: any, index: any) => {
-    console.log('changeNodeName -> e:', e);
-    console.log('changeNodeName -> index:', index);
-    // console.log('changeNodeName -> index:', index);
-    // console.log('changeNodeName -> data:', e.target.value);
-    const tempNode = {
-      coord: currentRoad.data[index]?.coord ? currentRoad.data[index].coord : '1',
-      name: e.target.value,
-    };
-    currentRoad.data[index] = tempNode;
+  /**
+   *
+   *
+   * @param {*} value 当前节点输入的值
+   * @param {*} index 当前节点的索引
+   * @param {*} key 当前修改对应的键
+   */
+  const changeNode = (value: any, index: any, key: any) => {
+    // const tempNode = {
+    //   coord: currentRoad.data[index]?.coord ? currentRoad.data[index].coord : '1',
+    //   name: value,
+    // };
+    currentRoad.data[index][key] = value;
     console.log('changeNodeName -> currentRoad:', currentRoad);
     setcurrentRoad(currentRoad);
   };
@@ -322,11 +350,20 @@ const App: React.FC = () => {
     // 格式坐标数据为节点数据
     if (roadData?.length > 0) {
       const data: any = [];
+      console.log('roadData -> data:', data);
       roadData.map((item: any, index: any) => {
         console.log('roadData.map -> item:', item);
+        // data[index].coord = item.coord;
+        // data[index].name = index + '号';
         data.push({
           coord: item,
           name: index + '号',
+          speed: 5,
+          hovertime: 10,
+          radius: 25,
+          photo: '0', //0拍照  ,1不拍照
+          heightmode: '00', //
+          turning: '00',
         });
         return;
       });
@@ -482,22 +519,7 @@ const App: React.FC = () => {
             renderItem={(item: NodeType, index) => (
               <div className={styles.nodeList}>
                 {console.log('nodeitem', item)}
-                <Row>
-                  <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
-                    节点名称
-                  </Col>
-                  <Col span={12} style={{ color: 'white' }}>
-                    <Input
-                      className={styles.inputName}
-                      readOnly={editRoadSignal}
-                      defaultValue={item.name}
-                      placeholder="请输入节点名称"
-                      onChange={(e) => {
-                        changeNodeName(e, index);
-                      }}
-                    />
-                  </Col>
-                </Row>
+
                 <Row>
                   <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
                     经度
@@ -524,6 +546,86 @@ const App: React.FC = () => {
                     {item?.coord ? item.coord[2] : 'default'}
 
                     {/* {item?.coord[2]} */}
+                  </Col>
+                </Row>
+                <Row>
+                  <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
+                    距离上一点
+                  </Col>
+                  <Col span={12} style={{ color: 'white' }}>
+                    {item?.coord ? item.coord[2] : 'default'}
+                    {/* {item?.coord[2]} */}
+                  </Col>
+                </Row>
+                <Row>
+                  <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
+                    节点名称
+                  </Col>
+                  {/* <Col span={12} style={{ color: 'white' }} className={styles.inputDiv}> */}
+                  <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
+                    {item?.name ? item.name : 'default'}
+                    {/* <Input
+                      className={styles.inputName}
+                      readOnly={true}
+                      defaultValue={item.name}
+                      placeholder="请输入节点名称"
+                      onChange={(e) => {
+                        changeNodeName(e, index);
+                      }}
+                    /> */}
+                  </Col>
+                </Row>
+                <Row>
+                  <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
+                    高度模式
+                  </Col>
+                  <Col span={12} style={{ color: 'white' }}>
+                    <Select
+                      id="showStatus"
+                      defaultValue={item.heightmode}
+                      onChange={(value) => {
+                        changeNode(value, index, 'heightmode');
+                      }}
+                    >
+                      <Select.Option value={'00'}>独立控制</Select.Option>
+                      <Select.Option value={'01'}>高度优先</Select.Option>
+                      <Select.Option value={'10'}>斜线控制</Select.Option>
+                    </Select>
+                    {/* <Select defaultValue="default" onChange={handleChange} options={roadList} /> */}
+                  </Col>
+                </Row>
+                <Row>
+                  <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
+                    转弯方式
+                  </Col>
+                  <Col span={12} style={{ color: 'white' }}>
+                    <Select
+                      id="showStatus"
+                      defaultValue={item.turning}
+                      onChange={(value) => {
+                        changeNode(value, index, 'turning');
+                      }}
+                    >
+                      <Select.Option value={'00'}>悬停转弯</Select.Option>
+                      <Select.Option value={'01'}>内切转弯</Select.Option>
+                    </Select>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
+                    拍照
+                  </Col>
+                  <Col span={12} style={{ color: 'white' }}>
+                    <Select
+                      id="showStatus"
+                      defaultValue={item.photo}
+                      onChange={(value) => {
+                        changeNode(value, index, 'photo');
+                      }}
+                    >
+                      <Select.Option value={'0'}>不拍照</Select.Option>
+                      <Select.Option value={'1'}>拍照</Select.Option>
+                    </Select>
                   </Col>
                 </Row>
               </div>
