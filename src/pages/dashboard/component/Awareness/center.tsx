@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-13 14:29:23
+ * @LastEditTime: 2023-11-15 11:35:35
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\center.tsx
  * @Description:
  *
@@ -430,7 +430,7 @@ const AnalysisCenter: React.FC = () => {
   const [circleValue, setcircleValue] = useState(1);
   const [ValueFocus, setValueFocus] = useState(1);
   const [roadList, setroadList] = useState([{ value: 'demo', label: 'demo' }]);
-  const [currentRoad, setcurrentRoad] = useState([]);
+  const [currentRoad, setcurrentRoad] = useState<any>([]);
 
   /**
    *
@@ -466,6 +466,19 @@ const AnalysisCenter: React.FC = () => {
   const dispatch = useDispatch();
 
   const loadCurrentRoad = () => {
+    // currentRoad.data
+    console.log('loadCurrentRoad -> currentRoad:', currentRoad);
+    // lat":38.0865966192828,"lon":114.33264199360657,"alt":97.20427051352851
+    currentRoad.push({
+      name: '终点',
+      coord: [114.33264199360657, 38.0865966192828, 111],
+      speed: 5,
+      hovertime: 10,
+      radius: 25,
+      photo: '0', //"0=不拍照;1=拍照",
+      heightmode: '00', //
+      turning: '00',
+    });
     dispatch({
       type: 'dashboardModel/saveCurrentFlyingRoad',
       payload: currentRoad,

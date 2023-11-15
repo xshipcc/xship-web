@@ -226,7 +226,7 @@ const App: React.FC = () => {
         speed: 5,
         hovertime: 10,
         radius: 25,
-        photo: '0', //0拍照  ,1不拍照
+        photo: '0', //1拍照  ,0不拍照
         heightmode: '00', //
         turning: '00',
       },
