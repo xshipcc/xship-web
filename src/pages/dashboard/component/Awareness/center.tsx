@@ -2,13 +2,13 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-15 11:35:35
+ * @LastEditTime: 2023-11-15 12:18:57
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\center.tsx
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
-import { Button, Col, Popconfirm, Row, Select, Switch, Tabs, message } from 'antd';
+import { Button, Col, Input, Modal, Popconfirm, Row, Select, Switch, Tabs, message } from 'antd';
 import Title from '../common/Title';
 import AwarenessButton from './component/button';
 import React, { useEffect, useRef, useState } from 'react';
@@ -402,7 +402,7 @@ const AnalysisCenter: React.FC = () => {
           // }}
         >
           <Popconfirm
-            title={'是否执行' + item.button}
+            title={'是否执行'}
             onConfirm={() => {
               message.success('确认');
               sendMqttControl(item.button, type);
@@ -509,6 +509,38 @@ const AnalysisCenter: React.FC = () => {
     console.log('sendMqttControl -> controlInfo:', JSON.stringify(controlInfo));
     client.current.publish('control', JSON.stringify(controlInfo));
   };
+
+  interface Route {
+    coord: [number, number, number]; // 经度、纬度、高度
+    radius: number; // 半径
+    time: number; // 时间
+    direction: '00' | '01'; // 00=逆时针;01=顺时针
+    mode: '00' | '01'; // 00=定点;01=环绕
+    speed: number; // 速度
+  }
+  // 定点巡航
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const [currentPoint, setcurrentPoint] = useState<Route>({
+    coord: [114.33264199360657, 38.0865966192828, 111],
+    speed: 5,
+    time: 10,
+    radius: 25,
+    mode: '00', //
+    direction: '00', //
+  });
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+    message.success('确认');
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
   const RenderComponent = (component: string) => {
     switch (component) {
       case 'drone':
@@ -518,7 +550,190 @@ const AnalysisCenter: React.FC = () => {
             <div className={styles.board}>
               <Row>
                 {/*  */}
-                <Col span={5}>{RenderList(droneInfoList, 'drone')}</Col>
+                <Col span={5}>
+                  {RenderList(droneInfoList, 'drone')}
+                  <Row>
+                    <Col span={10} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
+                      定点悬停
+                    </Col>
+                    <Col span={12} style={{ color: 'turquoise' }}>
+                      <Modal
+                        title="定点悬停"
+                        open={isModalOpen}
+                        onOk={handleOk}
+                        onCancel={handleCancel}
+                      >
+                        <div className={styles.nodeList}>
+                          <Row>
+                            <Col
+                              span={12}
+                              style={{ color: 'black', fontFamily: 'YouSheBiaoTiHei' }}
+                            >
+                              经度
+                            </Col>
+                            <Col span={12} style={{ color: 'black' }}>
+                              {/* {item?.coord[0]} */}
+                              <Input
+                                className={styles.inputName}
+                                readOnly={false}
+                                defaultValue={currentPoint.coord[0]}
+                                placeholder="请输入经度"
+                                onChange={(e) => {
+                                  // changeNodeName(e, index);
+                                }}
+                              />
+                            </Col>
+                          </Row>
+                          <Row>
+                            <Col
+                              span={12}
+                              style={{ color: 'black', fontFamily: 'YouSheBiaoTiHei' }}
+                            >
+                              维度
+                            </Col>
+                            <Col span={12} style={{ color: 'black' }}>
+                              {/* {item?.coord[1]} */}
+                              <Input
+                                className={styles.inputName}
+                                readOnly={false}
+                                defaultValue={currentPoint.coord[1]}
+                                placeholder="请输入维度"
+                                onChange={(e) => {
+                                  // changeNodeName(e, index);
+                                }}
+                              />
+                            </Col>
+                          </Row>
+                          <Row>
+                            <Col
+                              span={12}
+                              style={{ color: 'black', fontFamily: 'YouSheBiaoTiHei' }}
+                            >
+                              高度
+                            </Col>
+                            <Col span={12} style={{ color: 'black' }}>
+                              <Input
+                                className={styles.inputName}
+                                readOnly={false}
+                                defaultValue={currentPoint.coord[2]}
+                                placeholder="请输入高度"
+                                onChange={(e) => {
+                                  // changeNodeName(e, index);
+                                }}
+                              />
+                              {/* {currentPoint?.coord ? currentPoint.coord[2] : 'default'} */}
+                            </Col>
+                          </Row>
+                          <Row>
+                            <Col
+                              span={12}
+                              style={{ color: 'black', fontFamily: 'YouSheBiaoTiHei' }}
+                            >
+                              半径
+                            </Col>
+                            {/* <Col span={12} style={{ color: 'white' }} className={styles.inputDiv}> */}
+                            <Col
+                              span={12}
+                              style={{ color: 'black', fontFamily: 'YouSheBiaoTiHei' }}
+                            >
+                              <Input
+                                className={styles.inputName}
+                                readOnly={false}
+                                defaultValue={currentPoint.radius}
+                                placeholder="请输入半径"
+                                onChange={(e) => {
+                                  // changeNodeName(e, index);
+                                }}
+                              />
+                            </Col>
+                          </Row>
+                          <Row>
+                            <Col
+                              span={12}
+                              style={{ color: 'black', fontFamily: 'YouSheBiaoTiHei' }}
+                            >
+                              时间
+                            </Col>
+                            {/* <Col span={12} style={{ color: 'white' }} className={styles.inputDiv}> */}
+                            <Col
+                              span={12}
+                              style={{ color: 'black', fontFamily: 'YouSheBiaoTiHei' }}
+                            >
+                              <Input
+                                className={styles.inputName}
+                                readOnly={false}
+                                defaultValue={currentPoint.time}
+                                placeholder="请输入节点名称"
+                                onChange={(e) => {
+                                  // changeNodeName(e, index);
+                                }}
+                              />
+                            </Col>
+                          </Row>
+                          <Row>
+                            <Col
+                              span={12}
+                              style={{ color: 'black', fontFamily: 'YouSheBiaoTiHei' }}
+                            >
+                              方向
+                            </Col>
+                            <Col span={12} style={{ color: 'black' }}>
+                              <Select
+                                id="showStatus"
+                                defaultValue={currentPoint.direction}
+                                onChange={(value) => {
+                                  // changeNode(value, index, 'heightmode');
+                                }}
+                              >
+                                <Select.Option value={'00'}>独立控制</Select.Option>
+                                <Select.Option value={'01'}>高度优先</Select.Option>
+                                <Select.Option value={'10'}>斜线控制</Select.Option>
+                              </Select>
+                              {/* <Select defaultValue="default" onChange={handleChange} options={roadList} /> */}
+                            </Col>
+                          </Row>
+                          <Row>
+                            <Col
+                              span={12}
+                              style={{ color: 'black', fontFamily: 'YouSheBiaoTiHei' }}
+                            >
+                              模式
+                            </Col>
+                            <Col span={12} style={{ color: 'black' }}>
+                              <Select
+                                id="showStatus"
+                                defaultValue={currentPoint.mode}
+                                onChange={(value) => {
+                                  // changeNode(value, index, 'turning');
+                                }}
+                              >
+                                <Select.Option value={'00'}>悬停转弯</Select.Option>
+                                <Select.Option value={'01'}>内切转弯</Select.Option>
+                              </Select>
+                            </Col>
+                          </Row>
+                        </div>
+                      </Modal>
+                      <Popconfirm
+                        title={'是否执行'}
+                        onConfirm={() => {
+                          showModal();
+                          // sendMqttControl(item.button, type);
+                        }}
+                        onCancel={() => {
+                          message.error('取消');
+                        }}
+                        okText="确认"
+                        cancelText="取消"
+                      >
+                        <a>
+                          {/* @ts-ignore */}
+                          <AwarenessButton name={'定点悬停'} over={'over'} url={'/demo'} />
+                        </a>
+                      </Popconfirm>
+                    </Col>
+                  </Row>
+                </Col>
                 {/*  */}
                 <Col span={5}>{RenderList(droneStateList, 'drone')}</Col>
                 {/*  */}
@@ -595,14 +810,31 @@ const AnalysisCenter: React.FC = () => {
                       span={8}
                       offset={4}
                       style={{ color: 'white' }}
-                      onClick={() => {
-                        sendCircle();
-                      }}
+                      // onClick={() => {
+                      //   sendCircle();
+                      // }}
                     >
-                      {/* @ts-ignore */}
-                      <AwarenessButton name={'加载圈数'} over={'成功'} />
+                      <Popconfirm
+                        title={'是否执行'}
+                        onConfirm={() => {
+                          message.success('确认');
+                          sendCircle();
+                        }}
+                        onCancel={() => {
+                          message.error('取消');
+                        }}
+                        okText="确认"
+                        cancelText="取消"
+                      >
+                        <a>
+                          {/* @ts-ignore */}
+                          <AwarenessButton name={'加载圈数'} over={'成功'} />
+                        </a>
+                      </Popconfirm>
                     </Col>
                   </Row>
+                  {/*  */}
+
                   {/*  */}
                 </Col>
               </Row>
