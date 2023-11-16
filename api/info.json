@@ -1,0 +1,281 @@
+
+
+       ('lat', ctypes.c_float),#纬度
+        ('lon', ctypes.c_float),#经度
+        ('height', ctypes.c_short),#GPS高度
+// 俯仰角：Pitch angle
+// 滚转角：Roll angle
+// 航向：Heading
+        ('trajectory', ctypes.c_short),#轨迹角X10 
+        ('pitch', ctypes.c_short),#俯仰角X100
+        ('roll_angle', ctypes.c_short),#横滚角角X100
+// 飞行时间：Flight time
+// 飞行高度：Flight altitude
+// 目标高度：Target altitude
+// 距起飞点距离：Distance from takeoff point
+        ('rel_height', ctypes.c_short),#相对原点高度x10
+        ('target_height',ctypes.c_ushort),#目标高度
+        ('fly_time',ctypes.c_ushort),#飞行时间
+        ('fly_distance',ctypes.c_ushort),#飞行点距离
+// 控制模式(程控、手控)：Control mode (automatic control, manual control)
+        ('fly_ctl',ctypes.c_ubyte),#飞行控制模式
+
+?????????????????????????????????????
+// 水平速度：Horizontal speed
+// 垂直速度：Vertical speed
+        ('speed', ctypes.c_short),#地速x100
+        ('gps_speed', ctypes.c_short),#组合导航向速度X100
+
+{
+  "type":"drone",
+  "data":{
+    
+  "lat": "c_float",
+  "lon": "c_float",
+  "height":  "c_float",
+
+  "pitch": "c_short",
+  "trajectory":"c_short",
+  "roll_angle":"c_short",
+
+  "rel_height":"c_short",
+  "target_height":"c_short",
+  "fly_time":"c_short",
+  "fly_distance":"c_short",
+
+  "speed":"c_short",
+  "gps_speed":"c_short",
+
+
+}
+}
+
+// 机场场电池电压：Airport battery voltage
+// 机场电池温度：Airport battery temperature
+
+        ('battery_v', ctypes.c_ubyte),#电池电压
+        ('battery_temp', ctypes.c_ubyte),#电池温度
+
+// 舱盖状态：Hatch status (Closed, Closing, Opening, Open)
+        ('warehouse_status', ctypes.c_ubyte),#舱盖状态 0舱盖关闭 1正在打开 2已打开
+
+// 无人机状态：Drone status (Power disconnected, Power on)
+// 充电机状态：Charger status (Power disconnected, Power on)
+// 归位机构状态：Return mechanism status (Locked, Locking, Opening, Open)
+        ('battery_status', ctypes.c_ubyte),#充电机状态  0电源断开 1电源打开
+        ('homing_status', ctypes.c_ubyte),#归位机构状态 0锁定 1正在锁定 2打开 3正在打开
+        ('uavpower_status', ctypes.c_float),#无人机电源状态 0无人机下电 1无人机上电
+
+????????????????????????????
+// 机场电池状态：Airport battery status (Charging stopped, Charging in progress, Charging completed)
+{
+  "type":"hangar",
+  "data":{
+
+  "battery_v": "c_float",
+  "battery_temp": "c_float",
+
+  "warehouse_status":  "c_float",
+
+  "battery_status": "c_short",
+  "homing_status":"c_short",
+  "uavpower_status":"c_short",
+}}
+
+
+// 1.激光定位结果 (经度、纬度、高度)：Laser positioning result (Longitude, Latitude, Altitude)
+        ('lon', ctypes.c_float),#目标经度
+        ('lat', ctypes.c_float),#目标纬度
+        ('target_height',ctypes.c_ushort),#目标海拔高度
+
+??????????????????????????????????
+// 2.摄像头工作状态 (指令回报)：Camera operation status (Command feedback)
+
+// 3.TF总容量、使用容量、：TF card total capacity, usage capacity, 
+        ('tf_usage',ctypes.c_ubyte),     #TF使用容量百分比
+        ('tf_total',ctypes.c_ushort),   #TF使用容量百分比×10倍
+
+??????????????????????????????????????????????
+// 数据保存状态data storage status
+
+{
+  "type":"monitor",
+  "data":{
+
+  "lat": "c_float",
+  "lon": "c_float",
+  "target_height":  "c_float",
+
+  "tf_usage": "c_short",
+  "tf_total":"c_short",
+
+}
+}
+
+
+
+
+
+
+
+
+// 无人机
+
+        ('temp', ctypes.c_ubyte),#温度
+        ('eng',ctypes.c_ubyte),#功耗
+        ('v', ctypes.c_short),#电压
+        ('a', ctypes.c_short),#电流
+        ('PWM1', ctypes.c_short),
+        ('PWM2', ctypes.c_short),
+        ('PWM3', ctypes.c_short),
+        ('PWM4', ctypes.c_short),
+        ('PWM5', ctypes.c_short),
+        ('PWM6', ctypes.c_short),
+        ('PWM7', ctypes.c_short),
+        ('PWM8', ctypes.c_short),
+        ('PWM9', ctypes.c_short),
+        ('PWM10', ctypes.c_short),
+        ('offset_staus', ctypes.c_ubyte),#差分状态
+        ('lat', ctypes.c_float),#纬度
+        ('lon', ctypes.c_float),#经度
+        ('height', ctypes.c_short),#GPS高度
+        ('rel_height', ctypes.c_short),#相对原点高度x10
+        ('real_height', ctypes.c_short),#实时距地高度x10
+        ('target_speed', ctypes.c_short),#目标速度x100
+        ('speed', ctypes.c_short),#地速x100
+        ('gps_speed', ctypes.c_short),#组合导航向速度X100
+        ('trajectory', ctypes.c_short),#轨迹角X10
+        ('pitch', ctypes.c_short),#俯仰角X100
+        ('roll_angle', ctypes.c_short),#横滚角角X100
+        ('fu_wing', ctypes.c_ushort),#副翼
+        ('updown', ctypes.c_ushort),#升降
+        ('speedup', ctypes.c_ushort),#油门
+        ('toward', ctypes.c_ushort),#方向
+        ('lock',ctypes.c_ubyte),#锁定
+        ('toward_angle',ctypes.c_short),#机头指向角
+        ('fly_ctl',ctypes.c_ubyte),#飞行控制模式
+        ('staus',ctypes.c_ushort),#状态
+        ('fly_status',ctypes.c_ubyte),#飞行阶段
+        ('gps_lost',ctypes.c_ubyte),#GPS丢星时间
+        ('link_lost',ctypes.c_ubyte),#链路中断时间
+        ('area',ctypes.c_ushort),#飞行区域
+        ('turns_done',ctypes.c_ubyte),#已飞行圈数
+        ('turns_todo',ctypes.c_ubyte),#等待飞行圈数
+        ('fly_distance',ctypes.c_ushort),#飞行点距离
+        ('fly_time',ctypes.c_ushort),#飞行时间
+        ('target_point',ctypes.c_ubyte),#目标航点
+        ('target_height',ctypes.c_ushort),#目标高度
+        ('target_angle',ctypes.c_ushort),#目标航向
+        ('stay_time',ctypes.c_ubyte),#悬停时间
+        ('flyctl_v',ctypes.c_ushort),#飞控电压
+        ('engine_v',ctypes.c_ushort),#动力电压
+        ('gps_stars',ctypes.c_ubyte),#GPS星数
+        ('HDOP',ctypes.c_ubyte),#水
+
+
+// 机库
+
+#机场下传协议 0xc1
+class Airport_Receive(ctypes.LittleEndianStructure):
+    _fields_=[
+        ('head', ctypes.c_ubyte),#head aa
+        ('head2', ctypes.c_ubyte),#head2 c1
+        ('length', ctypes.c_ubyte),#length
+        ('battery_v', ctypes.c_ubyte),#电池电压
+        ('battery_temp', ctypes.c_ubyte),#电池温度
+        ('wind_angle', ctypes.c_ubyte),#风向
+        #7  6   5   4   3   2   1   0
+        #北风 东北风 东风  东南风 南风  西南风 西风  西北风
+        ('rain_snow', ctypes.c_ubyte),#雨雪传感器  1在下雨 0不在下雨
+        ('out_temp', ctypes.c_float),#舱外温度
+        ('out_humidity', ctypes.c_float),#舱外湿度
+        ('in_temp', ctypes.c_float),#舱内温度
+        ('in_humidity', ctypes.c_float),#舱内湿度
+        ('warehouse_status', ctypes.c_ubyte),#舱盖状态 0舱盖关闭 1正在打开 2已打开
+        ('warehouse_angle', ctypes.c_ubyte),#舱盖打开角度
+        ('homing_status', ctypes.c_ubyte),#归位机构状态 0锁定 1正在锁定 2打开 3正在打开
+        ('battery_status', ctypes.c_ubyte),#充电机状态  0电源断开 1电源打开
+        ('uavpower_status', ctypes.c_float),#无人机电源状态 0无人机下电 1无人机上电
+        ('bak1', ctypes.c_float),#预留
+        ('bak2', ctypes.c_float),#预留
+        ('bak3', ctypes.c_float),#预留
+        ('bak4', ctypes.c_ubyte),#预留
+        ('crc',ctypes.c_ushort),#crc16
+        ('end',ctypes.c_ubyte),#0xaa
+
+
+// 吊舱
+
+#吊舱系统
+#2吊舱发送至软件命令帧
+class Pod_Receive(ctypes.LittleEndianStructure):
+    _fields_=[
+        ('head', ctypes.c_ubyte),#head
+        ('head2', ctypes.c_ubyte),#head2
+        ('type', ctypes.c_ubyte),#载荷
+# 1：白光  2：红外  
+# 3：双光  4：三光
+        ('check', ctypes.c_ubyte),#自检结果
+#Bit0：红外机芯：   置1正常，0异常。
+# Bit1：可见光机芯： 置1正常，0异常。
+# Bit2：陀螺仪数据： 置1正常，0异常。
+# Bit3：角度传感器： 置1正常，0异常。
+# Bit4：驱动板：     置1正常，0异常。
+# Bit5：压缩存储：   置1正常，0异常。
+# Bit6：综合处理：   置1正常，0异常。
+# Bit7：吊舱准备状态：置1载荷准备好，置0载荷未准备好
+        ('pod_1', ctypes.c_ushort),#吊舱1
+# Bit0：0：备用；
+# Bit1：0：未视频抓图，1：正在视频抓图；
+# Bit2：0：备用；
+# Bit3：0：未视频连续抓图，1：正在视频连续抓图；
+# Bit4：0：未开始录像，1：正在录像；
+# Bit5：备用；
+# Bit6：1：TF卡已插卡，0：TF卡未插卡；
+# Bit7: 超温报警状态：0-未超温，1-超温；（测温红外）
+# Bit8：备用；
+# Bit9: 备用；
+# Bit10～Bit13: 红外图像增强0~7；
+# Bit14～Bit15: 图像显示模式；
+        ('pod_2', ctypes.c_ushort),#吊舱2
+# Bit0：备用
+# Bit1：0：跟踪源为红外，1：跟踪源为可见光；
+# Bit2~ Bit8：红外电子变倍倍数x10；
+# Bit9：备用；
+# Bit10~Bit11：可见光电子放大0-1 x; 1-2 x; 2-4x；
+# Bit12～Bit15:色带；
+        ('servo', ctypes.c_ubyte),#伺服状态
+# 0x01：载荷关
+# 0x02: 手动
+# 0x03: 收藏
+# 0x04: 数引
+# 0x05: 航向锁定
+# 0x06: 扫描
+# 0x07: 跟踪
+# 0x08: 垂直下视
+# 0x09:陀螺自动较漂
+# 0x0A:陀螺温度较漂
+# 0x0B:航向随动
+# 0x0C:归中
+# 0x0F:姿态指引
+        ('pod_dir_angle', ctypes.c_ushort),#吊舱框架方位角×100倍
+        ('pod_pitch', ctypes.c_ushort), #吊舱框架俯仰角×100倍
+        ('pod_roll',ctypes.c_ushort),   #吊舱框架横滚角×100倍
+        ('version',ctypes.c_ubyte),     #当前载荷版本号A、B
+        ('infrared_angle',ctypes.c_ushort),#红外视场角×10倍
+        ('tf_usage',ctypes.c_ubyte),     #TF使用容量百分比
+        ('visual_angle',ctypes.c_ushort),#可见光视场角×10倍
+        ('tf_total',ctypes.c_ushort),   #TF使用容量百分比×10倍
+        ('infrared_focal_length',ctypes.c_ushort),  #红外焦距×10倍
+        ('visual_focalcrcstring = self.crc = 0x11_length',ctypes.c_ushort),    #白光焦距×10倍
+        ('infrared_distance',ctypes.c_ushort),      #激光测距距离×10倍
+        ('lon', ctypes.c_float),#目标经度
+        ('lat', ctypes.c_float),#目标纬度
+        ('target_height',ctypes.c_ushort),#目标海拔高度
+        ('temp',ctypes.c_ushort),#温度×10倍
+        ('bak1',ctypes.c_ushort),#×100倍
+        ('bak2',ctypes.c_ushort),#×100倍
+        ('bak3',ctypes.c_ushor
+
+
+

@@ -11,3 +11,4 @@ mock
 /src/utils/plugin
 /src/pages/dashboard/component/Map/track
 /socketTest
+/api

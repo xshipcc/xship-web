@@ -1,0 +1,21 @@
+{
+  "type": "drone",
+  "data": {
+    "v": "c_short",
+    "a": "c_short",
+    "offset_status": "c_ubyte",
+    "lat": "c_float",
+    "lon": "c_float",
+    "rel_height": "c_short",
+    "speed": "c_short",
+    "gps_speed": "c_short",
+    "pitch": "c_short",
+    "roll_angle": "c_short",
+    "toward_angle": "c_short",
+    "gps_lost": "c_ubyte",
+    "link_lost": "c_ubyte",
+    "fly_ctl": "c_ubyte",
+    "fly_time": "c_ushort",
+    "gps_stars": "c_ubyte"
+  }
+}

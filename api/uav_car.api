@@ -1,0 +1,94 @@
+info(
+	desc: "汽车"
+	author: "magix"
+	email: "22333678@qq.com"
+)
+
+name       varchar(16)               not null comment '人名称',
+    card       varchar(200)                  not null comment '车牌号',
+    photo       varchar(200)                  not null comment '车辆照片',
+    type       bigint                        not null comment '等级分类 人员等级 本部,0，外来 1，工程 2',
+    phone       varchar(16)                  not null comment '手机号码',
+    status       bigint                        not null comment ' 帐号启用状态:0->禁用；1->启用',
+    agency       varchar(32)                         not null comment '  所属机构名称',
+    create_time    timestamp default CURRENT_TIMESTAMP null comment '注册时间'
+	
+type (
+	addCarReq {
+		Name        string `json:"name"`// '人名称'
+		card          string `json:"card"`//'车牌号',
+		photo          string `json:"photo"`//'车辆照片',
+		type        int64  `json:"type"`//'等级分类 人员等级 本部,0，外来 1，工程 1',
+		phone			string `json:"phone"`//'手机号码',
+		agency			string `json:"agency"`//  所属机构名称',
+		status     	int64 `json:"status"`//帐号启用状态:0->禁用；1->启用
+	}
+	addCarResp {
+		Code    string `json:"code"`
+		Message string `json:"message"`
+	}
+	ListCarReq {
+		Current  int64 `json:"current,default=1"`
+		PageSize int64 `json:"pageSize,default=20"`
+	}
+	ListCarData {
+		Id          int64  `json:"id"`
+		Name        string `json:"name"`
+		card          string `json:"card"`
+		photo          string `json:"photo"`
+		type        int64  `json:"type"`
+		phone			string `json:"phone"`
+		agency			string `json:"agency"`
+		status     	int64 `json:"status"`
+	}
+	ListCarResp {
+		Code     string                `json:"code"`
+		Message  string                `json:"message"`
+		Current  int64                 `json:"current,default=1"`
+		Data     []*ListCarData `json:"data"`
+		PageSize int64                 `json:"pageSize,default=20"`
+		Success  bool                  `json:"success"`
+		Total    int64                 `json:"total"`
+	}
+	UpdateCarReq {
+		Id          int64  `json:"id"`
+		Name        string `json:"name"`
+		card          string `json:"card"`
+		photo          string `json:"photo"`
+		type        int64  `json:"type"`
+		phone			string `json:"phone"`
+		agency			string `json:"agency"`
+		status     	int64 `json:"status"`
+	}
+	UpdateCarResp {
+		Code    string `json:"code"`
+		Message string `json:"message"`
+	}
+	DeleteCarReq {
+		Ids []int64 `json:"ids"`
+	}
+	DeleteCarResp {
+		Code    string `json:"code"`
+		Message string `json:"message"`
+	}
+)
+
+@server(
+	jwt: Auth
+	middleware: CheckUrl
+	group: uav/car
+	prefix: /api/uav/car
+)
+service admin-api {
+	@handler CarAdd
+	post /add (addCarReq) returns (addCarResp)
+
+	@handler CarList
+	post /list (ListCarReq) returns (ListCarResp)
+
+	@handler CarUpdate
+	post /update (UpdateCarReq) returns (UpdateCarResp)
+
+	@handler CarDelete
+	post /delete (DeleteCarReq) returns (DeleteCarResp)
+}

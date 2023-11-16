@@ -1,0 +1,58 @@
+// 1.自检按钮：Self-check button
+// 2.解锁按钮：Unlock button
+// 3.起飞按钮：Takeoff button
+// 4.回家降落按钮：Return home/land button
+// 5.加锁按钮：Lock button
+// 6.程控按钮：Automatic control button
+// 7.手控按钮：Manual control button
+// 8.防撞灯(开关)按钮：Anti-collision light (on/off) button
+// 航向设置 (限制输入值 {"excute":true}-359);
+
+// 1.上,下,左,右四个按钮调整摄像头方位：Four buttons for adjusting camera orientation (Up, Down, Left, Right)
+// 2.拍照按钮、录像按钮：Photo button, Video button
+// 3.视场变倍 (大、小) 按钮：Field of view zoom (In, Out) button
+// 4.焦距设置(加、减)按钮：Focus distance setting (Increase, Decrease) button
+// 5.下视、归中、扫描按钮：Downward view, Centering, Scanning button
+// 6.跟踪按钮：Tracking button
+// 7.激光定位按钮：Laser positioning button
+
+// 1.舱盖(开、关)按钮：Hatch (Open, Close) button
+// 2.无人机充电装置 (连接、断开)：Drone charging device (Connect, Disconnect) button
+// 3.归位机构 (锁定、解锁)：Return mechanism (Lock, Unlock) button
+{
+  "drone": {
+    "check": { "data": "on/off" },
+    "unlock": { "data": "on/off" },
+    "Takeoff": { "data": "on/off" },
+    "Return": { "data": "on/off" },
+    "Lock": { "data": "on/off" },
+    "Mode": { "data": "automatic/manual" },
+    "Heading": { "data": 60 }, //0-360
+    "light": { "data": "on/off" }
+  },
+  "monitor": {
+    "Up": { "data": 60 },
+    "Down": { "data": 60 },
+    "Left": { "data": 60 },
+    "Right": { "data": 60 },
+    "Photo": { "data": "on/off" },
+    "Video": { "data": "on/off" },
+    "view": { "data": "+60/-60" },
+    "Focus": { "data": "+60/-60" },
+    "Downward": { "data": "on/off" },
+    "Centering": { "data": "on/off" },
+    "Scanning": { "data": "on/off" },
+    "Tracking": { "data": "on/off" }
+  },
+  "hangar": {
+    "Hatch": { "data": "on/off" },
+    "Charging": { "data": "on/off" },
+    "Mechanism": { "data": "on/off" }
+  },
+  "player": {
+    "Play": { "data": "on/off" },
+    "Pause": { "data": "on/off" },
+    "Speed": { "data": "1/2/4/6" }
+  }
+}
+

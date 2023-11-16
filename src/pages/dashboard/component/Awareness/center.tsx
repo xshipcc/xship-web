@@ -2,13 +2,25 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-15 12:18:57
+ * @LastEditTime: 2023-11-16 13:35:03
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\center.tsx
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
-import { Button, Col, Input, Modal, Popconfirm, Row, Select, Switch, Tabs, message } from 'antd';
+import {
+  Button,
+  Col,
+  Input,
+  InputNumber,
+  Modal,
+  Popconfirm,
+  Row,
+  Select,
+  Switch,
+  Tabs,
+  message,
+} from 'antd';
 import Title from '../common/Title';
 import AwarenessButton from './component/button';
 import React, { useEffect, useRef, useState } from 'react';
@@ -526,8 +538,8 @@ const AnalysisCenter: React.FC = () => {
     speed: 5,
     time: 10,
     radius: 25,
-    mode: '00', //
-    direction: '00', //
+    mode: '00', // "00=定点;01=环绕",
+    direction: '00', //"00=逆时针;01=顺时针"
   });
   const showModal = () => {
     setIsModalOpen(true);
@@ -636,15 +648,14 @@ const AnalysisCenter: React.FC = () => {
                               span={12}
                               style={{ color: 'black', fontFamily: 'YouSheBiaoTiHei' }}
                             >
-                              <Input
-                                className={styles.inputName}
-                                readOnly={false}
+                              <InputNumber
+                                min={1}
+                                max={10}
                                 defaultValue={currentPoint.radius}
-                                placeholder="请输入半径"
-                                onChange={(e) => {
-                                  // changeNodeName(e, index);
-                                }}
+                                // onChange=
+                                // {onChange}
                               />
+                              ;
                             </Col>
                           </Row>
                           <Row>
@@ -712,8 +723,31 @@ const AnalysisCenter: React.FC = () => {
                               </Select>
                             </Col>
                           </Row>
+                          <Row>
+                            <Col
+                              span={12}
+                              style={{ color: 'black', fontFamily: 'YouSheBiaoTiHei' }}
+                            >
+                              速度
+                            </Col>
+                            {/* <Col span={12} style={{ color: 'white' }} className={styles.inputDiv}> */}
+                            <Col
+                              span={12}
+                              style={{ color: 'black', fontFamily: 'YouSheBiaoTiHei' }}
+                            >
+                              <InputNumber
+                                min={1}
+                                max={10}
+                                defaultValue={currentPoint.speed}
+                                // onChange=
+                                // {onChange}
+                              />
+                              ;
+                            </Col>
+                          </Row>
                         </div>
                       </Modal>
+                      {/*  */}
                       <Popconfirm
                         title={'是否执行'}
                         onConfirm={() => {
@@ -732,6 +766,7 @@ const AnalysisCenter: React.FC = () => {
                         </a>
                       </Popconfirm>
                     </Col>
+                    {/*  */}
                   </Row>
                 </Col>
                 {/*  */}

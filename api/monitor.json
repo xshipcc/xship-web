@@ -1,0 +1,7 @@
+        ('tf_usage',ctypes.c_ubyte),     #TF使用容量百分比
+        ('tf_total',ctypes.c_ushort),   #TF卡总容量×10倍
+        ('infrared_distance',ctypes.c_ushort),      #激光测距距离×10倍
+        ('lon', ctypes.c_float),#目标经度
+        ('lat', ctypes.c_float),#目标纬度
+        ('target_height',ctypes.c_ushort),#目标海拔高度
+        ('cmd_recv',ctypes.c_ushort),#接收到的命令字反馈
