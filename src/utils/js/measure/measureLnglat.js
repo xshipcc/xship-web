@@ -16,6 +16,7 @@ class MeasureLnglat extends BaseMeasure {
     this.point = null;
     this.position = null;
     this.state = 0;
+    this.trackPosition = [];
   }
 
   start(callback) {
@@ -41,14 +42,14 @@ class MeasureLnglat extends BaseMeasure {
       }
       var lnglat = util.cartesianToLnglat(cartesian, that.viewer);
       that.point.label.text =
-        '经度：' +
+        '巡航点' +
+        '\n经度：' +
         lnglat[0].toFixed(6) +
         '\n纬度：' +
         lnglat[1].toFixed(6) +
         '\n高度：' +
-        lnglat[2].toFixed(2) +
-        console.log('MeasureLnglat ->   lnglat[2]:', lnglat[2]);
-      (' m');
+        lnglat[2].toFixed(6) +
+        ' m';
     }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
   }
 
@@ -126,6 +127,9 @@ class MeasureLnglat extends BaseMeasure {
 
   createPoint() {
     var that = this;
+    var lnglat = util.cartesianToLnglat(that.position, that.viewer);
+    that.trackPosition.push(lnglat);
+
     var point = this.viewer.entities.add({
       position: new Cesium.CallbackProperty(function () {
         return that.position;
@@ -133,13 +137,13 @@ class MeasureLnglat extends BaseMeasure {
       point: {
         show: true,
         outlineColor: Cesium.Color.YELLOW,
-        outlineColor: Cesium.Color.WHITE,
+        outlineColor: Cesium.Color.RED,
         pixelSize: 6,
         outlineWidth: 2,
         disableDepthTestDistance: Number.MAX_VALUE,
       },
       label: {
-        font: '18px Helvetica',
+        font: '14px Helvetica',
         fillColor: Cesium.Color.WHITE,
         outlineColor: Cesium.Color.BLACK,
         outlineWidth: 2,

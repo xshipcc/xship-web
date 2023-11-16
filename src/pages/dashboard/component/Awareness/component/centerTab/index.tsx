@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-16 14:36:51
+ * @LastEditTime: 2023-11-17 02:17:29
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\component\centerTab\index.tsx
  * @Description:
  *
@@ -30,7 +30,7 @@ import {
 import { queryFly } from '@/pages/drone/routePlan/service';
 import type { ListUavFlyReqType } from '@/pages/drone/routePlan/data';
 import Title from '../../../common/Title';
-import { useDispatch } from 'umi';
+import { useDispatch, useSelector } from 'umi';
 import Dialog from '../dialog';
 import AwarenessButton from '../button';
 
@@ -104,7 +104,7 @@ const CenterTab: React.FC = (props: any) => {
         const jsonObject = JSON.parse(mqttMessage);
         console.log('client.current.on -> jsonObject:', jsonObject);
         setdashboardinfo((item: DashboardinfoType) => {
-          item[jsonObject.type] = jsonObject;
+          item[jsonObject.type] = jsonObject.data;
           console.log('setdashboardinfo -> item[jsonObject.type]:', item[jsonObject.type]);
           return item;
         });
@@ -117,66 +117,6 @@ const CenterTab: React.FC = (props: any) => {
       if (client.current) client.current.end();
     };
   }, []);
-
-  const RenderList = (params: any[], type: string) =>
-    params?.map((item: any) => (
-      <Row key={item.value}>
-        <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
-          {item.value}
-        </Col>
-        <Col span={12} style={{ color: 'white' }}>
-          {/* {dashboardinfo[type]} */}
-          {item.unit}
-        </Col>
-      </Row>
-    ));
-
-  const sendMqttControl = (param: any, type: string) => {
-    console.log('sendMqttControl -> type:', type);
-    console.log('sendMqttControl -> param:', param);
-    // const data = { data: 'on' };
-    const controlInfo = {
-      cmd: type + '/' + param,
-      data: 'on',
-    };
-    console.log('sendMqttControl -> controlInfo:', controlInfo);
-    console.log('sendMqttControl -> controlInfo:', JSON.stringify(controlInfo));
-    client.current.publish('control', JSON.stringify(controlInfo));
-  };
-
-  const RenderButtonList = (params: any[], type: string) =>
-    params?.map((item: any) => (
-      <Row key={item.key}>
-        <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
-          {item.info}
-        </Col>
-        <Col
-          span={12}
-          style={{ color: 'white' }}
-          // onClick={() => {
-          //   sendMqttControl(item.key, type);
-          // }}
-        >
-          <Popconfirm
-            title={'是否执行'}
-            onConfirm={() => {
-              message.success('确认');
-              sendMqttControl(item.button, type);
-            }}
-            onCancel={() => {
-              message.error('取消');
-            }}
-            okText="确认"
-            cancelText="取消"
-          >
-            <a>
-              {/* @ts-ignore */}
-              <AwarenessButton name={item.button} over={item.over} url={'/demo'} />
-            </a>
-          </Popconfirm>
-        </Col>
-      </Row>
-    ));
 
   const [ValueView, setValueView] = useState(1);
   const [circleValue, setcircleValue] = useState(1);
@@ -251,6 +191,7 @@ const CenterTab: React.FC = (props: any) => {
     client.current.publish('control', JSON.stringify(controlInfo));
     client.current.publish('control', JSON.stringify(controlInfoCircle));
   };
+
   const sendCircle = () => {
     // const data = { data: 'on' };
     const controlInfo = {
@@ -263,20 +204,94 @@ const CenterTab: React.FC = (props: any) => {
   };
 
   // 定点巡航
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const editPointSignal = useSelector((state: any) => state.dashboardModel.editPointSignal);
+  const isModalOpen = useSelector((state: any) => state.dashboardModel.isModalOpen);
+  const [isModalOpenCache, setisModalOpenCache] = useState(isModalOpen);
 
   const showModal = () => {
-    setIsModalOpen(true);
+    // 开始编辑 坐标点
+    dispatch({
+      type: 'dashboardModel/changeEditPointSignal',
+      payload: '1',
+    });
   };
+  // 定点设置完成,同时编辑信号为真
+  useEffect(() => {
+    console.log('editPointSignal:', editPointSignal);
 
-  const handleOk = () => {
-    setIsModalOpen(false);
-    message.success('确认');
-  };
+    // 编辑结束
+    if (editPointSignal == '2') {
+      setisModalOpenCache(true);
+      console.log('isModalOpenCache:', isModalOpenCache);
 
-  const handleCancel = () => {
-    setIsModalOpen(false);
+      dispatch({
+        type: 'dashboardModel/changeisModalOpen',
+        payload: true,
+      });
+      // dispatch({
+      //   type: 'dashboardModel/changeEditPointSignal',
+      //   payload: '0',
+      // });
+    }
+  }, [editPointSignal]);
+
+  const sendMqttControl = (param: any, type: string) => {
+    console.log('sendMqttControl -> type:', type);
+    console.log('sendMqttControl -> param:', param);
+    // const data = { data: 'on' };
+    const controlInfo = {
+      cmd: type + '/' + param,
+      data: 'on',
+    };
+    console.log('sendMqttControl -> controlInfo:', controlInfo);
+    console.log('sendMqttControl -> controlInfo:', JSON.stringify(controlInfo));
+    client.current.publish('control', JSON.stringify(controlInfo));
   };
+  const RenderButtonList = (params: any[], type: string) =>
+    params?.map((item: any) => (
+      <Row key={item.key}>
+        <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
+          {item.info}
+        </Col>
+        <Col
+          span={12}
+          style={{ color: 'white' }}
+          // onClick={() => {
+          //   sendMqttControl(item.key, type);
+          // }}
+        >
+          <Popconfirm
+            title={'是否执行'}
+            onConfirm={() => {
+              message.success('确认');
+              sendMqttControl(item.button, type);
+            }}
+            onCancel={() => {
+              message.error('取消');
+            }}
+            okText="确认"
+            cancelText="取消"
+          >
+            <a>
+              {/* @ts-ignore */}
+              <AwarenessButton name={item.button} over={item.over} url={'/demo'} />
+            </a>
+          </Popconfirm>
+        </Col>
+      </Row>
+    ));
+  const RenderList = (params: any[], type: string) =>
+    params?.map((item: any) => (
+      <Row key={item.value}>
+        <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
+          {item.value}
+        </Col>
+        <Col span={12} style={{ color: 'white' }}>
+          {dashboardinfo[type][item.key]}
+          {item.unit}
+        </Col>
+      </Row>
+    ));
   const RenderComponent = (component: string) => {
     switch (component) {
       case 'drone':
@@ -363,7 +378,8 @@ const CenterTab: React.FC = (props: any) => {
                       定点悬停
                     </Col>
                     <Col span={12} style={{ color: 'turquoise' }}>
-                      <Dialog />
+                      <Dialog open={true} client={client.current} />
+
                       {/*  */}
                       <Popconfirm
                         title={'是否执行'}

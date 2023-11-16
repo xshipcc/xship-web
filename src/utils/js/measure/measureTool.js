@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-13 22:00:39
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-22 06:42:32
+ * @LastEditTime: 2023-11-16 16:08:16
  * @FilePath: \zero-admin-ui-master\src\utils\js\measure\measureTool.js
  * @Description:
  *
@@ -118,10 +118,26 @@ class MeasureTool {
         case 1: // 空间距离测量
           ms = new MeasureSpaceDistance(this.viewer, opt);
           break;
+        case 2: // 贴地距离测量
+          ms = new MeasureGroundDistance(this.viewer, opt);
+          break;
+        case 3: // 空间面积测量
+          ms = new MeasureSpaceArea(this.viewer, opt);
+          break;
+        case 4: // 高度测量
+          ms = new MeasureHeight(this.viewer, opt);
+          break;
+        case 5: // 三角测量
+          ms = new MeasureTriangle(this.viewer, opt);
+          break;
         case 6: // 坐标量算
           ms = new MeasureLnglat(this.viewer, opt);
           break;
-        default:
+        case 7: // 方位角测量
+          ms = new MeasureAzimutht(this.viewer, opt);
+          break;
+        case 8: // 剖面测量
+          ms = new MeasureSection(this.viewer, opt);
           break;
       }
 
@@ -140,7 +156,6 @@ class MeasureTool {
           if (that.endCreateFun) that.endCreateFun(ms, res);
           that.nowDrawMeasureObj = undefined;
           that.measureObjArr.push(ms);
-          ms.trackPosition;
           that.trackPosition = ms.trackPosition;
           resolve(ms.trackPosition);
         });

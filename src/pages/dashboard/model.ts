@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-16 18:32:55
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-06 01:44:15
+ * @LastEditTime: 2023-11-17 01:45:41
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\model.ts
  * @Description:
  *
@@ -42,7 +42,8 @@ export interface DashboardState {
    * @memberof DashboardState
    */
   editRoadSignal: boolean;
-
+  editPointSignal: string;
+  isModalOpen: boolean;
   /**
    *
    *
@@ -51,6 +52,7 @@ export interface DashboardState {
    */
   currentRoad: [];
   currentFlyingRoad: [];
+  currentPoint: {};
   destoryTackSignal: [boolean];
 }
 export interface DashboardModelType {
@@ -66,7 +68,10 @@ export interface DashboardModelType {
     saveAlertData: ImmerReducer<string> | any;
     saveCurrentRoad: ImmerReducer<string> | any;
     saveCurrentFlyingRoad: ImmerReducer<string> | any;
+    saveCurrentPoint: ImmerReducer<string> | any;
     changeEditRoadSignal: ImmerReducer<boolean> | any;
+    changeEditPointSignal: ImmerReducer<string> | any;
+    changeisModalOpen: ImmerReducer<boolean> | any;
   };
   effects: {
     fetchDashboardInfo: Effect;
@@ -130,7 +135,17 @@ const CompanyModel: DashboardModelType = {
       confirm: 0,
     },
     editRoadSignal: false,
+    editPointSignal: '0', //未编辑 0   编辑地图 1   编辑地图完成 2
+    isModalOpen: false,
     currentRoad: [],
+    currentPoint: {
+      coord: [114.33264199360657, 38.0865966192828, 111],
+      speed: 5,
+      time: 10,
+      radius: 25,
+      mode: '00', // "00=定点;01=环绕",
+      direction: '00', //"00=逆时针;01=顺时针"
+    },
     currentFlyingRoad: [],
   },
   reducers: {
@@ -153,8 +168,19 @@ const CompanyModel: DashboardModelType = {
       state.editRoadSignal = action.payload;
       console.log('changeEditRoadSignal -> action.payload:', action.payload);
     },
+    changeEditPointSignal(state: DashboardState, action: { payload: string }) {
+      state.editPointSignal = action.payload;
+      console.log('changeEditPointSignal -> state.editPointSignal:', state.editPointSignal);
+    },
+    changeisModalOpen(state: DashboardState, action: { payload: boolean }) {
+      state.isModalOpen = action.payload;
+    },
     saveCurrentRoad(state: DashboardState, action: { payload: [] }) {
       state.currentRoad = action.payload;
+      console.log('saveCurrentRoad ->  action.payload:', action.payload);
+    },
+    saveCurrentPoint(state: DashboardState, action: { payload: [] }) {
+      state.currentPoint = action.payload;
       console.log('saveCurrentRoad ->  action.payload:', action.payload);
     },
     saveCurrentFlyingRoad(state: DashboardState, action: { payload: [] }) {

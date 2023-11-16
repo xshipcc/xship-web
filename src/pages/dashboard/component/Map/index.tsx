@@ -38,14 +38,13 @@ const mqttSub = (subscription: { topic: any; qos: any }) => {
 
 mqttSub({ topic: 'alert', qos: 0 });
 setTimeout(() => {
-  mqttSub({ topic: 'uav', qos: 0 });
+  mqttSub({ topic: 'info', qos: 0 });
 }, 2000);
 
 const Map: React.FC = () => {
   const dispatch = useDispatch();
   const divRef = useRef<HTMLDivElement>(null);
   const viewer = useRef(null);
-  const trackCahe = useRef(null);
   const MeasureTools = useRef(null);
 
   // 场景初始化
@@ -114,63 +113,81 @@ const Map: React.FC = () => {
    */
   //#region -------------------------------------------------------------------------
   const editRoadSignal = useSelector((state: any) => state.dashboardModel.editRoadSignal);
+  const editPointSignal = useSelector((state: any) => state.dashboardModel.editPointSignal);
   // 编辑路线
   useEffect(() => {
-    if (editRoadSignal) {
-      viewer.current.entities.removeAll();
-      viewer.current.dataSources.removeAll();
-      const start = (item: any) => {
-        console.log('start -> item:', item);
-        if (!MeasureTools.current) return;
-        if (MeasureTools.current.nowDrawMeasureObj || MeasureTools.current.nowEditMeasureObj) {
-          alert('请结束当前量算');
-          return;
-        }
-        // 开始量算
-        MeasureTools.current
-          .start({
-            type: item.type,
-          })
-          .then((trackPosition) => {
+    const start = (item: any) => {
+      console.log('start -> item:', item);
+      if (!MeasureTools.current) return;
+      if (MeasureTools.current.nowDrawMeasureObj || MeasureTools.current.nowEditMeasureObj) {
+        alert('请结束当前量算');
+        return;
+      }
+      // 开始量算
+      MeasureTools.current
+        .start({
+          type: item.type,
+        })
+        .then((trackPosition) => {
+          if ((trackPosition.length = 1)) {
             console.log('.then -> trackPosition:', trackPosition);
-            // dispatch({
-            //   type: 'trackModel/saveTrackList',
-            //   payload: trackPosition,
-            // });
-
-            // TODO 设置当前路径
-            // const RoadLonLatAlt = trackPosition.map((coord, index) => {
-            //   return {
-            //     aircraftAltitude: coord[2],
-            //     aircraftLatitude: coord[1],
-            //     aircraftLongitude: coord[0],
-            //   };
-            // });
-            // console.log('RoadLonLatAlt -> RoadLonLatAlt:', RoadLonLatAlt);
+            const currentPoint = {
+              coord: [114.33264199360657, 38.0865966192828, 111],
+              speed: 5,
+              time: 10,
+              radius: 25,
+              mode: '00', // "00=定点;01=环绕",
+              direction: '00', //"00=逆时针;01=顺时针"
+            };
+            currentPoint.coord = trackPosition[0];
+            dispatch({
+              type: 'dashboardModel/saveCurrentPoint',
+              payload: currentPoint,
+            });
+            // 结束编辑 坐标点
+            dispatch({
+              type: 'dashboardModel/changeEditPointSignal',
+              payload: '2',
+            });
+          }
+          if (trackPosition.length > 1) {
             dispatch({
               type: 'dashboardModel/saveCurrentRoad',
               payload: trackPosition,
             });
-          })
-          .catch((error) => {
-            console.error('发生错误:', error);
-            // 在这里处理错误
-          });
+          }
+        })
+        .catch((error) => {
+          console.error('发生错误:', error);
+          // 在这里处理错误
+        });
 
-        return null;
-      };
+      return null;
+    };
+    // 路径绘制
+    if (editRoadSignal) {
+      viewer.current.entities.removeAll();
+      viewer.current.dataSources.removeAll();
       // 调用
       start({
         name: '空间距离',
         type: '1',
         unitType: 'dis',
       });
+      console.log('useEffect -> editPointSignal:', editPointSignal);
     }
-
+    // 坐标点绘制
+    if (editPointSignal == '1') {
+      start({
+        name: '坐标测量',
+        type: '6',
+        unitType: 'm',
+      });
+    }
     // if (!editRoadSignal) {
     //   MeasureTools.current.clear();
     // }
-  }, [editRoadSignal]);
+  }, [editRoadSignal, editPointSignal]);
 
   // 路线展示
 
@@ -489,16 +506,12 @@ const Map: React.FC = () => {
       // }, 200);
 
       client.on('message', (topic: string, mqttMessage: any) => {
-        if (topic === 'uav') {
-          // const jsonObject = JSON.parse(mqttMessage);
+        if (topic === 'info') {
           const jsonObject = JSON.parse(mqttMessage);
-          console.log('client.111 -> jsonObject:', jsonObject);
-          if (jsonObject?.lat && jsonObject?.lon && jsonObject?.height) {
-            updatePosition(jsonObject);
-          }
-          if (trackCahe.current) {
-            setDroneData([...trackCahe.current, JSON.parse(mqttMessage)]);
-          }
+          console.log('1jsonObject:', jsonObject);
+          if (jsonObject.type != 'drone') return;
+          console.log('1jsonObject:', jsonObject);
+          updatePosition(jsonObject.data);
         }
       });
     }

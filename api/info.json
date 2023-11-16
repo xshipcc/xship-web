@@ -1,119 +1,34 @@
-
-
-       ('lat', ctypes.c_float),#纬度
-        ('lon', ctypes.c_float),#经度
-        ('height', ctypes.c_short),#GPS高度
-// 俯仰角：Pitch angle
-// 滚转角：Roll angle
-// 航向：Heading
-        ('trajectory', ctypes.c_short),#轨迹角X10 
-        ('pitch', ctypes.c_short),#俯仰角X100
-        ('roll_angle', ctypes.c_short),#横滚角角X100
-// 飞行时间：Flight time
-// 飞行高度：Flight altitude
-// 目标高度：Target altitude
-// 距起飞点距离：Distance from takeoff point
-        ('rel_height', ctypes.c_short),#相对原点高度x10
-        ('target_height',ctypes.c_ushort),#目标高度
-        ('fly_time',ctypes.c_ushort),#飞行时间
-        ('fly_distance',ctypes.c_ushort),#飞行点距离
-// 控制模式(程控、手控)：Control mode (automatic control, manual control)
-        ('fly_ctl',ctypes.c_ubyte),#飞行控制模式
-
-?????????????????????????????????????
-// 水平速度：Horizontal speed
-// 垂直速度：Vertical speed
-        ('speed', ctypes.c_short),#地速x100
-        ('gps_speed', ctypes.c_short),#组合导航向速度X100
-
 {
-  "type":"drone",
-  "data":{
-    
-  "lat": "c_float",
-  "lon": "c_float",
-  "height":  "c_float",
-
-  "pitch": "c_short",
-  "trajectory":"c_short",
-  "roll_angle":"c_short",
-
-  "rel_height":"c_short",
-  "target_height":"c_short",
-  "fly_time":"c_short",
-  "fly_distance":"c_short",
-
-  "speed":"c_short",
-  "gps_speed":"c_short",
-
-
+  "monitor": {
+    "lat": 0,
+    "lon": 0,
+    "target_height": 0,
+    "tf_usage": 0,
+    "tf_total": 0
+  },
+  "hangar": {
+    "battery_v": 0,
+    "battery_temp": 0,
+    "warehouse_status": 0,
+    "battery_status": 0,
+    "homing_status": 0,
+    "uavpower_status": 0
+  },
+  "drone": {
+    "lat": 0,
+    "lon": 0,
+    "height": 0,
+    "pitch": 0,
+    "trajectory": 0,
+    "roll_angle": 0,
+    "rel_height": 0,
+    "target_height": 0,
+    "fly_time": 0,
+    "fly_distance": 0,
+    "speed": 0,
+    "gps_speed": 0
+  }
 }
-}
-
-// 机场场电池电压：Airport battery voltage
-// 机场电池温度：Airport battery temperature
-
-        ('battery_v', ctypes.c_ubyte),#电池电压
-        ('battery_temp', ctypes.c_ubyte),#电池温度
-
-// 舱盖状态：Hatch status (Closed, Closing, Opening, Open)
-        ('warehouse_status', ctypes.c_ubyte),#舱盖状态 0舱盖关闭 1正在打开 2已打开
-
-// 无人机状态：Drone status (Power disconnected, Power on)
-// 充电机状态：Charger status (Power disconnected, Power on)
-// 归位机构状态：Return mechanism status (Locked, Locking, Opening, Open)
-        ('battery_status', ctypes.c_ubyte),#充电机状态  0电源断开 1电源打开
-        ('homing_status', ctypes.c_ubyte),#归位机构状态 0锁定 1正在锁定 2打开 3正在打开
-        ('uavpower_status', ctypes.c_float),#无人机电源状态 0无人机下电 1无人机上电
-
-????????????????????????????
-// 机场电池状态：Airport battery status (Charging stopped, Charging in progress, Charging completed)
-{
-  "type":"hangar",
-  "data":{
-
-  "battery_v": "c_float",
-  "battery_temp": "c_float",
-
-  "warehouse_status":  "c_float",
-
-  "battery_status": "c_short",
-  "homing_status":"c_short",
-  "uavpower_status":"c_short",
-}}
-
-
-// 1.激光定位结果 (经度、纬度、高度)：Laser positioning result (Longitude, Latitude, Altitude)
-        ('lon', ctypes.c_float),#目标经度
-        ('lat', ctypes.c_float),#目标纬度
-        ('target_height',ctypes.c_ushort),#目标海拔高度
-
-??????????????????????????????????
-// 2.摄像头工作状态 (指令回报)：Camera operation status (Command feedback)
-
-// 3.TF总容量、使用容量、：TF card total capacity, usage capacity, 
-        ('tf_usage',ctypes.c_ubyte),     #TF使用容量百分比
-        ('tf_total',ctypes.c_ushort),   #TF使用容量百分比×10倍
-
-??????????????????????????????????????????????
-// 数据保存状态data storage status
-
-{
-  "type":"monitor",
-  "data":{
-
-  "lat": "c_float",
-  "lon": "c_float",
-  "target_height":  "c_float",
-
-  "tf_usage": "c_short",
-  "tf_total":"c_short",
-
-}
-}
-
-
-
 
 
 
@@ -279,3 +194,11 @@ class Pod_Receive(ctypes.LittleEndianStructure):
 
 
 
+{
+  "type": "drone",
+  "data": {
+    "lat": 38.076836312345094,
+    "lon": 114.34485589209454,
+    "height": 1050
+  }
+}

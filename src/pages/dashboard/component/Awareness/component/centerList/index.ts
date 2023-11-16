@@ -60,69 +60,59 @@ export const droneStateList = [
 ];
 export const hangarInfoList1 = [
   {
-    key: `电池电压`,
+    key: `battery_v`,
     value: `电池电压`,
     unit: 'V',
   },
   {
-    key: `电池温度`,
+    key: `battery_temp`,
     value: `电池温度`,
     unit: '°C',
   },
   {
-    key: `电池状态`,
+    key: `battery_status`,
     value: `电池状态`,
     unit: '充电中',
   },
 ];
 export const hangarInfoList2 = [
   {
-    key: `舱盖状态`,
+    key: `warehouse_status`,
     value: `舱盖状态`,
-    unit: 'km',
+    unit: '关',
   },
   {
-    key: `归位机构状态`,
+    key: `homing_status`,
     value: `归位机构状态`,
-    unit: 'km',
+    unit: '锁定',
   },
 ];
 export const monitorList = [
   {
-    key: `经度`,
+    key: `lon`,
     value: `经度`,
     unit: '°',
   },
   {
-    key: `维度`,
+    key: `lat`,
     value: `维度`,
     unit: '°',
   },
   {
-    key: `高度`,
+    key: `target_height`,
     value: `高度`,
     unit: 'km',
   },
 ];
 export const monitorTFList = [
   {
-    key: `TF总容量`,
+    key: `tf_total`,
     value: `TF总容量`,
     unit: '°',
   },
   {
-    key: `使用容量`,
+    key: `tf_usage`,
     value: `使用容量`,
-    unit: '°',
-  },
-  {
-    key: `数据保存状态`,
-    value: `数据保存状态`,
-    unit: 'km',
-  },
-  {
-    key: `摄像头工作状态`,
-    value: `摄像头工作状态`,
     unit: '°',
   },
 ];

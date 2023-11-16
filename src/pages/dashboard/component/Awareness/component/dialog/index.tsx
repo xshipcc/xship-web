@@ -2,48 +2,63 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-02 10:32:56
- * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\component\button\index.tsx
+ * @LastEditTime: 2023-11-17 01:53:31
+ * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\component\dialog\index.tsx
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
 import { Col, Input, InputNumber, Modal, Row, Select, message } from 'antd';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './index.less';
+import { useDispatch, useSelector } from 'umi';
+interface Route {
+  coord: [number, number, number]; // 经度、纬度、高度
+  radius: number; // 半径
+  time: number; // 时间
+  direction: '00' | '01'; // 00=逆时针;01=顺时针
+  mode: '00' | '01'; // 00=定点;01=环绕
+  speed: number; // 速度
+}
 export default (props: any) => {
-  interface Route {
-    coord: [number, number, number]; // 经度、纬度、高度
-    radius: number; // 半径
-    time: number; // 时间
-    direction: '00' | '01'; // 00=逆时针;01=顺时针
-    mode: '00' | '01'; // 00=定点;01=环绕
-    speed: number; // 速度
-  }
-  // 定点巡航
-  // const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(true);
+  const { open, client } = props;
+  console.log('props:', props);
+  const dispatch = useDispatch();
 
-  const [currentPoint, setcurrentPoint] = useState<Route>({
-    coord: [114.33264199360657, 38.0865966192828, 111],
-    speed: 5,
-    time: 10,
-    radius: 25,
-    mode: '00', // "00=定点;01=环绕",
-    direction: '00', //"00=逆时针;01=顺时针"
-  });
-  const showModal = () => {
-    setIsModalOpen(true);
+  // 定点巡航
+  const isModalOpen = useSelector((state: any) => state.dashboardModel.isModalOpen);
+
+  const currentPoint: Route = useSelector((state: any) => state.dashboardModel.currentPoint);
+  const [currentPointCache, setcurrentPointCache] = useState<Route>(
+    JSON.parse(JSON.stringify(currentPoint)),
+  );
+
+  const sendMqttControl = (param: any, type: string) => {
+    const controlInfo = {
+      cmd: type + '/' + param,
+      data: currentPointCache,
+    };
+    console.log('sendMqttControl -> controlInfo:', controlInfo);
+    console.log('sendMqttControl -> controlInfo:', JSON.stringify(controlInfo));
+    client.publish('control', JSON.stringify(controlInfo));
   };
 
   const handleOk = () => {
-    setIsModalOpen(false);
-    message.success('确认');
+    dispatch({
+      type: 'dashboardModel/changeisModalOpen',
+      payload: false,
+    });
+    sendMqttControl('drone', 'point');
+    message.success('定点巡航');
   };
 
   const handleCancel = () => {
-    setIsModalOpen(false);
+    dispatch({
+      type: 'dashboardModel/changeisModalOpen',
+      payload: false,
+    });
+    message.success('取消');
   };
   return (
     <Modal title="定点悬停" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
@@ -57,10 +72,14 @@ export default (props: any) => {
             <Input
               className={styles.inputName}
               readOnly={false}
-              defaultValue={currentPoint.coord[0]}
+              defaultValue={currentPointCache.coord[0]}
               placeholder="请输入经度"
               onChange={(e) => {
-                // changeNodeName(e, index);
+                setcurrentPointCache((data) => {
+                  //@ts-ignore
+                  data.coord[0] = e.target.value;
+                  return data;
+                });
               }}
             />
           </Col>
@@ -74,10 +93,14 @@ export default (props: any) => {
             <Input
               className={styles.inputName}
               readOnly={false}
-              defaultValue={currentPoint.coord[1]}
+              defaultValue={currentPointCache.coord[1]}
               placeholder="请输入维度"
               onChange={(e) => {
-                // changeNodeName(e, index);
+                setcurrentPointCache((data) => {
+                  //@ts-ignore
+                  data.coord[1] = e.target.value;
+                  return data;
+                });
               }}
             />
           </Col>
@@ -90,29 +113,36 @@ export default (props: any) => {
             <Input
               className={styles.inputName}
               readOnly={false}
-              defaultValue={currentPoint.coord[2]}
+              defaultValue={currentPointCache.coord[2]}
               placeholder="请输入高度"
               onChange={(e) => {
-                // changeNodeName(e, index);
+                setcurrentPointCache((data) => {
+                  //@ts-ignore
+                  data.coord[2] = e.target.value;
+                  return data;
+                });
               }}
             />
-            {/* {currentPoint?.coord ? currentPoint.coord[2] : 'default'} */}
           </Col>
         </Row>
         <Row>
           <Col span={12} style={{ color: 'black', fontFamily: 'YouSheBiaoTiHei' }}>
             半径
           </Col>
-          {/* <Col span={12} style={{ color: 'white' }} className={styles.inputDiv}> */}
           <Col span={12} style={{ color: 'black', fontFamily: 'YouSheBiaoTiHei' }}>
-            <InputNumber
-              min={1}
-              max={10}
-              defaultValue={currentPoint.radius}
-              // onChange=
-              // {onChange}
+            <Input
+              className={styles.inputName}
+              readOnly={false}
+              defaultValue={currentPointCache.coord[2]}
+              placeholder="请输入半径"
+              onChange={(e) => {
+                setcurrentPointCache((data) => {
+                  //@ts-ignore
+                  data.radius = e.target.value;
+                  return data;
+                });
+              }}
             />
-            ;
           </Col>
         </Row>
         <Row>
@@ -124,10 +154,14 @@ export default (props: any) => {
             <Input
               className={styles.inputName}
               readOnly={false}
-              defaultValue={currentPoint.time}
-              placeholder="请输入节点名称"
+              defaultValue={currentPointCache.time}
+              placeholder="请输入时间s"
               onChange={(e) => {
-                // changeNodeName(e, index);
+                setcurrentPointCache((data) => {
+                  //@ts-ignore
+                  data.time = e.target.value;
+                  return data;
+                });
               }}
             />
           </Col>
@@ -139,9 +173,13 @@ export default (props: any) => {
           <Col span={12} style={{ color: 'black' }}>
             <Select
               id="showStatus"
-              defaultValue={currentPoint.direction}
+              defaultValue={currentPointCache.direction}
               onChange={(value) => {
-                // changeNode(value, index, 'heightmode');
+                setcurrentPointCache((data) => {
+                  //@ts-ignore
+                  data.direction = value;
+                  return data;
+                });
               }}
             >
               <Select.Option value={'00'}>独立控制</Select.Option>
@@ -158,9 +196,13 @@ export default (props: any) => {
           <Col span={12} style={{ color: 'black' }}>
             <Select
               id="showStatus"
-              defaultValue={currentPoint.mode}
+              defaultValue={currentPointCache.mode}
               onChange={(value) => {
-                // changeNode(value, index, 'turning');
+                setcurrentPointCache((data) => {
+                  //@ts-ignore
+                  data.mode = value;
+                  return data;
+                });
               }}
             >
               <Select.Option value={'00'}>悬停转弯</Select.Option>
@@ -174,14 +216,19 @@ export default (props: any) => {
           </Col>
           {/* <Col span={12} style={{ color: 'white' }} className={styles.inputDiv}> */}
           <Col span={12} style={{ color: 'black', fontFamily: 'YouSheBiaoTiHei' }}>
-            <InputNumber
-              min={1}
-              max={10}
-              defaultValue={currentPoint.speed}
-              // onChange=
-              // {onChange}
+            <Input
+              className={styles.inputName}
+              readOnly={false}
+              defaultValue={currentPointCache.speed}
+              placeholder="请输入速度"
+              onChange={(e) => {
+                setcurrentPointCache((data) => {
+                  //@ts-ignore
+                  data.speed = e.target.value;
+                  return data;
+                });
+              }}
             />
-            ;
           </Col>
         </Row>
       </div>
