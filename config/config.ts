@@ -50,7 +50,8 @@ export default defineConfig({
     // MAP_TILES_URL: '/luquantile/{z}/{x}/{y}.png',
     // WS_MQTT_URL: 'ws://192.168.2.105:8083/mqtt', //远程机器部署地址
 
-    VIDEO_URL: 'http://localhost:8080/live/test.live.flv',
+    // VIDEO_URL: 'http://localhost:8080/live/test.live.flv',
+    VIDEO_URL: 'http://127.0.0.1:8880/live/test.live.flv',
     MAP_TERRAIN_URL: 'http://ai.javodata.com/terrain',
     MAP_TILES_URL: 'http://ai.javodata.com/luquantile/{z}/{x}/{y}.png',
     // WS_MQTT_URL: 'ws://127.0.0.1:8083/mqtt', //本地测试
