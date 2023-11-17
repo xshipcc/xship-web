@@ -89,6 +89,13 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
           <Input id="update-title" placeholder={'请输入摄像头ip'} />
         </FormItem>
         <FormItem
+          name="url"
+          label="视频流地址"
+          rules={[{ required: true, message: '请输入视频流地址!' }]}
+        >
+          <Input id="update-title" placeholder={'请输入视频流地址'} />
+        </FormItem>
+        <FormItem
           name="platform"
           label="摄像头平台"
           rules={[{ required: true, message: '请输入摄像头平台!' }]}
