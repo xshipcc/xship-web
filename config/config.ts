@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-09 16:53:04
+ * @LastEditTime: 2023-11-17 12:32:07
  * @FilePath: \zero-admin-ui-master\config\config.ts
  * @Description:
  *
@@ -45,15 +45,15 @@ export default defineConfig({
   define: {
     CESIUM_BASE_URL: '/', //cesium默认路径地址配置，没改好,这个地址相对于路由
     // VIDEO_URL: 'http://192.168.174.128:10086/flv/live/ifmP0eWIg.flv',
-    VIDEO_URL: 'http://localhost:8080/live/test.live.flv',
 
     // MAP_TERRAIN_URL: '/terrain',
     // MAP_TILES_URL: '/luquantile/{z}/{x}/{y}.png',
     // WS_MQTT_URL: 'ws://192.168.2.105:8083/mqtt', //远程机器部署地址
 
+    VIDEO_URL: 'http://localhost:8080/live/test.live.flv',
     MAP_TERRAIN_URL: 'http://ai.javodata.com/terrain',
     MAP_TILES_URL: 'http://ai.javodata.com/luquantile/{z}/{x}/{y}.png',
-    WS_MQTT_URL: 'ws://127.0.0.1:8083/mqtt', //本地测试
+    // WS_MQTT_URL: 'ws://127.0.0.1:8083/mqtt', //本地测试
 
     // WS_MQTT_URL: 'ws://ai.javodata.com:8883/mqtt',//远程测试
   },

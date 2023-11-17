@@ -6,7 +6,6 @@ import styles from './index.less';
 import 'cesium/Source/Widgets/widgets.css';
 import type { Alert } from '../../typings';
 import * as mqtt from 'mqtt';
-import Track from '../../../../utils/js/track';
 // import Track from '../../../../utils/js/track';
 import Road from '../../../../utils/js/road';
 import Tool from '@/utils/js/measure/measureTool';
