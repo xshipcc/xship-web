@@ -128,7 +128,7 @@ const Map: React.FC = () => {
           type: item.type,
         })
         .then((trackPosition) => {
-          if ((trackPosition.length = 1)) {
+          if (trackPosition.length == 1) {
             console.log('.then -> trackPosition:', trackPosition);
             const currentPoint = {
               coord: [114.33264199360657, 38.0865966192828, 111],
@@ -150,10 +150,16 @@ const Map: React.FC = () => {
             });
           }
           if (trackPosition.length > 1) {
+            console.log('.then -> trackPosition11111:', trackPosition);
+
             dispatch({
               type: 'dashboardModel/saveCurrentRoad',
               payload: trackPosition,
             });
+            // dispatch({
+            //   type: 'dashboardModel/changeEditRoadSignal',
+            //   payload: false,
+            // });
           }
         })
         .catch((error) => {

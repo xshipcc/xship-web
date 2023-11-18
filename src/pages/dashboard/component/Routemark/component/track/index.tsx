@@ -213,7 +213,7 @@ const App: React.FC = () => {
    */
   //#region -------------------------------------------------------------------------
   const dispatch = useDispatch();
-  const [editRoadSignal, setEditRoadSignal] = useState(false);
+  const editRoadSignal = useSelector((state: any) => state.dashboardModel.editRoadSignal);
   const [showDrawer, setShowDrawer] = useState(false);
   const [currentRoad, setcurrentRoad] = useState<ListUavFlyDataType>({
     id: 1,
@@ -381,15 +381,15 @@ const App: React.FC = () => {
    * @param {*} e
    */
   const editRoad = (e: any) => {
-    setEditRoadSignal(e);
+    // setEditRoadSignal(e);
     // 发送编辑信号
     dispatch({
       type: 'dashboardModel/changeEditRoadSignal',
-      payload: e,
+      payload: !e,
     });
 
     // 路线编辑完成
-    if (!e) {
+    if (e) {
       // @ts-ignore
       // currentRoad.data = roadData;
       // 发送当前路径数据
@@ -636,7 +636,7 @@ const App: React.FC = () => {
               <Button
                 type="primary"
                 onClick={() => {
-                  editRoad(!editRoadSignal);
+                  editRoad(editRoadSignal);
                 }}
               >
                 {editRoadSignal ? '编辑完成' : '航线编辑'}
