@@ -125,6 +125,10 @@ const FlashPromotionList: React.FC = () => {
       dataIndex: 'card',
     },
     {
+      title: '手机号',
+      dataIndex: 'phone',
+    },
+    {
       title: '车辆照片',
       dataIndex: 'photo',
       valueType: 'image',
@@ -198,7 +202,21 @@ const FlashPromotionList: React.FC = () => {
             <PlusOutlined /> 新建车辆
           </Button>,
         ]}
-        request={queryCar}
+        request={async (req) => {
+          const res = await queryCar(req);
+          // {data: [], pageSize: 10, current: 1, total:28, success: true,}
+          res.data.map((item: any) => {
+            // return item;
+            return (item.photo = BASE_IMAGE_URL + item.photo);
+          });
+          return {
+            data: res.data,
+            pageSize: res.pageSize,
+            current: 1,
+            total: res.total,
+            success: res.success,
+          };
+        }}
         columns={columns}
         rowSelection={{
           onChange: (_, selectedRows) => setSelectedRows(selectedRows),

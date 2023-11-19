@@ -2,16 +2,27 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-24 18:10:03
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-09 12:57:50
+ * @LastEditTime: 2023-11-19 23:43:19
  * @FilePath: \zero-admin-ui-master\src\pages\AIrecognition\people\components\CreateFlashForm.tsx
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
 import React, { useEffect, useState } from 'react';
-import { Form, Input, Modal, InputNumber, Upload, Select, DatePicker, DatePickerProps } from 'antd';
+import {
+  Form,
+  Input,
+  Modal,
+  InputNumber,
+  Upload,
+  Select,
+  DatePicker,
+  DatePickerProps,
+  UploadFile,
+} from 'antd';
 import type { AddPeopleReq } from '../data.d';
 import { PlusOutlined } from '@ant-design/icons';
+import { RcFile, UploadProps } from 'antd/lib/upload';
 
 export interface CreateFormProps {
   onCancel: () => void;
@@ -46,12 +57,6 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
     form.submit();
   };
 
-  const handleFinish = (values: AddPeopleReq) => {
-    if (onSubmit) {
-      onSubmit({ ...values, create_time });
-    }
-  };
-
   const normFile = (e: any) => {
     console.log('normFile -> e:', e.fileList);
 
@@ -82,7 +87,65 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
   //   gender: number;
   //   create_time: string;
   // }
+  const [imageURL, setimageURL] = useState('');
 
+  const handleFinish = (values: any) => {
+    console.log('handleFinish -> values:', values);
+    values.photo = imageURL;
+    setimageURL('');
+    if (onSubmit) {
+      onSubmit({ ...values });
+      // onSubmit({ ...values, startDate, endDate });
+    }
+  };
+
+  const uploadButton = (
+    <div>
+      <PlusOutlined />
+      <div style={{ marginTop: 8 }}>Upload</div>
+    </div>
+  );
+
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState('');
+  const [previewTitle, setPreviewTitle] = useState('');
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
+  const getBase64 = (file: RcFile): Promise<string> =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = (error) => reject(error);
+    });
+
+  const handlePreview = async (file: UploadFile) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj as RcFile);
+    }
+
+    setPreviewImage(file.url || (file.preview as string));
+    setPreviewOpen(true);
+    setPreviewTitle(file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1));
+  };
+
+  const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
+    console.log('newFileList:', newFileList);
+    setFileList(newFileList);
+    //获取上传的图片url
+    const url = newFileList
+      .filter((x) => x.status === 'done')
+      .map((x) => {
+        if (x.response) {
+          return x.response.data;
+        } else {
+          return x.url;
+        }
+      })
+      .join(',');
+    console.log('url:', url);
+    setimageURL(url);
+    // props.onChangeProductParams({ pic: url, albumPics: url });
+  };
   const renderContent = () => {
     return (
       <>
@@ -93,12 +156,17 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
         >
           <Input id="update-title" placeholder={'请输入用户名称'} />
         </FormItem>
-        <FormItem label="用户头像" name="icon" getValueFromEvent={normFile}>
-          <Upload action="/upload.do" listType="picture-card">
-            <div>
-              <PlusOutlined />
-              <div style={{ marginTop: 8 }}>上传</div>
-            </div>
+
+        <FormItem label="用户头像" name="icon">
+          <Upload
+            action="/api/sys/upload"
+            listType="picture-card"
+            fileList={fileList}
+            onPreview={handlePreview}
+            onChange={handleChange}
+            headers={{ Authorization: 'Bearer ' + localStorage.getItem('token') }}
+          >
+            {fileList.length >= 3 ? null : uploadButton}
           </Upload>
         </FormItem>
         <FormItem

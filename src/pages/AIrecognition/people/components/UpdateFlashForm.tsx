@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
-import { DatePicker, Form, Input, InputNumber, Modal, Select, Upload } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { DatePicker, Form, Input, InputNumber, Modal, Select, Upload, UploadFile } from 'antd';
 import type { UpdatePeopleReq } from '../data.d';
 import { PlusOutlined } from '@ant-design/icons';
+import { RcFile, UploadProps } from 'antd/lib/upload';
 // interface UpdatePeopleReq {
 //   id: number;
 //   name: string;
@@ -53,12 +54,12 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
     form.submit();
   };
 
-  const handleFinish = (item: { [key: string]: any }) => {
-    if (onSubmit) {
-      // onSubmit({ ...(item as UpdatePeopleReq), startDate, endDate });
-      onSubmit({ ...(item as UpdatePeopleReq) });
-    }
-  };
+  // const handleFinish = (item: { [key: string]: any }) => {
+  //   if (onSubmit) {
+  //     // onSubmit({ ...(item as UpdatePeopleReq), startDate, endDate });
+  //     onSubmit({ ...(item as UpdatePeopleReq) });
+  //   }
+  // };
   const normFile = (e: any) => {
     console.log('normFile -> e:', e.fileList);
 
@@ -84,6 +85,65 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
   //   agency: string;
   //   status: number;
   // }
+  const [imageURL, setimageURL] = useState('');
+
+  const handleFinish = (item: any) => {
+    console.log('handleFinish -> values:', item);
+    item.photo = imageURL;
+    setimageURL('');
+    if (onSubmit) {
+      onSubmit({ ...item });
+      // onSubmit({ ...values, startDate, endDate });
+    }
+  };
+
+  const uploadButton = (
+    <div>
+      <PlusOutlined />
+      <div style={{ marginTop: 8 }}>Upload</div>
+    </div>
+  );
+
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState('');
+  const [previewTitle, setPreviewTitle] = useState('');
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
+  const getBase64 = (file: RcFile): Promise<string> =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = (error) => reject(error);
+    });
+
+  const handlePreview = async (file: UploadFile) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj as RcFile);
+    }
+
+    setPreviewImage(file.url || (file.preview as string));
+    setPreviewOpen(true);
+    setPreviewTitle(file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1));
+  };
+
+  const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
+    console.log('newFileList:', newFileList);
+    setFileList(newFileList);
+    //获取上传的图片url
+    const url = newFileList
+      .filter((x) => x.status === 'done')
+      .map((x) => {
+        if (x.response) {
+          return x.response.data;
+        } else {
+          return x.url;
+        }
+      })
+      .join(',');
+    console.log('url:', url);
+    setimageURL(url);
+    // props.onChangeProductParams({ pic: url, albumPics: url });
+  };
   const renderContent = () => {
     return (
       <>
@@ -97,12 +157,16 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
         >
           <Input id="update-title" placeholder={'请输入用户名称'} />
         </FormItem>
-        <FormItem label="用户头像" name="icon" getValueFromEvent={normFile}>
-          <Upload action="/upload.do" listType="picture-card">
-            <div>
-              <PlusOutlined />
-              <div style={{ marginTop: 8 }}>上传</div>
-            </div>
+        <FormItem label="用户头像" name="icon">
+          <Upload
+            action="/api/sys/upload"
+            listType="picture-card"
+            fileList={fileList}
+            onPreview={handlePreview}
+            onChange={handleChange}
+            headers={{ Authorization: 'Bearer ' + localStorage.getItem('token') }}
+          >
+            {fileList.length >= 3 ? null : uploadButton}
           </Upload>
         </FormItem>
         <FormItem

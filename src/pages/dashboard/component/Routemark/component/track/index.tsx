@@ -3,10 +3,9 @@ import type { InputRef } from 'antd';
 import { Button, Col, Form, Input, List, Row, Select, Table } from 'antd';
 import type { FormInstance } from 'antd/es/form';
 import styles from './index.less';
-import type { AddUavFlyReqType, ListUavFlyReqType } from '@/pages/drone/routePlan/data';
+import type { ListUavFlyReqType } from '@/pages/drone/routePlan/data';
 import type { ListUavFlyDataType } from '@/pages/drone/routePlan/data';
 import type { NodeType } from '@/pages/drone/routePlan/data';
-import { Divider } from 'antd';
 
 import { queryFly, updateFly, addFly } from '@/pages/drone/routePlan/service';
 import { CheckOutlined, RollbackOutlined } from '@ant-design/icons';

@@ -2,16 +2,18 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-24 18:10:03
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-31 16:39:21
+ * @LastEditTime: 2023-11-19 23:02:09
  * @FilePath: \zero-admin-ui-master\src\pages\AIrecognition\car\components\CreateFlashForm.tsx
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
 import React, { useEffect, useState } from 'react';
-import { Form, Input, Modal, InputNumber, Upload, Select } from 'antd';
+import type { UploadProps, UploadFile } from 'antd';
+import { Form, Input, Modal, Upload, Select } from 'antd';
 import type { AddCarReq } from '../data.d';
 import { PlusOutlined } from '@ant-design/icons';
+import type { RcFile } from 'antd/lib/upload';
 
 export interface CreateFormProps {
   onCancel: () => void;
@@ -44,14 +46,65 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
     if (!form) return;
     form.submit();
   };
+  const [imageURL, setimageURL] = useState('');
 
   const handleFinish = (values: AddCarReq) => {
+    console.log('handleFinish -> values:', values);
+    values.photo = imageURL;
+    setimageURL('');
     if (onSubmit) {
       onSubmit({ ...values });
       // onSubmit({ ...values, startDate, endDate });
     }
   };
 
+  const uploadButton = (
+    <div>
+      <PlusOutlined />
+      <div style={{ marginTop: 8 }}>Upload</div>
+    </div>
+  );
+
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState('');
+  const [previewTitle, setPreviewTitle] = useState('');
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
+  const getBase64 = (file: RcFile): Promise<string> =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = (error) => reject(error);
+    });
+
+  const handlePreview = async (file: UploadFile) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj as RcFile);
+    }
+
+    setPreviewImage(file.url || (file.preview as string));
+    setPreviewOpen(true);
+    setPreviewTitle(file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1));
+  };
+
+  const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
+    console.log('newFileList:', newFileList);
+    setFileList(newFileList);
+    //获取上传的图片url
+    const url = newFileList
+      .filter((x) => x.status === 'done')
+      .map((x) => {
+        if (x.response) {
+          return x.response.data;
+        } else {
+          return x.url;
+        }
+      })
+      .join(',');
+    console.log('url:', url);
+    setimageURL(url);
+    // props.onChangeProductParams({ pic: url, albumPics: url });
+  };
   //   export interface AddCarReq {
   //   name: string;
   //   card: string;
@@ -61,21 +114,6 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
   //   agency: string;
   //   status: number;
   // }
-  const normFile = (e: any) => {
-    console.log('normFile -> e:', e.fileList);
-
-    if (Array.isArray(e)) {
-      return e;
-    }
-    const fileName: any[] = [];
-    e.fileList.forEach((item: any) => {
-      console.log('normFile -> item:', item);
-      fileName.push(item.name);
-    });
-    console.log('normFile -> fileName:', fileName);
-
-    return JSON.stringify(fileName);
-  };
   const renderContent = () => {
     return (
       <>
@@ -89,6 +127,13 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
         <FormItem name="card" label="车牌号" rules={[{ required: true, message: '请输入车牌号!' }]}>
           <Input id="update-title" placeholder={'请输入车牌号'} />
         </FormItem>
+        <FormItem
+          name="phone"
+          label="手机号"
+          rules={[{ required: true, message: '请输入手机号!' }]}
+        >
+          <Input id="update-title" placeholder={'请输入手机号'} />
+        </FormItem>
         {/* <FormItem
           name="photo"
           label="车辆照片"
@@ -96,12 +141,16 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
         >
           <InputNumber placeholder={'请输入车辆照片'} />
         </FormItem> */}
-        <FormItem label="车辆照片" name="photo" getValueFromEvent={normFile}>
-          <Upload action="/upload.do" listType="picture-card">
-            <div>
-              <PlusOutlined />
-              <div style={{ marginTop: 8 }}>上传</div>
-            </div>
+        <FormItem label="车辆照片" name="photo">
+          <Upload
+            action="/api/sys/upload"
+            listType="picture-card"
+            fileList={fileList}
+            onPreview={handlePreview}
+            onChange={handleChange}
+            headers={{ Authorization: 'Bearer ' + localStorage.getItem('token') }}
+          >
+            {fileList.length >= 3 ? null : uploadButton}
           </Upload>
         </FormItem>
         <FormItem
@@ -120,7 +169,7 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
           label="所属机构"
           rules={[{ required: true, message: '请输入所属机构!' }]}
         >
-          <InputNumber id="update-title" placeholder={'请输入所属机构'} />
+          <Input id="update-title" placeholder={'请输入所属机构'} />
         </FormItem>
         <FormItem
           name="status"
