@@ -91,7 +91,7 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
 
   const handleFinish = (values: any) => {
     console.log('handleFinish -> values:', values);
-    values.photo = imageURL;
+    values.icon = imageURL;
     setimageURL('');
     if (onSubmit) {
       onSubmit({ ...values });
@@ -159,7 +159,7 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
 
         <FormItem label="用户头像" name="icon">
           <Upload
-            action="/api/sys/upload"
+            action="/api/sys/uploadpeople"
             listType="picture-card"
             fileList={fileList}
             onPreview={handlePreview}

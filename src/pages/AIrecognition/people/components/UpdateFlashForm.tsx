@@ -89,7 +89,7 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
 
   const handleFinish = (item: any) => {
     console.log('handleFinish -> values:', item);
-    item.photo = imageURL;
+    item.icon = imageURL;
     setimageURL('');
     if (onSubmit) {
       onSubmit({ ...item });
@@ -159,7 +159,7 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
         </FormItem>
         <FormItem label="用户头像" name="icon">
           <Upload
-            action="/api/sys/upload"
+            action="/api/sys/uploadpeople"
             listType="picture-card"
             fileList={fileList}
             onPreview={handlePreview}

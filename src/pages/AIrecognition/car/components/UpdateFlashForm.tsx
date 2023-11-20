@@ -180,7 +180,7 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
         </FormItem> */}
         <FormItem label="车辆照片" name="photo">
           <Upload
-            action="/api/sys/upload"
+            action="/api/sys/uploadcar"
             listType="picture-card"
             fileList={fileList}
             onPreview={handlePreview}

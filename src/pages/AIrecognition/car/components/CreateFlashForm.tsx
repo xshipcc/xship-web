@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-24 18:10:03
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-19 23:02:09
+ * @LastEditTime: 2023-11-20 09:19:40
  * @FilePath: \zero-admin-ui-master\src\pages\AIrecognition\car\components\CreateFlashForm.tsx
  * @Description:
  *
@@ -143,7 +143,7 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
         </FormItem> */}
         <FormItem label="车辆照片" name="photo">
           <Upload
-            action="/api/sys/upload"
+            action="/api/sys/uploadcar"
             listType="picture-card"
             fileList={fileList}
             onPreview={handlePreview}
