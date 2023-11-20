@@ -49,7 +49,8 @@ export default (props: any) => {
       type: 'dashboardModel/changeisModalOpen',
       payload: false,
     });
-    sendMqttControl('drone', 'point');
+
+    sendMqttControl('point', 'drone');
     message.success('定点巡航');
   };
 
@@ -61,178 +62,180 @@ export default (props: any) => {
     message.success('取消');
   };
   return (
-    <Modal title="定点悬停" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
-      <div className={styles.nodeList}>
-        <Row>
-          <Col span={12} style={{ color: 'black', fontFamily: 'YouSheBiaoTiHei' }}>
-            经度
-          </Col>
-          <Col span={12} style={{ color: 'black' }}>
-            {/* {item?.coord[0]} */}
-            <Input
-              className={styles.inputName}
-              readOnly={false}
-              defaultValue={currentPointCache.coord[0]}
-              placeholder="请输入经度"
-              onChange={(e) => {
-                setcurrentPointCache((data) => {
-                  //@ts-ignore
-                  data.coord[0] = e.target.value;
-                  return data;
-                });
-              }}
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col span={12} style={{ color: 'black', fontFamily: 'YouSheBiaoTiHei' }}>
-            维度
-          </Col>
-          <Col span={12} style={{ color: 'black' }}>
-            {/* {item?.coord[1]} */}
-            <Input
-              className={styles.inputName}
-              readOnly={false}
-              defaultValue={currentPointCache.coord[1]}
-              placeholder="请输入维度"
-              onChange={(e) => {
-                setcurrentPointCache((data) => {
-                  //@ts-ignore
-                  data.coord[1] = e.target.value;
-                  return data;
-                });
-              }}
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col span={12} style={{ color: 'black', fontFamily: 'YouSheBiaoTiHei' }}>
-            高度
-          </Col>
-          <Col span={12} style={{ color: 'black' }}>
-            <Input
-              className={styles.inputName}
-              readOnly={false}
-              defaultValue={currentPointCache.coord[2]}
-              placeholder="请输入高度"
-              onChange={(e) => {
-                setcurrentPointCache((data) => {
-                  //@ts-ignore
-                  data.coord[2] = e.target.value;
-                  return data;
-                });
-              }}
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col span={12} style={{ color: 'black', fontFamily: 'YouSheBiaoTiHei' }}>
-            半径
-          </Col>
-          <Col span={12} style={{ color: 'black', fontFamily: 'YouSheBiaoTiHei' }}>
-            <Input
-              className={styles.inputName}
-              readOnly={false}
-              defaultValue={currentPointCache.coord[2]}
-              placeholder="请输入半径"
-              onChange={(e) => {
-                setcurrentPointCache((data) => {
-                  //@ts-ignore
-                  data.radius = e.target.value;
-                  return data;
-                });
-              }}
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col span={12} style={{ color: 'black', fontFamily: 'YouSheBiaoTiHei' }}>
-            时间
-          </Col>
-          {/* <Col span={12} style={{ color: 'white' }} className={styles.inputDiv}> */}
-          <Col span={12} style={{ color: 'black', fontFamily: 'YouSheBiaoTiHei' }}>
-            <Input
-              className={styles.inputName}
-              readOnly={false}
-              defaultValue={currentPointCache.time}
-              placeholder="请输入时间s"
-              onChange={(e) => {
-                setcurrentPointCache((data) => {
-                  //@ts-ignore
-                  data.time = e.target.value;
-                  return data;
-                });
-              }}
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col span={12} style={{ color: 'black', fontFamily: 'YouSheBiaoTiHei' }}>
-            方向
-          </Col>
-          <Col span={12} style={{ color: 'black' }}>
-            <Select
-              id="showStatus"
-              defaultValue={currentPointCache.direction}
-              onChange={(value) => {
-                setcurrentPointCache((data) => {
-                  //@ts-ignore
-                  data.direction = value;
-                  return data;
-                });
-              }}
-            >
-              <Select.Option value={'00'}>独立控制</Select.Option>
-              <Select.Option value={'01'}>高度优先</Select.Option>
-              <Select.Option value={'10'}>斜线控制</Select.Option>
-            </Select>
-            {/* <Select defaultValue="default" onChange={handleChange} options={roadList} /> */}
-          </Col>
-        </Row>
-        <Row>
-          <Col span={12} style={{ color: 'black', fontFamily: 'YouSheBiaoTiHei' }}>
-            模式
-          </Col>
-          <Col span={12} style={{ color: 'black' }}>
-            <Select
-              id="showStatus"
-              defaultValue={currentPointCache.mode}
-              onChange={(value) => {
-                setcurrentPointCache((data) => {
-                  //@ts-ignore
-                  data.mode = value;
-                  return data;
-                });
-              }}
-            >
-              <Select.Option value={'00'}>悬停转弯</Select.Option>
-              <Select.Option value={'01'}>内切转弯</Select.Option>
-            </Select>
-          </Col>
-        </Row>
-        <Row>
-          <Col span={12} style={{ color: 'black', fontFamily: 'YouSheBiaoTiHei' }}>
-            速度
-          </Col>
-          {/* <Col span={12} style={{ color: 'white' }} className={styles.inputDiv}> */}
-          <Col span={12} style={{ color: 'black', fontFamily: 'YouSheBiaoTiHei' }}>
-            <Input
-              className={styles.inputName}
-              readOnly={false}
-              defaultValue={currentPointCache.speed}
-              placeholder="请输入速度"
-              onChange={(e) => {
-                setcurrentPointCache((data) => {
-                  //@ts-ignore
-                  data.speed = e.target.value;
-                  return data;
-                });
-              }}
-            />
-          </Col>
-        </Row>
-      </div>
-    </Modal>
+    <div className={styles.dialog}>
+      <Modal title="定点悬停" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+        <div className={styles.nodeList}>
+          <Row>
+            <Col span={12} style={{ color: 'black', fontFamily: 'YouSheBiaoTiHei' }}>
+              经度
+            </Col>
+            <Col span={12} style={{ color: 'black' }}>
+              {/* {item?.coord[0]} */}
+              <Input
+                className={styles.inputName}
+                readOnly={false}
+                defaultValue={currentPointCache.coord[0]}
+                placeholder="请输入经度"
+                onChange={(e) => {
+                  setcurrentPointCache((data) => {
+                    //@ts-ignore
+                    data.coord[0] = e.target.value;
+                    return data;
+                  });
+                }}
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col span={12} style={{ color: 'black', fontFamily: 'YouSheBiaoTiHei' }}>
+              维度
+            </Col>
+            <Col span={12} style={{ color: 'black' }}>
+              {/* {item?.coord[1]} */}
+              <Input
+                className={styles.inputName}
+                readOnly={false}
+                defaultValue={currentPointCache.coord[1]}
+                placeholder="请输入维度"
+                onChange={(e) => {
+                  setcurrentPointCache((data) => {
+                    //@ts-ignore
+                    data.coord[1] = e.target.value;
+                    return data;
+                  });
+                }}
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col span={12} style={{ color: 'black', fontFamily: 'YouSheBiaoTiHei' }}>
+              高度
+            </Col>
+            <Col span={12} style={{ color: 'black' }}>
+              <Input
+                className={styles.inputName}
+                readOnly={false}
+                defaultValue={currentPointCache.coord[2]}
+                placeholder="请输入高度"
+                onChange={(e) => {
+                  setcurrentPointCache((data) => {
+                    //@ts-ignore
+                    data.coord[2] = e.target.value;
+                    return data;
+                  });
+                }}
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col span={12} style={{ color: 'black', fontFamily: 'YouSheBiaoTiHei' }}>
+              半径
+            </Col>
+            <Col span={12} style={{ color: 'black', fontFamily: 'YouSheBiaoTiHei' }}>
+              <Input
+                className={styles.inputName}
+                readOnly={false}
+                defaultValue={currentPointCache.coord[2]}
+                placeholder="请输入半径"
+                onChange={(e) => {
+                  setcurrentPointCache((data) => {
+                    //@ts-ignore
+                    data.radius = e.target.value;
+                    return data;
+                  });
+                }}
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col span={12} style={{ color: 'black', fontFamily: 'YouSheBiaoTiHei' }}>
+              时间
+            </Col>
+            {/* <Col span={12} style={{ color: 'white' }} className={styles.inputDiv}> */}
+            <Col span={12} style={{ color: 'black', fontFamily: 'YouSheBiaoTiHei' }}>
+              <Input
+                className={styles.inputName}
+                readOnly={false}
+                defaultValue={currentPointCache.time}
+                placeholder="请输入时间s"
+                onChange={(e) => {
+                  setcurrentPointCache((data) => {
+                    //@ts-ignore
+                    data.time = e.target.value;
+                    return data;
+                  });
+                }}
+              />
+            </Col>
+          </Row>
+          <Row>
+            <Col span={12} style={{ color: 'black', fontFamily: 'YouSheBiaoTiHei' }}>
+              方向
+            </Col>
+            <Col span={12} style={{ color: 'black' }}>
+              <Select
+                id="showStatus"
+                defaultValue={currentPointCache.direction}
+                onChange={(value) => {
+                  setcurrentPointCache((data) => {
+                    //@ts-ignore
+                    data.direction = value;
+                    return data;
+                  });
+                }}
+              >
+                <Select.Option value={'00'}>独立控制</Select.Option>
+                <Select.Option value={'01'}>高度优先</Select.Option>
+                <Select.Option value={'10'}>斜线控制</Select.Option>
+              </Select>
+              {/* <Select defaultValue="default" onChange={handleChange} options={roadList} /> */}
+            </Col>
+          </Row>
+          <Row>
+            <Col span={12} style={{ color: 'black', fontFamily: 'YouSheBiaoTiHei' }}>
+              模式
+            </Col>
+            <Col span={12} style={{ color: 'black' }}>
+              <Select
+                id="showStatus"
+                defaultValue={currentPointCache.mode}
+                onChange={(value) => {
+                  setcurrentPointCache((data) => {
+                    //@ts-ignore
+                    data.mode = value;
+                    return data;
+                  });
+                }}
+              >
+                <Select.Option value={'00'}>悬停转弯</Select.Option>
+                <Select.Option value={'01'}>内切转弯</Select.Option>
+              </Select>
+            </Col>
+          </Row>
+          <Row>
+            <Col span={12} style={{ color: 'black', fontFamily: 'YouSheBiaoTiHei' }}>
+              速度
+            </Col>
+            {/* <Col span={12} style={{ color: 'white' }} className={styles.inputDiv}> */}
+            <Col span={12} style={{ color: 'black', fontFamily: 'YouSheBiaoTiHei' }}>
+              <Input
+                className={styles.inputName}
+                readOnly={false}
+                defaultValue={currentPointCache.speed}
+                placeholder="请输入速度"
+                onChange={(e) => {
+                  setcurrentPointCache((data) => {
+                    //@ts-ignore
+                    data.speed = e.target.value;
+                    return data;
+                  });
+                }}
+              />
+            </Col>
+          </Row>
+        </div>
+      </Modal>
+    </div>
   );
 };
 

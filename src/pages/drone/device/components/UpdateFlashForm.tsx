@@ -1,6 +1,8 @@
-import React, { useEffect } from 'react';
-import { Form, Input, InputNumber, Modal } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { DatePicker, DatePickerProps, Form, Input, InputNumber, Modal } from 'antd';
 import type { UpdateUavDeviceReqType } from '../data.d';
+import moment from 'moment';
+
 // interface UpdateUavDeviceReqType {
 //   id: number;
 //   name: string;
@@ -52,21 +54,25 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
     form.submit();
   };
 
+  const [enableTime, setEnableTime] = useState<string>('');
+
+  const onChange: DatePickerProps['onChange'] = (
+    date: any,
+    dateString: React.SetStateAction<string>,
+  ) => {
+    console.log('date:', date);
+    console.log('dateString:', dateString);
+    setEnableTime(dateString);
+  };
+
   const handleFinish = (item: { [key: string]: any }) => {
     if (onSubmit) {
       // onSubmit({ ...(item as UpdateUavDeviceReqType), startDate, endDate });
-      onSubmit({ ...(item as UpdateUavDeviceReqType) });
+      //@ts-ignore
+      onSubmit({ ...item, create_time: enableTime });
     }
   };
 
-  // interface UpdateUavDeviceReqType {
-  //   id: number;
-  //   name: string;
-  //   ip: string;
-  //   port: number;
-  //   hangar_ip: string;
-  //   hangar_port: number;
-  // }
   const renderContent = () => {
     return (
       <>
@@ -89,10 +95,17 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
         </FormItem>
         <FormItem
           name="port"
-          label="端口号"
+          label="无人机端口号"
           rules={[{ required: true, message: '请输入无人机端口号!' }]}
         >
           <InputNumber placeholder={'请输入端口号'} />
+        </FormItem>
+        <FormItem
+          name="r_port"
+          label="无人机接收端口号"
+          rules={[{ required: true, message: '请输入无人机接收端口号!' }]}
+        >
+          <InputNumber placeholder={'请输入无人机接收端口号'} />
         </FormItem>
         <FormItem
           name="hangar_ip"
@@ -107,6 +120,19 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
           rules={[{ required: true, message: '请输入机库端口!' }]}
         >
           <InputNumber id="update-title" placeholder={'请输入机库端口'} />
+        </FormItem>
+        <FormItem
+          name="hangar_rport"
+          label="机库接收端口"
+          rules={[{ required: true, message: '请输入机库接收端口!' }]}
+        >
+          <InputNumber id="update-title" placeholder={'请输入机库接收端口'} />
+        </FormItem>
+        <FormItem
+          // name="create_time"
+          label="创建时间日期"
+        >
+          <DatePicker onChange={onChange} />
         </FormItem>
       </>
     );

@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-17 02:17:29
+ * @LastEditTime: 2023-11-20 11:44:50
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\component\centerTab\index.tsx
  * @Description:
  *
@@ -264,7 +264,7 @@ const CenterTab: React.FC = (props: any) => {
             title={'是否执行'}
             onConfirm={() => {
               message.success('确认');
-              sendMqttControl(item.button, type);
+              sendMqttControl(item.key, type);
             }}
             onCancel={() => {
               message.error('取消');

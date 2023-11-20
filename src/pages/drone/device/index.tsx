@@ -125,9 +125,24 @@ const FlashPromotionList: React.FC = () => {
     });
   };
 
+  // export interface ListUavDeviceData {
+  //   id: number; // 无人机id
+  //   name: string; // 无人机名称
+  //   ip: string; // 无人机IP
+  //   port: number; // 无人机port
+  //   r_port: number; // 无人机接收端口port
+  //   hangar_ip: string; // 无人机机库IP
+  //   hangar_port: number; // 无人机机库port
+  //   hangar_rport: number; // 无人机机库接收port
+  //   cam_ip: string; // 摄像头IP
+  //   cam_port: number; // 摄像头port
+  //   cam_url: string; // 摄像头rtsp 地址
+  //   create_time: Date; // 创建时间
+  // }
+
   const columns: ProColumns<ListUavDeviceData>[] = [
     {
-      title: '主键',
+      title: '无人机id',
       dataIndex: 'id',
       hideInSearch: true,
     },
@@ -140,15 +155,40 @@ const FlashPromotionList: React.FC = () => {
       dataIndex: 'ip',
     },
     {
-      title: '端口',
+      title: '无人机端口',
       dataIndex: 'port',
     },
     {
+      title: '无人机接收端口',
+      dataIndex: 'r_port',
+    },
+    {
       title: '无人机库ip',
+      dataIndex: 'hangar_ip',
     },
     {
       title: '无人机库端口',
       dataIndex: 'hangar_port',
+    },
+    {
+      title: '无人机库接收端口',
+      dataIndex: 'hangar_rport',
+    },
+    {
+      title: '摄像头IP',
+      dataIndex: 'cam_ip',
+    },
+    {
+      title: '摄像头port',
+      dataIndex: 'cam_port',
+    },
+    {
+      title: '摄像头rtsp 地址',
+      dataIndex: 'cam_url',
+    },
+    {
+      title: '创建时间',
+      dataIndex: 'create_time',
     },
     {
       title: '操作',
