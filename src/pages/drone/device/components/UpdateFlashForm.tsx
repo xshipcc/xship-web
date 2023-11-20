@@ -69,7 +69,7 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
     if (onSubmit) {
       // onSubmit({ ...(item as UpdateUavDeviceReqType), startDate, endDate });
       //@ts-ignore
-      onSubmit({ ...item, create_time: enableTime });
+      onSubmit({ ...item });
     }
   };
 
@@ -129,10 +129,25 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
           <InputNumber id="update-title" placeholder={'请输入机库接收端口'} />
         </FormItem>
         <FormItem
-          // name="create_time"
-          label="创建时间日期"
+          name="cam_ip"
+          label="摄像头ip"
+          rules={[{ required: true, message: '请输入摄像头ip!' }]}
         >
-          <DatePicker onChange={onChange} />
+          <Input id="update-title" placeholder={'请输入摄像头ip'} />
+        </FormItem>
+        <FormItem
+          name="cam_port"
+          label="摄像头端口"
+          rules={[{ required: true, message: '请输入机库接收端口!' }]}
+        >
+          <InputNumber id="update-title" placeholder={'请输入机库接收端口'} />
+        </FormItem>
+        <FormItem
+          name="cam_url"
+          label="视频地址"
+          rules={[{ required: true, message: '请输入视频地址!' }]}
+        >
+          <Input id="update-title" placeholder={'请输入机库接收端口'} />
         </FormItem>
       </>
     );

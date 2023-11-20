@@ -57,7 +57,6 @@ export interface AddUavDeviceReqType {
   cam_ip: string; // 摄像头IP
   cam_port: number; // 摄像头port
   cam_url: string; // 摄像头rtsp 地址
-  create_time: string; // 创建时间
 }
 
 export interface AddUavDeviceRespType {
@@ -77,7 +76,6 @@ export interface UpdateUavDeviceReqType {
   cam_ip: string; // 摄像头IP
   cam_port: number; // 摄像头port
   cam_url: string; // 摄像头rtsp 地址
-  create_time: string; // 创建时间
 }
 
 export interface UpdateUavDeviceRespType {

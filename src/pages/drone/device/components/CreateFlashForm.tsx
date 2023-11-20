@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-24 18:10:03
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-20 12:49:31
+ * @LastEditTime: 2023-11-20 13:48:25
  * @FilePath: \zero-admin-ui-master\src\pages\drone\device\components\CreateFlashForm.tsx
  * @Description:
  *
@@ -56,7 +56,7 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
     console.log('handleFinish -> values:', values);
     if (onSubmit) {
       // onSubmit({ ...values });
-      onSubmit({ ...values, create_time: enableTime });
+      onSubmit({ ...values });
       console.log('handleFinish -> enableTime:', enableTime);
     }
   };
@@ -127,11 +127,27 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
           <InputNumber id="update-title" placeholder={'请输入机库接收端口'} />
         </FormItem>
         <FormItem
-          // name="create_time"
-          label="创建时间日期"
+          name="cam_ip"
+          label="摄像头ip"
+          rules={[{ required: true, message: '请输入摄像头ip!' }]}
         >
-          <DatePicker onChange={onChange} />
+          <Input id="update-title" placeholder={'请输入摄像头ip'} />
         </FormItem>
+        <FormItem
+          name="cam_port"
+          label="摄像头端口"
+          rules={[{ required: true, message: '请输入机库接收端口!' }]}
+        >
+          <InputNumber id="update-title" placeholder={'请输入机库接收端口'} />
+        </FormItem>
+        <FormItem
+          name="cam_url"
+          label="视频地址"
+          rules={[{ required: true, message: '请输入视频地址!' }]}
+        >
+          <Input id="update-title" placeholder={'请输入机库接收端口'} />
+        </FormItem>
+
         {/* <FormItem name="rangeDate" label="活动日期">
           <RangePicker onChange={onChange} />
         </FormItem>
