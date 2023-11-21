@@ -139,7 +139,7 @@ const CompanyModel: DashboardModelType = {
     isModalOpen: false,
     currentRoad: [],
     currentPoint: {
-      coord: [114.33264199360657, 38.0865966192828, 111],
+      coord: [0, 0, 0],
       speed: 5,
       time: 10,
       radius: 25,

@@ -117,14 +117,15 @@ const Map: React.FC = () => {
           if (trackPosition.length == 1) {
             console.log('.then -> trackPosition:', trackPosition);
             const currentPoint = {
-              coord: [114.33264199360657, 38.0865966192828, 111],
+              coord: trackPosition[0],
               speed: 5,
               time: 10,
               radius: 25,
               mode: '00', // "00=定点;01=环绕",
               direction: '00', //"00=逆时针;01=顺时针"
             };
-            currentPoint.coord = trackPosition[0];
+            // currentPoint.coord = trackPosition[0];
+            console.log('.then -> currentPoint:', currentPoint);
             dispatch({
               type: 'dashboardModel/saveCurrentPoint',
               payload: currentPoint,

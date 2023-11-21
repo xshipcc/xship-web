@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-21 11:15:28
+ * @LastEditTime: 2023-11-21 14:43:26
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\component\centerTab\index.tsx
  * @Description:
  *
@@ -300,8 +300,7 @@ const CenterTab: React.FC = (props: any) => {
                       定点悬停
                     </Col>
                     <Col span={12} style={{ color: 'turquoise' }}>
-                      <Dialog open={true} client={client.current} />
-
+                      {isModalOpen ? <Dialog client={client.current} /> : <></>}
                       {/*  */}
                       <Popconfirm
                         title={'是否执行'}

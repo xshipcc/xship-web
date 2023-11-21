@@ -147,16 +147,6 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
         >
           <Input id="update-title" placeholder={'请输入机库接收端口'} />
         </FormItem>
-
-        {/* <FormItem name="rangeDate" label="活动日期">
-          <RangePicker onChange={onChange} />
-        </FormItem>
-        <FormItem name="status" label="上下线状态" initialValue={1}>
-          <Select id="status" placeholder={'请选择状态'}>
-            <Option value={0}>停用</Option>
-            <Option value={1}>启用</Option>
-          </Select>
-        </FormItem> */}
       </>
     );
   };

@@ -37,19 +37,20 @@ class MeasureLnglat extends BaseMeasure {
       if (!cartesian) return;
       that.position = cartesian.clone();
       if (!Cesium.defined(that.point)) {
-        that.point = that.createPoint();
+        that.point = that.createPoint(lnglat);
         that.point.objId = that.objId;
       }
       var lnglat = util.cartesianToLnglat(cartesian, that.viewer);
       that.point.label.text =
         '巡航点' +
         '\n经度：' +
-        lnglat[0].toFixed(6) +
+        lnglat[0].toFixed(8) +
         '\n纬度：' +
-        lnglat[1].toFixed(6) +
+        lnglat[1].toFixed(8) +
         '\n高度：' +
-        lnglat[2].toFixed(6) +
+        lnglat[2].toFixed(8) +
         ' m';
+      that.trackPosition[0] = lnglat;
     }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
   }
 
@@ -125,10 +126,10 @@ class MeasureLnglat extends BaseMeasure {
     }
   }
 
-  createPoint() {
+  createPoint(lnglat) {
     var that = this;
-    var lnglat = util.cartesianToLnglat(that.position, that.viewer);
-    that.trackPosition.push(lnglat);
+    // var lnglat = util.cartesianToLnglat(that.position, that.viewer);
+    // that.trackPosition.push(lnglat);
 
     var point = this.viewer.entities.add({
       position: new Cesium.CallbackProperty(function () {
