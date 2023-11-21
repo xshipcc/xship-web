@@ -151,7 +151,7 @@ const FlashPromotionList: React.FC = () => {
       dataIndex: 'name',
     },
     {
-      title: '无人机id',
+      title: '无人机ip',
       dataIndex: 'ip',
     },
     {

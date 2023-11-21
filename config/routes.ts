@@ -41,7 +41,7 @@
   // 报表管理
   {
     name: '报表管理',
-    icon: 'report',
+    icon: 'FileSearchOutlined',
     path: '/report/list',
     component: './report',
   },

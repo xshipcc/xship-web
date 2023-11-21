@@ -29,6 +29,7 @@ import {
   GiftOutlined,
   DollarCircleOutlined,
   FundOutlined,
+  FileSearchOutlined,
   AlertOutlined,
 } from '@ant-design/icons';
 import type { RequestConfig } from '@@/plugin-request/request';
@@ -36,6 +37,7 @@ import type { RequestInterceptor, RequestOptionsInit } from 'umi-request';
 import { notification } from 'antd';
 
 const IconMap = {
+  FileSearchOutlined: <FileSearchOutlined />,
   LaptopOutlined: <LaptopOutlined />,
   FundOutlined: <FundOutlined />,
   BarsOutlined: <BarsOutlined />,

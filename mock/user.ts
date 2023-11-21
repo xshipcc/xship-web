@@ -72,7 +72,7 @@ export default {
           path: '/report/list',
           name: '报表管理',
           parentId: 0,
-          icon: 'AlertOutlined',
+          icon: 'FileSearchOutlined',
         },
         {
           id: 2,
