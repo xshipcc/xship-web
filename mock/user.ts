@@ -68,6 +68,13 @@ export default {
           icon: 'AlertOutlined',
         },
         {
+          id: 23,
+          path: '/report/list',
+          name: '报表管理',
+          parentId: 0,
+          icon: 'AlertOutlined',
+        },
+        {
           id: 2,
           path: '/system',
           name: '系统管理',

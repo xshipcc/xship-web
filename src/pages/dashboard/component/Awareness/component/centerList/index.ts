@@ -13,7 +13,7 @@ export const droneInfoList = [
   {
     key: `target_height`,
     value: `目标高度`,
-    unit: 'km',
+    unit: 'm',
   },
   {
     key: `fly_time`,
@@ -23,7 +23,7 @@ export const droneInfoList = [
   {
     key: `rel_height`,
     value: `飞行高度`,
-    unit: 'km',
+    unit: 'm',
   },
 ];
 export const droneStateList = [
@@ -40,7 +40,7 @@ export const droneStateList = [
   {
     key: `height`,
     value: `高度`,
-    unit: 'km',
+    unit: 'm',
   },
   {
     key: `pitch`,

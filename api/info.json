@@ -32,6 +32,17 @@
 
 
 
+// 格式
+{
+  "type": "drone",
+  "data": {
+    "lat": 38.076836312345094,
+    "lon": 114.34485589209454,
+    "height": 1050
+  }
+}
+
+
 
 
 // 无人机
@@ -191,14 +202,3 @@ class Pod_Receive(ctypes.LittleEndianStructure):
         ('bak1',ctypes.c_ushort),#×100倍
         ('bak2',ctypes.c_ushort),#×100倍
         ('bak3',ctypes.c_ushor
-
-
-
-{
-  "type": "drone",
-  "data": {
-    "lat": 38.076836312345094,
-    "lon": 114.34485589209454,
-    "height": 1050
-  }
-}

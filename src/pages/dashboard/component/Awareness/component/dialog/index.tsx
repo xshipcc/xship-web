@@ -66,7 +66,7 @@ export default (props: any) => {
       <Modal title="定点悬停" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
         <div className={styles.nodeList}>
           <Row>
-            <Col span={12} style={{ color: 'black', fontFamily: 'YouSheBiaoTiHei' }}>
+            <Col span={12} style={{ color: 'black' }}>
               经度
             </Col>
             <Col span={12} style={{ color: 'black' }}>
@@ -87,7 +87,7 @@ export default (props: any) => {
             </Col>
           </Row>
           <Row>
-            <Col span={12} style={{ color: 'black', fontFamily: 'YouSheBiaoTiHei' }}>
+            <Col span={12} style={{ color: 'black' }}>
               维度
             </Col>
             <Col span={12} style={{ color: 'black' }}>
@@ -108,7 +108,7 @@ export default (props: any) => {
             </Col>
           </Row>
           <Row>
-            <Col span={12} style={{ color: 'black', fontFamily: 'YouSheBiaoTiHei' }}>
+            <Col span={12} style={{ color: 'black' }}>
               高度
             </Col>
             <Col span={12} style={{ color: 'black' }}>
@@ -128,10 +128,10 @@ export default (props: any) => {
             </Col>
           </Row>
           <Row>
-            <Col span={12} style={{ color: 'black', fontFamily: 'YouSheBiaoTiHei' }}>
+            <Col span={12} style={{ color: 'black' }}>
               半径
             </Col>
-            <Col span={12} style={{ color: 'black', fontFamily: 'YouSheBiaoTiHei' }}>
+            <Col span={12} style={{ color: 'black' }}>
               <Input
                 className={styles.inputName}
                 readOnly={false}
@@ -148,11 +148,11 @@ export default (props: any) => {
             </Col>
           </Row>
           <Row>
-            <Col span={12} style={{ color: 'black', fontFamily: 'YouSheBiaoTiHei' }}>
+            <Col span={12} style={{ color: 'black' }}>
               时间
             </Col>
             {/* <Col span={12} style={{ color: 'white' }} className={styles.inputDiv}> */}
-            <Col span={12} style={{ color: 'black', fontFamily: 'YouSheBiaoTiHei' }}>
+            <Col span={12} style={{ color: 'black' }}>
               <Input
                 className={styles.inputName}
                 readOnly={false}
@@ -169,7 +169,7 @@ export default (props: any) => {
             </Col>
           </Row>
           <Row>
-            <Col span={12} style={{ color: 'black', fontFamily: 'YouSheBiaoTiHei' }}>
+            <Col span={12} style={{ color: 'black' }}>
               方向
             </Col>
             <Col span={12} style={{ color: 'black' }}>
@@ -192,7 +192,7 @@ export default (props: any) => {
             </Col>
           </Row>
           <Row>
-            <Col span={12} style={{ color: 'black', fontFamily: 'YouSheBiaoTiHei' }}>
+            <Col span={12} style={{ color: 'black' }}>
               模式
             </Col>
             <Col span={12} style={{ color: 'black' }}>
@@ -213,11 +213,11 @@ export default (props: any) => {
             </Col>
           </Row>
           <Row>
-            <Col span={12} style={{ color: 'black', fontFamily: 'YouSheBiaoTiHei' }}>
+            <Col span={12} style={{ color: 'black' }}>
               速度
             </Col>
             {/* <Col span={12} style={{ color: 'white' }} className={styles.inputDiv}> */}
-            <Col span={12} style={{ color: 'black', fontFamily: 'YouSheBiaoTiHei' }}>
+            <Col span={12} style={{ color: 'black' }}>
               <Input
                 className={styles.inputName}
                 readOnly={false}

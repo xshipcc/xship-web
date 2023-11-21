@@ -38,6 +38,13 @@
     path: '/AIalert/list',
     component: './AIalert',
   },
+  // 报表管理
+  {
+    name: '报表管理',
+    icon: 'report',
+    path: '/report/list',
+    component: './report',
+  },
   // 系统管理
   {
     path: '/system',

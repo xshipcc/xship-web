@@ -79,22 +79,8 @@ const Map: React.FC = () => {
     viewer.current.scene.screenSpaceCameraController._minimumZoomRate = 5000; // 设置相机缩小时的速率
     viewer.current.scene.screenSpaceCameraController._maximumZoomRate = 5000; //设置相机放大时的速率
     viewer.current._cesiumWidget._creditContainer.style.display = 'none';
-    // MeasureTools.current = new S_Measure(viewer); //测量类
     MeasureTools.current = new Tool(viewer.current);
-    // util.setCameraView(
-    //   {
-    //     x: 114.40856,
-    //     y: 38.03867,
-    //     z: 2000.56,
-    //     heading: 270.31730998394744,
-    //     pitch: -20.72609786048885,
-    //     roll: 0.97907544797624,
-    //     duration: 0,
-    //   },
-    //   viewer.current,
-    // );
-    // // tiff数据加载
-    // // addTiffImageryLayer(viewer, '/srctiff');
+
     /**
      *  @file index.tsx
      *  @time 2023/09/21
@@ -150,8 +136,8 @@ const Map: React.FC = () => {
             });
           }
           if (trackPosition.length > 1) {
-            console.log('.then -> trackPosition11111:', trackPosition);
-
+            trackPosition.splice(-2, 1);
+            console.log('.then -> trackPosition:', trackPosition);
             dispatch({
               type: 'dashboardModel/saveCurrentRoad',
               payload: trackPosition,
@@ -189,9 +175,6 @@ const Map: React.FC = () => {
         unitType: 'm',
       });
     }
-    // if (!editRoadSignal) {
-    //   MeasureTools.current.clear();
-    // }
   }, [editRoadSignal, editPointSignal]);
 
   // 路线展示
@@ -256,7 +239,18 @@ const Map: React.FC = () => {
   const currentComponent = useSelector((state: any) => state.dashboardModel.currentComponent);
   useEffect(() => {
     console.log('currentComponent:', currentComponent);
-
+    viewer.current.scene.camera.setView({
+      destination: new Cesium.Cartesian3.fromDegrees(
+        114.33919146 + 0.0057,
+        38.07525226 + 0.0011,
+        1033.45,
+      ), // 目标位置
+      orientation: {
+        heading: 0, // 水平角度，正东方向为0
+        pitch: -0.3, // 俯仰角度
+        roll: 0, // 翻滚角度
+      },
+    });
     if (currentComponent == 'Awareness') {
       console.log('useEffect -> currentComponent:', currentComponent);
       viewer.current.entities.removeAll();
@@ -421,18 +415,18 @@ const Map: React.FC = () => {
       viewer.current.scene.camera.pitch,
       viewer.current.scene.camera.roll,
     );
-    viewer.current.scene.camera.setView({
-      destination: new Cesium.Cartesian3.fromDegrees(
-        114.33919146 + 0.0057,
-        38.07525226 + 0.0011,
-        1033.45,
-      ), // 目标位置
-      orientation: {
-        heading: 0, // 水平角度，正东方向为0
-        pitch: -0.3, // 俯仰角度
-        roll: 0, // 翻滚角度
-      },
-    });
+    // viewer.current.scene.camera.setView({
+    //   destination: new Cesium.Cartesian3.fromDegrees(
+    //     114.33919146 + 0.0057,
+    //     38.07525226 + 0.0011,
+    //     1033.45,
+    //   ), // 目标位置
+    //   orientation: {
+    //     heading: 0, // 水平角度，正东方向为0
+    //     pitch: -0.3, // 俯仰角度
+    //     roll: 0, // 翻滚角度
+    //   },
+    // });
 
     if (currentComponent == 'Awareness') {
       console.log('useEffect -> currentComponent:', currentComponent);
@@ -463,15 +457,6 @@ const Map: React.FC = () => {
       });
 
       viewer.current.entities.add(point);
-      // viewer.current.scene.camera.setView({
-      //   destination: new Cesium.Cartesian3.fromDegrees(114.40856, 38.03867, 20.56), // 目标位置
-      //   orientation: {
-      //     heading: 180, // 水平角度，正东方向为0
-      //     pitch: 0, // 俯仰角度
-      //     roll: 0, // 翻滚角度
-      //   },
-      // });
-      // 创建一个距离变换
 
       viewer.current.trackedEntity = point;
 
@@ -481,8 +466,6 @@ const Map: React.FC = () => {
       const originPosition = point._position.getValue(viewer.current.clock.currentTime);
       console.log('useEffect -> originPosition:', originPosition);
       function updatePosition(coord) {
-        // console.log('updatePosition -> coord:', coord);
-        // console.log('updatePosition -> originPosition:', originPosition);
         const Degrees = Cesium.Cartesian3.fromDegrees(
           coord.lon + 0.0062,
           coord.lat + 0.0019,
@@ -492,23 +475,11 @@ const Map: React.FC = () => {
         originPosition.x = Degrees.x;
         originPosition.y = Degrees.y;
         originPosition.z = Degrees.z;
-        // originPosition.x += 10;
-        // originPosition.y += 10;
-        // originPosition.z = Degrees.z;
       }
-      // function updatePosition(coord) {
-      //   originPosition.x += 10;
-      //   originPosition.y += 10;
-      //   originPosition.z += 10;
-      // }
 
       point._position = new Cesium.CallbackProperty(function () {
         return originPosition;
       }, false);
-
-      // setInterval(() => {
-      //   updatePosition();
-      // }, 200);
 
       client.on('message', (topic: string, mqttMessage: any) => {
         if (topic === 'info') {
@@ -520,7 +491,7 @@ const Map: React.FC = () => {
         }
       });
     }
-  }, [currentComponent]);
+  }, [currentComponent, editRoadSignal]);
 
   return (
     <>
