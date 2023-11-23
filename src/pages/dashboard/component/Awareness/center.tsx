@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-23 08:55:36
+ * @LastEditTime: 2023-11-23 10:58:23
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\center.tsx
  * @Description:
  *
@@ -13,7 +13,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import styles from './center.less';
 import { ControlOutlined } from '@ant-design/icons';
 import RenderComponent from './component/centerTab';
-import { DashboardinfoType, dashboardStateType } from './data';
+import type { DashboardinfoType, dashboardStateType } from './data';
 import * as mqtt from 'mqtt';
 
 function useForceUpdate() {

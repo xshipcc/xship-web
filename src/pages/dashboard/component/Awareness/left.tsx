@@ -13,11 +13,9 @@ import React, { useEffect, useState } from 'react';
 import styles from './left.less';
 // import Player from '@/components/VideoReact';
 import Player from '@/components/VideoFlv';
-import { useSelector } from 'umi';
 // import * as mqtt from 'mqtt';
 import Title from '../common/Title';
 import { queryDevice } from '@/pages/drone/device/service';
-import { ListUavDeviceData } from '@/pages/drone/device/data';
 function useForceUpdate() {
   const [value, setState] = useState(true);
   return () => setState(!value);

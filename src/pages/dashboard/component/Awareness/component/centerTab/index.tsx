@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-23 08:32:13
+ * @LastEditTime: 2023-11-23 11:16:55
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\component\centerTab\index.tsx
  * @Description:
  *
@@ -180,7 +180,17 @@ const CenterTab: React.FC = (props: any) => {
         data: 'on',
       };
     }
-
+    if (param === 'mode') {
+      console.log('sendMqttControl -> props?.dashboardState:', props?.dashboardState);
+      console.log(
+        'sendMqttControl ->  props?.dashboardState[type][param]:',
+        props?.dashboardState[type][param],
+      );
+      controlInfo = {
+        cmd: type + '/' + param,
+        data: props?.dashboardState[type][param] === 'on' ? 'manual' : 'automatic',
+      };
+    }
     console.log('sendMqttControl -> controlInfo:', controlInfo);
     console.log('sendMqttControl -> controlInfo:', JSON.stringify(controlInfo));
     client.current.publish('control', JSON.stringify(controlInfo));
