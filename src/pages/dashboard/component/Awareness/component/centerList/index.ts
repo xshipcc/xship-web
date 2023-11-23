@@ -128,19 +128,19 @@ export const droneButtonList1 = [
     key: `unlock`,
     info: '解锁',
     button: '解锁',
-    over: '成功',
+    over: '解锁成功',
   },
   {
     key: `takeoff`,
     info: '起飞',
     button: '起飞',
-    over: '成功',
+    over: '起飞成功',
   },
   {
     key: `return`,
     info: '回家降落',
     button: '回家降落',
-    over: '成功',
+    over: '降落成功',
   },
   {
     key: `lock`,
@@ -154,13 +154,13 @@ export const droneButtonList2 = [
     key: `mode`,
     info: '控制模式',
     button: '程控',
-    over: '自检成功',
+    over: '手控',
   },
   {
     key: `light`,
     info: '防撞灯',
     button: '防撞灯开',
-    over: '成功',
+    over: '防撞灯关',
   },
 ];
 export const hangarButtonList1 = [
@@ -195,7 +195,7 @@ export const monitorButtonList1 = [
     key: `positioning`,
     info: '激光定位',
     button: '激光定位',
-    over: '成功',
+    over: '定位取消',
   },
   {
     key: `downward`,
@@ -226,7 +226,7 @@ export const monitorButtonList2 = [
   {
     key: `video`,
     info: '录像 ',
-    button: '录像 ',
-    over: '成功',
+    button: '录像开始',
+    over: '录像结束',
   },
 ];

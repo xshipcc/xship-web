@@ -54,11 +54,9 @@ const AwarenessButton: React.FC = (props: any) => {
       // }}
     >
       <div className={styles.icon}>
-        <LoadingOutlined />
+        <LoadingOutlined rev={undefined} />
       </div>
-      <span className={styles.texto}>
-        {activeIndex === 0 ? name : activeIndex === 1 ? '' : over}
-      </span>
+      <span className={styles.texto}>{name}</span>
     </button>
   );
 };

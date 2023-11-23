@@ -1,0 +1,68 @@
+{
+  "drone": {
+    "check": { "data": "on" },
+    "unlock": { "data": "on" },
+    "takeoff": { "data": "on" },
+    "return": { "data": "on" },
+    "lock": { "data": "on" },
+    "mode": { "data": "on" },
+    "light": { "data": "on" }
+  },
+  "monitor": {
+    "video": { "data": "on" },
+    "positioning": { "data": "on" }
+  },
+  "hangar": {
+    "hatch": { "data": "on" },
+    "charging": { "data": "on" },
+    "mechanism": { "data": "on" }
+  },
+  "player": {
+    "play": { "data":"HistoryID" },
+    "pause": { "data": "on" },
+    "speed": { "data": "1/2/4/6" }
+  }
+}
+
+//默认off  
+
+{
+  "drone": {
+    "check": { "data": "off" },
+    "unlock": { "data": "off" },
+    "takeoff": { "data": "off" },
+    "return": { "data": "off" },
+    "lock": { "data": "off" },
+    "mode": { "data": "off" },
+    "light": { "data": "off" }
+  },
+  "monitor": {
+    "video": { "data": "off" },
+    "positioning": { "data": "off" }
+  },
+  "hangar": {
+    "hatch": { "data": "off" },
+    "charging": { "data": "off" },
+    "mechanism": { "data": "off" }
+  },
+  "player": {
+    "play": { "data":"HistoryID" },
+    "pause": { "data": "off" },
+    "speed": { "data": "1/2/4/6" }
+  }
+}
+
+// 格式
+{
+  "type": "drone",
+  "data": {
+    "check": "on",
+    "unlock": "on",
+    "takeoff": "on",
+    "return": "on",
+    "lock": "on",
+    "mode": "on",
+    "light": "on"
+  }
+}
+

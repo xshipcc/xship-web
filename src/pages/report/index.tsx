@@ -179,6 +179,7 @@ const FlashPromotionList: React.FC = () => {
             查看
           </Button>
           <Divider type="vertical" />
+          {/* @ts-ignore */}
           <PDFDownloadLink document={<MyDocument />} fileName="somename.pdf">
             {({ blob, url, loading, error }) =>
               loading ? (

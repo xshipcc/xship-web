@@ -44,6 +44,40 @@ export interface DashboardinfoType {
   drone: DroneData;
 }
 
+export type Drone = {
+  check: string;
+  unlock: string;
+  takeoff: string;
+  return: string;
+  lock: string;
+  mode: string;
+  light: string;
+};
+
+export type Monitor = {
+  video: string;
+  positioning: string;
+};
+
+export type Hangar = {
+  hatch: string;
+  charging: string;
+  mechanism: string;
+};
+
+export type Player = {
+  play: string;
+  pause: string;
+  speed: '1' | '2' | '4' | '6';
+};
+
+export type dashboardStateType = {
+  drone: Drone;
+  monitor: Monitor;
+  hangar: Hangar;
+  player: Player;
+};
+
 //#endregion -----------------------------------------------------------------------
 /**
  * @end

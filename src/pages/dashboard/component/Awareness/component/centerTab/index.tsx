@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-21 14:43:26
+ * @LastEditTime: 2023-11-23 08:32:13
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\component\centerTab\index.tsx
  * @Description:
  *
@@ -158,13 +158,29 @@ const CenterTab: React.FC = (props: any) => {
   }, [editPointSignal]);
 
   const sendMqttControl = (param: any, type: string) => {
-    console.log('sendMqttControl -> type:', type);
-    console.log('sendMqttControl -> param:', param);
-    // const data = { data: 'on' };
-    const controlInfo = {
-      cmd: type + '/' + param,
+    let controlInfo = {
+      cmd: 'default',
       data: 'on',
     };
+    console.log('sendMqttControl -> props?.dashboardState:', props?.dashboardState);
+
+    if (props?.dashboardState[type][param]) {
+      console.log('sendMqttControl -> props?.dashboardState:', props?.dashboardState);
+      console.log(
+        'sendMqttControl ->  props?.dashboardState[type][param]:',
+        props?.dashboardState[type][param],
+      );
+      controlInfo = {
+        cmd: type + '/' + param,
+        data: props?.dashboardState[type][param] === 'on' ? 'off' : 'on',
+      };
+    } else {
+      controlInfo = {
+        cmd: type + '/' + param,
+        data: 'on',
+      };
+    }
+
     console.log('sendMqttControl -> controlInfo:', controlInfo);
     console.log('sendMqttControl -> controlInfo:', JSON.stringify(controlInfo));
     client.current.publish('control', JSON.stringify(controlInfo));
@@ -195,8 +211,17 @@ const CenterTab: React.FC = (props: any) => {
             cancelText="取消"
           >
             <a>
-              {/* @ts-ignore */}
-              <AwarenessButton name={item.button} over={item.over} url={'/demo'} />
+              {props?.dashboardState[type][item.key] ? (
+                <AwarenessButton
+                  // @ts-ignore
+                  name={props?.dashboardState[type][item.key] === 'off' ? item.button : item.over}
+                  over={item.over}
+                  url={'/demo'}
+                />
+              ) : (
+                // @ts-ignore
+                <AwarenessButton name={item.button} over={item.over} url={'/demo'} />
+              )}
             </a>
           </Popconfirm>
         </Col>

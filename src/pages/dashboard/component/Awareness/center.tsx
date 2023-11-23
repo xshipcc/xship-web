@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-21 10:33:39
+ * @LastEditTime: 2023-11-23 08:55:36
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\center.tsx
  * @Description:
  *
@@ -13,10 +13,15 @@ import React, { useEffect, useRef, useState } from 'react';
 import styles from './center.less';
 import { ControlOutlined } from '@ant-design/icons';
 import RenderComponent from './component/centerTab';
-import { DashboardinfoType } from './data';
+import { DashboardinfoType, dashboardStateType } from './data';
 import * as mqtt from 'mqtt';
 
-const AnalysisCenter: React.FC = () => {
+function useForceUpdate() {
+  const [value, setState] = useState(true);
+  return () => setState(!value);
+}
+
+const AwarenessCenter: React.FC = () => {
   /**
    *  @file center.tsx
    *  @time 2023/11/16
@@ -66,7 +71,32 @@ const AnalysisCenter: React.FC = () => {
       gps_speed: 0,
     },
   });
-
+  const [dashboardState, setdashboardState] = useState<dashboardStateType>({
+    drone: {
+      check: 'off',
+      unlock: 'off',
+      takeoff: 'off',
+      return: 'off',
+      lock: 'off',
+      mode: 'off',
+      light: 'off',
+    },
+    monitor: {
+      video: 'off',
+      positioning: 'off',
+    },
+    hangar: {
+      hatch: 'off',
+      charging: 'off',
+      mechanism: 'off',
+    },
+    player: {
+      play: 'off',
+      pause: 'off',
+      speed: '1',
+    },
+  });
+  const handleForceupdateMethod = useForceUpdate();
   // mqtt消息接收
   useEffect(() => {
     const clientId = 'awareness' + Math.random().toString(16).substring(2, 8);
@@ -94,6 +124,9 @@ const AnalysisCenter: React.FC = () => {
     setTimeout(() => {
       mqttSub({ topic: 'control', qos: 0 });
     }, 1000);
+    setTimeout(() => {
+      mqttSub({ topic: 'state', qos: 0 });
+    }, 1500);
 
     client.current.on('message', (topic: string, mqttMessage: any) => {
       if (topic === 'info') {
@@ -108,6 +141,21 @@ const AnalysisCenter: React.FC = () => {
           console.log('setdashboardinfo -> item[jsonObject.type]:', item[jsonObject.type]);
           return item;
         });
+        handleForceupdateMethod();
+        // console.log('client.on -> jsonObject:', jsonObject);
+        // setDroneData(JSON.parse(mqttMessage));
+      }
+      if (topic === 'state') {
+        // const jsonObject = JSON.parse(mqttMessage);
+        const jsonObject = JSON.parse(mqttMessage);
+        console.log('client.current.on -> jsonObject:', jsonObject);
+        setdashboardState((item: dashboardStateType) => {
+          item[jsonObject.type] = jsonObject.data;
+          console.log('setdashboardState -> item:', item);
+          return item;
+        });
+        handleForceupdateMethod();
+
         // console.log('client.on -> jsonObject:', jsonObject);
         // setDroneData(JSON.parse(mqttMessage));
       }
@@ -143,6 +191,7 @@ const AnalysisCenter: React.FC = () => {
                     // @ts-ignore
                     component={activeTab}
                     dashboardinfo={dashboardinfo}
+                    dashboardState={dashboardState}
                     client={client}
                   />
                 ),
@@ -156,6 +205,7 @@ const AnalysisCenter: React.FC = () => {
                     // @ts-ignore
                     component={activeTab}
                     dashboardinfo={dashboardinfo}
+                    dashboardState={dashboardState}
                     client={client}
                   />
                 ),
@@ -169,6 +219,7 @@ const AnalysisCenter: React.FC = () => {
                     // @ts-ignore
                     component={activeTab}
                     dashboardinfo={dashboardinfo}
+                    dashboardState={dashboardState}
                     client={client}
                   />
                 ),
@@ -186,4 +237,4 @@ const AnalysisCenter: React.FC = () => {
    */
 };
 
-export default AnalysisCenter;
+export default AwarenessCenter;

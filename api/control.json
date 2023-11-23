@@ -23,36 +23,36 @@
   "drone": {
     "check": { "data": "on/off" },
     "unlock": { "data": "on/off" },
-    "Takeoff": { "data": "on/off" },
-    "Return": { "data": "on/off" },
-    "Lock": { "data": "on/off" },
-    "Mode": { "data": "automatic/manual" },
-    "Heading": { "data": 60 }, //0-360
+    "takeoff": { "data": "on/off" },
+    "return": { "data": "on/off" },
+    "lock": { "data": "on/off" },
+    "mode": { "data": "automatic/manual" },
+    "heading": { "data": 60 }, //0-360
     "light": { "data": "on/off" }
   },
   "monitor": {
-    "Up": { "data": 60 },
-    "Down": { "data": 60 },
-    "Left": { "data": 60 },
-    "Right": { "data": 60 },
-    "Photo": { "data": "on/off" },
-    "Video": { "data": "on/off" },
+    "up": { "data": 60 },
+    "down": { "data": 60 },
+    "left": { "data": 60 },
+    "right": { "data": 60 },
+    "photo": { "data": "on/off" },
+    "video": { "data": "on/off" },
     "view": { "data": "+60/-60" },
-    "Focus": { "data": "+60/-60" },
-    "Downward": { "data": "on/off" },
-    "Centering": { "data": "on/off" },
-    "Scanning": { "data": "on/off" },
-    "Tracking": { "data": "on/off" }
+    "focus": { "data": "+60/-60" },
+    "downward": { "data": "on/off" },
+    "centering": { "data": "on/off" },
+    "scanning": { "data": "on/off" },
+    "tracking": { "data": "on/off" }
   },
   "hangar": {
-    "Hatch": { "data": "on/off" },
-    "Charging": { "data": "on/off" },
-    "Mechanism": { "data": "on/off" }
+    "hatch": { "data": "on/off" },
+    "charging": { "data": "on/off" },
+    "mechanism": { "data": "on/off" }
   },
   "player": {
-    "Play": { "data": "on/off" },
+    "play": { "data": "HistoryID" },
     "Pause": { "data": "on/off" },
-    "Speed": { "data": "1/2/4/6" }
+    "speed": { "data": "1/2/4/6" }
   }
 }
 
