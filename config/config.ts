@@ -45,18 +45,18 @@ export default defineConfig({
   define: {
     CESIUM_BASE_URL: '/', //cesium默认路径地址配置，没改好,这个地址相对于路由
     // 部署端
-    // MAP_TERRAIN_URL: '/terrain',
-    // MAP_TILES_URL: '/luquantile/{z}/{x}/{y}.png',
-    // WS_MQTT_URL: 'ws://192.168.2.105:8083/mqtt', //远程机器部署地址
-    // VIDEO_URL: 'http://localhost:8080/live/test.live.flv',
-    // BASE_IMAGE_URL: 'http://ai.javodata.com', //图片路径地址
+    MAP_TERRAIN_URL: '/terrain',
+    MAP_TILES_URL: '/luquantile/{z}/{x}/{y}.png',
+    WS_MQTT_URL: 'ws://192.168.2.105:8083/mqtt', //远程机器部署地址
+    VIDEO_URL: 'http://localhost:8080/live/test.live.flv',
+    BASE_IMAGE_URL: 'http://ai.javodata.com', //图片路径地址
 
     // 本地测试端
-    VIDEO_URL: 'http://127.0.0.1:8880/live/test.live.flv',
-    MAP_TERRAIN_URL: 'http://ai.javodata.com/terrain',
-    MAP_TILES_URL: 'http://ai.javodata.com/luquantile/{z}/{x}/{y}.png',
-    WS_MQTT_URL: 'ws://127.0.0.1:8083/mqtt', //本地测试
-    BASE_IMAGE_URL: 'http://ai.javodata.com', //图片路径地址
+    // VIDEO_URL: 'http://127.0.0.1:8880/live/test.live.flv',
+    // MAP_TERRAIN_URL: 'http://ai.javodata.com/terrain',
+    // MAP_TILES_URL: 'http://ai.javodata.com/luquantile/{z}/{x}/{y}.png',
+    // WS_MQTT_URL: 'ws://127.0.0.1:8083/mqtt', //本地测试
+    // BASE_IMAGE_URL: 'http://ai.javodata.com', //图片路径地址
 
     // WS_MQTT_URL: 'ws://ai.javodata.com:8883/mqtt', //远程测试
   },
