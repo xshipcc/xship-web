@@ -14,7 +14,7 @@ import React, { useRef, useEffect } from 'react';
 import flvjs from 'flv.js';
 
 const FLVPlayer = (props) => {
-  // console.log('FLVPlayer -> props:', props.url);
+  console.log('FLVPlayer -> props:', props.url);
   const videoRef = useRef(null);
   const flvPlayerRef = useRef(null);
 
