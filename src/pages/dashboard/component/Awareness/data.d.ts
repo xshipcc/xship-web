@@ -49,6 +49,7 @@ export type Drone = {
   unlock: string;
   takeoff: string;
   return: string;
+  historyID: number;
   lock: string;
   mode: string;
   light: string;

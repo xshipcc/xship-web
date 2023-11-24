@@ -16,6 +16,7 @@ import HistoryList from '@/pages/dashboard/component/AlertList/history';
 import Title from '../common/Title';
 import TimeLine from './component/timeLine';
 import { FastForwardOutlined, SwapOutlined } from '@ant-design/icons';
+import { useDispatch, useSelector } from 'umi';
 
 const AwarenessRight: React.FC = () => {
   /**
@@ -26,15 +27,24 @@ const AwarenessRight: React.FC = () => {
    */
   //#region -------------------------------------------------------------------------
 
-  const [showDetail, setShowDetail] = useState<boolean>(false);
+  // const [showDetail, setShowDetail] = useState<boolean>(false);
+  const dispatch = useDispatch();
+  const showDetail = useSelector((state: any) => state.dashboardModel.showDetail);
 
   /**
    *切换列表
    *false为告警  true为巡检
    */
   const handleClick = () => {
-    setShowDetail(!showDetail);
+    // setShowDetail(!showDetail);
+    console.log('showDetail:', showDetail);
+
+    dispatch({
+      type: 'dashboardModel/changeshowDetail',
+      payload: !showDetail,
+    });
   };
+
   //#endregion -----------------------------------------------------------------------
   /**
    * @end

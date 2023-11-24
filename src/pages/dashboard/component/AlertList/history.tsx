@@ -15,10 +15,19 @@ import { useEffect, useState } from 'react';
 
 import { queryHistory } from '@/pages/drone/history/service';
 import type { ListUavHistoryDataType } from '@/pages/drone/history/data';
+import { useDispatch, useSelector } from 'umi';
 
 export default () => {
+  const dispatch = useDispatch();
+
+  const showDetail = useSelector((state: any) => state.dashboardModel.showDetail);
+
   const openDrawer = (data: ListUavHistoryDataType) => {
     console.log('toggleDrawer -> param2:', data);
+    dispatch({
+      type: 'dashboardModel/changeshowDetail',
+      payload: !showDetail,
+    });
   };
   const [currentList, setcurrentList] = useState([]);
   // Current    int64  `json:"current,default=1"`

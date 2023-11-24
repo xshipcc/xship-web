@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-16 18:32:55
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-17 01:45:41
+ * @LastEditTime: 2023-11-24 09:09:50
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\model.ts
  * @Description:
  *
@@ -54,6 +54,8 @@ export interface DashboardState {
   currentFlyingRoad: [];
   currentPoint: {};
   destoryTackSignal: [boolean];
+  currentFlyingid: number;
+  showDetail: boolean;
 }
 export interface DashboardModelType {
   namespace: 'dashboardModel';
@@ -72,6 +74,7 @@ export interface DashboardModelType {
     changeEditRoadSignal: ImmerReducer<boolean> | any;
     changeEditPointSignal: ImmerReducer<string> | any;
     changeisModalOpen: ImmerReducer<boolean> | any;
+    changeshowDetail: ImmerReducer<boolean> | any;
   };
   effects: {
     fetchDashboardInfo: Effect;
@@ -147,6 +150,8 @@ const CompanyModel: DashboardModelType = {
       direction: '00', //"00=逆时针;01=顺时针"
     },
     currentFlyingRoad: [],
+    currentFlyingid: -1,
+    showDetail: false,
   },
   reducers: {
     changeCurrentComponent(state: DashboardState, action: { payload: string }) {
@@ -194,13 +199,19 @@ const CompanyModel: DashboardModelType = {
           JSON.parse(JSON.stringify(action.payload?.data)),
         );
       }
-
       state.currentFlyData = action.payload;
       console.log('saveCurrentFlyData -> action.payload:', action.payload);
     },
     saveAlertData(state: DashboardState, action: { payload: ListAlertHistoryData }) {
       console.log('saveCurrentFlyData -> action.payload:', action.payload);
       state.alertData = action.payload;
+    },
+    changecurrentFlyingid(state: DashboardState, action: { payload: number }) {
+      console.log('changecurrentFlyingid -> payload:', action.payload);
+      state.currentFlyingid = action.payload;
+    },
+    changeshowDetail(state: DashboardState, action: { payload: boolean }) {
+      state.showDetail = action.payload;
     },
   },
   effects: {

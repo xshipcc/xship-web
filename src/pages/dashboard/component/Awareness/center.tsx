@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-23 16:03:38
+ * @LastEditTime: 2023-11-24 09:10:01
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\center.tsx
  * @Description:
  *
@@ -15,6 +15,7 @@ import { ControlOutlined } from '@ant-design/icons';
 import RenderComponent from './component/centerTab';
 import type { DashboardinfoType, dashboardStateType } from './data';
 import * as mqtt from 'mqtt';
+import { useDispatch } from 'umi';
 
 function useForceUpdate() {
   const [value, setState] = useState(true);
@@ -79,6 +80,7 @@ const AwarenessCenter: React.FC = () => {
       return: 'off',
       lock: 'off',
       mode: 'off',
+      historyID: -1,
       light: 'off',
     },
     monitor: {
@@ -97,6 +99,15 @@ const AwarenessCenter: React.FC = () => {
     },
   });
   const handleForceupdateMethod = useForceUpdate();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (dashboardState.drone.historyID === -1) {
+      dispatch({
+        type: 'dashboardModel/changecurrentFlyingid',
+        payload: dashboardState.drone.historyID,
+      });
+    }
+  }, [dashboardState]);
   // mqtt消息接收
   useEffect(() => {
     const clientId = 'awareness' + Math.random().toString(16).substring(2, 8);
