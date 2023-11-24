@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Input, Modal, Radio, Select, TreeSelect } from 'antd';
-import { JobList, RoleList, UserListItem } from '../data.d';
+import type { JobList, RoleList, UserListItem } from '../data.d';
 import { querySelectAllData } from '@/pages/system/user/service';
 import { tree } from '@/utils/utils';
 
@@ -62,18 +62,21 @@ const CreateUserForm: React.FC<CreateFormProps> = (props) => {
           />
         </FormItem>
         <FormItem name="jobId" label="职位" rules={[{ required: true, message: '请选择职位' }]}>
-          <Select id="jobId" placeholder={'请选择职位'}>
+          <Input id="update-name" placeholder={'请输入职位'} />
+
+          {/* <Select id="jobId" placeholder={'请选择职位'}>
             {jobConf.map((r) => (
               <Select.Option value={r.id}>{r.jobName}</Select.Option>
             ))}
-          </Select>
+          </Select> */}
         </FormItem>
         <FormItem name="roleId" label="角色" rules={[{ required: true, message: '请选择角色' }]}>
-          <Select id="roleId" placeholder={'请选择角色'}>
+          <Input id="update-name" placeholder={'请输入角色'} />
+          {/* <Select id="roleId" placeholder={'请选择角色'}>
             {roleConf.map((r) => (
               <Select.Option value={r.id}>{r.name + r.remark}</Select.Option>
             ))}
-          </Select>
+          </Select> */}
         </FormItem>
         <FormItem name="name" label="用户名" rules={[{ required: true, message: '请输入用户名' }]}>
           <Input id="update-name" placeholder={'请输入用户名'} />

@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-24 08:25:38
+ * @LastEditTime: 2023-11-24 12:02:22
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\component\centerTab\index.tsx
  * @Description:
  *
@@ -248,6 +248,11 @@ const CenterTab: React.FC = (props: any) => {
         </Col>
       </Row>
     ));
+  //         ('warehouse_status', ctypes.c_ubyte),#舱盖状态 0舱盖关闭 1正在打开 2已打开
+  //         ('homing_status', ctypes.c_ubyte),#归位机构状态 0锁定 1正在锁定 2打开 3正在打开
+  //         ('battery_status', ctypes.c_ubyte),#充电机状态  0电源断开 1电源打开
+  //         ('uavpower_status', ctypes.c_float),#无人机电源状态 0无人机下电 1无人机上电
+
   const RenderList = (params: any[], type: string) =>
     params?.map((item: any) => (
       <Row key={item.value}>
@@ -255,7 +260,15 @@ const CenterTab: React.FC = (props: any) => {
           {item.value}
         </Col>
         <Col span={12} style={{ color: 'white' }}>
-          {props.dashboardinfo[type][item.key]}
+          {item.key === 'warehouse_status'
+            ? '舱盖关闭'
+            : item.key === 'homing_status'
+            ? '锁定'
+            : item.key === 'battery_status'
+            ? ' 电源断开'
+            : item.key === 'uavpower_status'
+            ? '无人机下电'
+            : props.dashboardinfo[type][item.key]}
           {item.unit}
         </Col>
       </Row>

@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-23 19:23:00
+ * @LastEditTime: 2023-11-24 11:33:19
  * @FilePath: \zero-admin-ui-master\config\config.ts
  * @Description:
  *
@@ -48,7 +48,7 @@ export default defineConfig({
     // MAP_TERRAIN_URL: '/terrain',
     // MAP_TILES_URL: '/luquantile/{z}/{x}/{y}.png',
     // BASE_IMAGE_URL: 'http://ai.javodata.com', //图片路径地址
-    MQTT_PORT: '8083/mqtt',
+    MQTT_PORT: '8883/mqtt',
     // 本地测试端
     // VIDEO_URL: 'http://127.0.0.1:8880/live/test.live.flv',
     MAP_TERRAIN_URL: 'http://ai.javodata.com/terrain',

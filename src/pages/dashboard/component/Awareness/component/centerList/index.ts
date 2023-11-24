@@ -72,48 +72,53 @@ export const hangarInfoList1 = [
   {
     key: `battery_status`,
     value: `电池状态`,
-    unit: '充电中',
+    unit: '',
   },
 ];
 export const hangarInfoList2 = [
   {
     key: `warehouse_status`,
     value: `舱盖状态`,
-    unit: '关',
+    unit: '',
   },
   {
     key: `homing_status`,
     value: `归位机构状态`,
-    unit: '锁定',
+    unit: ' ',
+  },
+  {
+    key: `uavpower_status`,
+    value: `无人机电源状态`,
+    unit: '',
   },
 ];
 export const monitorList = [
   {
     key: `lon`,
-    value: `经度`,
+    value: `目标经度`,
     unit: '°',
   },
   {
     key: `lat`,
-    value: `维度`,
+    value: `目标维度`,
     unit: '°',
   },
   {
     key: `target_height`,
-    value: `高度`,
-    unit: 'km',
+    value: `目标高度`,
+    unit: 'm',
   },
 ];
 export const monitorTFList = [
   {
     key: `tf_total`,
     value: `TF总容量`,
-    unit: '°',
+    unit: '%',
   },
   {
     key: `tf_usage`,
     value: `使用容量`,
-    unit: '°',
+    unit: '%',
   },
 ];
 // 面板控制加载

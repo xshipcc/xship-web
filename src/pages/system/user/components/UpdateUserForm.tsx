@@ -31,6 +31,7 @@ const UpdateUserForm: React.FC<UpdateFormProps> = (props) => {
       form.resetFields();
     } else {
       querySelectAllData({ pageSize: 100, current: 1 }).then((res) => {
+        console.log('querySelectAllData -> res:', res);
         setRoleConf(res.roleAll);
         setJobConf(res.jobAll);
         setDeptConf(tree(res.deptAll, 0, 'parentId'));
@@ -73,18 +74,21 @@ const UpdateUserForm: React.FC<UpdateFormProps> = (props) => {
           />
         </FormItem>
         <FormItem name="jobId" label="职位" rules={[{ required: true, message: '请选择职位' }]}>
-          <Select id="jobId" placeholder={'请选择职位'}>
+          <Input id="update-name" placeholder={'请输入职位'} />
+
+          {/* <Select id="jobId" placeholder={'请选择职位'}>
             {jobConf.map((r) => (
               <Select.Option value={r.id}>{r.jobName}</Select.Option>
             ))}
-          </Select>
+          </Select> */}
         </FormItem>
         <FormItem name="roleId" label="角色" rules={[{ required: true, message: '请选择角色' }]}>
-          <Select id="roleId" placeholder={'请选择角色'}>
+          <Input id="update-name" placeholder={'请输入角色'} />
+          {/* <Select id="roleId" placeholder={'请选择角色'}>
             {roleConf.map((r) => (
               <Select.Option value={r.id}>{r.name + r.remark}</Select.Option>
             ))}
-          </Select>
+          </Select> */}
         </FormItem>
         <FormItem name="name" label="用户名" rules={[{ required: true, message: '请输入用户名' }]}>
           <Input id="update-name" placeholder={'请输入用户名'} />
