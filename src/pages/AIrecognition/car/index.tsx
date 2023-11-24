@@ -202,21 +202,7 @@ const FlashPromotionList: React.FC = () => {
             <PlusOutlined /> 新建车辆
           </Button>,
         ]}
-        request={async (req) => {
-          const res = await queryCar(req);
-          // {data: [], pageSize: 10, current: 1, total:28, success: true,}
-          res.data.map((item: any) => {
-            // return item;
-            return (item.photo = BASE_IMAGE_URL + item.photo);
-          });
-          return {
-            data: res.data,
-            pageSize: res.pageSize,
-            current: 1,
-            total: res.total,
-            success: res.success,
-          };
-        }}
+        request={queryCar}
         columns={columns}
         rowSelection={{
           onChange: (_, selectedRows) => setSelectedRows(selectedRows),

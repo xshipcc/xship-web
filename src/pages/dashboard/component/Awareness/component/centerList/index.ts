@@ -113,7 +113,7 @@ export const monitorTFList = [
   {
     key: `tf_total`,
     value: `TF总容量`,
-    unit: '%',
+    unit: '',
   },
   {
     key: `tf_usage`,

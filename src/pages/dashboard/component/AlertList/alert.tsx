@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-22 14:51:44
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-23 16:38:41
+ * @LastEditTime: 2023-11-24 14:37:32
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\AlertList\alert.tsx
  * @Description:
  *
@@ -117,6 +117,7 @@ export default () => {
     history_id: 1,
   });
   const [currentList, setcurrentList] = useState([]);
+  const [currentListInfo, setcurrentListInfo] = useState({ total: 10, current: 1, pageSize: 7 });
 
   const getList = async (params = {}) => {
     console.log('request={ -> params:', params);
@@ -127,8 +128,15 @@ export default () => {
     // @ts-ignore
     const res: ListAlertHistoryRespType = await queryAlert(req);
     console.log('requestres:', res);
-    // @ts-ignore
-    if (res?.data) setcurrentList(res.data);
+    if (res?.data) {
+      // @ts-ignore
+      setcurrentList(res.data);
+      // @ts-ignore
+      setcurrentListInfo((info) => {
+        info.total = res.total;
+        return info;
+      });
+    }
     console.log('currentList={ -> res:', res);
     console.log('currentList:', currentList);
 
@@ -137,7 +145,7 @@ export default () => {
 
   // 获取航线数据列表
   useEffect(() => {
-    getList({ pageSize: 10, current: 1 });
+    getList({ pageSize: 7, current: 1 });
   }, []);
 
   // 告警列表添加
@@ -411,6 +419,13 @@ export default () => {
             pagination={{
               pageSize: 7,
               showSizeChanger: false,
+              defaultCurrent: 1,
+              onChange: (param) => {
+                console.log('param:', param);
+                getList({ pageSize: 7, current: param });
+                return {};
+              },
+              total: currentListInfo.total,
             }}
             className={styles.list}
             dataSource={currentList}

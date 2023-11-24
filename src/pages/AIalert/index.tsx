@@ -188,6 +188,7 @@ const TableList: React.FC = () => {
           //   <PlusOutlined /> 新建品牌
           // </Button>,
         ]}
+        // request={queryAlert}
         request={async (params: any = {}, sort, filter) => {
           console.log('request={ -> params:', params);
           // interface ListAlertHistoryReq {
@@ -199,6 +200,7 @@ const TableList: React.FC = () => {
           //   platform: number;
           //   confirm: number;
           // }
+
           const data = {
             ...params,
             type: params?.type ? params.type : 0,
@@ -209,6 +211,11 @@ const TableList: React.FC = () => {
             confirm: params?.fly_id ? params.fly_id : 0,
           };
           const res: ListAlertHistoryRespType = await queryAlert(data);
+          res.data.map((item: any) => {
+            // return item;
+            return (item.image = 'http://127.0.0.1/' + item.image);
+          });
+          console.log('res.data.map -> res.data:', res.data);
           // {data: [], pageSize: 10, current: 1, total:28, success: true,}
           return {
             data: res.data,

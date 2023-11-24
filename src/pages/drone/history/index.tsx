@@ -108,11 +108,7 @@ const FlashPromotionList: React.FC = () => {
         search={{
           labelWidth: 120,
         }}
-        toolBarRender={() => [
-          <Button type="primary" onClick={() => handleModalVisible(true)}>
-            <PlusOutlined /> 新建巡检历史
-          </Button>,
-        ]}
+        toolBarRender={() => []}
         request={async (params: any = {}, sort, filter) => {
           console.log('request={ -> params:', params);
           const data = {
