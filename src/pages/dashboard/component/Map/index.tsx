@@ -16,8 +16,17 @@ import type { ListAlertHistoryData } from '@/pages/AIalert/data';
 const clientId = 'mapAlert' + Math.random().toString(16).substring(2, 8);
 const username = 'emqx_test';
 const password = 'emqx_test';
+// const url = window.location.href;
+const url = window.location.href;
+const startIndex = url.indexOf('://') + 3;
+const endIndex =
+  url.indexOf(':', startIndex) !== -1 ? url.indexOf(':', startIndex) : url.indexOf('/', startIndex);
+const extractedUrl = url.substring(startIndex, endIndex);
+const mqttUrl = 'ws://' + extractedUrl + ':' + MQTT_PORT;
+console.log('location:', mqttUrl);
+console.log('location.herf:', window.location.href);
 
-const client = mqtt.connect(WS_MQTT_URL, {
+const client = mqtt.connect(mqttUrl, {
   clientId,
   username,
   password,

@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-08 10:25:32
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-30 11:42:37
+ * @LastEditTime: 2023-11-24 08:43:34
  * @FilePath: \zero-admin-ui-master\src\pages\drone\task\components\CreateFlashForm.tsx
  * @Description:
  *
@@ -13,6 +13,9 @@ import { Form, Input, Modal, Select, DatePicker, InputNumber, Button, Upload } f
 import type { AddUavPlanReqType, FlashPromotionListItem } from '../data.d';
 import Cron from 'react-cron-antd';
 import { PlusOutlined } from '@ant-design/icons';
+import { queryFly } from '../../routePlan/service';
+import { ListUavFlyReqType } from '../../routePlan/data';
+import { queryDevice } from '../../device/service';
 
 export interface CreateFormProps {
   onCancel: () => void;
@@ -68,6 +71,42 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
     }
     return e?.fileList;
   };
+  const [roadList, setroadList] = useState([{ value: 'demo', label: 'demo' }]);
+  const [droneList, setdroneList] = useState([{ value: 'demo', label: 'demo' }]);
+
+  const fetchFlyData = async (params: ListUavFlyReqType) => {
+    try {
+      const resRoad = await queryFly(params);
+      console.log('fetchFlyData -> res:', resRoad);
+      // JSON.parse(res.data.data);
+      const road = resRoad.data.map((item: any) => {
+        return { value: item.id, label: item.name };
+      });
+      console.log('road -> road:', road);
+      setroadList(road);
+
+      const resDrone = await queryDevice(params);
+      console.log('fetchFlyData -> res:', resDrone);
+      // JSON.parse(res.data.data);
+      const drone = resDrone.data.map((item: any) => {
+        return { value: item.id, label: item.name };
+      });
+      console.log('road -> road:', road);
+      setdroneList(drone);
+      return true;
+    } catch (error) {
+      console.log('fetchFlyData -> error:', error);
+      return false;
+    }
+  };
+  useEffect(() => {
+    fetchFlyData({ pageSize: 10, current: 1 });
+  }, []);
+  const handleChange = (params: string) => {
+    // setcurrentRoad(JSON.parse(params));
+    console.log('handleChange -> JSON.parse(params):', JSON.parse(params));
+    console.log(`handleChange ${params}`);
+  };
   const renderContent = () => {
     return (
       <>
@@ -76,7 +115,8 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
           label="无人机id"
           rules={[{ required: true, message: '请输入无人机id!' }]}
         >
-          <InputNumber id="update-title" placeholder={'请输入无人机名称'} />
+          <Select defaultValue="default" onChange={handleChange} options={droneList} />
+          {/* <InputNumber id="update-title" placeholder={'请输入无人机名称'} /> */}
         </FormItem>
         {/* <FormItem
           name="uav_icon"
@@ -88,7 +128,7 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
         <FormItem label="无人机图片" name="uav_icon" getValueFromEvent={normFile}>
           <Upload action="/upload.do" listType="picture-card">
             <div>
-              <PlusOutlined />
+              <PlusOutlined rev={undefined} />
               <div style={{ marginTop: 8 }}>上传</div>
             </div>
           </Upload>
@@ -98,6 +138,7 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
           <Button type="primary" onClick={() => handleCronVisible(true)}>
             {CronVisible ? plan + '' : '选择计划时间'}
           </Button>
+          {/* @ts-ignore */}
           <Cron
             style={{ display: CronVisible ? 'block' : 'none', width: '370px' }}
             value="* * * * * ? *"
@@ -113,7 +154,7 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
           label="巡检路线id"
           rules={[{ required: true, message: '请输入巡检路线id!' }]}
         >
-          <InputNumber id="update-title" placeholder={'请输入巡检路线id'} />
+          <Select defaultValue="default" onChange={handleChange} options={roadList} />
         </FormItem>
       </>
     );

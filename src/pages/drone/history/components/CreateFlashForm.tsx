@@ -11,6 +11,8 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Input, Modal, Select, DatePicker, DatePickerProps, InputNumber } from 'antd';
 import type { AddUavHistoryReqType } from '../data.d';
+import { queryFly } from '../../routePlan/service';
+import { queryDevice } from '../../device/service';
 
 export interface CreateFormProps {
   onCancel: () => void;
@@ -62,6 +64,43 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
     setEnd_time(dateString);
   };
 
+  const [roadList, setroadList] = useState([{ value: 'demo', label: 'demo' }]);
+  const [droneList, setdroneList] = useState([{ value: 'demo', label: 'demo' }]);
+
+  const fetchFlyData = async (params: any) => {
+    try {
+      const resRoad = await queryFly(params);
+      console.log('fetchFlyData -> res:', resRoad);
+      // JSON.parse(res.data.data);
+      const road = resRoad.data.map((item: any) => {
+        return { value: item.id, label: item.name };
+      });
+      console.log('road -> road:', road);
+      setroadList(road);
+
+      const resDrone = await queryDevice(params);
+      console.log('fetchFlyData -> res:', resDrone);
+      // JSON.parse(res.data.data);
+      const drone = resDrone.data.map((item: any) => {
+        return { value: item.id, label: item.name };
+      });
+      console.log('road -> road:', road);
+      setdroneList(drone);
+      return true;
+    } catch (error) {
+      console.log('fetchFlyData -> error:', error);
+      return false;
+    }
+  };
+  useEffect(() => {
+    fetchFlyData({ pageSize: 10, current: 1 });
+  }, []);
+  const handleChange = (params: string) => {
+    // setcurrentRoad(JSON.parse(params));
+    console.log('handleChange -> JSON.parse(params):', JSON.parse(params));
+    console.log(`handleChange ${params}`);
+  };
+
   // export interface AddUavHistoryReqType {
   //   uav_id: number; // 无人机id
   //   fly_id: number; // 巡检路线id
@@ -77,14 +116,14 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
           label="无人机id"
           rules={[{ required: true, message: '请输入无人机id!' }]}
         >
-          <InputNumber id="update-title" placeholder={'请输入无人机名称'} />
+          <Select defaultValue="default" onChange={handleChange} options={droneList} />
         </FormItem>
         <FormItem
           name="fly_id"
           label="巡检路线id"
           rules={[{ required: true, message: '请输入巡检路线id!' }]}
         >
-          <InputNumber id="update-title" placeholder={'请输入巡检路线id'} />
+          <Select defaultValue="default" onChange={handleChange} options={roadList} />
         </FormItem>
         <FormItem
           name="operator"
@@ -94,9 +133,11 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
           <Input id="update-title" placeholder={'请输入操作者'} />
         </FormItem>
         <FormItem label="创建时间">
+          {/* @ts-ignore */}
           <DatePicker showTime onChange={onChangeCreate} />
         </FormItem>
         <FormItem label="结束时间">
+          {/* @ts-ignore */}
           <DatePicker showTime onChange={onChangeEnd} />
         </FormItem>
       </>

@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-23 11:16:55
+ * @LastEditTime: 2023-11-24 08:25:38
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\component\centerTab\index.tsx
  * @Description:
  *
@@ -181,6 +181,17 @@ const CenterTab: React.FC = (props: any) => {
       };
     }
     if (param === 'mode') {
+      console.log('sendMqttControl -> props?.dashboardState:', props?.dashboardState);
+      console.log(
+        'sendMqttControl ->  props?.dashboardState[type][param]:',
+        props?.dashboardState[type][param],
+      );
+      controlInfo = {
+        cmd: type + '/' + param,
+        data: props?.dashboardState[type][param] === 'on' ? 'manual' : 'automatic',
+      };
+    }
+    if (param === 'light') {
       console.log('sendMqttControl -> props?.dashboardState:', props?.dashboardState);
       console.log(
         'sendMqttControl ->  props?.dashboardState[type][param]:',
@@ -435,7 +446,10 @@ const CenterTab: React.FC = (props: any) => {
                                 console.log('RenderComponent -> ValueView:', ValueView);
                                 sendMqttControl('view-', 'monitor');
                               }, 80); // 每200毫秒调用一次increaseCount函数
-                              document.addEventListener('mouseup', () => clearInterval(timerId));
+                              document.addEventListener('mouseup', () => {
+                                sendMqttControl('stop', 'monitor');
+                                clearInterval(timerId);
+                              });
                             }}
                             // onClick={() => {
                             //   const value = ValueView - 1;
@@ -458,7 +472,10 @@ const CenterTab: React.FC = (props: any) => {
                                 console.log('RenderComponent -> ValueView:', ValueView);
                                 sendMqttControl('view+', 'monitor');
                               }, 80); // 每200毫秒调用一次increaseCount函数
-                              document.addEventListener('mouseup', () => clearInterval(timerId));
+                              document.addEventListener('mouseup', () => {
+                                sendMqttControl('stop', 'monitor');
+                                clearInterval(timerId);
+                              });
                             }}
                           />
                         </div>
@@ -498,7 +515,10 @@ const CenterTab: React.FC = (props: any) => {
                                 setValueFocus((item) => item - 1);
                                 sendMqttControl('focus-', 'monitor');
                               }, 80); // 每200毫秒调用一次increaseCount函数
-                              document.addEventListener('mouseup', () => clearInterval(timerId));
+                              document.addEventListener('mouseup', () => {
+                                sendMqttControl('stop', 'monitor');
+                                clearInterval(timerId);
+                              });
                             }}
                             // onClick={() => {
                             //   const value = ValueFocus - 1;
@@ -521,7 +541,10 @@ const CenterTab: React.FC = (props: any) => {
                                 setValueFocus((item) => item + 1);
                                 sendMqttControl('focus+', 'monitor');
                               }, 80); // 每200毫秒调用一次increaseCount函数
-                              document.addEventListener('mouseup', () => clearInterval(timerId));
+                              document.addEventListener('mouseup', () => {
+                                sendMqttControl('stop', 'monitor');
+                                clearInterval(timerId);
+                              });
                             }}
                           />
                         </div>

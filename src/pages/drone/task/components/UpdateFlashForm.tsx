@@ -14,6 +14,9 @@ import { ListUavPlanDataType } from '../data.d';
 import moment from 'moment';
 import Cron from 'react-cron-antd';
 import { PlusOutlined } from '@ant-design/icons';
+import { ListUavFlyReqType } from '../../routePlan/data';
+import { queryFly } from '../../routePlan/service';
+import { queryDevice } from '../../device/service';
 
 export interface UpdateFormProps {
   onCancel: () => void;
@@ -68,6 +71,44 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
     }
     return e?.fileList;
   };
+
+  const [roadList, setroadList] = useState([{ value: 'demo', label: 'demo' }]);
+  const [droneList, setdroneList] = useState([{ value: 'demo', label: 'demo' }]);
+
+  const fetchFlyData = async (params: any) => {
+    try {
+      const resRoad = await queryFly(params);
+      console.log('fetchFlyData -> res:', resRoad);
+      // JSON.parse(res.data.data);
+      const road = resRoad.data.map((item: any) => {
+        return { value: item.id, label: item.name };
+      });
+      console.log('road -> road:', road);
+      setroadList(road);
+
+      const resDrone = await queryDevice(params);
+      console.log('fetchFlyData -> res:', resDrone);
+      // JSON.parse(res.data.data);
+      const drone = resDrone.data.map((item: any) => {
+        return { value: item.id, label: item.name };
+      });
+      console.log('road -> road:', road);
+      setdroneList(drone);
+      return true;
+    } catch (error) {
+      console.log('fetchFlyData -> error:', error);
+      return false;
+    }
+  };
+  useEffect(() => {
+    fetchFlyData({ pageSize: 10, current: 1 });
+  }, []);
+  const handleChange = (params: string) => {
+    // setcurrentRoad(JSON.parse(params));
+    console.log('handleChange -> JSON.parse(params):', JSON.parse(params));
+    console.log(`handleChange ${params}`);
+  };
+
   // interface UpdateUavPlanReqType {
   //   id: number;
   //   uav_id: number; // 无人机ID
@@ -86,7 +127,7 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
           label="无人机id"
           rules={[{ required: true, message: '请输入无人机id!' }]}
         >
-          <InputNumber id="update-title" placeholder={'请输入无人机名称'} />
+          <Select defaultValue="default" onChange={handleChange} options={droneList} />
         </FormItem>
         {/* <FormItem
           name="uav_icon"
@@ -123,7 +164,7 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
           label="巡检路线id"
           rules={[{ required: true, message: '请输入巡检路线id!' }]}
         >
-          <InputNumber id="update-title" placeholder={'请输入巡检路线id'} />
+          <Select defaultValue="default" onChange={handleChange} options={roadList} />
         </FormItem>
       </>
     );

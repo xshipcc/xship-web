@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-23 10:58:23
+ * @LastEditTime: 2023-11-23 16:03:38
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\center.tsx
  * @Description:
  *
@@ -102,7 +102,15 @@ const AwarenessCenter: React.FC = () => {
     const clientId = 'awareness' + Math.random().toString(16).substring(2, 8);
     const username = 'emqx_test';
     const password = 'emqx_test';
-    client.current = mqtt.connect(WS_MQTT_URL, {
+    const url = window.location.href;
+    const startIndex = url.indexOf('://') + 3;
+    const endIndex =
+      url.indexOf(':', startIndex) !== -1
+        ? url.indexOf(':', startIndex)
+        : url.indexOf('/', startIndex);
+    const extractedUrl = url.substring(startIndex, endIndex);
+    const mqttUrl = 'ws://' + extractedUrl + ':' + MQTT_PORT;
+    client.current = mqtt.connect(mqttUrl, {
       clientId,
       username,
       password,
