@@ -204,7 +204,7 @@ const TableList: React.FC = () => {
           const data = {
             ...params,
             type: params?.type ? params.type : 0,
-            history_id: params?.history_id ? params.history_id : 0,
+            history_id: -1,
             start_time: params?.start_time ? params.start_time : '',
             end_time: params?.end_time ? params.end_time : '',
             platform: params?.uav_id ? params.uav_id : 0,

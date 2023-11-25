@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-22 14:51:44
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-25 14:19:59
+ * @LastEditTime: 2023-11-25 15:04:37
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\AlertList\history.tsx
  * @Description:
  *
@@ -30,7 +30,7 @@ export default () => {
     });
     dispatch({
       type: 'dashboardModel/changecurrentFlyingid',
-      payload: data.fly_id,
+      payload: data.id,
     });
   };
   const [currentList, setcurrentList] = useState([]);

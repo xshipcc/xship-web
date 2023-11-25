@@ -130,7 +130,7 @@ const App: React.FC = () => {
       creator: 'string',
     },
   ]);
-
+  const [currentListInfo, setcurrentListInfo] = useState({ total: 9, current: 1, pageSize: 9 });
   /**
    *
    * 获取当前的航线信息并且更新航线数据
@@ -147,7 +147,14 @@ const App: React.FC = () => {
       //   console.log('res.data.map -> item:', item);
       //   return item;
       // });
-      setDataSource(res.data);
+      if (res?.data) {
+        // @ts-ignore
+        setcurrentListInfo((info) => {
+          info.total = res.total;
+          return info;
+        });
+        setDataSource(res.data);
+      }
       return true;
     } catch (error) {
       console.log('fetchFlyData -> error:', error);
@@ -157,7 +164,7 @@ const App: React.FC = () => {
 
   // 获取航线数据列表
   useEffect(() => {
-    fetchFlyData({ pageSize: 10, current: 1 });
+    fetchFlyData({ pageSize: 9, current: 1 });
   }, []);
 
   /**
@@ -660,6 +667,13 @@ const App: React.FC = () => {
           pagination={{
             pageSize: 9,
             showSizeChanger: false,
+            defaultCurrent: 1,
+            onChange: (param) => {
+              console.log('param:', param);
+              fetchFlyData({ pageSize: 9, current: param });
+              return {};
+            },
+            total: currentListInfo.total,
           }}
           components={components}
           rowClassName={() => 'editable-row'}

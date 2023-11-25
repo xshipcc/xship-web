@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-25 13:36:50
+ * @LastEditTime: 2023-11-25 17:08:12
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\right.tsx
  * @Description:
  *
@@ -39,7 +39,10 @@ const AwarenessRight: React.FC = () => {
   const handleClick = () => {
     // setShowDetail(!showDetail);
     console.log('showDetail:', showDetail);
-
+    dispatch({
+      type: 'dashboardModel/changeDestoryTackSignal',
+      payload: [true],
+    });
     dispatch({
       type: 'dashboardModel/changeshowDetail',
       payload: !showDetail,
@@ -120,7 +123,7 @@ const AwarenessRight: React.FC = () => {
           <Row className={styles.timeLine}>
             <Col span={24}>
               <TimeLine client={client} />
-              {showDetail ? (
+              {showDetail || currentFlyingid != -1 ? (
                 <Row className={styles.playButton}>
                   <Col span={8}>
                     <Button

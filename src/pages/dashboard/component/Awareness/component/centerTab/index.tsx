@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-25 14:40:51
+ * @LastEditTime: 2023-11-25 17:02:32
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\component\centerTab\index.tsx
  * @Description:
  *
@@ -119,12 +119,13 @@ const CenterTab: React.FC = (props: any) => {
     create_time: '',
     end_time: '',
     uav_id: 0,
-    history_id: currentFlyingid,
     // fly_id: currentFlyingid,
     operator: '',
   });
   const getHistoryList = async (params = {}) => {
     console.log('request={ -> params:', params);
+    console.log('reqParams11:', reqParams);
+
     const req = {
       ...params,
       ...reqParams,
@@ -133,21 +134,39 @@ const CenterTab: React.FC = (props: any) => {
     const res = await queryHistory(req);
     console.log('requestres:', res);
     if (res?.data) {
-      console.log('requestres:', res);
-      // loadCurrentRoad();
+      console.log('requestres1111111:', res);
+      // roadList;
+      //       roadList.map((item)=>{
+      // // if( res.data[0].uav_id)
+      //       })
+      const resRoad = await queryFly(params);
+      resRoad.data.map((item: any) => {
+        if ((item.id = res.data[0].uav_id)) {
+          console.log('resRoad.data.map -> item:', item);
+          setcurrentRoad(JSON.parse(item.data));
+        }
+      });
+      // res.data[0].map(() => {
+      //   setcurrentRoad(JSON.parse(params));
+      // });
+      loadCurrentRoad();
     }
     console.log('currentList={ -> res:', res);
 
     // return { data: currentList };
   };
   useEffect(() => {
+    console.log('reqParams11:', currentFlyingid);
+
     if (currentFlyingid != -1) {
-      setreqParams((item: any) => {
-        item.history_id = currentFlyingid;
-        console.log('setreqParams -> item:', item);
-        return item;
-      });
-      getHistoryList({ pageSize: 10, current: 1 });
+      if (currentFlyingid != currentFlyingid) {
+        getHistoryList({ pageSize: 10, current: 1, history_id: currentFlyingid });
+      }
+      // setreqParams((item: any) => {
+      //   item.history_id = currentFlyingid;
+      //   console.log(' reqParams11-> item:', item);
+      //   return item;
+      // });
     }
   }, [currentFlyingid]);
 
