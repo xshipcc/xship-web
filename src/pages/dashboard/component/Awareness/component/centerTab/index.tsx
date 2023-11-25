@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-24 18:29:24
+ * @LastEditTime: 2023-11-25 10:19:23
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\component\centerTab\index.tsx
  * @Description:
  *
@@ -67,7 +67,7 @@ const CenterTab: React.FC = (props: any) => {
     }
   };
   useEffect(() => {
-    fetchFlyData({ pageSize: 10, current: 1 });
+    fetchFlyData({ pageSize: 100, current: 1 });
   }, []);
 
   const handleChange = (params: string) => {
@@ -207,6 +207,10 @@ const CenterTab: React.FC = (props: any) => {
     console.log('sendMqttControl -> controlInfo:', JSON.stringify(controlInfo));
     client.current.publish('control', JSON.stringify(controlInfo));
   };
+
+  // useEffect(() => {
+  //   sendMqttControl('pause', 'player');
+  // }, []);
 
   const RenderButtonList = (params: any[], type: string) =>
     params?.map((item: any) => (
@@ -579,12 +583,6 @@ const CenterTab: React.FC = (props: any) => {
                                 clearInterval(timerId);
                               });
                             }}
-                            // onClick={() => {
-                            //   const value = ValueFocus - 1;
-                            //   setValueFocus(value);
-
-                            //   sendMqttControl('focus-', 'monitor');
-                            // }}
                           />
                           {/* <input
                             type="number"

@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-22 14:51:44
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-07 16:38:01
+ * @LastEditTime: 2023-11-25 09:58:56
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Monitor\component\video\index.tsx
  * @Description:
  *
@@ -39,8 +39,16 @@ export default () => {
    * @function :
    */
   //#region -------------------------------------------------------------------------
-  const [reqParams, setreqParams] = useState({});
+  const [reqParams, setreqParams] = useState({
+    type: 0,
+    platform: 0,
+    confirm: 0,
+    start_time: '',
+    end_time: '',
+    history_id: 1,
+  });
   const [currentList, setcurrentList] = useState([]);
+  const [currentListInfo, setcurrentListInfo] = useState({ total: 10, current: 1, pageSize: 6 });
 
   const getList = async (params = {}) => {
     console.log('request={ -> params:', params);
@@ -50,7 +58,13 @@ export default () => {
     };
     const res = await queryCameras(req);
     // @ts-ignore
-    if (res?.data) setcurrentList(res.data);
+    if (res?.data) {
+      setcurrentList(res.data);
+      setcurrentListInfo((info) => {
+        info.total = res.total;
+        return info;
+      });
+    }
     console.log('currentList={ -> res:', res);
     console.log('currentList:', currentList);
 
@@ -63,12 +77,12 @@ export default () => {
   }, []);
 
   const onChangePicker: DatePickerProps['onChange'] = (date, dateString) => {
-    console.log(date, dateString);
+    console.log('onChange', date, dateString);
     // reqParams.start_time = dateString;
     setreqParams(reqParams);
   };
   const onChangeSelector = (value: number) => {
-    console.log('onChangeSelector -> value:', value);
+    console.log('onChange -> value:', value);
     // reqParams.type = value;
     setreqParams(reqParams);
   };
@@ -128,6 +142,13 @@ export default () => {
         pagination={{
           pageSize: 6,
           showSizeChanger: false,
+          defaultCurrent: 1,
+          onChange: (param) => {
+            console.log('param:', param);
+            getList({ pageSize: 6, current: param });
+            return {};
+          },
+          total: currentListInfo.total,
         }}
         className={styles.list}
         dataSource={currentList}

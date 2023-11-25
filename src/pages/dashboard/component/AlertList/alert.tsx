@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-22 14:51:44
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-24 14:37:32
+ * @LastEditTime: 2023-11-25 10:15:12
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\AlertList\alert.tsx
  * @Description:
  *
@@ -108,19 +108,23 @@ export default () => {
    * @function :
    */
   //#region -------------------------------------------------------------------------
+  const currentFlyingid = useSelector((state: any) => state.dashboardModel.currentFlyingid);
+
   const [reqParams, setreqParams] = useState({
     type: 0,
     platform: 0,
     confirm: 0,
     start_time: '',
     end_time: '',
-    history_id: 1,
+    history_id: currentFlyingid,
   });
   const [currentList, setcurrentList] = useState([]);
   const [currentListInfo, setcurrentListInfo] = useState({ total: 10, current: 1, pageSize: 7 });
 
   const getList = async (params = {}) => {
     console.log('request={ -> params:', params);
+    console.log('reqParams:', reqParams);
+
     const req = {
       ...params,
       ...reqParams,
@@ -230,10 +234,10 @@ export default () => {
 
   const showAlertPosition = (item: any) => {
     console.log('onChangeSelector -> value:', item);
-    dispatch({
-      type: 'dashboardModel/saveAlertData',
-      payload: item,
-    });
+    // dispatch({
+    //   type: 'dashboardModel/saveAlertData',
+    //   payload: item,
+    // });
   };
   //#endregion -----------------------------------------------------------------------
   /**
@@ -252,7 +256,7 @@ export default () => {
                 closeDrawer(drawerData);
               }}
             >
-              <RollbackOutlined /> 返回
+              <RollbackOutlined rev={undefined} /> 返回
             </Col>
             <Col span={10}>
               <div className={styles.title}>{drawerData.name}</div>
@@ -264,7 +268,7 @@ export default () => {
                 saveDrawer(drawerData);
               }}
             >
-              <CheckOutlined />
+              <CheckOutlined rev={undefined} />
               保存
             </Col>
           </Row>

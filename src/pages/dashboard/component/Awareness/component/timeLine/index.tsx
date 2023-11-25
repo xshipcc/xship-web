@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-18 15:51:21
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-02 12:58:12
+ * @LastEditTime: 2023-11-25 10:28:58
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\component\timeLine\index.tsx
  * @Description:
  *
@@ -17,24 +17,56 @@ const LineChart = (props: any) => {
   const initChart = () => {
     const element = document.getElementById('lineDiv');
     const myChart = echarts.init(element);
-    const data: { value: (string | number)[] }[] = [];
-    const currentTime = new Date();
-    let Hours = currentTime.getHours();
-    let minutes = currentTime.getMinutes();
-    let second = currentTime.getSeconds();
+    let data: { value: (string | number)[] }[] = [];
+    // const currentTime = new Date();
+    // let Hours = currentTime.getHours();
+    // let minutes = currentTime.getMinutes();
+    // let second = currentTime.getSeconds();
+
+    function getTimeArray(start, end) {
+      const timeArr = [];
+      const startTime = new Date(start);
+      const endTime = new Date(end);
+      let currentTime = startTime;
+
+      while (currentTime <= endTime) {
+        // 获取当前时间的小时、分钟、秒
+        const hour = currentTime.getHours();
+        const minute = currentTime.getMinutes();
+        const second = currentTime.getSeconds();
+
+        // 格式化时间
+        const timeStr = `${currentTime.getFullYear()}/${
+          currentTime.getMonth() + 1
+        }/${currentTime.getDate()} ${hour}:${minute < 10 ? '0' + minute : minute}:${
+          second < 10 ? '0' + second : second
+        }`;
+
+        // 添加到时间数组中
+        timeArr.push(timeStr);
+
+        // 将当前时间增加1分钟
+        currentTime = new Date(currentTime.getTime() + 60 * 1000);
+      }
+      console.log('getTimeArray -> timeArr:', timeArr);
+      data = timeArr;
+      return timeArr;
+    }
+
+    getTimeArray('2023-11-25 00:00:00', '2023-11-25 01:00:00');
     function randomData() {
       const value = Math.random() * 10;
       second += 0.5;
       return ['2023-11-1' + ' ' + Hours + ':' + minutes + ':' + second];
     }
     // 7200 一个小时
-    for (let i = 0; i < 72; i++) {
-      if (i % 120 == 0) minutes += 1;
-      if (i % 7200 == 0) minutes = 0;
-      if (i % 7200 == 0) Hours += 1;
-      if (i % 120 == 0) second = 0;
-      data.push(randomData());
-    }
+    // for (let i = 0; i < 72; i++) {
+    //   if (i % 120 == 0) minutes += 1;
+    //   if (i % 7200 == 0) minutes = 0;
+    //   if (i % 7200 == 0) Hours += 1;
+    //   if (i % 120 == 0) second = 0;
+    //   data.push(randomData());
+    // }
     console.log('initChart -> data:', data);
 
     // const data1 = [
@@ -46,44 +78,6 @@ const LineChart = (props: any) => {
     //   ['2019-11-2 15:00:20', 22],
     // ];
     const option = {
-      // tooltip: {
-      //   title: {
-      //     show: false, // 隐藏标题
-      //   },
-      //   trigger: 'axis',
-      //   formatter: function (params: any[]) {
-      //     // eslint-disable-next-line no-param-reassign
-      //     params = params[0];
-      //     const date = new Date(params.name);
-      //     return (
-      //       date.getDate() +
-      //       '/' +
-      //       (date.getMonth() + 1) +
-      //       '/' +
-      //       date.getFullYear() +
-      //       ' : ' +
-      //       params.value[1]
-      //     );
-      //   },
-      //   axisPointer: {
-      //     animation: false,
-      //   },
-      // },
-      //   axisLine: {
-      //     lineStyle: {
-      //       color: '#050c12',
-      //       opacity: 1,
-      //     },
-      //     show: true,
-      //   },
-      //   splitLine: {
-      //     lineStyle: {
-      //       color: '#050c12',
-      //       opacity: 1,
-      //     },
-      //     show: true,
-      //   },
-
       dataZoom: [
         {
           textStyle: {
@@ -182,7 +176,7 @@ const LineChart = (props: any) => {
           },
         ],
       });
-    }, 1000);
+    }, 60000);
   };
 
   useEffect(() => {

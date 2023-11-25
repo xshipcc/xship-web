@@ -79,7 +79,7 @@ const AwarenessCenter: React.FC = () => {
       takeoff: { data: 'on' },
       return: { data: 'on' },
       lock: { data: 'on' },
-      historyID: { data: 'id' },
+      historyID: { data: -1 },
       mode: { data: 'on' },
       light: { data: 'on' },
     },
@@ -101,7 +101,7 @@ const AwarenessCenter: React.FC = () => {
   const handleForceupdateMethod = useForceUpdate();
   const dispatch = useDispatch();
   useEffect(() => {
-    if (dashboardState.drone.historyID === -1) {
+    if (dashboardState.drone.historyID.data === -1) {
       dispatch({
         type: 'dashboardModel/changecurrentFlyingid',
         payload: dashboardState.drone.historyID,
