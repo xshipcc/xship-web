@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-18 15:51:21
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-25 10:28:58
+ * @LastEditTime: 2023-11-25 10:50:47
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\component\timeLine\index.tsx
  * @Description:
  *
@@ -14,14 +14,28 @@ import React, { useEffect } from 'react';
 import styles from './index.less';
 
 const LineChart = (props: any) => {
+  const client = props.client;
+
+  const sendMqttControl = (param: any, type: string, data: any) => {
+    let controlInfo = {
+      cmd: 'default',
+      data: 'on',
+    };
+
+    controlInfo = {
+      cmd: type + '/' + param,
+      data: data,
+    };
+
+    console.log('sendMqttControl -> controlInfo:', controlInfo);
+    console.log('sendMqttControl -> controlInfo:', JSON.stringify(controlInfo));
+    client.current.publish('control', JSON.stringify(controlInfo));
+  };
+
   const initChart = () => {
     const element = document.getElementById('lineDiv');
     const myChart = echarts.init(element);
     let data: { value: (string | number)[] }[] = [];
-    // const currentTime = new Date();
-    // let Hours = currentTime.getHours();
-    // let minutes = currentTime.getMinutes();
-    // let second = currentTime.getSeconds();
 
     function getTimeArray(start, end) {
       const timeArr = [];
@@ -54,35 +68,16 @@ const LineChart = (props: any) => {
     }
 
     getTimeArray('2023-11-25 00:00:00', '2023-11-25 01:00:00');
-    function randomData() {
-      const value = Math.random() * 10;
-      second += 0.5;
-      return ['2023-11-1' + ' ' + Hours + ':' + minutes + ':' + second];
-    }
-    // 7200 一个小时
-    // for (let i = 0; i < 72; i++) {
-    //   if (i % 120 == 0) minutes += 1;
-    //   if (i % 7200 == 0) minutes = 0;
-    //   if (i % 7200 == 0) Hours += 1;
-    //   if (i % 120 == 0) second = 0;
-    //   data.push(randomData());
-    // }
+
     console.log('initChart -> data:', data);
 
-    // const data1 = [
-    //   ['2019-11-1 08:00:20', 123],
-    //   ['2019-11-1 09:00:20', 55],
-    //   ['2019-11-1 11:00:20', 23],
-    //   ['2019-11-2 08:00:20', 123],
-    //   ['2019-11-2 12:00:20', 552],
-    //   ['2019-11-2 15:00:20', 22],
-    // ];
     const option = {
       dataZoom: [
         {
           textStyle: {
             color: '#65d5ff',
           },
+          realtime: false,
           type: 'slider',
           show: true,
           height: 15,
@@ -159,6 +154,7 @@ const LineChart = (props: any) => {
     };
     // 绑定 dataZoom 缩放事件
     myChart.on('datazoom', function (params) {
+      sendMqttControl('player', 'player', params.start);
       console.log('datazoom:', params);
     });
 

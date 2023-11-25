@@ -2,14 +2,14 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-06 08:37:45
+ * @LastEditTime: 2023-11-25 11:01:27
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\right.tsx
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
 import { Button, Col, Row, Select } from 'antd';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './right.less';
 import AlertList from '@/pages/dashboard/component/AlertList/alert';
 import HistoryList from '@/pages/dashboard/component/AlertList/history';
@@ -17,6 +17,7 @@ import Title from '../common/Title';
 import TimeLine from './component/timeLine';
 import { FastForwardOutlined, SwapOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector } from 'umi';
+import * as mqtt from 'mqtt';
 
 const AwarenessRight: React.FC = () => {
   /**
@@ -56,6 +57,63 @@ const AwarenessRight: React.FC = () => {
   const onChangeSelector = (value: string) => {
     console.log('onChangeSelector -> value:', value);
   };
+
+  const def: any = '';
+  const client = useRef(def);
+  const sendMqttControl = (param: any, type: string, data: any) => {
+    let controlInfo = {
+      cmd: 'default',
+      data: 'on',
+    };
+
+    controlInfo = {
+      cmd: type + '/' + param,
+      data: data,
+    };
+
+    console.log('sendMqttControl -> controlInfo:', controlInfo);
+    console.log('sendMqttControl -> controlInfo:', JSON.stringify(controlInfo));
+    client.current.publish('control', JSON.stringify(controlInfo));
+  };
+  useEffect(() => {
+    const clientId = 'awareness' + Math.random().toString(16).substring(2, 8);
+    const username = 'emqx_test';
+    const password = 'emqx_test';
+    const url = window.location.href;
+    const startIndex = url.indexOf('://') + 3;
+    const endIndex =
+      url.indexOf(':', startIndex) !== -1
+        ? url.indexOf(':', startIndex)
+        : url.indexOf('/', startIndex);
+    const extractedUrl = url.substring(startIndex, endIndex);
+    const mqttUrl = 'ws://' + extractedUrl + ':' + MQTT_PORT;
+    client.current = mqtt.connect(mqttUrl, {
+      clientId,
+      username,
+      password,
+      // ...other options
+    });
+    const mqttSub = (subscription: { topic: any; qos: any }) => {
+      if (client) {
+        const { topic, qos } = subscription;
+        client.current.subscribe(topic, { qos }, (error: any) => {
+          if (error) {
+            console.log('Subscribe to topics error', error);
+            return;
+          }
+          console.log(`Subscribe to topics: ${topic}`);
+        });
+      }
+    };
+    mqttSub({ topic: 'control', qos: 0 });
+
+    return () => {
+      if (client.current) client.current.end();
+    };
+  }, []);
+  const [pause, setpause] = useState(true);
+  const [speed, setspeed] = useState(1);
+
   return (
     <>
       <div className={styles.content}>
@@ -63,7 +121,7 @@ const AwarenessRight: React.FC = () => {
           <Title title={'当前航线进度'} />
           <Row className={styles.timeLine}>
             <Col span={24}>
-              <TimeLine />
+              <TimeLine client={client} />
               {showDetail ? (
                 <Row className={styles.playButton}>
                   <Col span={8}>
@@ -71,6 +129,7 @@ const AwarenessRight: React.FC = () => {
                       type="text"
                       onClick={() => {
                         ChangeComponent('Awareness');
+                        sendMqttControl('play', 'player', 'on');
                       }}
                     >
                       播放
@@ -81,9 +140,11 @@ const AwarenessRight: React.FC = () => {
                       type="text"
                       onClick={() => {
                         ChangeComponent('Awareness');
+                        setpause(!pause);
+                        sendMqttControl('pause', 'player', pause ? 'on' : 'off');
                       }}
                     >
-                      暂停
+                      {pause ? '暂停' : '继续'}
                     </Button>
                   </Col>
                   <Col span={8}>
@@ -91,9 +152,16 @@ const AwarenessRight: React.FC = () => {
                       type="text"
                       onClick={() => {
                         ChangeComponent('Awareness');
+                        setspeed((item) => {
+                          // eslint-disable-next-line @typescript-eslint/no-unused-expressions, no-param-reassign
+                          item === 1 ? (item = 2) : item === 2 ? (item = 4) : (item = 1);
+                          return item;
+                        });
+                        sendMqttControl('speed', 'player', speed);
                       }}
                     >
-                      <FastForwardOutlined />
+                      <FastForwardOutlined rev={undefined} />
+                      {speed === 1 ? 'x1' : speed === 2 ? 'x2' : 'x4'}
                     </Button>
                   </Col>
                 </Row>
