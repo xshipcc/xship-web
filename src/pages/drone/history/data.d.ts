@@ -38,6 +38,7 @@ export interface ListUavHistoryReqType {
   end_time?: string; // 结束时间
   uav_id?: number; // 无人机id
   fly_id?: number; // 巡检路线id
+  history_id?: number; // 巡检路线id
 }
 
 export interface ListUavHistoryDataType {

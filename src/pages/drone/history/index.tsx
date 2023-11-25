@@ -113,6 +113,7 @@ const FlashPromotionList: React.FC = () => {
           console.log('request={ -> params:', params);
           const data = {
             ...params,
+            history_id: -1,
             create_time: params?.create_time ? params.create_time : '',
             end_time: params?.end_time ? params.end_time : '',
             operator: params?.operator ? params.operator : '',

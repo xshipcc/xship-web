@@ -136,14 +136,14 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
         >
           <Input id="update-title" placeholder={'请输入无人机图片'} />
         </FormItem> */}
-        <FormItem label="无人机图片" name="uav_icon" getValueFromEvent={normFile}>
+        {/* <FormItem label="无人机图片" name="uav_icon" getValueFromEvent={normFile}>
           <Upload action="/upload.do" listType="picture-card">
             <div>
               <PlusOutlined />
               <div style={{ marginTop: 8 }}>上传</div>
             </div>
           </Upload>
-        </FormItem>
+        </FormItem> */}
         <FormItem id="plan" label="飞行计划时间">
           {/* <RangePicker onChange={onChange} /> */}
           <Button type="primary" onClick={() => handleCronVisible(true)}>

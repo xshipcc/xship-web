@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-24 17:10:46
+ * @LastEditTime: 2023-11-25 14:15:06
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\center.tsx
  * @Description:
  *
@@ -101,7 +101,7 @@ const AwarenessCenter: React.FC = () => {
   const handleForceupdateMethod = useForceUpdate();
   const dispatch = useDispatch();
   useEffect(() => {
-    if (dashboardState.drone.historyID.data === -1) {
+    if (dashboardState.drone.historyID.data !== -1) {
       dispatch({
         type: 'dashboardModel/changecurrentFlyingid',
         payload: dashboardState.drone.historyID,

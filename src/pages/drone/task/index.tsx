@@ -116,13 +116,13 @@ const FlashPromotionList: React.FC = () => {
       title: '无人机id',
       dataIndex: 'uav_id',
     },
-    {
-      title: '无人机图片',
-      dataIndex: 'uav_icon',
-      valueType: 'image',
-      fieldProps: { width: 100, height: 80 },
-      hideInSearch: true,
-    },
+    // {
+    //   title: '无人机图片',
+    //   dataIndex: 'uav_icon',
+    //   valueType: 'image',
+    //   fieldProps: { width: 100, height: 80 },
+    //   hideInSearch: true,
+    // },
     {
       title: '飞行计划时间',
       dataIndex: 'plan',

@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-25 10:19:23
+ * @LastEditTime: 2023-11-25 14:40:51
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\component\centerTab\index.tsx
  * @Description:
  *
@@ -32,6 +32,7 @@ import Title from '../../../common/Title';
 import { useDispatch, useSelector } from 'umi';
 import Dialog from '../dialog';
 import AwarenessButton from '../button';
+import { queryHistory } from '@/pages/drone/history/service';
 
 const CenterTab: React.FC = (props: any) => {
   console.log('props:', props.dashboardinfo);
@@ -43,6 +44,7 @@ const CenterTab: React.FC = (props: any) => {
   const [ValueFocus, setValueFocus] = useState(1);
   const [roadList, setroadList] = useState([{ value: 'demo', label: 'demo' }]);
   const [currentRoad, setcurrentRoad] = useState<any>([]);
+  const currentFlyingid = useSelector((state: any) => state.dashboardModel.currentFlyingid);
 
   /**
    *
@@ -111,6 +113,43 @@ const CenterTab: React.FC = (props: any) => {
     client.current.publish('control', JSON.stringify(controlInfo));
     client.current.publish('control', JSON.stringify(controlInfoCircle));
   };
+  const [reqParams, setreqParams] = useState({
+    platform: 0,
+    confirm: 0,
+    create_time: '',
+    end_time: '',
+    uav_id: 0,
+    history_id: currentFlyingid,
+    // fly_id: currentFlyingid,
+    operator: '',
+  });
+  const getHistoryList = async (params = {}) => {
+    console.log('request={ -> params:', params);
+    const req = {
+      ...params,
+      ...reqParams,
+    };
+
+    const res = await queryHistory(req);
+    console.log('requestres:', res);
+    if (res?.data) {
+      console.log('requestres:', res);
+      // loadCurrentRoad();
+    }
+    console.log('currentList={ -> res:', res);
+
+    // return { data: currentList };
+  };
+  useEffect(() => {
+    if (currentFlyingid != -1) {
+      setreqParams((item: any) => {
+        item.history_id = currentFlyingid;
+        console.log('setreqParams -> item:', item);
+        return item;
+      });
+      getHistoryList({ pageSize: 10, current: 1 });
+    }
+  }, [currentFlyingid]);
 
   const sendCircle = () => {
     // const data = { data: 'on' };
@@ -209,6 +248,7 @@ const CenterTab: React.FC = (props: any) => {
   };
 
   // useEffect(() => {
+
   //   sendMqttControl('pause', 'player');
   // }, []);
 

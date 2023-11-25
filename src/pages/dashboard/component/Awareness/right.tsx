@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-25 11:01:27
+ * @LastEditTime: 2023-11-25 13:36:50
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\right.tsx
  * @Description:
  *
@@ -61,12 +61,8 @@ const AwarenessRight: React.FC = () => {
   const def: any = '';
   const client = useRef(def);
   const sendMqttControl = (param: any, type: string, data: any) => {
-    let controlInfo = {
-      cmd: 'default',
-      data: 'on',
-    };
-
-    controlInfo = {
+    console.log('sendMqttControl -> data:', data);
+    const controlInfo = {
       cmd: type + '/' + param,
       data: data,
     };
@@ -113,6 +109,8 @@ const AwarenessRight: React.FC = () => {
   }, []);
   const [pause, setpause] = useState(true);
   const [speed, setspeed] = useState(1);
+  const currentFlyingid = useSelector((state: any) => state.dashboardModel.currentFlyingid);
+  console.log('ChangeComponent -> currentFlyingid:', currentFlyingid);
 
   return (
     <>
@@ -129,7 +127,8 @@ const AwarenessRight: React.FC = () => {
                       type="text"
                       onClick={() => {
                         ChangeComponent('Awareness');
-                        sendMqttControl('play', 'player', 'on');
+                        // @ts-ignore
+                        sendMqttControl('play', 'player', currentFlyingid.data);
                       }}
                     >
                       播放

@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-22 14:51:44
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-25 10:13:21
+ * @LastEditTime: 2023-11-25 14:19:59
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\AlertList\history.tsx
  * @Description:
  *
@@ -47,7 +47,8 @@ export default () => {
     create_time: '',
     end_time: '',
     uav_id: 0,
-    fly_id: 0,
+    fly_id: -1,
+    history_id: -1,
     operator: '',
   });
   const [currentListInfo, setcurrentListInfo] = useState({ total: 10, current: 1, pageSize: 5 });
@@ -134,6 +135,7 @@ export default () => {
                 end_time: '',
                 uav_id: 0,
                 fly_id: 0,
+                history_id: -1,
                 operator: '',
               });
               getList({ current: 1, pageSize: 5 });
