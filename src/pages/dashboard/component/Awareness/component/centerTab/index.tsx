@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-24 13:11:45
+ * @LastEditTime: 2023-11-24 18:29:24
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\component\centerTab\index.tsx
  * @Description:
  *
@@ -36,6 +36,7 @@ import AwarenessButton from '../button';
 const CenterTab: React.FC = (props: any) => {
   console.log('props:', props.dashboardinfo);
   const client = props.client;
+  let timerId = {};
 
   const [ValueView, setValueView] = useState(1);
   const [circleValue, setcircleValue] = useState(1);
@@ -168,11 +169,11 @@ const CenterTab: React.FC = (props: any) => {
       console.log('sendMqttControl -> props?.dashboardState:', props?.dashboardState);
       console.log(
         'sendMqttControl ->  props?.dashboardState[type][param]:',
-        props?.dashboardState[type][param],
+        props?.dashboardState[type][param].data,
       );
       controlInfo = {
         cmd: type + '/' + param,
-        data: props?.dashboardState[type][param] === 'on' ? 'off' : 'on',
+        data: props?.dashboardState[type][param].data,
       };
     } else {
       controlInfo = {
@@ -191,21 +192,22 @@ const CenterTab: React.FC = (props: any) => {
         data: props?.dashboardState[type][param] === 'on' ? 'manual' : 'automatic',
       };
     }
-    if (param === 'light') {
-      console.log('sendMqttControl -> props?.dashboardState:', props?.dashboardState);
-      console.log(
-        'sendMqttControl ->  props?.dashboardState[type][param]:',
-        props?.dashboardState[type][param],
-      );
-      controlInfo = {
-        cmd: type + '/' + param,
-        data: props?.dashboardState[type][param] === 'on' ? 'manual' : 'automatic',
-      };
-    }
+    // if (param === 'light') {
+    //   console.log('sendMqttControl -> props?.dashboardState:', props?.dashboardState);
+    //   console.log(
+    //     'sendMqttControl ->  props?.dashboardState[type][param]:',
+    //     props?.dashboardState[type][param],
+    //   );
+    //   controlInfo = {
+    //     cmd: type + '/' + param,
+    //     data: props?.dashboardState[type][param] === 'on' ? 'manual' : 'automatic',
+    //   };
+    // }
     console.log('sendMqttControl -> controlInfo:', controlInfo);
     console.log('sendMqttControl -> controlInfo:', JSON.stringify(controlInfo));
     client.current.publish('control', JSON.stringify(controlInfo));
   };
+
   const RenderButtonList = (params: any[], type: string) =>
     params?.map((item: any) => (
       <Row key={item.key}>
@@ -235,7 +237,9 @@ const CenterTab: React.FC = (props: any) => {
               {props?.dashboardState[type][item.key] ? (
                 <AwarenessButton
                   // @ts-ignore
-                  name={props?.dashboardState[type][item.key] === 'off' ? item.button : item.over}
+                  name={
+                    props?.dashboardState[type][item.key].data === 'on' ? item.button : item.over
+                  }
                   over={item.over}
                   url={'/demo'}
                 />
@@ -252,7 +256,32 @@ const CenterTab: React.FC = (props: any) => {
   //         ('homing_status', ctypes.c_ubyte),#归位机构状态 0锁定 1正在锁定 2打开 3正在打开
   //         ('battery_status', ctypes.c_ubyte),#充电机状态  0电源断开 1电源打开
   //         ('uavpower_status', ctypes.c_float),#无人机电源状态 0无人机下电 1无人机上电
-  const hangarInfo = (type: any) => {};
+  const Info = (type: any, key: any) => {
+    console.log('Info -> props.dashboardinfo[type][key]:', props.dashboardState['drone']['check']);
+    console.log('Info -> props.dashboardinfo[type][key]:', props.dashboardState);
+    switch (key) {
+      case 'warehouse_status':
+        return props.dashboardinfo[type][key] === 0
+          ? '舱盖关闭'
+          : props.dashboardinfo[type][key] === 1
+          ? '正在打开'
+          : '已打开';
+      case 'homing_status':
+        return props.dashboardinfo[type][key] === 0
+          ? '锁定'
+          : props.dashboardinfo[type][key] === 1
+          ? '正在锁定'
+          : props.dashboardinfo[type][key] === 2
+          ? '打开'
+          : '正在打开';
+      case 'battery_status':
+        return props.dashboardinfo[type][key] === 0 ? '电源断开 ' : '源打开';
+      case 'uavpower_status':
+        return props.dashboardinfo[type][key] === 0 ? '无人机下电' : '无人机上电';
+      default:
+        return props.dashboardinfo[type][key];
+    }
+  };
   const RenderList = (params: any[], type: string) =>
     params?.map((item: any) => (
       <Row key={item.value}>
@@ -265,8 +294,9 @@ const CenterTab: React.FC = (props: any) => {
             : item.key === 'battery_status'
             ? item.key === 'uavpower_status'
             : props.dashboardinfo[type][item.key]} */}
-          {props.dashboardinfo[type][item.key]}
-          {/* {hangarInfo(item.key)} */}
+          {/* {props.dashboardinfo[type][item.key]} */}
+
+          {Info(type, item.key)}
           {item.unit}
         </Col>
       </Row>
@@ -423,10 +453,13 @@ const CenterTab: React.FC = (props: any) => {
                     <div className="up">
                       <button
                         className="card1"
+                        onMouseUp={() => {
+                          sendMqttControl('stop', 'monitor');
+                        }}
                         onMouseDown={() => {
-                          const timerId = setInterval(() => {
+                          timerId = setInterval(() => {
                             sendMqttControl('up', 'monitor');
-                          }, 80); // 每200毫秒调用一次increaseCount函数
+                          }, 50); // 每200毫秒调用一次increaseCount函数
                           document.addEventListener('mouseup', () => clearInterval(timerId));
                         }}
                         // onClick={() => {
@@ -437,10 +470,13 @@ const CenterTab: React.FC = (props: any) => {
                       </button>
                       <button
                         className="card2"
+                        onMouseUp={() => {
+                          sendMqttControl('stop', 'monitor');
+                        }}
                         onMouseDown={() => {
-                          const timerId = setInterval(() => {
+                          timerId = setInterval(() => {
                             sendMqttControl('down', 'monitor');
-                          }, 80); // 每200毫秒调用一次increaseCount函数
+                          }, 50); // 每200毫秒调用一次increaseCount函数
                           document.addEventListener('mouseup', () => clearInterval(timerId));
                         }}
                       >
@@ -451,14 +487,16 @@ const CenterTab: React.FC = (props: any) => {
                         <div className="number-control">
                           <div
                             className="number-left"
+                            onMouseUp={() => {
+                              sendMqttControl('stop', 'monitor');
+                            }}
                             onMouseDown={() => {
-                              const timerId = setInterval(() => {
+                              timerId = setInterval(() => {
                                 setValueView((item) => item - 1);
                                 console.log('RenderComponent -> ValueView:', ValueView);
                                 sendMqttControl('view-', 'monitor');
                               }, 80); // 每200毫秒调用一次increaseCount函数
                               document.addEventListener('mouseup', () => {
-                                sendMqttControl('stop', 'monitor');
                                 clearInterval(timerId);
                               });
                             }}
@@ -477,14 +515,16 @@ const CenterTab: React.FC = (props: any) => {
                           /> */}
                           <div
                             className="number-right"
+                            onMouseUp={() => {
+                              sendMqttControl('stop', 'monitor');
+                            }}
                             onMouseDown={() => {
-                              const timerId = setInterval(() => {
+                              timerId = setInterval(() => {
                                 setValueView((item) => item + 1);
                                 console.log('RenderComponent -> ValueView:', ValueView);
                                 sendMqttControl('view+', 'monitor');
                               }, 80); // 每200毫秒调用一次increaseCount函数
                               document.addEventListener('mouseup', () => {
-                                sendMqttControl('stop', 'monitor');
                                 clearInterval(timerId);
                               });
                             }}
@@ -495,10 +535,13 @@ const CenterTab: React.FC = (props: any) => {
                     <div className="down">
                       <button
                         className="card3"
+                        onMouseUp={() => {
+                          sendMqttControl('stop', 'monitor');
+                        }}
                         onMouseDown={() => {
-                          const timerId = setInterval(() => {
+                          timerId = setInterval(() => {
                             sendMqttControl('left', 'monitor');
-                          }, 80); // 每200毫秒调用一次increaseCount函数
+                          }, 50); // 每200毫秒调用一次increaseCount函数
                           document.addEventListener('mouseup', () => clearInterval(timerId));
                         }}
                       >
@@ -506,10 +549,13 @@ const CenterTab: React.FC = (props: any) => {
                       </button>
                       <button
                         className="card4"
+                        onMouseUp={() => {
+                          sendMqttControl('stop', 'monitor');
+                        }}
                         onMouseDown={() => {
-                          const timerId = setInterval(() => {
+                          timerId = setInterval(() => {
                             sendMqttControl('right', 'monitor');
-                          }, 80); // 每200毫秒调用一次increaseCount函数
+                          }, 50); // 每200毫秒调用一次increaseCount函数
                           document.addEventListener('mouseup', () => clearInterval(timerId));
                         }}
                       >
@@ -520,14 +566,16 @@ const CenterTab: React.FC = (props: any) => {
                         <div className="number-control">
                           <div
                             className="number-left"
+                            onMouseUp={() => {
+                              sendMqttControl('stop', 'monitor');
+                            }}
                             onMouseDown={() => {
-                              const timerId = setInterval(() => {
+                              timerId = setInterval(() => {
                                 console.log('timerId -> ValueFocus:', ValueFocus);
                                 setValueFocus((item) => item - 1);
                                 sendMqttControl('focus-', 'monitor');
                               }, 80); // 每200毫秒调用一次increaseCount函数
                               document.addEventListener('mouseup', () => {
-                                sendMqttControl('stop', 'monitor');
                                 clearInterval(timerId);
                               });
                             }}
@@ -546,14 +594,16 @@ const CenterTab: React.FC = (props: any) => {
                           /> */}
                           <div
                             className="number-right"
+                            onMouseUp={() => {
+                              sendMqttControl('stop', 'monitor');
+                            }}
                             onMouseDown={() => {
-                              const timerId = setInterval(() => {
+                              timerId = setInterval(() => {
                                 console.log('timerId -> ValueFocus:', ValueFocus);
                                 setValueFocus((item) => item + 1);
                                 sendMqttControl('focus+', 'monitor');
                               }, 80); // 每200毫秒调用一次increaseCount函数
                               document.addEventListener('mouseup', () => {
-                                sendMqttControl('stop', 'monitor');
                                 clearInterval(timerId);
                               });
                             }}

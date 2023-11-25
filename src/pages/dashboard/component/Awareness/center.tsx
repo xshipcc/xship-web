@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-24 09:10:01
+ * @LastEditTime: 2023-11-24 17:10:46
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\center.tsx
  * @Description:
  *
@@ -72,30 +72,30 @@ const AwarenessCenter: React.FC = () => {
       gps_speed: 0,
     },
   });
-  const [dashboardState, setdashboardState] = useState<dashboardStateType>({
+  const [dashboardState, setdashboardState] = useState({
     drone: {
-      check: 'off',
-      unlock: 'off',
-      takeoff: 'off',
-      return: 'off',
-      lock: 'off',
-      mode: 'off',
-      historyID: -1,
-      light: 'off',
+      check: { data: 'on' },
+      unlock: { data: 'on' },
+      takeoff: { data: 'on' },
+      return: { data: 'on' },
+      lock: { data: 'on' },
+      historyID: { data: 'id' },
+      mode: { data: 'on' },
+      light: { data: 'on' },
     },
     monitor: {
-      video: 'off',
-      positioning: 'off',
+      video: { data: 'on' },
+      positioning: { data: 'on' },
     },
     hangar: {
-      hatch: 'off',
-      charging: 'off',
-      mechanism: 'off',
+      hatch: { data: 'on' },
+      charging: { data: 'on' },
+      mechanism: { data: 'on' },
     },
     player: {
-      play: 'off',
-      pause: 'off',
-      speed: '1',
+      play: { data: 'HistoryID' },
+      pause: { data: 'on' },
+      speed: { data: '1/2/4/6' },
     },
   });
   const handleForceupdateMethod = useForceUpdate();
@@ -168,11 +168,7 @@ const AwarenessCenter: React.FC = () => {
         // const jsonObject = JSON.parse(mqttMessage);
         const jsonObject = JSON.parse(mqttMessage);
         console.log('client.current.on -> jsonObject:', jsonObject);
-        setdashboardState((item: dashboardStateType) => {
-          item[jsonObject.type] = jsonObject.data;
-          console.log('setdashboardState -> item:', item);
-          return item;
-        });
+        setdashboardState(jsonObject);
         handleForceupdateMethod();
 
         // console.log('client.on -> jsonObject:', jsonObject);

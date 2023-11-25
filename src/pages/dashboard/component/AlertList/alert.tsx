@@ -203,6 +203,10 @@ export default () => {
           console.log('client -> item:', item);
           return [...item, demo];
         });
+        setcurrentListInfo((info) => {
+          info.total += 1;
+          return info;
+        });
       }
     });
 

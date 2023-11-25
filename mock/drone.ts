@@ -286,7 +286,7 @@ export default {
         },
       ],
       current: 1,
-      pageSize: 10,
+      pageSize: 5,
       success: true,
       total: 100,
       code: '200',

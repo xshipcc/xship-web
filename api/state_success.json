@@ -6,7 +6,9 @@
     "return": { "data": "on" },
     "lock": { "data": "on" },
     "mode": { "data": "on" },
-    "light": { "data": "on" }
+    "light": { "data": "on" },
+    "historyID": { "data": "id" }
+
   },
   "monitor": {
     "video": { "data": "on" },
@@ -52,20 +54,3 @@
     "speed": { "data": "1/2/4/6" }
   }
 }
-
-// 格式
-{
-  "type": "drone",
-  "data": {
-    "check": "on",
-    "unlock": "on",
-    "takeoff": "on",
-    "return": "on",
-    "lock": "on",
-    "mode": "on",
-    "light": "on"
-  }
-}
-
-
-

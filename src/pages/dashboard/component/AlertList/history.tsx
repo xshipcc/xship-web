@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-22 14:51:44
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-07 15:54:27
+ * @LastEditTime: 2023-11-24 15:04:30
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\AlertList\history.tsx
  * @Description:
  *
@@ -46,6 +46,19 @@ export default () => {
     fly_id: 0,
     operator: '',
   });
+  const [currentListInfo, setcurrentListInfo] = useState({ total: 10, current: 1, pageSize: 5 });
+
+  // const getList = async (params = {}) => {
+  //   console.log('request={ -> params:', params);
+  //   const req = {
+  //     ...params,
+  //     ...reqParams,
+  //   };
+  //   // @ts-ignore
+  //   const res = await queryHistory(req);
+  //   if (res?.data) setcurrentList(res.data);
+  // };
+
   const getList = async (params = {}) => {
     console.log('request={ -> params:', params);
     const req = {
@@ -53,8 +66,21 @@ export default () => {
       ...reqParams,
     };
     // @ts-ignore
-    const res = await queryHistory(req);
-    if (res?.data) setcurrentList(res.data);
+    const res: ListAlertHistoryRespType = await queryHistory(req);
+    console.log('requestres:', res);
+    if (res?.data) {
+      // @ts-ignore
+      setcurrentList(res.data);
+      // @ts-ignore
+      setcurrentListInfo((info) => {
+        info.total = res.total;
+        return info;
+      });
+    }
+    console.log('currentList={ -> res:', res);
+    console.log('currentList:', currentList);
+
+    // return { data: currentList };
   };
   useEffect(() => {
     getList({ pageSize: 5, current: 1 });
@@ -106,7 +132,7 @@ export default () => {
                 fly_id: 0,
                 operator: '',
               });
-              getList({ current: 1, pageSize: 7 });
+              getList({ current: 1, pageSize: 5 });
             }}
           >
             重置
@@ -116,7 +142,7 @@ export default () => {
           <Button
             type="text"
             onClick={() => {
-              getList({ current: 1, pageSize: 7 });
+              getList({ current: 1, pageSize: 5 });
             }}
           >
             查询
@@ -128,6 +154,12 @@ export default () => {
         pagination={{
           pageSize: 5,
           showSizeChanger: false,
+          defaultCurrent: 1,
+          onChange: (param) => {
+            console.log('param:', param);
+            getList({ pageSize: 5, current: param });
+          },
+          total: currentListInfo.total,
         }}
         className={styles.list}
         dataSource={currentList}
