@@ -168,6 +168,8 @@ export default () => {
         ? url.indexOf(':', startIndex)
         : url.indexOf('/', startIndex);
     const extractedUrl = url.substring(startIndex, endIndex);
+    //TODO   替换
+    // const mqttUrl = 'ws://' + '192.168.2.213' + ':' + MQTT_PORT;
     const mqttUrl = 'ws://' + extractedUrl + ':' + MQTT_PORT;
 
     client.current = mqtt.connect(mqttUrl, {

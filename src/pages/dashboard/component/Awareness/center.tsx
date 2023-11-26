@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-25 14:15:06
+ * @LastEditTime: 2023-11-25 18:10:45
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\center.tsx
  * @Description:
  *
@@ -79,7 +79,7 @@ const AwarenessCenter: React.FC = () => {
       takeoff: { data: 'on' },
       return: { data: 'on' },
       lock: { data: 'on' },
-      historyID: { data: -1 },
+      historyid: { data: -1 },
       mode: { data: 'on' },
       light: { data: 'on' },
     },
@@ -93,7 +93,7 @@ const AwarenessCenter: React.FC = () => {
       mechanism: { data: 'on' },
     },
     player: {
-      play: { data: 'HistoryID' },
+      play: { data: -1 },
       pause: { data: 'on' },
       speed: { data: '1/2/4/6' },
     },
@@ -101,13 +101,20 @@ const AwarenessCenter: React.FC = () => {
   const handleForceupdateMethod = useForceUpdate();
   const dispatch = useDispatch();
   useEffect(() => {
-    if (dashboardState.drone.historyID.data !== -1) {
+    console.log('useEffect -> dashboardState111:', dashboardState);
+
+    if (dashboardState.drone.historyid?.data !== -1) {
+      console.log(
+        'useEffect -> dashboardState.drone.historyid?.data:',
+        dashboardState.drone.historyid?.data,
+      );
+
       dispatch({
         type: 'dashboardModel/changecurrentFlyingid',
-        payload: dashboardState.drone.historyID,
+        payload: dashboardState.drone.historyid.data,
       });
     }
-  }, [dashboardState]);
+  }, [dashboardState.drone.historyid]);
   // mqtt消息接收
   useEffect(() => {
     const clientId = 'awareness' + Math.random().toString(16).substring(2, 8);
@@ -120,7 +127,10 @@ const AwarenessCenter: React.FC = () => {
         ? url.indexOf(':', startIndex)
         : url.indexOf('/', startIndex);
     const extractedUrl = url.substring(startIndex, endIndex);
+    //TODO   替换
+    // const mqttUrl = 'ws://' + '192.168.2.213' + ':' + MQTT_PORT;
     const mqttUrl = 'ws://' + extractedUrl + ':' + MQTT_PORT;
+
     client.current = mqtt.connect(mqttUrl, {
       clientId,
       username,

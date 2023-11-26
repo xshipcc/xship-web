@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-25 15:20:37
+ * @LastEditTime: 2023-11-27 01:16:31
  * @FilePath: \zero-admin-ui-master\config\config.ts
  * @Description:
  *
@@ -47,13 +47,10 @@ export default defineConfig({
     // 部署端
     // MAP_TERRAIN_URL: '/terrain',
     // MAP_TILES_URL: '/luquantile/{z}/{x}/{y}.png',
-    // BASE_IMAGE_URL: 'http://ai.javodata.com', //图片路径地址
     MQTT_PORT: '8883/mqtt',
     // 本地测试端
-    // VIDEO_URL: 'http://127.0.0.1:8880/live/test.live.flv',
     MAP_TERRAIN_URL: 'http://ai.javodata.com/terrain',
     MAP_TILES_URL: 'http://ai.javodata.com/luquantile/{z}/{x}/{y}.png',
-    // BASE_IMAGE_URL: 'http://ai.javodata.com', //图片路径地址
   },
   hash: true,
 
@@ -94,7 +91,8 @@ export default defineConfig({
   ignoreMomentLocale: true,
   proxy: {
     '/api': {
-      target: 'http://192.168.2.213:80',
+      // target: 'http://192.168.2.213:80',
+      target: 'http://47.243.162.50:8888',
       changeOrigin: true,
       // "pathRewrite": { "^/api": "" }
     },

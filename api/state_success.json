@@ -51,6 +51,6 @@
   "player": {
     "play": { "data":"HistoryID" },
     "pause": { "data": "off" },
-    "speed": { "data": "1/2/4/6" }
+    "speed": { "data": 1 }
   }
 }

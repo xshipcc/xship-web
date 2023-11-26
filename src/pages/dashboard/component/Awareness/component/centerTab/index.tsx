@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-25 17:02:32
+ * @LastEditTime: 2023-11-27 01:09:18
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\component\centerTab\index.tsx
  * @Description:
  *
@@ -150,6 +150,10 @@ const CenterTab: React.FC = (props: any) => {
       //   setcurrentRoad(JSON.parse(params));
       // });
       loadCurrentRoad();
+
+      // setTimeout(() => {
+      //   loadCurrentRoad();
+      // }, 1000);
     }
     console.log('currentList={ -> res:', res);
 
@@ -159,9 +163,7 @@ const CenterTab: React.FC = (props: any) => {
     console.log('reqParams11:', currentFlyingid);
 
     if (currentFlyingid != -1) {
-      if (currentFlyingid != currentFlyingid) {
-        getHistoryList({ pageSize: 10, current: 1, history_id: currentFlyingid });
-      }
+      getHistoryList({ pageSize: 10, current: 1, history_id: currentFlyingid });
       // setreqParams((item: any) => {
       //   item.history_id = currentFlyingid;
       //   console.log(' reqParams11-> item:', item);
@@ -240,15 +242,16 @@ const CenterTab: React.FC = (props: any) => {
       };
     }
     if (param === 'mode') {
-      console.log('sendMqttControl -> props?.dashboardState:', props?.dashboardState);
+      console.log('sendMqttControlmode -> props?.dashboardState:', props?.dashboardState);
       console.log(
         'sendMqttControl ->  props?.dashboardState[type][param]:',
         props?.dashboardState[type][param],
       );
       controlInfo = {
         cmd: type + '/' + param,
-        data: props?.dashboardState[type][param] === 'on' ? 'manual' : 'automatic',
+        data: props?.dashboardState[type][param].data !== 'on' ? 'manual' : 'automatic',
       };
+      console.log('sendMqttControl -> controlInfo:', controlInfo);
     }
     // if (param === 'light') {
     //   console.log('sendMqttControl -> props?.dashboardState:', props?.dashboardState);
@@ -501,7 +504,103 @@ const CenterTab: React.FC = (props: any) => {
             <div className={styles.board}>
               <Row>
                 {/*  */}
-                <Col span={5}>{RenderList(monitorList, 'monitor')}</Col>
+                <Col span={5}>
+                  {RenderList(monitorList, 'monitor')}
+                  <Row>
+                    <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
+                      视场变倍
+                    </Col>
+                    <Col span={12} style={{ color: 'white' }}>
+                      <div className="number-control">
+                        <div
+                          className="number-left"
+                          onMouseUp={() => {
+                            sendMqttControl('stop', 'monitor');
+                          }}
+                          onMouseDown={() => {
+                            timerId = setInterval(() => {
+                              setValueView((item) => item - 1);
+                              console.log('RenderComponent -> ValueView:', ValueView);
+                              sendMqttControl('view-', 'monitor');
+                            }, 80); // 每200毫秒调用一次increaseCount函数
+                            document.addEventListener('mouseup', () => {
+                              clearInterval(timerId);
+                            });
+                          }}
+                          // onClick={() => {
+                          //   const value = ValueView - 1;
+                          //   setValueView(value);
+                          //   console.log('RenderComponent -> ValueView:', ValueView);
+                          //   sendMqttControl('view', 'monitor');
+                          // }}
+                        />
+                        {/* <input
+          type="number"
+          value={ValueView}
+          name="number"
+          className="number-quantity"
+        /> */}
+                        <div
+                          className="number-right"
+                          onMouseUp={() => {
+                            sendMqttControl('stop', 'monitor');
+                          }}
+                          onMouseDown={() => {
+                            timerId = setInterval(() => {
+                              setValueView((item) => item + 1);
+                              console.log('RenderComponent -> ValueView:', ValueView);
+                              sendMqttControl('view+', 'monitor');
+                            }, 80); // 每200毫秒调用一次increaseCount函数
+                            document.addEventListener('mouseup', () => {
+                              clearInterval(timerId);
+                            });
+                          }}
+                        />
+                      </div>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
+                      焦距设置
+                    </Col>
+                    <Col span={12} style={{ color: 'white' }}>
+                      <div className="number-control">
+                        <div
+                          className="number-left"
+                          onMouseUp={() => {
+                            sendMqttControl('stop', 'monitor');
+                          }}
+                          onMouseDown={() => {
+                            timerId = setInterval(() => {
+                              console.log('timerId -> ValueFocus:', ValueFocus);
+                              setValueFocus((item) => item - 1);
+                              sendMqttControl('focus-', 'monitor');
+                            }, 80); // 每200毫秒调用一次increaseCount函数
+                            document.addEventListener('mouseup', () => {
+                              clearInterval(timerId);
+                            });
+                          }}
+                        />
+                        <div
+                          className="number-right"
+                          onMouseUp={() => {
+                            sendMqttControl('stop', 'monitor');
+                          }}
+                          onMouseDown={() => {
+                            timerId = setInterval(() => {
+                              console.log('timerId -> ValueFocus:', ValueFocus);
+                              setValueFocus((item) => item + 1);
+                              sendMqttControl('focus+', 'monitor');
+                            }, 80); // 每200毫秒调用一次increaseCount函数
+                            document.addEventListener('mouseup', () => {
+                              clearInterval(timerId);
+                            });
+                          }}
+                        />
+                      </div>
+                    </Col>
+                  </Row>
+                </Col>
                 {/*  */}
                 <Col span={5}>
                   {RenderList(monitorTFList, 'monitor')}
@@ -512,161 +611,64 @@ const CenterTab: React.FC = (props: any) => {
                   {RenderButtonList(monitorButtonList1, 'monitor')}
                 </Col>
                 <Col span={7} offset={1}>
-                  <div className="main">
-                    <div className="up">
-                      <button
-                        className="card1"
-                        onMouseUp={() => {
-                          sendMqttControl('stop', 'monitor');
-                        }}
-                        onMouseDown={() => {
-                          timerId = setInterval(() => {
-                            sendMqttControl('up', 'monitor');
-                          }, 50); // 每200毫秒调用一次increaseCount函数
-                          document.addEventListener('mouseup', () => clearInterval(timerId));
-                        }}
-                        // onClick={() => {
-                        //   sendMqttControl('up', 'monitor');
-                        // }}
-                      >
-                        上
-                      </button>
-                      <button
-                        className="card2"
-                        onMouseUp={() => {
-                          sendMqttControl('stop', 'monitor');
-                        }}
-                        onMouseDown={() => {
-                          timerId = setInterval(() => {
-                            sendMqttControl('down', 'monitor');
-                          }, 50); // 每200毫秒调用一次increaseCount函数
-                          document.addEventListener('mouseup', () => clearInterval(timerId));
-                        }}
-                      >
-                        下
-                      </button>
-                      <div>
-                        <div>视场变倍</div>
-                        <div className="number-control">
-                          <div
-                            className="number-left"
-                            onMouseUp={() => {
-                              sendMqttControl('stop', 'monitor');
-                            }}
-                            onMouseDown={() => {
-                              timerId = setInterval(() => {
-                                setValueView((item) => item - 1);
-                                console.log('RenderComponent -> ValueView:', ValueView);
-                                sendMqttControl('view-', 'monitor');
-                              }, 80); // 每200毫秒调用一次increaseCount函数
-                              document.addEventListener('mouseup', () => {
-                                clearInterval(timerId);
-                              });
-                            }}
-                            // onClick={() => {
-                            //   const value = ValueView - 1;
-                            //   setValueView(value);
-                            //   console.log('RenderComponent -> ValueView:', ValueView);
-                            //   sendMqttControl('view', 'monitor');
-                            // }}
-                          />
-                          {/* <input
-                            type="number"
-                            value={ValueView}
-                            name="number"
-                            className="number-quantity"
-                          /> */}
-                          <div
-                            className="number-right"
-                            onMouseUp={() => {
-                              sendMqttControl('stop', 'monitor');
-                            }}
-                            onMouseDown={() => {
-                              timerId = setInterval(() => {
-                                setValueView((item) => item + 1);
-                                console.log('RenderComponent -> ValueView:', ValueView);
-                                sendMqttControl('view+', 'monitor');
-                              }, 80); // 每200毫秒调用一次increaseCount函数
-                              document.addEventListener('mouseup', () => {
-                                clearInterval(timerId);
-                              });
-                            }}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div className="down">
-                      <button
-                        className="card3"
-                        onMouseUp={() => {
-                          sendMqttControl('stop', 'monitor');
-                        }}
-                        onMouseDown={() => {
-                          timerId = setInterval(() => {
-                            sendMqttControl('left', 'monitor');
-                          }, 50); // 每200毫秒调用一次increaseCount函数
-                          document.addEventListener('mouseup', () => clearInterval(timerId));
-                        }}
-                      >
-                        左
-                      </button>
-                      <button
-                        className="card4"
-                        onMouseUp={() => {
-                          sendMqttControl('stop', 'monitor');
-                        }}
-                        onMouseDown={() => {
-                          timerId = setInterval(() => {
-                            sendMqttControl('right', 'monitor');
-                          }, 50); // 每200毫秒调用一次increaseCount函数
-                          document.addEventListener('mouseup', () => clearInterval(timerId));
-                        }}
-                      >
-                        右
-                      </button>
-                      <div>
-                        <div>焦距设置</div>
-                        <div className="number-control">
-                          <div
-                            className="number-left"
-                            onMouseUp={() => {
-                              sendMqttControl('stop', 'monitor');
-                            }}
-                            onMouseDown={() => {
-                              timerId = setInterval(() => {
-                                console.log('timerId -> ValueFocus:', ValueFocus);
-                                setValueFocus((item) => item - 1);
-                                sendMqttControl('focus-', 'monitor');
-                              }, 80); // 每200毫秒调用一次increaseCount函数
-                              document.addEventListener('mouseup', () => {
-                                clearInterval(timerId);
-                              });
-                            }}
-                          />
-                          {/* <input
-                            type="number"
-                            name="number"
-                            value={ValueFocus}
-                            className="number-quantity"
-                          /> */}
-                          <div
-                            className="number-right"
-                            onMouseUp={() => {
-                              sendMqttControl('stop', 'monitor');
-                            }}
-                            onMouseDown={() => {
-                              timerId = setInterval(() => {
-                                console.log('timerId -> ValueFocus:', ValueFocus);
-                                setValueFocus((item) => item + 1);
-                                sendMqttControl('focus+', 'monitor');
-                              }, 80); // 每200毫秒调用一次increaseCount函数
-                              document.addEventListener('mouseup', () => {
-                                clearInterval(timerId);
-                              });
-                            }}
-                          />
-                        </div>
-                      </div>
+                  <div className="control-wrapper">
+                    <div
+                      className="control-btn control-top"
+                      onMouseUp={() => {
+                        sendMqttControl('stop', 'monitor');
+                      }}
+                      onMouseDown={() => {
+                        timerId = setInterval(() => {
+                          sendMqttControl('up', 'monitor');
+                        }, 50); // 每200毫秒调用一次increaseCount函数
+                        document.addEventListener('mouseup', () => clearInterval(timerId));
+                      }}
+                      // onClick={() => {
+                      //   sendMqttControl('up', 'monitor');
+                      // }}
+                    />
+                    <div
+                      className="control-btn control-bottom"
+                      onMouseUp={() => {
+                        sendMqttControl('stop', 'monitor');
+                      }}
+                      onMouseDown={() => {
+                        timerId = setInterval(() => {
+                          sendMqttControl('down', 'monitor');
+                        }, 50); // 每200毫秒调用一次increaseCount函数
+                        document.addEventListener('mouseup', () => clearInterval(timerId));
+                      }}
+                    />
+                    <div
+                      className="control-btn control-left"
+                      onMouseUp={() => {
+                        sendMqttControl('stop', 'monitor');
+                      }}
+                      onMouseDown={() => {
+                        timerId = setInterval(() => {
+                          sendMqttControl('left', 'monitor');
+                        }, 50); // 每200毫秒调用一次increaseCount函数
+                        document.addEventListener('mouseup', () => clearInterval(timerId));
+                      }}
+                    />
+                    <div
+                      className="control-btn control-right"
+                      onMouseUp={() => {
+                        sendMqttControl('stop', 'monitor');
+                      }}
+                      onMouseDown={() => {
+                        timerId = setInterval(() => {
+                          sendMqttControl('right', 'monitor');
+                        }, 50); // 每200毫秒调用一次increaseCount函数
+                        document.addEventListener('mouseup', () => clearInterval(timerId));
+                      }}
+                    />
+                    {/* <div className="control-btn control-top"></div>
+                    <div className="control-btn control-left"> </div>
+                    <div className="control-btn control-bottom"></div>
+                    <div className="control-btn control-right"></div> */}
+                    <div className="control-round">
+                      <div className="control-round-inner" />
                     </div>
                   </div>
                 </Col>

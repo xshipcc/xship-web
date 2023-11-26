@@ -22,8 +22,12 @@ const startIndex = url.indexOf('://') + 3;
 const endIndex =
   url.indexOf(':', startIndex) !== -1 ? url.indexOf(':', startIndex) : url.indexOf('/', startIndex);
 const extractedUrl = url.substring(startIndex, endIndex);
+
+//TODO   替换
+// const mqttUrl = 'ws://' + '192.168.2.213' + ':' + MQTT_PORT;
 const mqttUrl = 'ws://' + extractedUrl + ':' + MQTT_PORT;
-console.log('location:', mqttUrl);
+
+// console.log('location:', mqttUrl);
 console.log('location.herf:', window.location.href);
 
 const client = mqtt.connect(mqttUrl, {
@@ -476,6 +480,7 @@ const Map: React.FC = () => {
       const originPosition = point._position.getValue(viewer.current.clock.currentTime);
       console.log('useEffect -> originPosition:', originPosition);
       function updatePosition(coord) {
+        console.log('updatePosition -> coord:', coord);
         const Degrees = Cesium.Cartesian3.fromDegrees(
           coord.lon + 0.0062,
           coord.lat + 0.0019,

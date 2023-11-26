@@ -83,15 +83,14 @@ const Login: React.FC = () => {
         <video className={styles.video} autoPlay loop muted>
           <source src={'/video-bg.mp4'} className={styles.video} type={'video/mp4'} />
         </video>
-        {/* <div className={styles.top}>
+        <div className={styles.top}>
           <div className={styles.title}>无人机巡检系统</div>
-          <div className={styles.subtitle}>javodata</div>
-        </div> */}
+        </div>
 
         <div className={styles.content}>
           <LoginForm
             className={styles.loginForm}
-            title={'无人机巡检系统'}
+            title={' '}
             initialValues={{
               autoLogin: true,
             }}
