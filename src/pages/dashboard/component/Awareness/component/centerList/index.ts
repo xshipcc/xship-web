@@ -70,19 +70,19 @@ export const hangarInfoList1 = [
     unit: '°C',
   },
   {
-    key: `battery_status`,
+    key: `charge`,
     value: `电池状态`,
     unit: '',
   },
 ];
 export const hangarInfoList2 = [
   {
-    key: `warehouse_status`,
+    key: `hatch`,
     value: `舱盖状态`,
     unit: '',
   },
   {
-    key: `homing_status`,
+    key: `homing`,
     value: `归位机构状态`,
     unit: ' ',
   },

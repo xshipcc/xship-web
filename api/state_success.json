@@ -36,7 +36,7 @@
     "return": { "data": "off" },
     "lock": { "data": "off" },
     "mode": { "data": "off" },
-    "historyid": { "data": "id" },
+    "historyid": { "data": 2 },
     "light": { "data": "off" }
   },
   "monitor": {

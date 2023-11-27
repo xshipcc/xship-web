@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-18 15:51:21
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-25 10:50:47
+ * @LastEditTime: 2023-11-27 13:10:21
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\component\timeLine\index.tsx
  * @Description:
  *
@@ -12,9 +12,11 @@
 import * as echarts from 'echarts';
 import React, { useEffect } from 'react';
 import styles from './index.less';
+import { useSelector, useDispatch } from 'umi';
 
 const LineChart = (props: any) => {
   const client = props.client;
+  const currentHistoryData = useSelector((state: any) => state.dashboardModel.currentHistoryData);
 
   const sendMqttControl = (param: any, type: string, data: any) => {
     let controlInfo = {
@@ -67,7 +69,8 @@ const LineChart = (props: any) => {
       return timeArr;
     }
 
-    getTimeArray('2023-11-25 00:00:00', '2023-11-25 01:00:00');
+    // getTimeArray('2023-11-25 00:00:00', '2023-11-25 01:00:00');
+    getTimeArray(currentHistoryData.create_time, currentHistoryData.end_time);
 
     console.log('initChart -> data:', data);
 
@@ -99,7 +102,7 @@ const LineChart = (props: any) => {
           },
           zoomLock: true, //锁定选择的区域，不可以缩放，只能平移。不设置的话直接有默认值就行。
           start: 0, // 缩放范围的起始位置，数值表示对应 x 轴上的索引
-          end: 10, // 缩放范围的结束位置，数值表示对应 x 轴上的索引
+          end: 0, // 缩放范围的结束位置，数值表示对应 x 轴上的索引
         },
       ],
       grid: {
@@ -172,7 +175,7 @@ const LineChart = (props: any) => {
           },
         ],
       });
-    }, 60000);
+    }, 1000);
   };
 
   useEffect(() => {

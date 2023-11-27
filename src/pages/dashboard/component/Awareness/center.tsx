@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-27 11:14:53
+ * @LastEditTime: 2023-11-27 12:35:53
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\center.tsx
  * @Description:
  *
@@ -15,7 +15,7 @@ import { ControlOutlined } from '@ant-design/icons';
 import RenderComponent from './component/centerTab';
 import type { DashboardinfoType, dashboardStateType } from './data';
 import * as mqtt from 'mqtt';
-import { useDispatch } from 'umi';
+import { useDispatch, useSelector } from 'umi';
 
 function useForceUpdate() {
   const [value, setState] = useState(true);
@@ -41,37 +41,38 @@ const AwarenessCenter: React.FC = () => {
 
   const client = useRef(def);
 
-  const [dashboardinfo, setdashboardinfo] = useState<DashboardinfoType>({
-    monitor: {
-      lat: 0,
-      lon: 0,
-      target_height: 0,
-      tf_usage: 0,
-      tf_total: 0,
-    },
-    hangar: {
-      battery_v: 0,
-      battery_temp: 0,
-      warehouse_status: 0,
-      battery_status: 0,
-      homing_status: 0,
-      uavpower_status: 0,
-    },
-    drone: {
-      lat: 0,
-      lon: 0,
-      height: 0,
-      pitch: 0,
-      trajectory: 0,
-      roll_angle: 0,
-      rel_height: 0,
-      target_height: 0,
-      fly_time: 0,
-      fly_distance: 0,
-      speed: 0,
-      gps_speed: 0,
-    },
-  });
+  // const dashboardinfo = {
+  //   monitor: {
+  //     lat: 0,
+  //     lon: 0,
+  //     target_height: 0,
+  //     tf_usage: 0,
+  //     tf_total: 0,
+  //   },
+  //   hangar: {
+  //     battery_v: 0,
+  //     battery_temp: 0,
+  //     hatch: 0,
+  //     charge: 0,
+  //     homing: 0,
+  //     uavpower_status: 0,
+  //   },
+  //   drone: {
+  //     lat: 0,
+  //     lon: 0,
+  //     height: 0,
+  //     pitch: 0,
+  //     trajectory: 0,
+  //     roll_angle: 0,
+  //     rel_height: 0,
+  //     target_height: 0,
+  //     fly_time: 0,
+  //     fly_distance: 0,
+  //     speed: 0,
+  //     gps_speed: 0,
+  //   },
+  // };
+
   const [dashboardState, setdashboardState] = useState({
     drone: {
       check: { data: 'on' },
@@ -115,6 +116,7 @@ const AwarenessCenter: React.FC = () => {
       });
     }
   }, [dashboardState.drone.historyid]);
+
   // mqtt消息接收
   useEffect(() => {
     const clientId = 'awareness' + Math.random().toString(16).substring(2, 8);
@@ -156,27 +158,31 @@ const AwarenessCenter: React.FC = () => {
     setTimeout(() => {
       mqttSub({ topic: 'state', qos: 0 });
     }, 1500);
+    const dashboardinfo = {};
 
     client.current.on('message', (topic: string, mqttMessage: any) => {
       if (topic === 'info') {
         // const jsonObject = JSON.parse(mqttMessage);
         const jsonObject = JSON.parse(mqttMessage);
-        console.log('client.current.on -> jsonObject:', jsonObject);
+        console.log('dashboardinfo2', jsonObject);
+        console.log('dashboardinfo2', dashboardinfo[jsonObject.type]);
+        // dashboardinfo[jsonObject.type] = jsonObject.data;
+        console.log('client.current.on -> dashboardinfo2:', dashboardinfo);
+
         dispatch({
           type: 'dashboardModel/changedashboardinfoMqtt',
           payload: jsonObject,
         });
-        setdashboardinfo((item: DashboardinfoType) => {
-          item[jsonObject.type] = jsonObject.data;
-          console.log('setdashboardinfo -> item:', item);
-          console.log('dashboardinfo:', dashboardinfo);
 
-          console.log('setdashboardinfo -> item[jsonObject.type]:', item[jsonObject.type]);
-          return item;
-        });
+        // setdashboardinfo((item: any) => {
+        //   item[jsonObject.type] = jsonObject.data;
+        //   console.log('setdashboardinfo -> item:', item);
+        //   console.log('dashboardinfo:', dashboardinfo);
+
+        //   console.log('setdashboardinfo -> item[jsonObject.type]:', item[jsonObject.type]);
+        //   return item;
+        // });
         handleForceupdateMethod();
-        // console.log('client.on -> jsonObject:', jsonObject);
-        // setDroneData(JSON.parse(mqttMessage));
       }
       if (topic === 'state') {
         // const jsonObject = JSON.parse(mqttMessage);
@@ -219,7 +225,6 @@ const AwarenessCenter: React.FC = () => {
                   <RenderComponent
                     // @ts-ignore
                     component={activeTab}
-                    dashboardinfo={dashboardinfo}
                     dashboardState={dashboardState}
                     client={client}
                   />
@@ -233,7 +238,6 @@ const AwarenessCenter: React.FC = () => {
                   <RenderComponent
                     // @ts-ignore
                     component={activeTab}
-                    dashboardinfo={dashboardinfo}
                     dashboardState={dashboardState}
                     client={client}
                   />
@@ -247,7 +251,6 @@ const AwarenessCenter: React.FC = () => {
                   <RenderComponent
                     // @ts-ignore
                     component={activeTab}
-                    dashboardinfo={dashboardinfo}
                     dashboardState={dashboardState}
                     client={client}
                   />

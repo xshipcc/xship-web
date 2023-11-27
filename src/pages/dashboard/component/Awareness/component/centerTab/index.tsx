@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-27 11:27:17
+ * @LastEditTime: 2023-11-27 12:53:09
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\component\centerTab\index.tsx
  * @Description:
  *
@@ -35,12 +35,10 @@ import AwarenessButton from '../button';
 import { queryHistory } from '@/pages/drone/history/service';
 
 const CenterTab: React.FC = (props: any) => {
-  console.log('props:', props.dashboardinfo);
   const client = props.client;
-  let timerId = {};
+  let timerId: any = {};
 
   const [ValueView, setValueView] = useState(1);
-  // const [dashboardinfoMqtt, setdashboardinfoMqtt] = useState(props.dashboardinfo);
   const [circleValue, setcircleValue] = useState(1);
   const [ValueFocus, setValueFocus] = useState(1);
   const [roadList, setroadList] = useState([{ value: 'demo', label: 'demo' }]);
@@ -49,40 +47,40 @@ const CenterTab: React.FC = (props: any) => {
   const dashboardinfoMqtt = useSelector((state: any) => state.dashboardModel.dashboardinfoMqtt);
 
   useEffect(() => {
-    console.log('dashboardinfoMqtt1111:', dashboardinfoMqtt);
+    console.log('dashboardinfoMqtt111111111:', dashboardinfoMqtt);
 
     return () => {};
   }, [dashboardinfoMqtt]);
   const Info = (type: any, key: any) => {
     console.log('dashboardinfoMqtt:', dashboardinfoMqtt);
 
-    console.log('dashboardinfoMqtt:', dashboardinfoMqtt.data[key]);
+    console.log('dashboardinfoMqtt:', dashboardinfoMqtt[type][key]);
 
     switch (key) {
-      case 'warehouse_status':
-        console.log('dashboardinfoMqtt1111:', dashboardinfoMqtt.data[key]);
-        return dashboardinfoMqtt.data[key] === 0
+      case 'hatch':
+        console.log('dashboardinfoMqtt1111:', dashboardinfoMqtt[type][key]);
+        return dashboardinfoMqtt[type][key] === 0
           ? '舱盖关闭'
-          : dashboardinfoMqtt.data[key] === 1
+          : dashboardinfoMqtt[type][key] === 1
           ? '正在打开'
           : '已打开';
-      case 'homing_status':
-        console.log('dashboardinfoMqtt1111:', dashboardinfoMqtt.data[key]);
-        return dashboardinfoMqtt.data[key] === 0
+      case 'homing':
+        console.log('dashboardinfoMqtt1111:', dashboardinfoMqtt[type][key]);
+        return dashboardinfoMqtt[type][key] === 0
           ? '锁定'
-          : dashboardinfoMqtt.data[key] === 1
+          : dashboardinfoMqtt[type][key] === 1
           ? '正在锁定'
-          : dashboardinfoMqtt.data[key] === 2
+          : dashboardinfoMqtt[type][key] === 2
           ? '打开'
           : '正在打开';
-      case 'battery_status':
-        console.log('dashboardinfoMqtt1111:', dashboardinfoMqtt.data[key]);
-        return dashboardinfoMqtt.data[key] === 0 ? '电源断开 ' : '电源打开';
+      case 'charge':
+        console.log('dashboardinfoMqtt1111:', dashboardinfoMqtt[type][key]);
+        return dashboardinfoMqtt[type][key] === 0 ? '电源断开 ' : '电源打开';
       case 'uavpower_status':
-        console.log('dashboardinfoMqtt1111:', dashboardinfoMqtt.data[key]);
-        return dashboardinfoMqtt.data[key] === 0 ? '无人机下电' : '无人机上电';
+        console.log('dashboardinfoMqtt1111:', dashboardinfoMqtt[type][key]);
+        return dashboardinfoMqtt[type][key] === 0 ? '无人机下电' : '无人机上电';
       default:
-        return dashboardinfoMqtt.data[key];
+        return dashboardinfoMqtt[type][key];
     }
   };
   const RenderList = (params: any[], type: string) =>
@@ -93,7 +91,7 @@ const CenterTab: React.FC = (props: any) => {
         </Col>
         <Col span={12} style={{ color: 'white' }}>
           {/* {dashboardinfoMqtt.data[item.key]} */}
-          {Info('drone', item.key)}
+          {Info(type, item.key)}
           {item.unit}
         </Col>
       </Row>
@@ -187,6 +185,10 @@ const CenterTab: React.FC = (props: any) => {
     console.log('requestres:', res);
     if (res?.data) {
       console.log('requestres1111111:', res);
+      dispatch({
+        type: 'dashboardModel/changecurrentHistoryData',
+        payload: res.data[0],
+      });
       // roadList;
       //       roadList.map((item)=>{
       // // if( res.data[0].uav_id)
@@ -384,9 +386,9 @@ const CenterTab: React.FC = (props: any) => {
             <div className={styles.board}>
               <Row>
                 {/*  */}
-                <Col span={5}>{RenderList(droneInfoList, 'drone', dashboardinfoMqtt)}</Col>
+                <Col span={5}>{RenderList(droneInfoList, 'drone')}</Col>
                 {/*  */}
-                <Col span={5}>{RenderList(droneStateList, 'drone', dashboardinfoMqtt)}</Col>
+                <Col span={5}>{RenderList(droneStateList, 'drone')}</Col>
                 {/*  */}
                 <Col span={5}>{RenderButtonList(droneButtonList1, 'drone')}</Col>
                 <Col span={8} offset={1}>
@@ -496,9 +498,9 @@ const CenterTab: React.FC = (props: any) => {
             <div className={styles.board}>
               <Row>
                 {/*  */}
-                <Col span={5}>{RenderList(hangarInfoList1, 'hangar', dashboardinfoMqtt)}</Col>
+                <Col span={5}>{RenderList(hangarInfoList1, 'hangar')}</Col>
                 {/*  */}
-                <Col span={5}>{RenderList(hangarInfoList2, 'hangar', dashboardinfoMqtt)}</Col>
+                <Col span={5}>{RenderList(hangarInfoList2, 'hangar')}</Col>
                 {/*  */}
                 <Col span={5}>{RenderButtonList(hangarButtonList1, 'hangar')}</Col>
               </Row>
@@ -513,7 +515,7 @@ const CenterTab: React.FC = (props: any) => {
               <Row>
                 {/*  */}
                 <Col span={5}>
-                  {RenderList(monitorList, 'monitor', dashboardinfoMqtt)}
+                  {RenderList(monitorList, 'monitor')}
                   <Row>
                     <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
                       视场变倍
@@ -611,7 +613,7 @@ const CenterTab: React.FC = (props: any) => {
                 </Col>
                 {/*  */}
                 <Col span={5}>
-                  {RenderList(monitorTFList, 'monitor', dashboardinfoMqtt)}
+                  {RenderList(monitorTFList, 'monitor')}
                   {RenderButtonList(monitorButtonList2, 'monitor')}
                 </Col>
                 {/*  */}

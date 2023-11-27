@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-16 18:32:55
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-27 11:12:39
+ * @LastEditTime: 2023-11-27 13:06:04
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\model.ts
  * @Description:
  *
@@ -57,6 +57,7 @@ export interface DashboardState {
   currentFlyingid: number;
   showDetail: boolean;
   dashboardinfoMqtt: {};
+  currentHistoryData: any;
 }
 export interface DashboardModelType {
   namespace: 'dashboardModel';
@@ -78,6 +79,7 @@ export interface DashboardModelType {
     changeshowDetail: ImmerReducer<boolean> | any;
     changecurrentFlyingid: ImmerReducer<boolean> | any;
     changedashboardinfoMqtt: ImmerReducer<boolean> | any;
+    changecurrentHistoryData: ImmerReducer<boolean> | any;
   };
   effects: {
     fetchDashboardInfo: Effect;
@@ -155,60 +157,43 @@ const CompanyModel: DashboardModelType = {
     currentFlyingRoad: [],
     currentFlyingid: -1,
     showDetail: false,
+    currentHistoryData: {
+      create_time: '2023-12-1 12:36:41',
+      end_time: '2023-12-1 13:38:39',
+      fly_id: 81,
+      id: 87,
+      operator: '叶勇',
+      uav_id: 83,
+    },
     dashboardinfoMqtt: {
-      type: 'drone',
-      data: {
-        temp: 0,
-        eng: 0,
-        v: 0,
-        a: 0,
-        offset_staus: 0,
-        speed: 0,
+      monitor: {
+        lat: 0,
+        lon: 0,
+        target_height: 0,
+        tf_usage: 0,
+        tf_total: 0,
+      },
+      hangar: {
+        battery_v: 0,
+        battery_temp: 0,
+        hatch: 0,
+        charge: 0,
+        homing: 0,
+        uavpower_status: 0,
+      },
+      drone: {
         lat: 0,
         lon: 0,
         height: 0,
-        rel_height: 0,
-        real_height: 0,
-        target_speed: 0,
-        gps_speed: 0,
-        trajectory: 0,
         pitch: 0,
+        trajectory: 0,
         roll_angle: 0,
-        fu_wing: 0,
-        updown: 0,
-        speedup: 0,
-        toward: 0,
-        lock: 0,
-        toward_angle: 0,
-        fly_ctl: 0,
-        staus: 0,
-        fly_status: 0,
-        gps_lost: 0,
-        link_lost: 0,
-        area: 0,
-        turns_done: 0,
-        turns_todo: 0,
-        fly_distance: 0,
-        fly_time: 0,
-        target_point: 0,
+        rel_height: 0,
         target_height: 0,
-        target_angle: 0,
-        stay_time: 0,
-        flyctl_v: 0,
-        engine_v: 0,
-        gps_stars: 0,
-        year: 0,
-        month: 0,
-        day: 0,
-        hour: 0,
-        min: 0,
-        sec: 0,
-        flyctl_temp: 0,
-        offset_dist: 0,
-        HDOP: 0,
-        VDOP: 0,
-        SDOP: 0,
-        height_cm: 0,
+        fly_time: 0,
+        fly_distance: 0,
+        speed: 0,
+        gps_speed: 0,
       },
     },
   },
@@ -272,8 +257,14 @@ const CompanyModel: DashboardModelType = {
     changeshowDetail(state: DashboardState, action: { payload: boolean }) {
       state.showDetail = action.payload;
     },
-    changedashboardinfoMqtt(state: DashboardState, action: { payload: {} }) {
-      state.dashboardinfoMqtt = action.payload;
+    changecurrentHistoryData(state: DashboardState, action: { payload: boolean }) {
+      state.currentHistoryData = action.payload;
+      console.log('changecurrentHistoryData -> action.payload:', state.currentHistoryData);
+    },
+    changedashboardinfoMqtt(state: DashboardState, action: { payload: any }) {
+      state.dashboardinfoMqtt[action.payload.type] = action.payload.data;
+      console.log('changedashboardinfoMqtt -> state.dashboardinfoMqtt:', state.dashboardinfoMqtt);
+      console.log('changedashboardinfoMqtt -> dashboardinfoMqtt:', action.payload);
     },
   },
   effects: {

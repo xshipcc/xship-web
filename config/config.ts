@@ -45,12 +45,12 @@ export default defineConfig({
   define: {
     CESIUM_BASE_URL: '/', //cesium默认路径地址配置，没改好,这个地址相对于路由
     // 部署端
-    // MAP_TERRAIN_URL: '/terrain',
-    // MAP_TILES_URL: '/luquantile/{z}/{x}/{y}.png',
-    MQTT_PORT: '8083/mqtt',
+    MAP_TERRAIN_URL: '/terrain',
+    MAP_TILES_URL: '/luquantile/{z}/{x}/{y}.png',
+    MQTT_PORT: '8883/mqtt',
     // 本地测试端
-    MAP_TERRAIN_URL: 'http://ai.javodata.com/terrain',
-    MAP_TILES_URL: 'http://ai.javodata.com/luquantile/{z}/{x}/{y}.png',
+    // MAP_TERRAIN_URL: 'http://ai.javodata.com/terrain',
+    // MAP_TILES_URL: 'http://ai.javodata.com/luquantile/{z}/{x}/{y}.png',
   },
   hash: true,
 
