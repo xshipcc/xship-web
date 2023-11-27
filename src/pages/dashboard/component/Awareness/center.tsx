@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-25 18:10:45
+ * @LastEditTime: 2023-11-27 11:14:53
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\center.tsx
  * @Description:
  *
@@ -162,6 +162,10 @@ const AwarenessCenter: React.FC = () => {
         // const jsonObject = JSON.parse(mqttMessage);
         const jsonObject = JSON.parse(mqttMessage);
         console.log('client.current.on -> jsonObject:', jsonObject);
+        dispatch({
+          type: 'dashboardModel/changedashboardinfoMqtt',
+          payload: jsonObject,
+        });
         setdashboardinfo((item: DashboardinfoType) => {
           item[jsonObject.type] = jsonObject.data;
           console.log('setdashboardinfo -> item:', item);
@@ -177,7 +181,7 @@ const AwarenessCenter: React.FC = () => {
       if (topic === 'state') {
         // const jsonObject = JSON.parse(mqttMessage);
         const jsonObject = JSON.parse(mqttMessage);
-        console.log('client.current.on -> jsonObject:', jsonObject);
+        console.log('client.current.on -> jsonObject1111:', jsonObject);
         setdashboardState(jsonObject);
         handleForceupdateMethod();
 

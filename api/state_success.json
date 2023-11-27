@@ -36,7 +36,7 @@
     "return": { "data": "off" },
     "lock": { "data": "off" },
     "mode": { "data": "off" },
-    "historyID": { "data": "id" },
+    "historyid": { "data": "id" },
     "light": { "data": "off" }
   },
   "monitor": {
@@ -49,7 +49,7 @@
     "mechanism": { "data": "off" }
   },
   "player": {
-    "play": { "data":"HistoryID" },
+    "play": { "data":"historyid" },
     "pause": { "data": "off" },
     "speed": { "data": 1 }
   }
