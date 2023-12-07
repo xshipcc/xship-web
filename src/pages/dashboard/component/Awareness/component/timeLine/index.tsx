@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-18 15:51:21
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-27 13:10:21
+ * @LastEditTime: 2023-12-07 11:22:24
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\component\timeLine\index.tsx
  * @Description:
  *
@@ -157,7 +157,7 @@ const LineChart = (props: any) => {
     };
     // 绑定 dataZoom 缩放事件
     myChart.on('datazoom', function (params) {
-      sendMqttControl('player', 'player', params.start);
+      sendMqttControl('seek', 'player', params.start);
       console.log('datazoom:', params);
     });
 

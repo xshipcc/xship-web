@@ -211,9 +211,17 @@ const TableList: React.FC = () => {
             confirm: params?.fly_id ? params.fly_id : 0,
           };
           const res: ListAlertHistoryRespType = await queryAlert(data);
+          const url = window.location.href;
+          const startIndex = url.indexOf('://') + 3;
+          const endIndex =
+            url.indexOf(':', startIndex) !== -1
+              ? url.indexOf(':', startIndex)
+              : url.indexOf('/', startIndex);
+          const extractedUrl = url.substring(startIndex, endIndex);
           res.data.map((item: any) => {
             // return item;
-            return (item.image = 'http://127.0.0.1/' + item.image);
+            // return (item.image = 'http://127.0.0.1/' + item.image);
+            return (item.image = 'http://' + extractedUrl + '/' + item.image);
           });
           console.log('res.data.map -> res.data:', res.data);
           // {data: [], pageSize: 10, current: 1, total:28, success: true,}
