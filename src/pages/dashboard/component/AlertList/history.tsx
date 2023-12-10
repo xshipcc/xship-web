@@ -52,6 +52,7 @@ export default () => {
     operator: '',
   });
   const [currentListInfo, setcurrentListInfo] = useState({ total: 10, current: 1, pageSize: 5 });
+  const [showElement, setShowElement] = useState(false);
 
   // const getList = async (params = {}) => {
   //   console.log('request={ -> params:', params);
@@ -81,6 +82,7 @@ export default () => {
         info.total = res.total;
         return info;
       });
+      setShowElement(true);
     }
     console.log('currentList={ -> res:', res);
     console.log('currentList:', currentList);
@@ -156,61 +158,63 @@ export default () => {
         </Col>
       </Row>
       {/*  */}
-      <List
-        pagination={{
-          pageSize: 5,
-          showSizeChanger: false,
-          defaultCurrent: 1,
-          onChange: (param) => {
-            console.log('param:', param);
-            getList({ pageSize: 5, current: param });
-          },
-          total: currentListInfo.total,
-        }}
-        className={styles.list}
-        dataSource={currentList}
-        renderItem={(item: ListUavHistoryDataType) => (
-          <List.Item>
-            <div
-              className={styles.listinfo}
-              onClick={() => {
-                openDrawer(item);
-              }}
-            >
-              <Row>
-                <Col span={6} className={styles.historyInfoTitle}>
-                  巡检路线id:
-                </Col>
-                <Col span={6} className={styles.historyInfo}>
-                  {item.fly_id}
-                </Col>
-                <Col span={6} className={styles.historyInfoTitle}>
-                  无人机id :
-                </Col>
-                <Col span={6} className={styles.historyInfo}>
-                  {item.uav_id}
-                </Col>
-              </Row>
-              <Row>
-                <Col span={9} className={styles.historyInfoTitle}>
-                  执行时间 :
-                </Col>
-                <Col span={15} className={styles.historyInfo}>
-                  {item.create_time + '-' + item.end_time}
-                </Col>
-              </Row>
-              <Row>
-                <Col span={9} className={styles.historyInfoTitle}>
-                  操作者 :
-                </Col>
-                <Col span={15} className={styles.historyInfo}>
-                  {item.operator}
-                </Col>
-              </Row>
-            </div>
-          </List.Item>
-        )}
-      />
+      {showElement && (
+        <List
+          pagination={{
+            pageSize: 5,
+            showSizeChanger: false,
+            defaultCurrent: 1,
+            onChange: (param) => {
+              console.log('param:', param);
+              getList({ pageSize: 5, current: param });
+            },
+            total: currentListInfo.total,
+          }}
+          className={styles.list}
+          dataSource={currentList}
+          renderItem={(item: ListUavHistoryDataType) => (
+            <List.Item>
+              <div
+                className={styles.listinfo}
+                onClick={() => {
+                  openDrawer(item);
+                }}
+              >
+                <Row>
+                  <Col span={6} className={styles.historyInfoTitle}>
+                    巡检路线id:
+                  </Col>
+                  <Col span={6} className={styles.historyInfo}>
+                    {item.fly_id}
+                  </Col>
+                  <Col span={6} className={styles.historyInfoTitle}>
+                    无人机id :
+                  </Col>
+                  <Col span={6} className={styles.historyInfo}>
+                    {item.uav_id}
+                  </Col>
+                </Row>
+                <Row>
+                  <Col span={9} className={styles.historyInfoTitle}>
+                    执行时间 :
+                  </Col>
+                  <Col span={15} className={styles.historyInfo}>
+                    {item.create_time + '-' + item.end_time}
+                  </Col>
+                </Row>
+                <Row>
+                  <Col span={9} className={styles.historyInfoTitle}>
+                    操作者 :
+                  </Col>
+                  <Col span={15} className={styles.historyInfo}>
+                    {item.operator}
+                  </Col>
+                </Row>
+              </div>
+            </List.Item>
+          )}
+        />
+      )}
     </div>
   );
 };

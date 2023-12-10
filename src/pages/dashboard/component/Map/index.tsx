@@ -421,6 +421,8 @@ const Map: React.FC = () => {
       });
     }
   }, [alertData]);
+  const [showPlane, setShowPlane] = useState(false);
+
   // 无人机位置实时更新
   useEffect(() => {
     console.log(
@@ -442,7 +444,7 @@ const Map: React.FC = () => {
     //   },
     // });
 
-    if (currentComponent == 'Awareness') {
+    if (currentComponent == 'Awareness' && showPlane) {
       console.log('useEffect -> currentComponent:', currentComponent);
       const point = new Cesium.Entity({
         position: Cesium.Cartesian3.fromDegrees(
@@ -498,6 +500,10 @@ const Map: React.FC = () => {
 
       client.on('message', (topic: string, mqttMessage: any) => {
         if (topic === 'info') {
+          // 只有mqtt数据推送才实例化飞机
+          if (showPlane!) {
+            setShowPlane(true);
+          }
           const jsonObject = JSON.parse(mqttMessage);
           console.log('1jsonObject:', jsonObject);
           if (jsonObject.type != 'drone') return;

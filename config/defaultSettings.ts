@@ -23,7 +23,7 @@ const Settings: LayoutSettings & {
   colorWeak: false,
   title: '无人机巡检系统',
   pwa: false,
-  logo: 'http://ai.javodata.com/terrain/public/logo.png',
+  logo: '/logo.png',
   iconfontUrl: '',
 };
 

@@ -149,12 +149,15 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
           <Button type="primary" onClick={() => handleCronVisible(true)}>
             {CronVisible ? plan + '' : '选择计划时间'}
           </Button>
+          {/* @ts-ignore */}
           <Cron
             style={{ display: CronVisible ? 'block' : 'none', width: '370px' }}
-            value="* * * * * ? *"
+            value="* * * * *"
             onOk={(value) => {
-              console.log('cron:', value);
-              setPlan(value);
+              const value1 = value.substring(0, value.length - 3);
+              console.log('cron:', value1);
+
+              setPlan(value1);
               handleCronVisible(false);
             }}
           />

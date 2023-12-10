@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-22 14:51:44
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-12-08 16:04:55
+ * @LastEditTime: 2023-12-11 00:15:57
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\AlertList\alert.tsx
  * @Description:
  *
@@ -119,12 +119,12 @@ export default () => {
     history_id: currentFlyingid,
   });
   const [currentList, setcurrentList] = useState([]);
-  const [currentListInfo, setcurrentListInfo] = useState({ total: 10, current: 1, pageSize: 7 });
+  const [currentListInfo, setcurrentListInfo] = useState({ total: 1, current: 1, pageSize: 7 });
+  const [showElement, setShowElement] = useState(false);
 
   const getList = async (params = {}) => {
     console.log('request={ -> params:', params);
     console.log('reqParams:', reqParams);
-
     const req = {
       ...params,
       ...reqParams,
@@ -140,6 +140,7 @@ export default () => {
         info.total = res.total;
         return info;
       });
+      setShowElement(true);
     }
     console.log('currentList={ -> res:', res);
     console.log('currentList:', currentList);
@@ -204,15 +205,17 @@ export default () => {
         demo.id = currentList.length;
         demo.name = currentList.length;
         console.log('client.current.on -> demo:', demo);
-        // @ts-ignore
-        setcurrentList((item) => {
-          console.log('client -> item:', item);
-          return [...item, demo];
-        });
-        setcurrentListInfo((info) => {
-          info.total += 1;
-          return info;
-        });
+        setTimeout(() => {
+          // @ts-ignore
+          setcurrentList((item) => {
+            console.log('client -> item:', item);
+            return [...item, demo];
+          });
+          setcurrentListInfo((info) => {
+            info.total += 1;
+            return info;
+          });
+        }, 200);
       }
     });
 
@@ -425,61 +428,63 @@ export default () => {
             </Col>
           </Row>
           {/*  */}
-          <List
-            pagination={{
-              pageSize: 7,
-              showSizeChanger: false,
-              defaultCurrent: 1,
-              onChange: (param) => {
-                console.log('param:', param);
-                getList({ pageSize: 7, current: param });
-                return {};
-              },
-              total: currentListInfo.total,
-            }}
-            className={styles.list}
-            dataSource={currentList}
-            renderItem={(item: ListAlertHistoryData) => (
-              <List.Item>
-                <Row
-                  className={styles.listinfo}
-                  onClick={() => {
-                    console.log('client:', item);
-                    openDrawer(item);
-                    showAlertPosition(item);
-                  }}
-                >
-                  <Col span={7} className={styles.alertImage}>
-                    <Image preview={false} src={item.image} />
-                  </Col>
-                  <Col span={17} className={styles.alertcontent}>
-                    <p className={styles.alertTitle}>
-                      <Badge
-                        status={item.confirm ? 'success' : 'error'}
-                        text={'无人机巡检告警' + item.id}
-                      />
-                    </p>
-                    <Row>
-                      <Col span={9} className={styles.alertInfoTitle}>
-                        发现时间 :
-                      </Col>
-                      <Col span={15} className={styles.alertInfo}>
-                        {item.start_time}
-                      </Col>
-                    </Row>
-                    <Row>
-                      <Col span={9} className={styles.alertInfoTitle}>
-                        报警内容 :
-                      </Col>
-                      <Col span={15} className={styles.alertInfo}>
-                        {item.name}
-                      </Col>
-                    </Row>
-                  </Col>
-                </Row>
-              </List.Item>
-            )}
-          />
+          {showElement && (
+            <List
+              pagination={{
+                pageSize: 7,
+                showSizeChanger: false,
+                defaultCurrent: 1,
+                onChange: (param) => {
+                  console.log('param:', param);
+                  getList({ pageSize: 7, current: param });
+                  return {};
+                },
+                total: currentListInfo.total,
+              }}
+              className={styles.list}
+              dataSource={currentList}
+              renderItem={(item: ListAlertHistoryData) => (
+                <List.Item>
+                  <Row
+                    className={styles.listinfo}
+                    onClick={() => {
+                      console.log('client:', item);
+                      openDrawer(item);
+                      showAlertPosition(item);
+                    }}
+                  >
+                    <Col span={7} className={styles.alertImage}>
+                      <Image preview={false} src={item.image} />
+                    </Col>
+                    <Col span={17} className={styles.alertcontent}>
+                      <p className={styles.alertTitle}>
+                        <Badge
+                          status={item.confirm ? 'success' : 'error'}
+                          text={'无人机巡检告警' + item.id}
+                        />
+                      </p>
+                      <Row>
+                        <Col span={9} className={styles.alertInfoTitle}>
+                          发现时间 :
+                        </Col>
+                        <Col span={15} className={styles.alertInfo}>
+                          {item.start_time}
+                        </Col>
+                      </Row>
+                      <Row>
+                        <Col span={9} className={styles.alertInfoTitle}>
+                          报警内容 :
+                        </Col>
+                        <Col span={15} className={styles.alertInfo}>
+                          {item.name}
+                        </Col>
+                      </Row>
+                    </Col>
+                  </Row>
+                </List.Item>
+              )}
+            />
+          )}
         </div>
       )}
     </div>

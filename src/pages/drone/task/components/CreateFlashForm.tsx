@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-08 10:25:32
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-24 08:43:34
+ * @LastEditTime: 2023-12-11 00:28:10
  * @FilePath: \zero-admin-ui-master\src\pages\drone\task\components\CreateFlashForm.tsx
  * @Description:
  *
@@ -141,10 +141,12 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
           {/* @ts-ignore */}
           <Cron
             style={{ display: CronVisible ? 'block' : 'none', width: '370px' }}
-            value="* * * * * ? *"
+            value="* * * * *"
             onOk={(value) => {
-              console.log('cron:', value);
-              setPlan(value);
+              const value1 = value.substring(0, value.length - 3);
+              console.log('cron:', value1);
+
+              setPlan(value1);
               handleCronVisible(false);
             }}
           />
