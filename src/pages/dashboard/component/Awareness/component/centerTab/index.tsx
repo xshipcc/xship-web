@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-27 12:53:09
+ * @LastEditTime: 2023-12-11 17:42:55
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\component\centerTab\index.tsx
  * @Description:
  *
@@ -532,7 +532,7 @@ const CenterTab: React.FC = (props: any) => {
                               setValueView((item) => item - 1);
                               console.log('RenderComponent -> ValueView:', ValueView);
                               sendMqttControl('view-', 'monitor');
-                            }, 80); // 每200毫秒调用一次increaseCount函数
+                            }, 350); // 每200毫秒调用一次increaseCount函数
                             document.addEventListener('mouseup', () => {
                               clearInterval(timerId);
                             });
@@ -560,7 +560,7 @@ const CenterTab: React.FC = (props: any) => {
                               setValueView((item) => item + 1);
                               console.log('RenderComponent -> ValueView:', ValueView);
                               sendMqttControl('view+', 'monitor');
-                            }, 80); // 每200毫秒调用一次increaseCount函数
+                            }, 350); // 每200毫秒调用一次increaseCount函数
                             document.addEventListener('mouseup', () => {
                               clearInterval(timerId);
                             });
@@ -585,7 +585,7 @@ const CenterTab: React.FC = (props: any) => {
                               console.log('timerId -> ValueFocus:', ValueFocus);
                               setValueFocus((item) => item - 1);
                               sendMqttControl('focus-', 'monitor');
-                            }, 80); // 每200毫秒调用一次increaseCount函数
+                            }, 350); // 每200毫秒调用一次increaseCount函数
                             document.addEventListener('mouseup', () => {
                               clearInterval(timerId);
                             });
@@ -601,7 +601,7 @@ const CenterTab: React.FC = (props: any) => {
                               console.log('timerId -> ValueFocus:', ValueFocus);
                               setValueFocus((item) => item + 1);
                               sendMqttControl('focus+', 'monitor');
-                            }, 80); // 每200毫秒调用一次increaseCount函数
+                            }, 350); // 每200毫秒调用一次increaseCount函数
                             document.addEventListener('mouseup', () => {
                               clearInterval(timerId);
                             });
@@ -630,7 +630,7 @@ const CenterTab: React.FC = (props: any) => {
                       onMouseDown={() => {
                         timerId = setInterval(() => {
                           sendMqttControl('up', 'monitor');
-                        }, 50); // 每200毫秒调用一次increaseCount函数
+                        }, 350); // 每200毫秒调用一次increaseCount函数
                         document.addEventListener('mouseup', () => clearInterval(timerId));
                       }}
                       // onClick={() => {
@@ -645,7 +645,7 @@ const CenterTab: React.FC = (props: any) => {
                       onMouseDown={() => {
                         timerId = setInterval(() => {
                           sendMqttControl('down', 'monitor');
-                        }, 50); // 每200毫秒调用一次increaseCount函数
+                        }, 350); // 每200毫秒调用一次increaseCount函数
                         document.addEventListener('mouseup', () => clearInterval(timerId));
                       }}
                     />
@@ -657,7 +657,7 @@ const CenterTab: React.FC = (props: any) => {
                       onMouseDown={() => {
                         timerId = setInterval(() => {
                           sendMqttControl('left', 'monitor');
-                        }, 50); // 每200毫秒调用一次increaseCount函数
+                        }, 350); // 每200毫秒调用一次increaseCount函数
                         document.addEventListener('mouseup', () => clearInterval(timerId));
                       }}
                     />
@@ -669,7 +669,7 @@ const CenterTab: React.FC = (props: any) => {
                       onMouseDown={() => {
                         timerId = setInterval(() => {
                           sendMqttControl('right', 'monitor');
-                        }, 50); // 每200毫秒调用一次increaseCount函数
+                        }, 350); // 每200毫秒调用一次increaseCount函数
                         document.addEventListener('mouseup', () => clearInterval(timerId));
                       }}
                     />

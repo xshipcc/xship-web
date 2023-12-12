@@ -130,8 +130,8 @@ const AwarenessCenter: React.FC = () => {
         : url.indexOf('/', startIndex);
     const extractedUrl = url.substring(startIndex, endIndex);
     //TODO   替换
-    // const mqttUrl = 'ws://' + '192.168.2.213' + ':' + MQTT_PORT;
     const mqttUrl = 'ws://' + extractedUrl + ':' + MQTT_PORT;
+    // const mqttUrl = 'ws://192.168.8.3:8883/mqtt';
 
     client.current = mqtt.connect(mqttUrl, {
       clientId,
