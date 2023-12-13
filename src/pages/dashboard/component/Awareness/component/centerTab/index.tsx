@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-12-11 17:42:55
+ * @LastEditTime: 2023-12-13 12:42:29
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\component\centerTab\index.tsx
  * @Description:
  *
@@ -307,6 +307,18 @@ const CenterTab: React.FC = (props: any) => {
       };
       console.log('sendMqttControl -> controlInfo:', controlInfo);
     }
+    if (param === 'hatch1' || param === 'hatch2') {
+      console.log('sendMqttControlmode -> props?.dashboardState:', props?.dashboardState);
+      console.log(
+        'sendMqttControl ->  props?.dashboardState[type][param]:',
+        props?.dashboardState[type][param],
+      );
+      controlInfo = {
+        cmd: type + '/' + 'hatch',
+        data: param === 'hatch1' ? 'on' : 'off',
+      };
+      console.log('sendMqttControl -> controlInfo:', controlInfo);
+    }
     // if (param === 'light') {
     //   console.log('sendMqttControl -> props?.dashboardState:', props?.dashboardState);
     //   console.log(
@@ -502,7 +514,56 @@ const CenterTab: React.FC = (props: any) => {
                 {/*  */}
                 <Col span={5}>{RenderList(hangarInfoList2, 'hangar')}</Col>
                 {/*  */}
-                <Col span={5}>{RenderButtonList(hangarButtonList1, 'hangar')}</Col>
+                <Col span={5}>
+                  {RenderButtonList(hangarButtonList1, 'hangar')}
+
+                  <Row>
+                    <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
+                      舱盖控制
+                    </Col>
+                    <Col span={6} style={{ color: 'turquoise' }}>
+                      {isModalOpen ? <Dialog client={client.current} /> : <></>}
+                      {/*  */}
+                      <Popconfirm
+                        title={'是否执行'}
+                        onConfirm={() => {
+                          sendMqttControl('hatch1', 'hangar');
+                        }}
+                        onCancel={() => {
+                          message.error('取消');
+                        }}
+                        okText="确认"
+                        cancelText="取消"
+                      >
+                        <a>
+                          {/* @ts-ignore */}
+                          <AwarenessButton name={'舱盖开'} over={'over'} url={'/demo'} />
+                        </a>
+                      </Popconfirm>
+                    </Col>
+                    <Col span={6} style={{ color: 'turquoise' }}>
+                      {isModalOpen ? <Dialog client={client.current} /> : <></>}
+                      {/*  */}
+                      <Popconfirm
+                        title={'是否执行'}
+                        onConfirm={() => {
+                          sendMqttControl('hatch2', 'hangar');
+                        }}
+                        onCancel={() => {
+                          message.error('取消');
+                        }}
+                        okText="确认"
+                        cancelText="取消"
+                      >
+                        <a>
+                          {/* @ts-ignore */}
+                          <AwarenessButton name={'舱盖关'} over={'over'} url={'/demo'} />
+                        </a>
+                      </Popconfirm>
+                    </Col>
+                    {/*  */}
+                  </Row>
+                </Col>
               </Row>
             </div>
           </div>
@@ -678,7 +739,13 @@ const CenterTab: React.FC = (props: any) => {
                     <div className="control-btn control-bottom"></div>
                     <div className="control-btn control-right"></div> */}
                     <div className="control-round">
-                      <div className="control-round-inner" />
+                      <div
+                        className="control-round-inner"
+                        onClick={() => {
+                          message.success('归中');
+                          sendMqttControl('centering', 'monitor');
+                        }}
+                      />
                     </div>
                   </div>
                 </Col>

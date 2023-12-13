@@ -76,11 +76,11 @@ export const hangarInfoList1 = [
   },
 ];
 export const hangarInfoList2 = [
-  {
-    key: `hatch`,
-    value: `舱盖状态`,
-    unit: '',
-  },
+  // {
+  //   key: `hatch`,
+  //   value: `舱盖状态`,
+  //   unit: '',
+  // },
   {
     key: `homing`,
     value: `归位机构状态`,
@@ -181,12 +181,18 @@ export const hangarButtonList1 = [
     button: '锁定',
     over: '解锁',
   },
-  {
-    key: `hatch`,
-    info: '舱盖',
-    button: '打开',
-    over: '关闭',
-  },
+  // {
+  //   key: `hatch`,
+  //   info: '舱盖',
+  //   button: '打开',
+  //   over: '打开',
+  // },
+  // {
+  //   key: `hatch`,
+  //   info: '舱盖',
+  //   button: '关闭',
+  //   over: '关闭',
+  // },
 ];
 
 export const monitorButtonList1 = [
@@ -208,12 +214,12 @@ export const monitorButtonList1 = [
     button: '下视',
     over: '成功',
   },
-  {
-    key: `centering`,
-    info: '归中',
-    button: '归中',
-    over: '归中',
-  },
+  // {
+  //   key: `centering`,
+  //   info: '归中',
+  //   button: '归中',
+  //   over: '归中',
+  // },
   {
     key: `scanning`,
     info: '扫描',

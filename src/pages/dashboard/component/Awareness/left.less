@@ -1,33 +1,17 @@
 .content {
   width: 500px;
-  height: 320px;
+  height: 240px;
   padding: 10px;
   background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #0114419d 100%);
 
   // background-color: rgba(246, 0, 0, 0.436);
   border-radius: 8px;
-  .top {
-    height: 300px;
-    padding: 10px 0px;
-    // background-color: rgba(245, 238, 238, 0.436);
-  }
-  .middle {
-    height: 330px;
-    padding: 10px 0px;
-    background-color: rgba(85, 245, 5, 0.436);
-  }
-  // .bottom {
-  //   height: 330px;
-  //   padding: 10px 0px;
-  //   background-color: rgba(34, 0, 255, 0.436);
-  // }
 }
 
 .video {
-  width: 100%;
-  height: 300px;
-  padding-top: 1vh;
-  padding-bottom: 1vh;
+  width: 500px;
+  height: 240px;
+
   // padding-right: 2vh;
   // padding-left: 2vh;
 }
@@ -40,3 +24,285 @@
 //   background-color: rgba(22, 42, 59, 0.623);
 //   border: 1.8px solid #3a8686a6;
 // }
+.tab {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  height: 260px;
+  // background-color: rgb(246, 0, 0);
+  :global {
+    .ant-tabs-left > .ant-tabs-nav .ant-tabs-tab,
+    .ant-tabs-right > .ant-tabs-nav .ant-tabs-tab,
+    .ant-tabs-left > div > .ant-tabs-nav .ant-tabs-tab,
+    .ant-tabs-right > div > .ant-tabs-nav .ant-tabs-tab {
+      padding: 1px 1px;
+      text-align: center;
+    }
+    .ant-tabs-left > .ant-tabs-nav,
+    .ant-tabs-right > .ant-tabs-nav,
+    .ant-tabs-left > div > .ant-tabs-nav,
+    .ant-tabs-right > div > .ant-tabs-nav {
+      flex-direction: column;
+      min-width: 3px;
+      max-width: 30px;
+    }
+    .ant-tabs > .ant-tabs-nav .ant-tabs-nav-list,
+    .ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-list {
+      position: relative;
+      display: flex;
+      justify-content: space-between;
+      height: 240px;
+      transition: transform 0.3s;
+    }
+    .ant-tabs-left > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab,
+    .ant-tabs-right > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab,
+    .ant-tabs-left > div > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab,
+    .ant-tabs-right > div > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab {
+      margin: 0px;
+    }
+    .ant-tabs-tab {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 0;
+      color: white;
+      font-size: 19px;
+      font-family: 'YouSheBiaoTiHei';
+      border: 0;
+      outline: none;
+      cursor: pointer;
+      writing-mode: vertical-lr;
+    }
+    .ant-tabs-left > .ant-tabs-content-holder,
+    .ant-tabs-left > div > .ant-tabs-content-holder {
+      margin-left: 0px;
+      border-left: 1px solid rgba(0, 0, 0, 0.06);
+    }
+  }
+}
+.infoList {
+  height: 240px;
+
+  :global {
+    .ant-picker {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      box-sizing: border-box;
+      width: 180px;
+      height: 42px;
+      margin: 0;
+      padding: 0;
+      color: #ffffff;
+      font-size: 16px;
+      font-family: YouSheBiaoTiHei;
+      line-height: 1.5715;
+      white-space: nowrap;
+      text-align: center;
+      text-shadow: 0px 0px 12px 0px rgba(50, 160, 244, 0.6);
+      background: rgba(14, 70, 116, 0.3);
+      border: 1px solid #5cb6ff;
+      border-radius: 4px;
+      transition: border 0.3s, box-shadow 0.3s;
+      font-feature-settings: 'tnum', 'tnum';
+    }
+    .ant-picker-input > input {
+      position: relative;
+      display: inline-block;
+      flex: auto;
+      width: 100%;
+      height: auto;
+      margin: 0;
+      padding: 0;
+      color: rgb(251, 251, 251);
+      font-size: 16px;
+      line-height: 1.5715;
+      background: transparent;
+      background: rgba(14, 70, 116, 0.3);
+      border: 0px;
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+    .ant-select:not(.ant-select-customize-input) .ant-select-selector {
+      position: relative;
+      font-size: 16px;
+      font-family: YouSheBiaoTiHei;
+      background: rgba(14, 70, 116, 0.3);
+      border: 1px solid #5cb6ff;
+      border-radius: 4px;
+      transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    }
+    .ant-select-single .ant-select-selector .ant-select-selection-item,
+    .ant-select-single .ant-select-selector .ant-select-selection-placeholder {
+      padding: 0px;
+      line-height: 40px;
+      transition: all 0.3s, visibility 0s;
+    }
+    .ant-select-single:not(.ant-select-customize-input) .ant-select-selector {
+      width: 180px;
+      height: 42px;
+      padding: 0 11px;
+    }
+    .ant-select-single.ant-select-show-arrow .ant-select-selection-search {
+      right: 25px;
+    }
+    .ant-select-single .ant-select-selector .ant-select-selection-search {
+      position: absolute;
+      top: 0;
+      right: 11px;
+      bottom: 0;
+      left: 11px;
+    }
+    .ant-select-single .ant-select-selector .ant-select-selection-item {
+      position: relative;
+      color: #ffffff;
+      font-size: 16px;
+      font-family: YouSheBiaoTiHei;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+    .ant-btn {
+      position: relative;
+      display: inline-block;
+      width: 180px;
+      height: 42px;
+      // margin-right: 15px;
+      // margin-left: 15px;
+      padding: 0px;
+      color: #ffffff;
+      font-weight: 400;
+      font-size: 24px;
+      font-family: YouSheBiaoTiHei;
+      line-height: 1.5715;
+      white-space: nowrap;
+      text-align: center;
+      text-shadow: 0px 0px 12px 0px rgba(50, 160, 244, 0.6);
+      background: rgba(14, 70, 116, 0.3);
+      border: 1px solid #5cb6ff;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: 0.5s linear;
+      user-select: none;
+      touch-action: manipulation;
+    }
+
+    .ant-list {
+      position: relative;
+      box-sizing: border-box;
+      height: 230px;
+      margin: 0px;
+      padding: 0;
+      overflow: scroll;
+      color: rgb(255 255 255 / 85%);
+      font-size: 10px;
+      font-variant: tabular-nums;
+      line-height: 1.5715;
+      list-style: none;
+      font-feature-settings: 'tnum', 'tnum';
+    }
+    .ant-list-split .ant-list-item {
+      border-bottom: 0px solid rgba(0, 0, 0, 0.06);
+    }
+    .ant-list-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0px;
+
+      color: rgba(0, 0, 0, 0.85);
+      background: rgba(14, 70, 116, 0.619);
+      border: 1px solid #5cb6ff;
+    }
+
+    //
+    .ant-pagination {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      color: #ffffff;
+      font-weight: 200;
+      font-size: 18px;
+      font-family: YouSheBiaoTiHei;
+      font-variant: tabular-nums;
+      line-height: 1.5715;
+      line-height: 1.5715;
+      list-style: none;
+    }
+    .ant-list-pagination {
+      margin-top: 4px;
+      text-align: left;
+    }
+    .ant-pagination-total-text {
+      display: inline-block;
+      height: 30px;
+      margin-right: 8px;
+      line-height: 30px;
+      vertical-align: middle;
+    }
+    .ant-pagination-prev,
+    .ant-pagination-next,
+    .ant-pagination-jump-prev,
+    .ant-pagination-jump-next {
+      display: inline-block;
+      min-width: 16px;
+      height: 30px;
+      color: rgba(0, 0, 0, 0.85);
+
+      line-height: 32px;
+      text-align: center;
+      vertical-align: middle;
+      list-style: none;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .ant-pagination-item {
+      display: inline-block;
+      min-width: 25px;
+      height: 30px;
+      margin-right: 8px;
+      padding: 0px;
+      line-height: 30px;
+      text-align: center;
+      vertical-align: middle;
+      list-style: none;
+      background-color: rgb(255, 255, 255);
+      border: 1px solid #5cb6ff;
+      border-radius: 2px;
+      outline: 0;
+      cursor: pointer;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+    .ant-pagination-prev .ant-pagination-item-link,
+    .ant-pagination-next .ant-pagination-item-link {
+      display: block;
+      width: 100%;
+      height: 100%;
+      padding: 0;
+      color: rgb(250 250 250 / 85%);
+      font-size: 14px;
+      text-align: center;
+      background-color: rgb(255, 255, 255);
+      border: 1px solid #5cb6ff;
+      border-radius: 2px;
+      outline: none;
+      transition: all 0.3s;
+    }
+    .ant-pagination-item a {
+      display: block;
+      padding: 0px;
+      color: rgb(0, 0, 0);
+      text-align: center;
+      transition: none;
+    }
+  }
+  .info {
+    color: white;
+    font-size: 15px;
+  }
+}
