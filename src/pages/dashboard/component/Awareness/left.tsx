@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-12-13 22:45:30
+ * @LastEditTime: 2023-12-14 09:58:52
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\left.tsx
  * @Description:
  *
@@ -40,7 +40,7 @@ const Awareness: React.FC = () => {
   const dispatch = useDispatch();
 
   const [droneinfo, setdroneinfo] = useState({ cam_url: '' });
-  const [consoleInfo, setconsoleInfo] = useState(['1']);
+  const [consoleInfo, setconsoleInfo] = useState(['控制台信息']);
   const [videoUrl, setVideoUrl] = useState('');
   const getDroneData = async () => {
     const resp: any = await queryDevice({ pageSize: 10, current: 1 });
@@ -50,20 +50,22 @@ const Awareness: React.FC = () => {
     handleForceupdateMethod();
   };
   const [taskList, settaskList] = useState<any>([]);
-  const [currentTask, setcurrentTask] = useState<any>([]);
+  const [currentTask, setcurrentTask] = useState<any>();
+  const [flyList, setflyList] = useState<any>([]);
 
   useEffect(() => {
     getDroneData();
     queryPlan({ pageSize: 1000, current: 1 }).then((resp) => {
       const tasks = resp.data.map((item: any) => {
-        return { value: item.id, label: item.name };
+        return { value: item.id, label: item.id };
       });
+      setflyList(resp.data);
       settaskList(tasks);
       console.log('resRoad.data.map -> item:', resp.data);
     });
   }, []);
   const handleChange = (params: string) => {
-    setcurrentTask(JSON.parse(params));
+    setcurrentTask(params);
     console.log(`handleChange ${params}`);
   };
   // mqtt消息接收
@@ -130,14 +132,20 @@ const Awareness: React.FC = () => {
   }, []);
 
   const sendMqttControl = () => {
-    const controlInfo = {
-      cmd: 'drone' + '/' + 'autoFly',
-      data: currentTask,
-    };
+    console.log('flyList.map -> flyList:', flyList);
 
-    console.log('sendMqttControl -> controlInfo:', controlInfo);
-    console.log('sendMqttControl -> controlInfo:', JSON.stringify(controlInfo));
-    client.current.publish('control', JSON.stringify(controlInfo));
+    flyList.map((item: any) => {
+      if (item.id === currentTask) {
+        const controlInfo = {
+          cmd: 'fly',
+          fly_id: item.fly_id,
+          uav_id: item.uav_id,
+        };
+        client.current.publish('fly_control', JSON.stringify(controlInfo));
+        console.log('sendMqttControl -> controlInfo:', controlInfo);
+      }
+    });
+    // console.log('sendMqttControl -> controlInfo:', JSON.stringify(controlInfo));
   };
   /**
    * @end
