@@ -319,7 +319,7 @@ const Map: React.FC = () => {
           case 4:
             image = '/alert/invade.png';
             break;
-          case 5:
+          case 10:
             image = '/alert/people.png';
             break;
           default:

@@ -125,33 +125,33 @@ export const monitorTFList = [
 export const droneButtonList1 = [
   {
     key: `check`,
-    info: '自检',
+    info: '',
     button: '自检',
     over: '自检成功',
   },
   {
     key: `unlock`,
-    info: '解锁',
+    info: '',
     button: '解锁',
     over: '解锁成功',
   },
   {
+    key: `lock`,
+    info: '',
+    button: '加锁',
+    over: '加锁成功',
+  },
+  {
     key: `takeoff`,
-    info: '起飞',
+    info: '',
     button: '起飞',
     over: '起飞成功',
   },
   {
     key: `return`,
-    info: '回家降落',
+    info: '',
     button: '回家降落',
     over: '降落成功',
-  },
-  {
-    key: `lock`,
-    info: '加锁',
-    button: '加锁',
-    over: '加锁成功',
   },
 ];
 export const droneButtonList2 = [
@@ -198,19 +198,19 @@ export const hangarButtonList1 = [
 export const monitorButtonList1 = [
   {
     key: `tracking`,
-    info: '跟踪',
+    info: '',
     button: '跟踪',
     over: '成功',
   },
   {
     key: `positioning`,
-    info: '激光定位',
+    info: '',
     button: '激光定位',
     over: '定位取消',
   },
   {
     key: `downward`,
-    info: '下视',
+    info: '',
     button: '下视',
     over: '成功',
   },
@@ -222,7 +222,7 @@ export const monitorButtonList1 = [
   // },
   {
     key: `scanning`,
-    info: '扫描',
+    info: '',
     button: '扫描',
     over: '成功',
   },
@@ -230,13 +230,13 @@ export const monitorButtonList1 = [
 export const monitorButtonList2 = [
   {
     key: `photo`,
-    info: '拍照',
+    info: '',
     button: '拍照',
     over: '成功',
   },
   {
     key: `video`,
-    info: '录像 ',
+    info: ' ',
     button: '录像开始',
     over: '录像结束',
   },

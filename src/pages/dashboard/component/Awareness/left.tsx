@@ -2,13 +2,13 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-12-13 13:39:25
+ * @LastEditTime: 2023-12-13 22:45:30
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\left.tsx
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
-import { Button, Col, List, Row, Tabs } from 'antd';
+import { Button, Col, List, Row, Select, Tabs } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './left.less';
 // import Player from '@/components/VideoReact';
@@ -17,7 +17,10 @@ import * as mqtt from 'mqtt';
 import Title from '../common/Title';
 import { queryDevice } from '@/pages/drone/device/service';
 import { ControlOutlined } from '@ant-design/icons';
+import AwarenessButton from './component/button';
+
 import { useDispatch } from 'umi';
+import { queryPlan } from '@/pages/drone/task/service';
 function useForceUpdate() {
   const [value, setState] = useState(true);
   return () => setState(!value);
@@ -46,11 +49,23 @@ const Awareness: React.FC = () => {
     setdroneinfo(resp.data[0]);
     handleForceupdateMethod();
   };
+  const [taskList, settaskList] = useState<any>([]);
+  const [currentTask, setcurrentTask] = useState<any>([]);
 
   useEffect(() => {
     getDroneData();
+    queryPlan({ pageSize: 1000, current: 1 }).then((resp) => {
+      const tasks = resp.data.map((item: any) => {
+        return { value: item.id, label: item.name };
+      });
+      settaskList(tasks);
+      console.log('resRoad.data.map -> item:', resp.data);
+    });
   }, []);
-
+  const handleChange = (params: string) => {
+    setcurrentTask(JSON.parse(params));
+    console.log(`handleChange ${params}`);
+  };
   // mqtt消息接收
   useEffect(() => {
     const clientId = 'awareness' + Math.random().toString(16).substring(2, 8);
@@ -90,11 +105,11 @@ const Awareness: React.FC = () => {
     client.current.on('message', (topic: string, mqttMessage: any) => {
       if (topic === 'console') {
         // const jsonObject = JSON.parse(mqttMessage);
-        const jsonObject = JSON.parse(mqttMessage);
-        console.log('client.current.on -> jsonObject1111:', jsonObject);
+        // const jsonObject = JSON.parse(mqttMessage);
+        // console.log('client.current.on -> jsonObject1111:', jsonObject);
 
         setconsoleInfo((item: any) => {
-          return [...item, jsonObject];
+          return [...item, mqttMessage.toString()];
         });
         handleForceupdateMethod();
       }
@@ -113,6 +128,17 @@ const Awareness: React.FC = () => {
       if (client.current) client.current.end();
     };
   }, []);
+
+  const sendMqttControl = () => {
+    const controlInfo = {
+      cmd: 'drone' + '/' + 'autoFly',
+      data: currentTask,
+    };
+
+    console.log('sendMqttControl -> controlInfo:', controlInfo);
+    console.log('sendMqttControl -> controlInfo:', JSON.stringify(controlInfo));
+    client.current.publish('control', JSON.stringify(controlInfo));
+  };
   /**
    * @end
    */
@@ -125,26 +151,26 @@ const Awareness: React.FC = () => {
             tabPosition={'left'}
             items={[
               {
-                label: `无人机画面`,
-                key: 'drone',
-                children: (
-                  <Row>
-                    <Col span={24} className={styles.video}>
-                      {/* @ts-ignore */}
-                      {console.log('droneinfo:', droneinfo)}
-                      <video src={videoUrl} controls className={styles.video}></video>
-                      {/* <Player url={droneinfo.cam_url} height={'19'} width={'100'} /> */}
-                      {/* <Player url={droneinfo.cam_url} height={'19'} width={'100'} /> */}
-                    </Col>
-                  </Row>
-                ),
-              },
-              {
                 label: `控制台信息`,
                 key: 'hangar',
                 // @ts-ignore
                 children: (
                   <div className={styles.infoList}>
+                    <Row>
+                      <Col span={8}>
+                        <Select onChange={handleChange} options={taskList} />
+                      </Col>
+                      <Col
+                        span={8}
+                        offset={6}
+                        style={{ color: 'white' }}
+                        onClick={() => {
+                          sendMqttControl();
+                        }}
+                      >
+                        <button className={styles.infoButton}>自动飞行</button>
+                      </Col>
+                    </Row>
                     <List
                       dataSource={consoleInfo}
                       renderItem={(item) => (
@@ -154,6 +180,21 @@ const Awareness: React.FC = () => {
                       )}
                     />
                   </div>
+                ),
+              },
+              {
+                label: `无人机画面`,
+                key: 'drone',
+                children: (
+                  <Row>
+                    <Col span={24} className={styles.video}>
+                      {/* @ts-ignore */}
+                      {console.log('droneinfo:', droneinfo)}
+                      <video src={videoUrl} autoPlay controls className={styles.video} />
+                      {/* <Player url={droneinfo.cam_url} height={'19'} width={'100'} /> */}
+                      {/* <Player url={droneinfo.cam_url} height={'19'} width={'100'} /> */}
+                    </Col>
+                  </Row>
                 ),
               },
             ]}

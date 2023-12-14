@@ -87,7 +87,7 @@ const FlashPromotionList: React.FC = () => {
   const showDeleteConfirm = (item: ListUavFlyDataType) => {
     confirm({
       title: '是否删除记录?',
-      icon: <ExclamationCircleOutlined />,
+      icon: <ExclamationCircleOutlined rev={undefined} />,
       content: '删除的记录不能恢复,请确认!',
       onOk() {
         handleRemove([item]).then((r) => {
@@ -139,7 +139,7 @@ const FlashPromotionList: React.FC = () => {
           <Button
             type="primary"
             danger
-            icon={<DeleteOutlined />}
+            icon={<DeleteOutlined rev={undefined} />}
             onClick={() => {
               showDeleteConfirm(record);
             }}

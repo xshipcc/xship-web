@@ -28,7 +28,8 @@
     "lock": { "data": "on/off" },
     "mode": { "data": "automatic/manual" },
     "heading": { "data": 60 }, //0-360
-    "light": { "data": "on/off" }
+    "light": { "data": "on/off" },
+    "autoFly": { "data": "taskId" }
   },
   "monitor": {
     "up": { "data": 60 },
