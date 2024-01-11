@@ -149,8 +149,8 @@
       {
         name: '无人机网络频段',
         icon: 'table',
-        path: '/drone/network/list',
-        component: './drone/network',
+        path: '/drone/droneInfo/list',
+        component: './drone/droneInfo',
       },
     ],
   },

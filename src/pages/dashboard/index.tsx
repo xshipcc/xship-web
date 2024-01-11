@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-09 20:12:31
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-23 01:45:51
+ * @LastEditTime: 2024-01-10 23:34:40
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\index.tsx
  * @Description:
  *
@@ -24,7 +24,7 @@ import AnalysisRight from '@/pages/dashboard/component/Analysis/right';
 import TimeLine from '@/pages/dashboard/component/Awareness/component/timeLine';
 import Map from '@/pages/dashboard/component/Map';
 import { Header } from '@/pages/dashboard/component/Header';
-import { useSelector, useDispatch } from 'umi';
+import { useSelector, useDispatch, history } from 'umi';
 const initView = {
   drone: {
     total: 2,
@@ -290,6 +290,19 @@ const Dashboard: React.FC = () => {
       }
     };
     fetchData();
+
+    // localStorage.setItem('token', msg.token);
+    if (localStorage.getItem('router') == 'index') {
+      history.push('/');
+    }
+    const handleBeforeUnload = (event) => {
+      localStorage.setItem('router', 'index');
+    };
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
   }, []);
 
   //#endregion -----------------------------------------------------------------------

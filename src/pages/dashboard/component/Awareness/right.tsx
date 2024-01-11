@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-25 18:15:21
+ * @LastEditTime: 2024-01-10 23:32:47
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\right.tsx
  * @Description:
  *
@@ -20,6 +20,8 @@ import { useDispatch, useSelector } from 'umi';
 import * as mqtt from 'mqtt';
 
 const AwarenessRight: React.FC = () => {
+  const def: any = '';
+  const client = useRef(def);
   /**
    *  @file right.tsx
    *  @time 2023/09/19
@@ -32,6 +34,17 @@ const AwarenessRight: React.FC = () => {
   const dispatch = useDispatch();
   const showDetail = useSelector((state: any) => state.dashboardModel.showDetail);
 
+  const sendMqttControl = (param: any, type: string, data: any) => {
+    console.log('sendMqttControl -> data:', data);
+    const controlInfo = {
+      cmd: type + '/' + param,
+      data: data,
+    };
+
+    console.log('sendMqttControl -> controlInfo:', controlInfo);
+    console.log('sendMqttControl -> controlInfo:', JSON.stringify(controlInfo));
+    client.current.publish('control', JSON.stringify(controlInfo));
+  };
   /**
    *切换列表
    *false为告警  true为巡检
@@ -39,6 +52,11 @@ const AwarenessRight: React.FC = () => {
   const handleClick = () => {
     // setShowDetail(!showDetail);
     console.log('showDetail:', showDetail);
+    sendMqttControl('stop', 'player', 'on');
+    dispatch({
+      type: 'dashboardModel/changecurrentFlyingid',
+      payload: -1,
+    });
     dispatch({
       type: 'dashboardModel/changeDestoryTackSignal',
       payload: [true],
@@ -61,19 +79,6 @@ const AwarenessRight: React.FC = () => {
     console.log('onChangeSelector -> value:', value);
   };
 
-  const def: any = '';
-  const client = useRef(def);
-  const sendMqttControl = (param: any, type: string, data: any) => {
-    console.log('sendMqttControl -> data:', data);
-    const controlInfo = {
-      cmd: type + '/' + param,
-      data: data,
-    };
-
-    console.log('sendMqttControl -> controlInfo:', controlInfo);
-    console.log('sendMqttControl -> controlInfo:', JSON.stringify(controlInfo));
-    client.current.publish('control', JSON.stringify(controlInfo));
-  };
   useEffect(() => {
     const clientId = 'awareness' + Math.random().toString(16).substring(2, 8);
     const username = 'emqx_test';
@@ -128,7 +133,7 @@ const AwarenessRight: React.FC = () => {
               <TimeLine client={client} />
               {showDetail || currentFlyingid != -1 ? (
                 <Row className={styles.playButton}>
-                  <Col span={8}>
+                  <Col span={6}>
                     <Button
                       type="text"
                       onClick={() => {
@@ -140,7 +145,7 @@ const AwarenessRight: React.FC = () => {
                       播放
                     </Button>
                   </Col>
-                  <Col span={8}>
+                  <Col span={6}>
                     <Button
                       type="text"
                       onClick={() => {
@@ -152,7 +157,19 @@ const AwarenessRight: React.FC = () => {
                       {pause ? '暂停' : '继续'}
                     </Button>
                   </Col>
-                  <Col span={8}>
+                  <Col span={6}>
+                    <Button
+                      type="text"
+                      onClick={() => {
+                        ChangeComponent('Awareness');
+                        // @ts-ignore
+                        sendMqttControl('stop', 'player', 'on');
+                      }}
+                    >
+                      结束
+                    </Button>
+                  </Col>
+                  <Col span={6}>
                     <Button
                       type="text"
                       onClick={() => {

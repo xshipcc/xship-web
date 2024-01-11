@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-08 10:25:32
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-12-11 00:28:10
+ * @LastEditTime: 2024-01-10 20:14:27
  * @FilePath: \zero-admin-ui-master\src\pages\drone\task\components\CreateFlashForm.tsx
  * @Description:
  *
@@ -11,12 +11,14 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Input, Modal, Select, DatePicker, InputNumber, Button, Upload } from 'antd';
 import type { AddUavPlanReqType, FlashPromotionListItem } from '../data.d';
-import Cron from 'react-cron-antd';
+// import Cron from 'react-cron-antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { queryFly } from '../../routePlan/service';
 import { ListUavFlyReqType } from '../../routePlan/data';
 import { queryDevice } from '../../device/service';
-
+// import Cron from 'antd-cron';
+import CronPlus from 'react-cron-plus';
+import CronEditor from 'cron-editor-react';
 export interface CreateFormProps {
   onCancel: () => void;
   onSubmit: (values: AddUavPlanReqType) => void;
@@ -36,8 +38,7 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
   const [form] = Form.useForm();
   const { Option } = Select;
 
-  const [plan, setPlan] = useState<string>();
-  const [CronVisible, handleCronVisible] = useState<boolean>(false);
+  const [plan, setPlan] = useState<string>('* * * * * ? *');
 
   const { onSubmit, onCancel, createModalVisible } = props;
 
@@ -107,6 +108,11 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
     console.log('handleChange -> JSON.parse(params):', JSON.parse(params));
     console.log(`handleChange ${params}`);
   };
+  const handleCronChange = (cronExpression: React.SetStateAction<string>) => {
+    setPlan(cronExpression);
+    console.log(cronExpression); //0 0 0 * * ?
+  };
+
   const renderContent = () => {
     return (
       <>
@@ -118,38 +124,9 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
           <Select defaultValue="default" onChange={handleChange} options={droneList} />
           {/* <InputNumber id="update-title" placeholder={'请输入无人机名称'} /> */}
         </FormItem>
-        {/* <FormItem
-          name="uav_icon"
-          label="无人机图片"
-          rules={[{ required: true, message: '请输入无人机图片!' }]}
-        >
-          <Input id="update-title" placeholder={'请输入无人机图片'} />
-        </FormItem> */}
-        {/* <FormItem label="无人机图片" name="uav_icon" getValueFromEvent={normFile}>
-          <Upload action="/upload.do" listType="picture-card">
-            <div>
-              <PlusOutlined rev={undefined} />
-              <div style={{ marginTop: 8 }}>上传</div>
-            </div>
-          </Upload>
-        </FormItem> */}
         <FormItem id="plan" label="飞行计划时间">
-          {/* <RangePicker onChange={onChange} /> */}
-          <Button type="primary" onClick={() => handleCronVisible(true)}>
-            {CronVisible ? plan + '' : '选择计划时间'}
-          </Button>
           {/* @ts-ignore */}
-          <Cron
-            style={{ display: CronVisible ? 'block' : 'none', width: '370px' }}
-            value="* * * * *"
-            onOk={(value) => {
-              const value1 = value.substring(0, value.length - 3);
-              console.log('cron:', value1);
-
-              setPlan(value1);
-              handleCronVisible(false);
-            }}
-          />
+          <CronEditor onChange={handleCronChange} tabType="card" showCrontab={true} value={plan} />
         </FormItem>
         <FormItem
           name="fly_id"
@@ -166,7 +143,8 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
 
   return (
     <Modal
-      bodyStyle={{ width: '450px' }}
+      width={800}
+      bodyStyle={{ width: '800px' }}
       forceRender
       destroyOnClose
       title="新建巡检计划"

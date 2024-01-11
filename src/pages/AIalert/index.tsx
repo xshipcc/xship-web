@@ -1,6 +1,6 @@
 import { EditOutlined } from '@ant-design/icons';
 import { Button, message, Drawer, Modal } from 'antd';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { PageContainer } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
@@ -41,6 +41,9 @@ const TableList: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [currentRow, setCurrentRow] = useState<ListAlertHistoryData>();
   const [selectedRowsState, setSelectedRows] = useState<ListAlertHistoryData[]>([]);
+  useEffect(() => {
+    localStorage.setItem('router', 'dashboard');
+  }, []);
 
   // interface ListAlertHistoryData {
   //   id: number;
@@ -161,7 +164,7 @@ const TableList: React.FC = () => {
         <>
           <Button
             type="primary"
-            icon={<EditOutlined />}
+            icon={<EditOutlined rev={undefined} />}
             onClick={() => {
               handleUpdateModalVisible(true);
               setCurrentRow(record);

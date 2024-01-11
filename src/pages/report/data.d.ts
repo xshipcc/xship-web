@@ -1,13 +1,14 @@
 /*
  * @Author: weiaodi 1635654853@qq.com
- * @Date: 2023-09-07 13:46:28
+ * @Date: 2023-09-24 22:27:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-20 12:03:52
- * @FilePath: \zero-admin-ui-master\src\pages\drone\device\data.d.ts
+ * @LastEditTime: 2024-01-05 19:18:16
+ * @FilePath: \zero-admin-ui-master\src\pages\report\data.d.ts
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
+
 /**
  *  @file data.d.ts
  *  @time 2023/09/27
@@ -15,79 +16,84 @@
  * @function :
  */
 //#region -------------------------------------------------------------------------
-// 查询
-export interface ListUavDeviceReqType {
-  current?: number;
-  pageSize?: number;
-}
 
-export interface ListUavDeviceData {
-  id: number; // 无人机id
-  name: string; // 无人机名称
-  ip: string; // 无人机IP
-  port: number; // 无人机port
-  r_port: number; // 无人机接收端口port
-  hangar_ip: string; // 无人机机库IP
-  hangar_port: number; // 无人机机库port
-  hangar_rport: number; // 无人机机库接收port
-  cam_ip: string; // 摄像头IP
-  cam_port: number; // 摄像头port
-  cam_url: string; // 摄像头rtsp 地址
+export interface AddUavHistoryReqType {
+  uav_id: number; // 无人机id
+  fly_id: number; // 巡检路线id
+  operator: string; // 操作者
   create_time: string; // 创建时间
+  end_time: string; // 结束时间
 }
 
-export interface ListUavDeviceRespType {
+export interface AddUavHistoryRespType {
   code: string;
   message: string;
+}
+
+export interface ListUavHistoryReqType {
+  current?: number;
+  pageSize?: number;
+  operator?: string; // 操作者
+  create_time?: string; // 创建时间
+  end_time?: string; // 结束时间
+  uav_id?: number; // 无人机id
+  fly_id?: number; // 巡检路线id
+  history_id?: number; // 巡检路线id
+}
+
+export interface ListUavHistoryDataType {
+  id: number;
+  uav_id: number; // 无人机id
+  fly_id: number; // 巡检路线id
+  operator: string; // 操作者
+  create_time: string; // 创建时间
+  end_time: string; // 结束时间
+}
+
+export interface ListUavHistoryRespType {
   current: number;
-  data: ListUavDeviceData[];
+  data: ListUavHistoryDataType[];
   pageSize: number;
   success: boolean;
   total: number;
-}
-// 添加
-export interface AddUavDeviceReqType {
-  name: string; // 无人机名称
-  ip: string; // 无人机IP
-  port: number; // 无人机port
-  r_port: number; // 无人机接收端口port
-  hangar_ip: string; // 无人机机库IP
-  hangar_port: number; // 无人机机库port
-  hangar_rport: number; // 无人机机库接收port
-  cam_ip: string; // 摄像头IP
-  cam_port: number; // 摄像头port
-  cam_url: string; // 摄像头rtsp 地址
-}
-
-export interface AddUavDeviceRespType {
   code: string;
   message: string;
 }
-
-// 更新
-export interface UpdateUavDeviceReqType {
-  name: string; // 无人机名称
-  ip: string; // 无人机IP
-  port: number; // 无人机port
-  r_port: number; // 无人机接收端口port
-  hangar_ip: string; // 无人机机库IP
-  hangar_port: number; // 无人机机库port
-  hangar_rport: number; // 无人机机库接收port
-  cam_ip: string; // 摄像头IP
-  cam_port: number; // 摄像头port
-  cam_url: string; // 摄像头rtsp 地址
+export interface ListAlertHistoryReq {
+  current?: number;
+  pageSize?: number;
+  type: number;
+  start_time: string;
+  end_time: string;
+  platform: number;
+  confirm: number;
+  history_id: number;
 }
 
-export interface UpdateUavDeviceRespType {
+export interface ListAlertHistoryData {
+  id: number;
+  name: string;
+  image: string;
+  type: number;
   code: string;
-  message: string;
+  level: number;
+  count: number;
+  platform: number;
+  start_time: string;
+  end_time: string;
+  note: string;
+  lat: number;
+  lon: number;
+  alt: number;
+  confirm: number;
 }
 
-export interface DeleteUavDeviceReqType {
-  ids: number[];
-}
-
-export interface DeleteUavDeviceRespType {
+export interface ListAlertHistoryRespType {
+  current: number;
+  data: ListAlertHistoryData[];
+  pageSize: number;
+  success: boolean;
+  total: number;
   code: string;
   message: string;
 }

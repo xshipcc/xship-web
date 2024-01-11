@@ -114,7 +114,7 @@ const FlashPromotionList: React.FC = () => {
   const showDeleteConfirm = (item: ListUavDeviceData) => {
     confirm({
       title: '是否删除记录?',
-      icon: <ExclamationCircleOutlined />,
+      icon: <ExclamationCircleOutlined rev={undefined} />,
       content: '删除的记录不能恢复,请确认!',
       onOk() {
         handleRemove([item]).then((r) => {
@@ -163,6 +163,22 @@ const FlashPromotionList: React.FC = () => {
       dataIndex: 'r_port',
     },
     {
+      title: '网卡名',
+      dataIndex: 'network',
+    },
+    {
+      title: '手柄信息',
+      dataIndex: 'joystick',
+    },
+    {
+      title: '无人机通讯方式',
+      dataIndex: 'uav_zubo',
+      valueEnum: {
+        0: { text: '单播' },
+        1: { text: '组播' },
+      },
+    },
+    {
       title: '无人机库ip',
       dataIndex: 'hangar_ip',
     },
@@ -174,6 +190,7 @@ const FlashPromotionList: React.FC = () => {
       title: '无人机库接收端口',
       dataIndex: 'hangar_rport',
     },
+
     {
       title: '摄像头IP',
       dataIndex: 'cam_ip',
@@ -182,13 +199,14 @@ const FlashPromotionList: React.FC = () => {
       title: '摄像头port',
       dataIndex: 'cam_port',
     },
+
     {
-      title: '摄像头rtsp 地址',
-      dataIndex: 'cam_url',
-    },
-    {
-      title: '创建时间',
-      dataIndex: 'create_time',
+      title: '设备状态',
+      dataIndex: 'status',
+      valueEnum: {
+        0: { text: '启动', color: 'green' },
+        1: { text: '禁用', color: 'red' },
+      },
     },
     {
       title: '操作',
@@ -198,7 +216,7 @@ const FlashPromotionList: React.FC = () => {
         <>
           <Button
             type="primary"
-            icon={<EditOutlined />}
+            icon={<EditOutlined rev={undefined} />}
             onClick={() => {
               handleUpdateModalVisible(true);
               setCurrentRow(record);
@@ -210,7 +228,7 @@ const FlashPromotionList: React.FC = () => {
           <Button
             type="primary"
             danger
-            icon={<DeleteOutlined />}
+            icon={<DeleteOutlined rev={undefined} />}
             onClick={() => {
               showDeleteConfirm(record);
             }}
@@ -233,7 +251,7 @@ const FlashPromotionList: React.FC = () => {
         }}
         toolBarRender={() => [
           <Button type="primary" onClick={() => handleModalVisible(true)}>
-            <PlusOutlined /> 新建无人机列表
+            <PlusOutlined rev={undefined} /> 新建无人机列表
           </Button>,
         ]}
         request={queryDevice}

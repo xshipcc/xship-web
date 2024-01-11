@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { DatePicker, DatePickerProps, Form, Input, InputNumber, Modal } from 'antd';
+import { DatePicker, DatePickerProps, Form, Input, InputNumber, Modal, Select } from 'antd';
 import type { UpdateUavDeviceReqType } from '../data.d';
 import moment from 'moment';
 
@@ -107,6 +107,27 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
         >
           <InputNumber placeholder={'请输入无人机接收端口号'} />
         </FormItem>
+
+        <FormItem name="uav_zubo" label="无人机通讯方式" initialValue={0}>
+          <Select id="showStatus" defaultValue={0}>
+            <Select.Option value={0}>单播</Select.Option>
+            <Select.Option value={1}>组播</Select.Option>
+          </Select>
+        </FormItem>
+        <FormItem
+          name="network"
+          label="网卡名"
+          rules={[{ required: true, message: '请输入网卡名称!' }]}
+        >
+          <Input id="update-title" placeholder={'请输入网卡名称'} />
+        </FormItem>
+        <FormItem
+          name="joystick"
+          label="手柄信息"
+          rules={[{ required: true, message: '请输入手柄信息!' }]}
+        >
+          <Input id="update-title" placeholder={'请输入手柄信息'} />
+        </FormItem>
         <FormItem
           name="hangar_ip"
           label="机库ip地址"
@@ -128,6 +149,14 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
         >
           <InputNumber id="update-title" placeholder={'请输入机库接收端口'} />
         </FormItem>
+
+        <FormItem hidden name="hangar_zubo" label="机库通讯方式" initialValue={0}>
+          <Select id="showStatus" defaultValue={0}>
+            <Select.Option value={0}>单播</Select.Option>
+            <Select.Option value={1}>组播</Select.Option>
+          </Select>
+        </FormItem>
+
         <FormItem
           name="cam_ip"
           label="摄像头ip"
@@ -144,10 +173,22 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
         </FormItem>
         <FormItem
           name="cam_url"
-          label="视频地址"
-          rules={[{ required: true, message: '请输入视频地址!' }]}
+          label="摄像头地址"
+          rules={[{ required: true, message: '请输入摄像头地址!' }]}
         >
-          <Input id="update-title" placeholder={'请输入机库接收端口'} />
+          <Input id="update-title" placeholder={'请输入摄像头地址'} />
+        </FormItem>
+        <FormItem hidden name="cam_zubo" label="摄像头通讯方式" initialValue={0}>
+          <Select id="showStatus" defaultValue={0}>
+            <Select.Option value={0}>单播</Select.Option>
+            <Select.Option value={1}>组播</Select.Option>
+          </Select>
+        </FormItem>
+        <FormItem name="status" label="设备状态" initialValue={0}>
+          <Select id="showStatus" defaultValue={0}>
+            <Select.Option value={0}>启动</Select.Option>
+            <Select.Option value={1}>禁用</Select.Option>
+          </Select>
         </FormItem>
       </>
     );

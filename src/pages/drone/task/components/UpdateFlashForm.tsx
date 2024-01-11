@@ -12,7 +12,9 @@ import {
 } from 'antd';
 import { ListUavPlanDataType } from '../data.d';
 import moment from 'moment';
-import Cron from 'react-cron-antd';
+import CronPlus from 'react-cron-plus';
+import CronEditor from 'cron-editor-react';
+
 import { PlusOutlined } from '@ant-design/icons';
 import { ListUavFlyReqType } from '../../routePlan/data';
 import { queryFly } from '../../routePlan/service';
@@ -36,8 +38,7 @@ const formLayout = {
 const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
   const [form] = Form.useForm();
   const { Option } = Select;
-  const [plan, setPlan] = useState<string>();
-  const [CronVisible, handleCronVisible] = useState<boolean>(false);
+  const [plan, setPlan] = useState<string>('* * * * * ? *');
 
   const { onSubmit, onCancel, updateModalVisible, values } = props;
 
@@ -109,6 +110,10 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
     console.log(`handleChange ${params}`);
   };
 
+  const handleCronChange = (cronExpression: React.SetStateAction<string>) => {
+    setPlan(cronExpression);
+    console.log(cronExpression); //0 0 0 * * ?
+  };
   // interface UpdateUavPlanReqType {
   //   id: number;
   //   uav_id: number; // 无人机ID
@@ -129,38 +134,10 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
         >
           <Select defaultValue="default" onChange={handleChange} options={droneList} />
         </FormItem>
-        {/* <FormItem
-          name="uav_icon"
-          label="无人机图片"
-          rules={[{ required: true, message: '请输入无人机图片!' }]}
-        >
-          <Input id="update-title" placeholder={'请输入无人机图片'} />
-        </FormItem> */}
-        {/* <FormItem label="无人机图片" name="uav_icon" getValueFromEvent={normFile}>
-          <Upload action="/upload.do" listType="picture-card">
-            <div>
-              <PlusOutlined />
-              <div style={{ marginTop: 8 }}>上传</div>
-            </div>
-          </Upload>
-        </FormItem> */}
-        <FormItem id="plan" label="飞行计划时间">
-          {/* <RangePicker onChange={onChange} /> */}
-          <Button type="primary" onClick={() => handleCronVisible(true)}>
-            {CronVisible ? plan + '' : '选择计划时间'}
-          </Button>
-          {/* @ts-ignore */}
-          <Cron
-            style={{ display: CronVisible ? 'block' : 'none', width: '370px' }}
-            value="* * * * *"
-            onOk={(value) => {
-              const value1 = value.substring(0, value.length - 3);
-              console.log('cron:', value1);
 
-              setPlan(value1);
-              handleCronVisible(false);
-            }}
-          />
+        <FormItem id="plan" label="飞行计划时间">
+          {/* @ts-ignore */}
+          <CronEditor onChange={handleCronChange} tabType="card" showCrontab={true} value={plan} />
         </FormItem>
         <FormItem
           name="fly_id"
@@ -177,6 +154,8 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
 
   return (
     <Modal
+      width={800}
+      bodyStyle={{ width: '800px' }}
       forceRender
       destroyOnClose
       title="修改巡检计划信息"

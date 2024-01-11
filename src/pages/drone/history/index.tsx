@@ -70,23 +70,11 @@ const FlashPromotionList: React.FC = () => {
       title: '巡检路线id',
       dataIndex: 'fly_id',
       valueType: 'digit',
-      render: (dom, entity) => {
-        return (
-          <a
-            onClick={() => {
-              setCurrentRow(entity);
-              setShowDetail(true);
-            }}
-          >
-            {dom}
-          </a>
-        );
-      },
     },
-    {
-      title: '操作者',
-      dataIndex: 'operator',
-    },
+    // {
+    //   title: '操作者',
+    //   dataIndex: 'operator',
+    // },
     {
       title: '创建时间',
       dataIndex: 'create_time',

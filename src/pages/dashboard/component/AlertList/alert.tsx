@@ -153,10 +153,6 @@ export default () => {
     getList({ pageSize: 7, current: 1 });
   }, []);
 
-  // 告警列表添加
-  // useEffect(() => {
-  //   getList({ current: 1, pageSize: 7 });
-  // }, [currentList]);
   // 实时增加告警信息
   useEffect(() => {
     const clientId = 'alertList' + Math.random().toString(16).substring(2, 8);
