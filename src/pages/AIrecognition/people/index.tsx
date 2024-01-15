@@ -130,13 +130,17 @@ const FlashPromotionList: React.FC = () => {
     {
       title: '用户名',
       dataIndex: 'username',
+      hideInSearch: true,
     },
     {
       title: '手机号',
       dataIndex: 'phone',
+      hideInSearch: true,
     },
     {
       title: '账号状态',
+      hideInSearch: true,
+
       dataIndex: 'status',
       valueEnum: {
         0: { text: '禁用', color: '#4d78cc' },
@@ -212,9 +216,10 @@ const FlashPromotionList: React.FC = () => {
         headerTitle="人员列表"
         actionRef={actionRef}
         rowKey="id"
-        search={{
-          labelWidth: 120,
-        }}
+        // search={{
+        //   labelWidth: 120,
+        // }}
+        search={false}
         toolBarRender={() => [
           <Button type="primary" onClick={() => handleModalVisible(true)}>
             <PlusOutlined /> 新建人员

@@ -16,6 +16,7 @@ import UpdateFlashForm from './components/UpdateFlashForm';
 import type { ListUavPlanDataType, AddUavPlanReqType, UpdateUavPlanReqType } from './data.d';
 import { updatePlan, addPlan, removePlan, queryPlan } from './service';
 import { queryFly } from '../routePlan/service';
+import { queryDevice } from '../device/service';
 
 const { confirm } = Modal;
 
@@ -120,7 +121,7 @@ const FlashPromotionList: React.FC = () => {
         return (
           <a
             onClick={() => {
-              queryFly({ uav_id: entity.uav_id, current: 1, pageSize: 10 }).then((resp) => {
+              queryDevice({ id: entity.uav_id, current: 1, pageSize: 10 }).then((resp) => {
                 setCurrentRow(resp.data);
                 setShowDetail(true);
               });
@@ -151,8 +152,10 @@ const FlashPromotionList: React.FC = () => {
         return (
           <a
             onClick={() => {
-              setCurrentRow(entity);
-              setShowDetail(true);
+              queryFly({ id: entity.fly_id, current: 1, pageSize: 10 }).then((resp) => {
+                setCurrentRow(resp.data);
+                setShowDetail(true);
+              });
             }}
           >
             {dom}

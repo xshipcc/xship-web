@@ -19,6 +19,7 @@
 export interface ListUavDeviceReqType {
   current?: number;
   pageSize?: number;
+  id?: number;
 }
 
 export interface ListUavDeviceData {

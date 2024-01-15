@@ -18,6 +18,8 @@ import type {
   ListUavHistoryRespType,
 } from './data.d';
 import { queryHistory, addHistory } from './service';
+import { queryFly } from '../routePlan/service';
+import { queryDevice } from '../device/service';
 
 const { confirm } = Modal;
 
@@ -65,11 +67,41 @@ const FlashPromotionList: React.FC = () => {
       title: '无人机id',
       dataIndex: 'uav_id',
       valueType: 'digit',
+      render: (dom, entity) => {
+        return (
+          <a
+            onClick={() => {
+              queryDevice({ id: entity.uav_id, current: 1, pageSize: 10 }).then((resp) => {
+                setCurrentRow(resp.data);
+                setShowDetail(true);
+              });
+            }}
+          >
+            {dom}
+          </a>
+        );
+      },
+      hideInSearch: true,
     },
     {
       title: '巡检路线id',
       dataIndex: 'fly_id',
       valueType: 'digit',
+      render: (dom, entity) => {
+        return (
+          <a
+            onClick={() => {
+              queryFly({ id: entity.fly_id, current: 1, pageSize: 10 }).then((resp) => {
+                setCurrentRow(resp.data);
+                setShowDetail(true);
+              });
+            }}
+          >
+            {dom}
+          </a>
+        );
+      },
+      hideInSearch: true,
     },
     // {
     //   title: '操作者',
@@ -79,11 +111,13 @@ const FlashPromotionList: React.FC = () => {
       title: '创建时间',
       dataIndex: 'create_time',
       valueType: 'dateTime',
+      hideInSearch: true,
     },
     {
       title: '结束时间',
       dataIndex: 'end_time',
       valueType: 'dateTime',
+      hideInSearch: true,
     },
   ];
 
@@ -93,9 +127,7 @@ const FlashPromotionList: React.FC = () => {
         headerTitle="无人机巡检历史"
         actionRef={actionRef}
         rowKey="id"
-        search={{
-          labelWidth: 120,
-        }}
+        search={false}
         toolBarRender={() => []}
         request={async (params: any = {}, sort, filter) => {
           console.log('request={ -> params:', params);

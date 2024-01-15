@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-27 10:33:29
+ * @LastEditTime: 2024-01-15 10:53:08
  * @FilePath: \zero-admin-ui-master\src\pages\drone\routePlan\data.d.ts
  * @Description:
  *
@@ -32,7 +32,7 @@ export interface AddUavFlyRespType {
 export interface ListUavFlyReqType {
   current?: number;
   pageSize?: number;
-  uav_id?: number;
+  id?: number;
 }
 // 序号--水平---垂直轴--停留时间
 // 航线节点的数据

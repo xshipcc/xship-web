@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-09 20:12:31
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-15 06:53:50
+ * @LastEditTime: 2024-01-15 10:56:13
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\index.tsx
  * @Description:
  *
@@ -274,7 +274,7 @@ const Dashboard: React.FC = () => {
    * @function :
    */
   //#region -------------------------------------------------------------------------
-
+  const dashboardinfoMqtt = useSelector((state: any) => state.dashboardModel.dashboardinfoMqtt);
   const [data, setData] = useState(null);
   const dispatch = useDispatch();
   useEffect(() => {

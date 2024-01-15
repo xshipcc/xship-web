@@ -9,6 +9,7 @@ type (
 	ListAlertHistoryReq {
 		Current  int64 `json:"current,default=1"`
 		PageSize int64 `json:"pageSize,default=20"`
+		
 		Type        int64  `json:"type"`//'消息类型:0-全部 1-巡检路线 2-入侵 3-烟火 4-人员 5-车辆',
 		Starttime 	string `json:"start_time"`
 		Endtime 	string `json:"end_time"` //??时间不是一个时间段么？ 

@@ -119,14 +119,18 @@ const FlashPromotionList: React.FC = () => {
     {
       title: '车辆名称',
       dataIndex: 'name',
+      hideInSearch: true,
     },
     {
       title: '车牌号',
+      hideInSearch: true,
+
       dataIndex: 'card',
     },
     {
       title: '手机号',
       dataIndex: 'phone',
+      hideInSearch: true,
     },
     {
       title: '车辆照片',
@@ -138,6 +142,8 @@ const FlashPromotionList: React.FC = () => {
     {
       title: '车辆等级',
       dataIndex: 'type',
+      hideInSearch: true,
+
       valueEnum: {
         0: { text: '本部', color: '#282c34' },
         1: { text: '外来', color: '#4d78cc' },
@@ -147,10 +153,13 @@ const FlashPromotionList: React.FC = () => {
     {
       title: '所属机构',
       dataIndex: 'agency',
+      hideInSearch: true,
     },
     {
       title: '账号状态',
       dataIndex: 'status',
+      hideInSearch: true,
+
       valueEnum: {
         0: { text: '禁用', color: '#4d78cc' },
         1: { text: '启用', color: '#282c34' },
@@ -194,9 +203,10 @@ const FlashPromotionList: React.FC = () => {
         headerTitle="车辆列表"
         actionRef={actionRef}
         rowKey="id"
-        search={{
-          labelWidth: 120,
-        }}
+        // search={{
+        //   labelWidth: 120,
+        // }}
+        search={false}
         toolBarRender={() => [
           <Button type="primary" onClick={() => handleModalVisible(true)}>
             <PlusOutlined /> 新建车辆

@@ -121,15 +121,20 @@ const FlashPromotionList: React.FC = () => {
     },
     {
       title: '摄像头名称',
+      hideInSearch: true,
+
       dataIndex: 'name',
     },
     {
       title: '摄像头ip地址',
       dataIndex: 'ip',
+      hideInSearch: true,
     },
     {
       title: '摄像头平台',
       dataIndex: 'platform',
+      hideInSearch: true,
+
       valueEnum: {
         0: { text: '全部', color: '#282c34' },
         1: { text: '飞机', color: '#4d78cc' },
@@ -141,25 +146,32 @@ const FlashPromotionList: React.FC = () => {
     {
       title: '摄像头通道',
       dataIndex: 'tunnel',
+      hideInSearch: true,
     },
     {
       title: '摄像头地址',
       dataIndex: 'url',
+      hideInSearch: true,
     },
     {
       title: '经度',
       dataIndex: 'lon',
+      hideInSearch: true,
     },
     {
       title: '维度',
       dataIndex: 'lat',
+      hideInSearch: true,
     },
     {
       title: '高度',
       dataIndex: 'alt',
+      hideInSearch: true,
     },
     {
       title: '摄像头状态',
+      hideInSearch: true,
+
       dataIndex: 'status',
       valueEnum: {
         0: { text: '禁用', color: '#4d78cc' },
@@ -205,9 +217,10 @@ const FlashPromotionList: React.FC = () => {
         headerTitle="摄像头列表"
         actionRef={actionRef}
         rowKey="id"
-        search={{
-          labelWidth: 120,
-        }}
+        // search={{
+        //   labelWidth: 120,
+        // }}
+        search={false}
         toolBarRender={() => [
           <Button type="primary" onClick={() => handleModalVisible(true)}>
             <PlusOutlined /> 新建摄像头
