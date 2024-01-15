@@ -9,8 +9,19 @@ type (
 		Name        string `json:"name"`
 		Ip          string `json:"ip"`
 		Port        int64  `json:"port"`
+		R_Port        int64  `json:"r_port"`
 		Hangar_ip   string `json:"hangar_ip"`
 		Hangar_port int64  `json:"hangar_port"`
+		Hangar_rport int64  `json:"hangar_rport"`
+		Cam_ip   string `json:"cam_ip"`
+		Cam_port int64  `json:"cam_port"`
+		Cam_url string  `json:"cam_url"`
+		UavZubo    int64                 `json:"uav_zubo"`
+		Network     string         `json:"network"`	
+		Joystick    string         `json:"joystick"`	
+		Status  int64              `json:"status"`
+
+		
 	}
 	addUavDeviceResp {
 		Code    string `json:"code"`
@@ -25,8 +36,17 @@ type (
 		Name        string `json:"name"`
 		Ip          string `json:"ip"`
 		Port        int64  `json:"port"`
+		R_Port        int64  `json:"r_port"`
 		Hangar_ip   string `json:"hangar_ip"`
 		Hangar_port int64  `json:"hangar_port"`
+		Hangar_rport int64  `json:"hangar_rport"`
+		Cam_ip   string `json:"cam_ip"`
+		Cam_port int64  `json:"cam_port"`
+		Cam_url string  `json:"cam_url"`
+		UavZubo    int64           `json:"uav_zubo"`
+		Joystick    string         `json:"joystick"`	
+		Network     string         `json:"network"`	
+		Status  int64              `json:"status"`
 	}
 	ListUavDeviceResp {
 		Code     string                `json:"code"`
@@ -42,8 +62,18 @@ type (
 		Name        string `json:"name"`
 		Ip          string `json:"ip"`
 		Port        int64  `json:"port"`
+		R_Port        int64  `json:"r_port"`
 		Hangar_ip   string `json:"hangar_ip"`
 		Hangar_port int64  `json:"hangar_port"`
+		Hangar_rport int64  `json:"hangar_rport"`
+		Cam_ip   string `json:"cam_ip"`
+		Cam_port int64  `json:"cam_port"`
+		Cam_url string  `json:"cam_url"`
+		UavZubo    int64                 `json:"uav_zubo"`
+		Joystick    string         `json:"joystick"`	
+		Network     string         `json:"network"`		
+		Status  int64              `json:"status"`
+		
 	}
 	UpdateUavDeviceResp {
 		Code    string `json:"code"`

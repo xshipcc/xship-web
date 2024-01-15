@@ -12,7 +12,6 @@ type (
 		Status     int64  `json:"status"`     // 帐号启用状态:0->禁用；1->启用
 		Icon       string `json:"icon"`       // 头像
 		Gender     int64  `json:"gender"`     // 性别：0->未知；1->男；2->女
-		CreateTime string `json:"create_time"` // 注册时间
 	}
 
 	addPeopleResp {
@@ -55,6 +54,7 @@ type (
 		Status     int64  `json:"status"`     // 帐号启用状态:0->禁用；1->启用
 		Icon       string `json:"icon"`       // 头像
 		Gender     int64  `json:"gender"`     // 性别：0->未知；1->男；2->女
+		Birthday   string `json:"birthday"`   // 生日
 		CreateTime string `json:"create_time"` // 注册时间
 	}
 	UpdatePeopleResp {

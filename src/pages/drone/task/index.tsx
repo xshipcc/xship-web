@@ -287,7 +287,7 @@ const FlashPromotionList: React.FC = () => {
         {currentRow?.id && (
           <ProDescriptions<ListUavPlanDataType>
             column={2}
-            title={currentRow?.fly_id}
+            title={'详细信息'}
             request={async () => ({
               data: currentRow || {},
             })}
