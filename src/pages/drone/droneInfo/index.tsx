@@ -153,7 +153,7 @@ const FlashPromotionList: React.FC = () => {
         // onChange={onChange}
         placeholder={info}
       /> */}
-      <div style={{ fontSize: 18 }}>{info}111111111111111111111111111111111111111111111</div>
+      <div style={{ fontSize: 18 }}>{info} hjasjkdl; fsa jkdslf</div>
     </PageContainer>
   );
 };

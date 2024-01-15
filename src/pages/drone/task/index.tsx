@@ -15,6 +15,7 @@ import CreateFlashForm from './components/CreateFlashForm';
 import UpdateFlashForm from './components/UpdateFlashForm';
 import type { ListUavPlanDataType, AddUavPlanReqType, UpdateUavPlanReqType } from './data.d';
 import { updatePlan, addPlan, removePlan, queryPlan } from './service';
+import { queryFly } from '../routePlan/service';
 
 const { confirm } = Modal;
 
@@ -113,9 +114,24 @@ const FlashPromotionList: React.FC = () => {
       hideInSearch: true,
     },
     {
-      title: '无人机id',
+      title: '无人机编号',
       dataIndex: 'uav_id',
+      render: (dom, entity) => {
+        return (
+          <a
+            onClick={() => {
+              queryFly({ uav_id: entity.uav_id, current: 1, pageSize: 10 }).then((resp) => {
+                setCurrentRow(resp.data);
+                setShowDetail(true);
+              });
+            }}
+          >
+            {dom}
+          </a>
+        );
+      },
     },
+
     // {
     //   title: '无人机图片',
     //   dataIndex: 'uav_icon',
@@ -126,10 +142,23 @@ const FlashPromotionList: React.FC = () => {
     {
       title: '飞行计划时间',
       dataIndex: 'plan',
+      hideInSearch: true,
     },
     {
       title: '巡检路线id',
       dataIndex: 'fly_id',
+      render: (dom, entity) => {
+        return (
+          <a
+            onClick={() => {
+              setCurrentRow(entity);
+              setShowDetail(true);
+            }}
+          >
+            {dom}
+          </a>
+        );
+      },
     },
     {
       title: '操作',
@@ -139,7 +168,7 @@ const FlashPromotionList: React.FC = () => {
         <>
           <Button
             type="primary"
-            icon={<EditOutlined />}
+            icon={<EditOutlined rev={undefined} />}
             onClick={() => {
               handleUpdateModalVisible(true);
               setCurrentRow(record);
@@ -151,7 +180,7 @@ const FlashPromotionList: React.FC = () => {
           <Button
             type="primary"
             danger
-            icon={<DeleteOutlined />}
+            icon={<DeleteOutlined rev={undefined} />}
             onClick={() => {
               showDeleteConfirm(record);
             }}

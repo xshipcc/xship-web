@@ -79,7 +79,7 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
         <FormItem
           name="port"
           label="端口号"
-          rules={[{ required: true, message: '请输入无人机端口号!' }]}
+          rules={[{ required: true, message: '请输入地面端口号!' }]}
         >
           <InputNumber placeholder={'请输入端口号'} />
         </FormItem>

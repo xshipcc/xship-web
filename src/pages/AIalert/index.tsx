@@ -80,6 +80,7 @@ const TableList: React.FC = () => {
       dataIndex: 'image',
       valueType: 'image',
       fieldProps: { width: 100, height: 80 },
+      render: (text) => <a href="#">{text}</a>,
       hideInSearch: true,
     },
     {

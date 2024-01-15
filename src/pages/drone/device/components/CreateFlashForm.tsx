@@ -61,7 +61,7 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
   //   ip: string; // 无人机IP
   //   port: number; // 无人机port
   //   uav_zubo: number; // 无人机组播
-  //   r_port: number; // 无人机接收端口port
+  //   r_port: number; // 无人机端口port
   //   hangar_ip: string; // 无人机机库IP
   //   hangar_port: number; // 无人机机库port
   //   hangar_zubo: number; // 无人机机库组播
@@ -91,17 +91,17 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
         </FormItem>
         <FormItem
           name="port"
-          label="无人机端口号"
-          rules={[{ required: true, message: '请输入无人机端口号!' }]}
+          label="地面端口号"
+          rules={[{ required: true, message: '请输入地面端口号!' }]}
         >
           <InputNumber placeholder={'请输入端口号'} />
         </FormItem>
         <FormItem
           name="r_port"
-          label="无人机接收端口号"
-          rules={[{ required: true, message: '请输入无人机接收端口号!' }]}
+          label="无人机端口号"
+          rules={[{ required: true, message: '请输入无人机端口号!' }]}
         >
-          <InputNumber placeholder={'请输入无人机接收端口号'} />
+          <InputNumber placeholder={'请输入无人机端口号'} />
         </FormItem>
 
         <FormItem name="uav_zubo" label="无人机通讯方式" initialValue={0}>
@@ -182,8 +182,8 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
         </FormItem>
         <FormItem name="status" label="设备状态" initialValue={0}>
           <Select id="showStatus" defaultValue={0}>
-            <Select.Option value={0}>启动</Select.Option>
-            <Select.Option value={1}>禁用</Select.Option>
+            <Select.Option value={1}>启动</Select.Option>
+            <Select.Option value={0}>禁用</Select.Option>
           </Select>
         </FormItem>
       </>

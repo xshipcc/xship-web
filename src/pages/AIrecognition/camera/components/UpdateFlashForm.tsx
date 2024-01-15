@@ -139,7 +139,6 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
           <Select id="showStatus">
             <Select.Option value={0}>禁止</Select.Option>
             <Select.Option value={1}>启用</Select.Option>
-            <Select.Option value={1}>故障</Select.Option>
           </Select>
         </FormItem>
       </>

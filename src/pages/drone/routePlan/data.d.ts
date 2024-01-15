@@ -32,7 +32,7 @@ export interface AddUavFlyRespType {
 export interface ListUavFlyReqType {
   current?: number;
   pageSize?: number;
-  uad_id?: number;
+  uav_id?: number;
 }
 // 序号--水平---垂直轴--停留时间
 // 航线节点的数据

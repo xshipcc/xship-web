@@ -91,8 +91,8 @@ export default defineConfig({
   ignoreMomentLocale: true,
   proxy: {
     '/api': {
-      // target: 'http://192.168.2.213:80',
-      target: 'http://uav.javodata.com',
+      target: 'http://192.168.2.246:80',
+      // target: 'http://uav.javodata.com',
       changeOrigin: true,
       // "pathRewrite": { "^/api": "" }
     },

@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-09 20:12:31
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-10 23:34:40
+ * @LastEditTime: 2024-01-15 06:53:50
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\index.tsx
  * @Description:
  *
@@ -392,6 +392,11 @@ const Dashboard: React.FC = () => {
         <div className={styles.screen}>
           {/* header */}
           <div className={styles.header}>
+            <div className={styles.titleOfstate}>
+              无人机GPS状态: 剩余电量:
+              <br />
+              工作电流值:0a 无人机数据帧频:80ms
+            </div>
             <Header />
           </div>
           {/* header */}
