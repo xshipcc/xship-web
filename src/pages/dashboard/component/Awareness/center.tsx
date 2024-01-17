@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-15 06:40:55
+ * @LastEditTime: 2024-01-17 09:23:10
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\center.tsx
  * @Description:
  *
@@ -31,7 +31,7 @@ const AwarenessCenter: React.FC = () => {
    */
   //#region -------------------------------------------------------------------------
   const [activeTab, setActiveTab] = useState('drone');
-  const [Collapase, setCollapase] = useState(false);
+  const [Collapase, setCollapase] = useState(true);
 
   const onTabChange = (key: string) => {
     setActiveTab(key);

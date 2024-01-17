@@ -19,7 +19,6 @@ type (
 		PageSize int64 `json:"pageSize,default=20"`
 //		只携带一个  
 			Id         int64  `json:"id"`
-			Name       string `json:"name"`        // 路线名称
 	}
 	ListUavFlyData {
 		Id         int64  `json:"id"`

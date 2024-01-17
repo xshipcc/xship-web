@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-09 20:12:31
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-15 10:56:13
+ * @LastEditTime: 2024-01-16 10:29:28
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\index.tsx
  * @Description:
  *
@@ -393,9 +393,11 @@ const Dashboard: React.FC = () => {
           {/* header */}
           <div className={styles.header}>
             <div className={styles.titleOfstate}>
-              无人机GPS状态: 剩余电量:
+              GPS状态: {dashboardinfoMqtt?.drone?.gps_stars}剩余电量:
+              {dashboardinfoMqtt.drone.v}
               <br />
-              工作电流值:0a 无人机数据帧频:80ms
+              电流值:{dashboardinfoMqtt?.drone?.a} 数据帧频:
+              {dashboardinfoMqtt?.drone?.gps_lost}
             </div>
             <Header />
           </div>

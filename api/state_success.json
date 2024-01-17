@@ -8,7 +8,6 @@
     "mode": { "data": "on" },
     "light": { "data": "on" },
     "historyID": { "data": "id" }
-
   },
   "monitor": {
     "video": { "data": "on" },
@@ -23,34 +22,9 @@
     "play": { "data":"HistoryID" },
     "pause": { "data": "on" },
     "speed": { "data": "1/2/4/6" }
-  }
-}
+  },
 
-//默认off  
-
-{
-  "drone": {
-    "check": { "data": "off" },
-    "unlock": { "data": "off" },
-    "takeoff": { "data": "off" },
-    "return": { "data": "off" },
-    "lock": { "data": "off" },
-    "mode": { "data": "off" },
-    "historyid": { "data": 2 },
-    "light": { "data": "off" }
-  },
-  "monitor": {
-    "video": { "data": "off" },
-    "positioning": { "data": "off" }
-  },
-  "hangar": {
-    "hatch": { "data": "off" },
-    "charging": { "data": "off" },
-    "mechanism": { "data": "off" }
-  },
-  "player": {
-    "play": { "data":"historyid" },
-    "pause": { "data": "off" },
-    "speed": { "data": 1 }
+  "road": {
+      "roadData": { "data": "路线" }
   }
 }

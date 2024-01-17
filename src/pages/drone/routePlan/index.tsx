@@ -109,11 +109,12 @@ const FlashPromotionList: React.FC = () => {
     {
       title: '航线编号',
       dataIndex: 'id',
-      hideInSearch: true,
+      valueType: 'digit',
     },
     {
       title: '航线名称',
       dataIndex: 'name',
+      hideInSearch: true,
     },
     {
       title: '航线数据',
@@ -128,6 +129,7 @@ const FlashPromotionList: React.FC = () => {
     {
       title: '创建者',
       dataIndex: 'creator',
+      hideInSearch: true,
     },
     {
       title: '操作',

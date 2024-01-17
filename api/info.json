@@ -12,7 +12,8 @@
     "warehouse_status": 0,
     "battery_status": 0,
     "homing_status": 0,
-    "uavpower_status": 0
+    "uavpower_status": 0,
+    // 新加些
   },
   "drone": {
     "lat": 0,
@@ -202,3 +203,9 @@ class Pod_Receive(ctypes.LittleEndianStructure):
         ('bak1',ctypes.c_ushort),#×100倍
         ('bak2',ctypes.c_ushort),#×100倍
         ('bak3',ctypes.c_ushor
+
+
+
+
+
+

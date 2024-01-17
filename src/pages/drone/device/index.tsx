@@ -143,35 +143,43 @@ const FlashPromotionList: React.FC = () => {
   const columns: ProColumns<ListUavDeviceData>[] = [
     {
       title: '无人机id',
+      valueType: 'digit',
       dataIndex: 'id',
-      hideInSearch: true,
     },
     {
       title: '名称',
       dataIndex: 'name',
+      hideInSearch: true,
     },
     {
       title: '无人机ip',
       dataIndex: 'ip',
+      hideInSearch: true,
     },
     {
       title: '地面端口',
       dataIndex: 'port',
+      hideInSearch: true,
     },
     {
       title: '无人机端口',
       dataIndex: 'r_port',
+      hideInSearch: true,
     },
     {
       title: '网卡名',
       dataIndex: 'network',
+      hideInSearch: true,
     },
     {
       title: '手柄信息',
       dataIndex: 'joystick',
+      hideInSearch: true,
     },
     {
       title: '无人机通讯方式',
+      hideInSearch: true,
+
       dataIndex: 'uav_zubo',
       valueEnum: {
         0: { text: '单播' },
@@ -181,28 +189,36 @@ const FlashPromotionList: React.FC = () => {
     {
       title: '无人机库ip',
       dataIndex: 'hangar_ip',
+      hideInSearch: true,
     },
     {
       title: '无人机库端口',
       dataIndex: 'hangar_port',
+      hideInSearch: true,
     },
     {
       title: '无人机库接收端口',
+      hideInSearch: true,
+
       dataIndex: 'hangar_rport',
     },
 
     {
       title: '摄像头IP',
       dataIndex: 'cam_ip',
+      hideInSearch: true,
     },
     {
       title: '摄像头port',
       dataIndex: 'cam_port',
+      hideInSearch: true,
     },
 
     {
       title: '设备状态',
       dataIndex: 'status',
+      hideInSearch: true,
+
       valueEnum: {
         1: { text: '启动', color: 'green' },
         0: { text: '禁用', color: 'red' },

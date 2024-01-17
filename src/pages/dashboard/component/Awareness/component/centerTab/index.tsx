@@ -133,16 +133,16 @@ const CenterTab: React.FC = (props: any) => {
     // currentRoad.data
     console.log('loadCurrentRoad -> currentRoad:', currentRoad);
     // lat":38.0865966192828,"lon":114.33264199360657,"alt":97.20427051352851
-    currentRoad.push({
-      name: '终点',
-      coord: [114.33264199360657, 38.0865966192828, 111],
-      speed: 5,
-      hovertime: 10,
-      radius: 25,
-      photo: '0', //"0=不拍照;1=拍照",
-      heightmode: '00', //
-      turning: '00',
-    });
+    // currentRoad.push({
+    //   name: '终点',
+    //   coord: [114.33264199360657, 38.0865966192828, 111],
+    //   speed: 5,
+    //   hovertime: 10,
+    //   radius: 25,
+    //   photo: '0', //"0=不拍照;1=拍照",
+    //   heightmode: '00', //
+    //   turning: '00',
+    // });
     dispatch({
       type: 'dashboardModel/saveCurrentFlyingRoad',
       payload: currentRoad,

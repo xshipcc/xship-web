@@ -82,7 +82,8 @@ const handleRemove = async (selectedRows: ListUavPlanDataType[]) => {
 const FlashPromotionList: React.FC = () => {
   const [createModalVisible, handleModalVisible] = useState<boolean>(false);
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
-  const [showDetail, setShowDetail] = useState<boolean>(false);
+  const [showDetailDevice, setShowDetailDevice] = useState<boolean>(false);
+  const [showDetailRoad, setShowDetailRoad] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
   const [currentRow, setCurrentRow] = useState<ListUavPlanDataType>();
   const [selectedRowsState, setSelectedRows] = useState<ListUavPlanDataType[]>([]);
@@ -90,7 +91,7 @@ const FlashPromotionList: React.FC = () => {
   const showDeleteConfirm = (item: ListUavPlanDataType) => {
     confirm({
       title: '是否删除记录?',
-      icon: <ExclamationCircleOutlined />,
+      icon: <ExclamationCircleOutlined rev={undefined} />,
       content: '删除的记录不能恢复,请确认!',
       onOk() {
         handleRemove([item]).then((r) => {
@@ -122,8 +123,8 @@ const FlashPromotionList: React.FC = () => {
           <a
             onClick={() => {
               queryDevice({ id: entity.uav_id, current: 1, pageSize: 10 }).then((resp) => {
-                setCurrentRow(resp.data);
-                setShowDetail(true);
+                setCurrentRow(resp.data[0]);
+                setShowDetailDevice(true);
               });
             }}
           >
@@ -153,8 +154,8 @@ const FlashPromotionList: React.FC = () => {
           <a
             onClick={() => {
               queryFly({ id: entity.fly_id, current: 1, pageSize: 10 }).then((resp) => {
-                setCurrentRow(resp.data);
-                setShowDetail(true);
+                setCurrentRow(resp.data[0]);
+                setShowDetailRoad(true);
               });
             }}
           >
@@ -194,6 +195,119 @@ const FlashPromotionList: React.FC = () => {
       ),
     },
   ];
+
+  const columnsDevice: ProColumns<any>[] = [
+    {
+      title: '无人机id',
+      valueType: 'digit',
+      dataIndex: 'id',
+    },
+    {
+      title: '名称',
+      dataIndex: 'name',
+      hideInSearch: true,
+    },
+    {
+      title: '无人机ip',
+      dataIndex: 'ip',
+      hideInSearch: true,
+    },
+    {
+      title: '地面端口',
+      dataIndex: 'port',
+      hideInSearch: true,
+    },
+    {
+      title: '无人机端口',
+      dataIndex: 'r_port',
+      hideInSearch: true,
+    },
+    {
+      title: '网卡名',
+      dataIndex: 'network',
+      hideInSearch: true,
+    },
+    {
+      title: '手柄信息',
+      dataIndex: 'joystick',
+      hideInSearch: true,
+    },
+    {
+      title: '无人机通讯方式',
+      hideInSearch: true,
+
+      dataIndex: 'uav_zubo',
+      valueEnum: {
+        0: { text: '单播' },
+        1: { text: '组播' },
+      },
+    },
+    {
+      title: '无人机库ip',
+      dataIndex: 'hangar_ip',
+      hideInSearch: true,
+    },
+    {
+      title: '无人机库端口',
+      dataIndex: 'hangar_port',
+      hideInSearch: true,
+    },
+    {
+      title: '无人机库接收端口',
+      hideInSearch: true,
+
+      dataIndex: 'hangar_rport',
+    },
+
+    {
+      title: '摄像头IP',
+      dataIndex: 'cam_ip',
+      hideInSearch: true,
+    },
+    {
+      title: '摄像头port',
+      dataIndex: 'cam_port',
+      hideInSearch: true,
+    },
+
+    {
+      title: '设备状态',
+      dataIndex: 'status',
+      hideInSearch: true,
+
+      valueEnum: {
+        1: { text: '启动', color: 'green' },
+        0: { text: '禁用', color: 'red' },
+      },
+    },
+  ];
+  const columnsRoad: ProColumns<any>[] = [
+    {
+      title: '航线编号',
+      dataIndex: 'id',
+      valueType: 'digit',
+    },
+    {
+      title: '航线名称',
+      dataIndex: 'name',
+      hideInSearch: true,
+    },
+    {
+      title: '航线数据',
+      dataIndex: 'data',
+      hideInSearch: true,
+    },
+    {
+      title: '创建时间',
+      dataIndex: 'create_time',
+      hideInSearch: true,
+    },
+    {
+      title: '创建者',
+      dataIndex: 'creator',
+      hideInSearch: true,
+    },
+  ];
   return (
     <PageContainer>
       <ProTable<ListUavPlanDataType>
@@ -205,7 +319,7 @@ const FlashPromotionList: React.FC = () => {
         }}
         toolBarRender={() => [
           <Button type="primary" onClick={() => handleModalVisible(true)}>
-            <PlusOutlined /> 新建巡检任务
+            <PlusOutlined rev={undefined} /> 新建巡检任务
           </Button>,
         ]}
         request={queryPlan}
@@ -249,7 +363,7 @@ const FlashPromotionList: React.FC = () => {
         }}
         onCancel={() => {
           handleModalVisible(false);
-          if (!showDetail) {
+          if (!showDetailDevice) {
             setCurrentRow(undefined);
           }
         }}
@@ -270,7 +384,7 @@ const FlashPromotionList: React.FC = () => {
         }}
         onCancel={() => {
           handleUpdateModalVisible(false);
-          if (!showDetail) {
+          if (!showDetailDevice) {
             setCurrentRow(undefined);
           }
         }}
@@ -280,10 +394,10 @@ const FlashPromotionList: React.FC = () => {
 
       <Drawer
         width={600}
-        visible={showDetail}
+        visible={showDetailRoad}
         onClose={() => {
           setCurrentRow(undefined);
-          setShowDetail(false);
+          setShowDetailRoad(false);
         }}
         closable={false}
       >
@@ -297,7 +411,30 @@ const FlashPromotionList: React.FC = () => {
             params={{
               id: currentRow?.id,
             }}
-            columns={columns as ProDescriptionsItemProps<ListUavPlanDataType>[]}
+            columns={columnsRoad as ProDescriptionsItemProps<ListUavPlanDataType>[]}
+          />
+        )}
+      </Drawer>
+      <Drawer
+        width={600}
+        visible={showDetailDevice}
+        onClose={() => {
+          setCurrentRow(undefined);
+          setShowDetailDevice(false);
+        }}
+        closable={false}
+      >
+        {currentRow?.id && (
+          <ProDescriptions<ListUavPlanDataType>
+            column={2}
+            title={'详细信息'}
+            request={async () => ({
+              data: currentRow || {},
+            })}
+            params={{
+              id: currentRow?.id,
+            }}
+            columns={columnsDevice as ProDescriptionsItemProps<ListUavPlanDataType>[]}
           />
         )}
       </Drawer>

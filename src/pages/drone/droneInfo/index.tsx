@@ -11,87 +11,65 @@ import ProTable from '@ant-design/pro-table';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
 import ProDescriptions from '@ant-design/pro-descriptions';
 import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
-import CreateFlashForm from './components/CreateFlashForm';
-import UpdateFlashForm from './components/UpdateFlashForm';
+import styles from './index.less';
+
 import * as mqtt from 'mqtt';
 
-import type { ListUavNetworkDataType, AddUavNetworkReqType } from './data.d';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const DisplayKeyValuePairs = (data) => {
+  const renderKeyValuePairs = () => {
+    return Object.entries(data).map(([key, value]) => {
+      if (typeof value === 'object') {
+        return (
+          <div key={key}>
+            <h3>{key}</h3>
+            {renderKeyValuePairs()}
+          </div>
+        );
+      }
 
-import { addNetwork, queryNetwork, removeNetwork, updateNetwork } from './service';
-import TextArea from 'antd/lib/input/TextArea';
-
-const { confirm } = Modal;
-/**
- * 添加节点
- * @param fields
- */
-const handleAdd = async (fields: AddUavNetworkReqType) => {
-  const hide = message.loading('正在添加');
-  try {
-    // const demodata = await addNetwork({
-    //   name: 'test',
-    //   ip: '192.1.1.1',
-    //   port: 111,
-    //   hangar_ip: '222',
-    //   hangar_port: 22,
-    // });
-    // console.log('handleAdd -> demodata:', demodata);
-
-    await addNetwork({ ...fields });
-    hide();
-    message.success('添加成功');
-    return true;
-  } catch (error) {
-    hide();
-    message.error('添加失败请重试！');
-    return false;
-  }
-};
-
-/**
- * 更新节点
- * @param fields
- */
-const handleUpdate = async (fields: ListUavNetworkDataType) => {
-  console.log('handleUpdate -> fields:', fields);
-  const hide = message.loading('正在更新');
-  try {
-    await updateNetwork(fields);
-    hide();
-
-    message.success('更新成功');
-    return true;
-  } catch (error) {
-    hide();
-    message.error('更新失败请重试！');
-    return false;
-  }
-};
-
-/**
- *  删除节点
- * @param selectedRows
- */
-const handleRemove = async (selectedRows: ListUavNetworkDataType[]) => {
-  const hide = message.loading('正在删除');
-  if (!selectedRows) return true;
-  try {
-    await removeNetwork({
-      ids: selectedRows.map((row) => row.id),
+      return (
+        <p key={key}>
+          {key}: {value}
+        </p>
+      );
     });
-    hide();
-    message.success('删除成功，即将刷新');
-    return true;
-  } catch (error) {
-    hide();
-    message.error('删除失败，请重试');
-    return false;
-  }
+  };
+
+  return <div>{renderKeyValuePairs()}</div>;
 };
-
 const FlashPromotionList: React.FC = () => {
-  const [info, handleinfo] = useState<string>('');
-
+  const [info, handleinfo] = useState<any>({
+    monitor: {
+      lat: 0,
+      lon: 0,
+      target_height: 0,
+      tf_usage: 0,
+      tf_total: 0,
+    },
+    hangar: {
+      battery_v: 0,
+      battery_temp: 0,
+      warehouse_status: 0,
+      battery_status: 0,
+      homing_status: 0,
+      uavpower_status: 0,
+    },
+    drone: {
+      lat: 0,
+      lon: 0,
+      height: 0,
+      pitch: 0,
+      trajectory: 0,
+      roll_angle: 0,
+      rel_height: 0,
+      target_height: 0,
+      fly_time: 0,
+      fly_distance: 0,
+      speed: 0,
+      gps_speed: 0,
+    },
+  });
   const def: any = '';
   const client = useRef(def);
   // queryNetwork();
@@ -107,7 +85,7 @@ const FlashPromotionList: React.FC = () => {
         : url.indexOf('/', startIndex);
     const extractedUrl = url.substring(startIndex, endIndex);
     //TODO   替换
-    // const mqttUrl = 'ws://' + '192.168.2.213' + ':' + MQTT_PORT;
+    // const mqttUrl = 'ws://' + '127.0.0.1' + ':' + MQTT_PORT;
     const mqttUrl = 'ws://' + extractedUrl + ':' + MQTT_PORT;
 
     client.current = mqtt.connect(mqttUrl, {
@@ -115,26 +93,32 @@ const FlashPromotionList: React.FC = () => {
       username,
       password,
     });
-    // const mqttSub = (subscription: { topic: any; qos: any }) => {
-    //   if (client) {
-    //     const { topic, qos } = subscription;
-    //     client.current.subscribe(topic, { qos }, (error: any) => {
-    //       if (error) {
-    //         console.log('Subscribe to topics error', error);
-    //         return;
-    //       }
-    //       console.log(`Subscribe to topics: ${topic}`);
-    //     });
-    //   }
-    // };
-    // mqttSub({ topic: 'control', qos: 0 });
+    // console.log('useEffect -> client.current:', client.current);
+    const mqttSub = (subscription: { topic: any; qos: any }) => {
+      if (client) {
+        const { topic, qos } = subscription;
+        client.current.subscribe(topic, { qos }, (error: any) => {
+          if (error) {
+            console.log('Subscribe to topics error', error);
+            return;
+          }
+          console.log(`Subscribe to topics: ${topic}`);
+        });
+      }
+    };
+    mqttSub({ topic: 'info', qos: 0 });
 
     client.current.on('message', (topic: string, mqttMessage: any) => {
       if (topic === 'info') {
-        // const jsonObject = JSON.parse(mqttMessage);
-        const jsonObject = JSON.parse(mqttMessage);
-        handleinfo(jsonObject);
-        console.log('dashboardinfo2', jsonObject);
+        try {
+          const jsonObject = JSON.parse(mqttMessage);
+          // const jsonObject = JSON.stringify(JSON.parse(mqttMessage));
+
+          console.log('dashboardinfo222222222222222', jsonObject);
+          handleinfo(jsonObject);
+        } catch (error) {
+          handleinfo(JSON.stringify('字符解析错误'));
+        }
         // dashboardinfo[jsonObject.type] = jsonObject.data;
       }
     });
@@ -146,14 +130,23 @@ const FlashPromotionList: React.FC = () => {
 
   return (
     <PageContainer>
-      {/* <TextArea
-        showCount
-        maxLength={10000}
-        style={{ height: 600, width: 1000 }}
-        // onChange={onChange}
-        placeholder={info}
-      /> */}
-      <div style={{ fontSize: 18 }}>{info} hjasjkdl; fsa jkdslf</div>
+      <div className={styles.content}>
+        {/* {info} */}
+        <div>
+          {Object.entries(info).map(([key, value]) => (
+            <div key={key}>
+              <h3>{key}</h3>
+              <ul>
+                {Object.entries(value).map(([subKey, subValue]) => (
+                  <li key={subKey}>
+                    {subKey}: {subValue}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
     </PageContainer>
   );
 };

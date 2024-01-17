@@ -76,11 +76,11 @@ export const hangarInfoList1 = [
   },
 ];
 export const hangarInfoList2 = [
-  // {
-  //   key: `hatch`,
-  //   value: `舱盖状态`,
-  //   unit: '',
-  // },
+  {
+    key: `hatch`,
+    value: `舱盖状态`,
+    unit: '',
+  },
   {
     key: `homing`,
     value: `归位机构状态`,
