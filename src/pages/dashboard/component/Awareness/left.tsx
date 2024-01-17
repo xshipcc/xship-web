@@ -111,7 +111,7 @@ const Awareness: React.FC = () => {
         // console.log('client.current.on -> jsonObject1111:', jsonObject);
 
         setconsoleInfo((item: any) => {
-          return [...item, mqttMessage.toString()];
+          return [mqttMessage.toString(), ...item];
         });
         handleForceupdateMethod();
       }

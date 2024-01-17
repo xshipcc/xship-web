@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-19 12:57:29
+ * @LastEditTime: 2024-01-17 10:22:45
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Analysis\right.tsx
  * @Description:
  *
@@ -51,15 +51,15 @@ const AnalysisRight: React.FC = (props) => {
               <div className={styles.qiu}>
                 <p>80%</p>
               </div>
-              <span>完成率</span>
+              <span>总完成率</span>
             </div>
             <div className={styles.data2}>
               <div className={styles.qiu}>
                 <p>70%</p>
               </div>
-              <span>故障率</span>
+              <span>巡检时间</span>
             </div>
-            <div className={styles.data3}>
+            {/* <div className={styles.data3}>
               <div className={styles.qiu}>
                 <p>73%</p>
               </div>
@@ -70,21 +70,21 @@ const AnalysisRight: React.FC = (props) => {
                 <p>73%</p>
               </div>
               <span>同比</span>
-            </div>
+            </div> */}
           </div>
           {/*  */}
         </div>
         {/*  */}
         <div className={styles.middle}>
-          <Title title={'告警发送频率'} />
+          <Title title={'告警信息统计'} />
           <Column />
           {/* <div className={styles.column}>{DemoBar(value.bar)}</div> */}
         </div>
         {/*  */}
-        <div className={styles.bottom}>
+        {/* <div className={styles.bottom}>
           <Title title={'严重报警比例'} />
           <Pie />
-        </div>
+        </div> */}
       </div>
     </>
   );

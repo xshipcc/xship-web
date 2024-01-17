@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-18 15:51:21
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-23 01:07:34
+ * @LastEditTime: 2024-01-17 10:29:18
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Analysis\component\centerLine\index.tsx
  * @Description:
  *
@@ -169,7 +169,7 @@ const LineChart = (props: any) => {
             textStyle: {
               color: '#78bdf5',
             },
-            formatter: function (value) {
+            formatter: function (value: number) {
               return value * 100 + '%';
             },
           },
@@ -251,42 +251,42 @@ const LineChart = (props: any) => {
 
           data: [13, 24, 31, 12, 7, 3, 1, 23, 2, 42],
         },
-        {
-          name: '本月',
-          type: 'pictorialBar',
-          barWidth: '50%',
-          label: {
-            normal: {
-              show: false,
-            },
-          },
-          itemStyle: {
-            normal: {
-              color: {
-                type: 'linear',
-                x: 0,
-                y: 0,
-                x2: 0,
-                y2: 1,
-                colorStops: [
-                  {
-                    offset: 0,
-                    color: 'rgba(161, 159, 158, 0.8)', // 处的颜色
-                  },
-                  {
-                    offset: 1,
-                    color: 'rgba(133, 133, 196, 0.2)', // 100% 处的颜色
-                  },
-                ],
-                globalCoord: false, // 缺省为 false
-              }, //渐变颜色
-            },
-          },
-          symbol:
-            'path://M12.000,-0.000 C12.000,-0.000 16.074,60.121 22.731,60.121 C26.173,60.121 -3.234,60.121 0.511,60.121 C7.072,60.121 12.000,-0.000 12.000,-0.000 Z',
+        // {
+        //   name: '本月',
+        //   type: 'pictorialBar',
+        //   barWidth: '50%',
+        //   label: {
+        //     normal: {
+        //       show: false,
+        //     },
+        //   },
+        //   itemStyle: {
+        //     normal: {
+        //       color: {
+        //         type: 'linear',
+        //         x: 0,
+        //         y: 0,
+        //         x2: 0,
+        //         y2: 1,
+        //         colorStops: [
+        //           {
+        //             offset: 0,
+        //             color: 'rgba(161, 159, 158, 0.8)', // 处的颜色
+        //           },
+        //           {
+        //             offset: 1,
+        //             color: 'rgba(133, 133, 196, 0.2)', // 100% 处的颜色
+        //           },
+        //         ],
+        //         globalCoord: false, // 缺省为 false
+        //       }, //渐变颜色
+        //     },
+        //   },
+        //   symbol:
+        //     'path://M12.000,-0.000 C12.000,-0.000 16.074,60.121 22.731,60.121 C26.173,60.121 -3.234,60.121 0.511,60.121 C7.072,60.121 12.000,-0.000 12.000,-0.000 Z',
 
-          data: [4, 3, 12, 4, 15, 2, 3, 12, 34, 23],
-        },
+        //   data: [4, 3, 12, 4, 15, 2, 3, 12, 34, 23],
+        // },
         {
           name: '同比',
           type: 'line',

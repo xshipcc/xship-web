@@ -49,9 +49,9 @@ const Column = (props: any) => {
       },
     };
     let series = [
-      { name: '最多', data: [5, 11, 5, 5] },
-      { name: '平均', data: [3, 9, 3, 2] },
-      { name: '最少', data: [1, 3, 1, 1] },
+      { name: '最多', data: [5, 11, 5, 5, 11, 11, 5, 11, 11, 12] },
+      { name: '平均', data: [3, 9, 3, 2, 5, 11, 5, 5, 11, 2] },
+      { name: '最少', data: [1, 3, 1, 1, 5, 11, 5, 5, 11, 1] },
     ];
     series = series.map((item) => ({
       ...item,
@@ -113,7 +113,7 @@ const Column = (props: any) => {
         splitLine: {
           show: false, //不显示横向分割线
         },
-        data: ['车辆', '人脸', '入侵', '烟雾'],
+        data: ['车辆', '人脸', '入侵', '烟雾', '火焰', '区域', '人像', '监控', '人员', '无人机'],
       },
       series,
     };

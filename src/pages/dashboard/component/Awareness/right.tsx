@@ -2,13 +2,13 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-10 23:32:47
+ * @LastEditTime: 2024-01-17 10:45:24
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\right.tsx
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
-import { Button, Col, Row, Select } from 'antd';
+import { Button, Col, Row, Select, Slider } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './right.less';
 import AlertList from '@/pages/dashboard/component/AlertList/alert';
@@ -122,6 +122,9 @@ const AwarenessRight: React.FC = () => {
   const [speed, setspeed] = useState(1);
   const currentFlyingid = useSelector((state: any) => state.dashboardModel.currentFlyingid);
   console.log('ChangeComponent -> currentFlyingid:', currentFlyingid);
+  const onChange = (value: number | number[]) => {
+    console.log('onChange: ', value);
+  };
 
   return (
     <>
@@ -130,7 +133,10 @@ const AwarenessRight: React.FC = () => {
           <Title title={'当前航线进度'} />
           <Row className={styles.timeLine}>
             <Col span={24}>
-              <TimeLine client={client} />
+              <div className={styles.slider}>
+                <TimeLine client={client} />
+                {/* <Slider range step={1} defaultValue={[0, 0]} onChange={onChange} /> */}
+              </div>
               {showDetail || currentFlyingid != -1 ? (
                 <Row className={styles.playButton}>
                   <Col span={6}>
@@ -202,7 +208,7 @@ const AwarenessRight: React.FC = () => {
               handleClick();
             }}
           >
-            <SwapOutlined />
+            <SwapOutlined rev={undefined} />
             切换
           </div>
           {showDetail ? <HistoryList /> : <AlertList />}
