@@ -45,6 +45,8 @@
 
 
 
+{"type": "drone", "data": {"temp": 0, "eng": 6, "v": 49.9, "a": 0.7, "offset_staus": 1, "speed": 0.02, "lat": 38.075007, "lon": 114.3388839, "height": 112, "rel_height": -8.8, "real_height": 0.26, "target_speed": 0.0, "gps_speed": 0.0, "trajectory": 322.3, "pitch": -0.28, "roll_angle": -0.48, "fu_wing": 0.84, "updown": 0.55, "speedup": 0.0, "toward": 0.08, "lock": 0, "toward_angle": 322.3, "fly_ctl": 0, "staus": 65278, "fly_status": 0, "gps_lost": 0, "link_lost": 0, "area": 3509, "turns_done": 0, "turns_todo": 1, "fly_distance": 0, "fly_time": 0, "target_point": 0, "target_height": 6544.8, "target_angle": 0.0, "stay_time": 0, "flyctl_v": 15.3, "engine_v": 50.6, "gps_stars": 21, "year": 24, "month": 1, "day": 17, "hour": 9, "min": 44, "sec": 14, "flyctl_temp": 28, "offset_dist": 0, "HDOP": 32, "VDOP": 55, "SDOP": 30, "height_cm": 32}}
+
 
 // 无人机
 

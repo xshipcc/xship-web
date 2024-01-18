@@ -40,34 +40,14 @@ const DisplayKeyValuePairs = (data) => {
 };
 const FlashPromotionList: React.FC = () => {
   const [info, handleinfo] = useState<any>({
-    monitor: {
-      lat: 0,
-      lon: 0,
-      target_height: 0,
-      tf_usage: 0,
-      tf_total: 0,
-    },
-    hangar: {
+    type: 'drone',
+    data: {
       battery_v: 0,
       battery_temp: 0,
       warehouse_status: 0,
       battery_status: 0,
       homing_status: 0,
       uavpower_status: 0,
-    },
-    drone: {
-      lat: 0,
-      lon: 0,
-      height: 0,
-      pitch: 0,
-      trajectory: 0,
-      roll_angle: 0,
-      rel_height: 0,
-      target_height: 0,
-      fly_time: 0,
-      fly_distance: 0,
-      speed: 0,
-      gps_speed: 0,
     },
   });
   const def: any = '';
@@ -133,15 +113,14 @@ const FlashPromotionList: React.FC = () => {
       <div className={styles.content}>
         {/* {info} */}
         <div>
-          {Object.entries(info).map(([key, value]) => (
+          <h3>{info.type}</h3>
+          <h3>数据信息</h3>
+          {Object.entries(info.data).map(([key, value]) => (
             <div key={key}>
-              <h3>{key}</h3>
               <ul>
-                {Object.entries(value).map(([subKey, subValue]) => (
-                  <li key={subKey}>
-                    {subKey}: {subValue}
-                  </li>
-                ))}
+                <li key={key}>
+                  {key}: {value}
+                </li>
               </ul>
             </div>
           ))}

@@ -467,7 +467,7 @@ const Map: React.FC = () => {
           debugWireframe: false,
           // 仅用于调试。显示模型绘制时的边界球。
           debugShowBoundingVolume: false,
-          scale: 100,
+          scale: 10000,
           runAnimations: false, // 是否运行模型中的动画效果(由于我的模型是不会动所以就很呆哈哈哈)
         },
       });
@@ -512,7 +512,13 @@ const Map: React.FC = () => {
         }
       });
     }
-  }, [currentComponent, editRoadSignal]);
+    client.on('message', (topic: string, mqttMessage: any) => {
+      if (topic === 'info') {
+        // 只有mqtt数据推送才实例化飞机
+        setShowPlane(true);
+      }
+    });
+  }, [currentComponent, editRoadSignal, showPlane]);
 
   return (
     <>

@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-18 15:51:21
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-17 14:04:17
+ * @LastEditTime: 2024-01-18 14:40:16
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\component\timeLine\index.tsx
  * @Description:
  *
@@ -18,6 +18,7 @@ import { Button, Col, Row, Select, Slider } from 'antd';
 const LineChart = (props: any) => {
   const client = props.client;
   const currentHistoryData = useSelector((state: any) => state.dashboardModel.currentHistoryData);
+  const showDetail = useSelector((state: any) => state.dashboardModel.showDetail);
 
   const sendMqttControl = (param: any, type: string, data: any) => {
     let controlInfo = {
@@ -41,6 +42,6 @@ const LineChart = (props: any) => {
   useEffect(() => {
     setInterval(function () {}, 1000);
   }, []);
-  return <Slider range step={0.5} defaultValue={[0, 0]} onChange={onChange} />;
+  return <Slider step={0.5} defaultValue={0} onChange={onChange} disabled={!showDetail} />;
 };
 export default LineChart;

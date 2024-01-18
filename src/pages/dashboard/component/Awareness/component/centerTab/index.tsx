@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-12-13 12:42:29
+ * @LastEditTime: 2024-01-18 07:26:59
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\component\centerTab\index.tsx
  * @Description:
  *
@@ -79,6 +79,12 @@ const CenterTab: React.FC = (props: any) => {
       case 'uavpower_status':
         console.log('dashboardinfoMqtt1111:', dashboardinfoMqtt[type][key]);
         return dashboardinfoMqtt[type][key] === 0 ? '无人机下电' : '无人机上电';
+      case 'lon':
+        return dashboardinfoMqtt[type][key].toFixed(7);
+      case 'lat':
+        return dashboardinfoMqtt[type][key].toFixed(7);
+      case 'height':
+        return dashboardinfoMqtt[type][key].toFixed(7);
       default:
         return dashboardinfoMqtt[type][key];
     }

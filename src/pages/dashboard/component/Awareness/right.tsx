@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-17 10:45:24
+ * @LastEditTime: 2024-01-18 14:18:11
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\right.tsx
  * @Description:
  *
@@ -170,6 +170,10 @@ const AwarenessRight: React.FC = () => {
                         ChangeComponent('Awareness');
                         // @ts-ignore
                         sendMqttControl('stop', 'player', 'on');
+                        dispatch({
+                          type: 'dashboardModel/changeshowDetail',
+                          payload: false,
+                        });
                       }}
                     >
                       结束

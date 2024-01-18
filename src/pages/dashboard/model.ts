@@ -182,9 +182,9 @@ const CompanyModel: DashboardModelType = {
         uavpower_status: 0,
       },
       drone: {
-        lat: 0,
-        lon: 0,
-        height: 0,
+        lat: 0.00000000000001,
+        lon: 0.00000000000001,
+        height: 0.00000000000001,
         pitch: 0,
         trajectory: 0,
         roll_angle: 0,

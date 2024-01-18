@@ -58,3 +58,10 @@
   }
 }
 
+{"cmd":"clean","data":"on"}   巡检结束
+
+{"cmd":"down","data":"on"}    巡检故障
+
+{"cmd":"state","data":"on"}    发送state  进入页面 唤醒  获取当前的state所有信息除了  road
+
+{"cmd":"road","data":"on"}    获取当前在state中的road 数据

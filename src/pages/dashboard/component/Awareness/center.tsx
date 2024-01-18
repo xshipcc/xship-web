@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-17 09:23:10
+ * @LastEditTime: 2024-01-18 10:56:54
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\center.tsx
  * @Description:
  *
@@ -174,28 +174,19 @@ const AwarenessCenter: React.FC = () => {
           payload: jsonObject,
         });
 
-        // setdashboardinfo((item: any) => {
-        //   item[jsonObject.type] = jsonObject.data;
-        //   console.log('setdashboardinfo -> item:', item);
-        //   console.log('dashboardinfo:', dashboardinfo);
-
-        //   console.log('setdashboardinfo -> item[jsonObject.type]:', item[jsonObject.type]);
-        //   return item;
-        // });
         handleForceupdateMethod();
       }
       if (topic === 'state') {
         // const jsonObject = JSON.parse(mqttMessage);
         const jsonObject = JSON.parse(mqttMessage);
-        console.log('client.current.on -> jsonObject1111:', jsonObject);
+        console.log('client.current.on -> 无人机状态state11111:', jsonObject);
         setdashboardState(jsonObject);
         handleForceupdateMethod();
-
-        // console.log('client.on -> jsonObject:', jsonObject);
-        // setDroneData(JSON.parse(mqttMessage));
       }
     });
-
+    // 进入页面  提醒更新 当前状态和路线信息
+    client.current.publish('control', JSON.stringify({ cmd: 'state', data: 'on' }));
+    client.current.publish('control', JSON.stringify({ cmd: 'road', data: 'on' }));
     return () => {
       if (client.current) client.current.end();
     };
