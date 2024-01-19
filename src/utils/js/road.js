@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-27 14:41:11
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-10 11:54:03
+ * @LastEditTime: 2024-01-18 15:57:55
  * @FilePath: \zero-admin-ui-master\src\utils\js\road.js
  * @Description:
  *
@@ -155,14 +155,14 @@ class Road {
     });
 
     this.viewer.dataSources.add(this.dataSource);
-    this.viewer.flyTo(this.dataSource, {
-      offset: {
-        heading: Cesium.Math.toRadians(-90),
-        pitch: Cesium.Math.toRadians(-15),
-        range: 1000,
-      },
-      duration: 1.5,
-    });
+    // this.viewer.flyTo(this.dataSource, {
+    //   offset: {
+    //     heading: Cesium.Math.toRadians(-90),
+    //     pitch: Cesium.Math.toRadians(-15),
+    //     range: 1000,
+    //   },
+    //   duration: 1.5,
+    // });
   }
   getLength(c1, c2) {
     if (!c1 || !c2) return 0;

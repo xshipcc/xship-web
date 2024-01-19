@@ -33,7 +33,13 @@ export const Header: React.FC = () => {
   return (
     <div>
       <Timer />
-      <div className={styles.home} onClick={() => history.push('/')} />
+      <div
+        className={styles.home}
+        onClick={() => {
+          history.push('/');
+          window.location.reload();
+        }}
+      />
 
       {/*  */}
       <div className={styles.header}>

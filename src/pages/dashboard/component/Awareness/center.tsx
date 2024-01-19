@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-18 10:56:54
+ * @LastEditTime: 2024-01-19 13:09:59
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\center.tsx
  * @Description:
  *
@@ -72,7 +72,8 @@ const AwarenessCenter: React.FC = () => {
   //     gps_speed: 0,
   //   },
   // };
-
+  // 菜单相关信号切换
+  const currentComponent = useSelector((state: any) => state.dashboardModel.currentComponent);
   const [dashboardState, setdashboardState] = useState({
     drone: {
       check: { data: 'on' },
@@ -154,7 +155,7 @@ const AwarenessCenter: React.FC = () => {
     mqttSub({ topic: 'info', qos: 0 });
     setTimeout(() => {
       mqttSub({ topic: 'control', qos: 0 });
-    }, 1000);
+    }, 500);
     setTimeout(() => {
       mqttSub({ topic: 'state', qos: 0 });
     }, 1500);
@@ -180,18 +181,31 @@ const AwarenessCenter: React.FC = () => {
         // const jsonObject = JSON.parse(mqttMessage);
         const jsonObject = JSON.parse(mqttMessage);
         console.log('client.current.on -> 无人机状态state11111:', jsonObject);
-        setdashboardState(jsonObject);
-        handleForceupdateMethod();
+        if (jsonObject?.road) {
+          dispatch({
+            type: 'dashboardModel/saveCurrentFlyingRoad',
+            payload: jsonObject.road,
+          });
+        } else {
+          setdashboardState(jsonObject);
+          handleForceupdateMethod();
+        }
       }
     });
     // 进入页面  提醒更新 当前状态和路线信息
-    client.current.publish('control', JSON.stringify({ cmd: 'state', data: 'on' }));
-    client.current.publish('control', JSON.stringify({ cmd: 'road', data: 'on' }));
-    return () => {
-      if (client.current) client.current.end();
-    };
-  }, []);
+    // client.current.publish('control', JSON.stringify({ cmd: 'state', data: 'on' }));
 
+    // return () => {
+    //   if (client.current) client.current.end();
+    // };
+  }, []);
+  useEffect(() => {
+    if (currentComponent == 'Awareness') {
+      setTimeout(() => {
+        client.current.publish('control', JSON.stringify({ cmd: 'road', data: 'on' }));
+      }, 2000);
+    }
+  }, [currentComponent]);
   return (
     <div className={Collapase ? styles.contentCollapse : styles.content}>
       <div className={Collapase ? styles.collapaseButtonClose : styles.collapaseButton}>

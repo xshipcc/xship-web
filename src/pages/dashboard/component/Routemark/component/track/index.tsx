@@ -168,50 +168,6 @@ const App: React.FC = () => {
   }, []);
 
   /**
-   *添加新的航线,同时更新航线数据列表
-   *
-   */
-  const handleAdd = async () => {
-    const newData = {
-      creator: initialState?.currentUser?.name,
-      name: `default`,
-      data: [
-        {
-          name: 'default',
-          coord: [111, 37, 111],
-          speed: 5,
-          hovertime: 10,
-          radius: 25,
-          photo: '0', //0拍照  ,1不拍照
-          heightmode: '00', //
-          turning: '00',
-        },
-      ],
-      create_time: `default`,
-    };
-    try {
-      // @ts-ignore
-      newData.data = JSON.stringify(newData.data);
-
-      // newData.data = newData.data + '';
-      console.log('handleAdd -> newData:', newData);
-      // @ts-ignore
-      const response = await addFly(newData);
-      // console.log('*fetchDashboardInfo -> response:', response);
-      const { code, result } = response;
-      console.log('getData', code);
-      if (code === '000000') {
-        message.success('添加成功');
-        fetchFlyData({ pageSize: 10, current: 1 });
-      }
-    } catch (error) {
-      message.success('添加失败');
-      console.log('catch getData:', error);
-    }
-    // updateFly(newData);
-  };
-
-  /**
    *  @file index.tsx
    *  @time 2023/10/27
    * @category :drawer
@@ -221,6 +177,7 @@ const App: React.FC = () => {
   const dispatch = useDispatch();
   const editRoadSignal = useSelector((state: any) => state.dashboardModel.editRoadSignal);
   const [showDrawer, setShowDrawer] = useState(false);
+  const [showList, setshowList] = useState(false);
   const [currentRoad, setcurrentRoad] = useState<ListUavFlyDataType>({
     id: 1,
     creator: 'default',
@@ -268,7 +225,13 @@ const App: React.FC = () => {
       console.log('handleSave -> row:', row);
       row.data = JSON.stringify(row.data);
       console.log('handleSave -> row:', row);
-      const response = await updateFly(row);
+      let response;
+      if (row?.id) {
+        response = await updateFly(row);
+      } else {
+        // @ts-ignore
+        response = await addFly(row);
+      }
       // console.log('*fetchDashboardInfo -> response:', response);
       const { code, result } = response;
       console.log('getData', code);
@@ -319,15 +282,61 @@ const App: React.FC = () => {
     // 将解析后的对象转换为数组
 
     setcurrentRoad(item);
+    setshowList(true);
     setShowDrawer(true);
   };
 
   const closeDrawer = async (data: any) => {
     setShowDrawer(false);
+    setshowList(false);
     dispatch({
       type: 'dashboardModel/changeDestoryTackSignal',
       payload: [true],
     });
+  };
+  /**
+   *添加新的航线,同时更新航线数据列表
+   *
+   */
+  const handleAdd = async () => {
+    const newData = {
+      creator: initialState?.currentUser?.name,
+      name: `default`,
+      data: [
+        {
+          name: 'default',
+          coord: [111, 37, 111],
+          speed: 5,
+          hovertime: 10,
+          radius: 25,
+          photo: '0', //0拍照  ,1不拍照
+          heightmode: '00', //
+          turning: '00',
+        },
+      ],
+      create_time: `default`,
+    };
+    try {
+      // @ts-ignore
+      newData.data = JSON.stringify(newData.data);
+      toggleDrawer(newData);
+
+      // // newData.data = newData.data + '';
+      // console.log('handleAdd -> newData:', newData);
+      // // @ts-ignore
+      // // console.log('*fetchDashboardInfo -> response:', response);
+      // const { code, result } = response;
+      // console.log('getData', code);
+      // if (code === '000000') {
+      //   message.success('添加成功');
+      //   fetchFlyData({ pageSize: 10, current: 1 });
+      //   // setcurrentRoad(newData);
+      // }
+    } catch (error) {
+      message.success('添加失败');
+      console.log('catch getData:', error);
+    }
+    // updateFly(newData);
   };
 
   /**
@@ -375,7 +384,14 @@ const App: React.FC = () => {
       });
       currentRoad.data = data;
       console.log('editRoad -> currentRoad:', currentRoad);
+      setshowList(false);
+
       setcurrentRoad(currentRoad);
+      // setshowList(true);
+
+      setTimeout(() => {
+        setshowList(true);
+      }, 500);
     }
 
     // 飞行模拟数据
@@ -405,6 +421,8 @@ const App: React.FC = () => {
       // });
       console.log('editRoad -> currentRoad:', currentRoad.data);
       setcurrentRoad(currentRoad);
+      setshowList(false);
+      setshowList(true);
     }
   };
 
@@ -499,7 +517,7 @@ const App: React.FC = () => {
                 closeDrawer(currentRoad);
               }}
             >
-              <RollbackOutlined /> 返回
+              <RollbackOutlined rev={undefined} /> 返回
             </Col>
             <Col span={14}>
               <div className={styles.title}>{currentRoad.name}</div>
@@ -512,65 +530,65 @@ const App: React.FC = () => {
                 handleSave(currentRoad);
               }}
             >
-              <CheckOutlined />
+              <CheckOutlined rev={undefined} />
               保存
             </Col>
           </Row>
-          <List
-            // pagination={{
-            //   pageSize: 3,
-            //   showSizeChanger: false,
-            // }}
-            dataSource={currentRoad.data}
-            renderItem={(item: NodeType, index) => (
-              <div className={styles.nodeList}>
-                {console.log('nodeitem', item)}
+          {showList && (
+            <List
+              // pagination={{
+              //   pageSize: 3,
+              //   showSizeChanger: false,
+              // }}
+              dataSource={currentRoad.data}
+              renderItem={(item: NodeType, index) => (
+                <div className={styles.nodeList}>
+                  {console.log('nodeitem', item)}
+                  <Row>
+                    <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
+                      经度
+                    </Col>
+                    <Col span={12} style={{ color: 'white' }}>
+                      {/* {item?.coord[0]} */}
+                      {item?.coord ? item.coord[0] : 'default'}
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
+                      维度
+                    </Col>
+                    <Col span={12} style={{ color: 'white' }}>
+                      {/* {item?.coord[1]} */}
+                      {item?.coord ? item.coord[1] : 'default'}
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
+                      高度
+                    </Col>
+                    <Col span={12} style={{ color: 'white' }}>
+                      {item?.coord ? item.coord[2] : 'default'}
 
-                <Row>
-                  <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
-                    经度
-                  </Col>
-                  <Col span={12} style={{ color: 'white' }}>
-                    {/* {item?.coord[0]} */}
-                    {item?.coord ? item.coord[0] : 'default'}
-                  </Col>
-                </Row>
-                <Row>
-                  <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
-                    维度
-                  </Col>
-                  <Col span={12} style={{ color: 'white' }}>
-                    {/* {item?.coord[1]} */}
-                    {item?.coord ? item.coord[1] : 'default'}
-                  </Col>
-                </Row>
-                <Row>
-                  <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
-                    高度
-                  </Col>
-                  <Col span={12} style={{ color: 'white' }}>
-                    {item?.coord ? item.coord[2] : 'default'}
-
-                    {/* {item?.coord[2]} */}
-                  </Col>
-                </Row>
-                <Row>
-                  <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
-                    距离上一点
-                  </Col>
-                  <Col span={12} style={{ color: 'white' }}>
-                    {item?.coord ? item.coord[2] : 'default'}
-                    {/* {item?.coord[2]} */}
-                  </Col>
-                </Row>
-                <Row>
-                  <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
-                    节点名称
-                  </Col>
-                  {/* <Col span={12} style={{ color: 'white' }} className={styles.inputDiv}> */}
-                  <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
-                    {item?.name ? item.name : 'default'}
-                    {/* <Input
+                      {/* {item?.coord[2]} */}
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
+                      距离上一点
+                    </Col>
+                    <Col span={12} style={{ color: 'white' }}>
+                      {item?.coord ? item.coord[2] : 'default'}
+                      {/* {item?.coord[2]} */}
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
+                      节点名称
+                    </Col>
+                    {/* <Col span={12} style={{ color: 'white' }} className={styles.inputDiv}> */}
+                    <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
+                      {item?.name ? item.name : 'default'}
+                      {/* <Input
                       className={styles.inputName}
                       readOnly={true}
                       defaultValue={item.name}
@@ -579,64 +597,66 @@ const App: React.FC = () => {
                         changeNodeName(e, index);
                       }}
                     /> */}
-                  </Col>
-                </Row>
-                <Row>
-                  <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
-                    高度模式
-                  </Col>
-                  <Col span={12} style={{ color: 'white' }}>
-                    <Select
-                      id="showStatus"
-                      defaultValue={item.heightmode}
-                      onChange={(value) => {
-                        changeNode(value, index, 'heightmode');
-                      }}
-                    >
-                      <Select.Option value={'00'}>独立控制</Select.Option>
-                      <Select.Option value={'01'}>高度优先</Select.Option>
-                      <Select.Option value={'10'}>斜线控制</Select.Option>
-                    </Select>
-                    {/* <Select defaultValue="default" onChange={handleChange} options={roadList} /> */}
-                  </Col>
-                </Row>
-                <Row>
-                  <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
-                    转弯方式
-                  </Col>
-                  <Col span={12} style={{ color: 'white' }}>
-                    <Select
-                      id="showStatus"
-                      defaultValue={item.turning}
-                      onChange={(value) => {
-                        changeNode(value, index, 'turning');
-                      }}
-                    >
-                      <Select.Option value={'00'}>悬停转弯</Select.Option>
-                      <Select.Option value={'01'}>内切转弯</Select.Option>
-                    </Select>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
-                    拍照
-                  </Col>
-                  <Col span={12} style={{ color: 'white' }}>
-                    <Select
-                      id="showStatus"
-                      defaultValue={item.photo}
-                      onChange={(value) => {
-                        changeNode(value, index, 'photo');
-                      }}
-                    >
-                      <Select.Option value={'0'}>不拍照</Select.Option>
-                      <Select.Option value={'1'}>拍照</Select.Option>
-                    </Select>
-                  </Col>
-                </Row>
-              </div>
-            )}
-          />
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
+                      高度模式
+                    </Col>
+                    <Col span={12} style={{ color: 'white' }}>
+                      <Select
+                        id="showStatus"
+                        defaultValue={item.heightmode}
+                        onChange={(value) => {
+                          changeNode(value, index, 'heightmode');
+                        }}
+                      >
+                        <Select.Option value={'00'}>独立控制</Select.Option>
+                        <Select.Option value={'01'}>高度优先</Select.Option>
+                        <Select.Option value={'10'}>斜线控制</Select.Option>
+                      </Select>
+                      {/* <Select defaultValue="default" onChange={handleChange} options={roadList} /> */}
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
+                      转弯方式
+                    </Col>
+                    <Col span={12} style={{ color: 'white' }}>
+                      <Select
+                        id="showStatus"
+                        defaultValue={item.turning}
+                        onChange={(value) => {
+                          changeNode(value, index, 'turning');
+                        }}
+                      >
+                        <Select.Option value={'00'}>悬停转弯</Select.Option>
+                        <Select.Option value={'01'}>内切转弯</Select.Option>
+                      </Select>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
+                      拍照
+                    </Col>
+                    <Col span={12} style={{ color: 'white' }}>
+                      <Select
+                        id="showStatus"
+                        defaultValue={item.photo}
+                        onChange={(value) => {
+                          changeNode(value, index, 'photo');
+                        }}
+                      >
+                        <Select.Option value={'0'}>不拍照</Select.Option>
+                        <Select.Option value={'1'}>拍照</Select.Option>
+                      </Select>
+                    </Col>
+                  </Row>
+                </div>
+              )}
+            />
+          )}
+
           <Row>
             <Col span={9} offset={2}>
               <Button
@@ -659,7 +679,6 @@ const App: React.FC = () => {
               </Button>
             </Col>
           </Row>
-
           {/*  */}
         </div>
       ) : (

@@ -4,7 +4,7 @@ import {
   DeleteOutlined,
   EditOutlined,
 } from '@ant-design/icons';
-import { Button, Divider, message, Drawer, Modal } from 'antd';
+import { Button, Divider, message, Drawer, Modal, Row, Col } from 'antd';
 import React, { useState, useRef, useEffect } from 'react';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
@@ -41,6 +41,23 @@ const DisplayKeyValuePairs = (data) => {
 const FlashPromotionList: React.FC = () => {
   const [info, handleinfo] = useState<any>({
     type: 'drone',
+    data: {
+      lat: 0,
+      lon: 0,
+      height: 0,
+      pitch: 0,
+      trajectory: 0,
+      roll_angle: 0,
+      rel_height: 0,
+      target_height: 0,
+      fly_time: 0,
+      fly_distance: 0,
+      speed: 0,
+      gps_speed: 0,
+    },
+  });
+  const [infoHangar, handleinfoHangar] = useState<any>({
+    type: 'hangar',
     data: {
       battery_v: 0,
       battery_temp: 0,
@@ -93,9 +110,13 @@ const FlashPromotionList: React.FC = () => {
         try {
           const jsonObject = JSON.parse(mqttMessage);
           // const jsonObject = JSON.stringify(JSON.parse(mqttMessage));
-
-          console.log('dashboardinfo222222222222222', jsonObject);
-          handleinfo(jsonObject);
+          if (jsonObject.type === 'drone') {
+            console.log('dashboardinfo222222222222222', jsonObject);
+            handleinfo(jsonObject);
+          } else {
+            console.log('dashboardinfo222222222222222', jsonObject);
+            handleinfoHangar(jsonObject);
+          }
         } catch (error) {
           handleinfo(JSON.stringify('字符解析错误'));
         }
@@ -112,19 +133,38 @@ const FlashPromotionList: React.FC = () => {
     <PageContainer>
       <div className={styles.content}>
         {/* {info} */}
-        <div>
-          <h3>{info.type}</h3>
-          <h3>数据信息</h3>
-          {Object.entries(info.data).map(([key, value]) => (
-            <div key={key}>
-              <ul>
-                <li key={key}>
-                  {key}: {value}
-                </li>
-              </ul>
+        <Row>
+          <Col span={12}>
+            <div>
+              <h3>{info.type}</h3>
+              <h3>无人机信息</h3>
+              {Object.entries(info.data).map(([key, value]) => (
+                <div key={key}>
+                  <ul>
+                    <li key={key}>
+                      {key}: {value}
+                    </li>
+                  </ul>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </Col>
+          <Col span={12}>
+            <div>
+              <h3>{infoHangar.type}</h3>
+              <h3>机库信息</h3>
+              {Object.entries(infoHangar.data).map(([key, value]) => (
+                <div key={key}>
+                  <ul>
+                    <li key={key}>
+                      {key}: {value}
+                    </li>
+                  </ul>
+                </div>
+              ))}
+            </div>
+          </Col>
+        </Row>
       </div>
     </PageContainer>
   );

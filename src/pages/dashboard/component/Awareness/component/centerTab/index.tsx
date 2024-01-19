@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-18 07:26:59
+ * @LastEditTime: 2024-01-18 15:54:49
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\component\centerTab\index.tsx
  * @Description:
  *
@@ -137,7 +137,7 @@ const CenterTab: React.FC = (props: any) => {
 
   const loadCurrentRoad = () => {
     // currentRoad.data
-    console.log('loadCurrentRoad -> currentRoad:', currentRoad);
+    console.log('loadCurrentRoad -> 无人机状态state11111:', currentRoad);
     // lat":38.0865966192828,"lon":114.33264199360657,"alt":97.20427051352851
     // currentRoad.push({
     //   name: '终点',

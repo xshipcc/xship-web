@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-18 14:41:18
+ * @LastEditTime: 2024-01-18 15:52:39
  * @FilePath: \zero-admin-ui-master\config\config.ts
  * @Description:
  *
@@ -45,12 +45,13 @@ export default defineConfig({
   define: {
     CESIUM_BASE_URL: '/', //cesium默认路径地址配置，没改好,这个地址相对于路由
     // 部署端
-    MAP_TERRAIN_URL: '/terrain',
-    MAP_TILES_URL: '/luquantile/{z}/{x}/{y}.png',
-    MQTT_PORT: '8883/mqtt',
+    // MAP_TERRAIN_URL: '/terrain',
+    // MAP_TILES_URL: '/luquantile/{z}/{x}/{y}.png',
+    // MQTT_PORT: '8883/mqtt',
     // 本地测试端
-    // MAP_TERRAIN_URL: 'http://uav.javodata.com/terrain',
-    // MAP_TILES_URL: 'http://uav.javodata.com/luquantile/{z}/{x}/{y}.png',
+    MQTT_PORT: '8083/mqtt',
+    MAP_TERRAIN_URL: 'http://uav.javodata.com/terrain',
+    MAP_TILES_URL: 'http://uav.javodata.com/luquantile/{z}/{x}/{y}.png',
   },
   hash: true,
 

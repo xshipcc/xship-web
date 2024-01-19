@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-22 14:51:44
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-25 15:04:37
+ * @LastEditTime: 2024-01-18 16:23:52
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\AlertList\history.tsx
  * @Description:
  *
@@ -202,14 +202,14 @@ export default () => {
                     {item.create_time + '-' + item.end_time}
                   </Col>
                 </Row>
-                <Row>
+                {/* <Row>
                   <Col span={9} className={styles.historyInfoTitle}>
                     操作者 :
                   </Col>
                   <Col span={15} className={styles.historyInfo}>
                     {item.operator}
                   </Col>
-                </Row>
+                </Row> */}
               </div>
             </List.Item>
           )}
