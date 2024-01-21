@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import type { InputRef } from 'antd';
+import { InputNumber, InputRef } from 'antd';
 import { Button, Col, Form, Input, List, Row, Select, Table } from 'antd';
 import type { FormInstance } from 'antd/es/form';
 import styles from './index.less';
@@ -206,13 +206,14 @@ const App: React.FC = () => {
   //               "turning": "00=悬停转弯;01=内切转弯"
 
   // },
-
+  // TODO
   /**
    *保存编辑航线的信息
    *
    * @param {DataType} row
    */
   const handleSave = async (row: DataType) => {
+    console.log('handleSave -> row:', row);
     const newData = [...dataSource];
     const index = newData.findIndex((item) => row.id === item.id);
     const item = newData[index];
@@ -222,7 +223,6 @@ const App: React.FC = () => {
     });
     try {
       // @ts-ignore
-      console.log('handleSave -> row:', row);
       row.data = JSON.stringify(row.data);
       console.log('handleSave -> row:', row);
       let response;
@@ -347,11 +347,25 @@ const App: React.FC = () => {
    * @param {*} key 当前修改对应的键
    */
   const changeNode = (value: any, index: any, key: any) => {
+    console.log('changeNode -> value:', value);
     // const tempNode = {
     //   coord: currentRoad.data[index]?.coord ? currentRoad.data[index].coord : '1',
     //   name: value,
     // };
-    currentRoad.data[index][key] = value;
+    switch (key) {
+      case 'lat':
+        currentRoad.data[index].coord[1] = value;
+        break;
+      case 'lon':
+        currentRoad.data[index].coord[0] = value;
+        break;
+      case 'height':
+        currentRoad.data[index].coord[2] = value;
+        break;
+      default:
+        currentRoad.data[index][key] = value;
+        break;
+    }
     console.log('changeNodeName -> currentRoad:', currentRoad);
     setcurrentRoad(currentRoad);
   };
@@ -550,7 +564,14 @@ const App: React.FC = () => {
                     </Col>
                     <Col span={12} style={{ color: 'white' }}>
                       {/* {item?.coord[0]} */}
-                      {item?.coord ? item.coord[0] : 'default'}
+                      <Input
+                        id="showStatus"
+                        defaultValue={item?.coord[0]}
+                        onChange={(value) => {
+                          changeNode(value.target.value, index, 'lon');
+                        }}
+                      />
+                      {/* {item?.coord ? item.coord[0] : 'default'} */}
                     </Col>
                   </Row>
                   <Row>
@@ -559,7 +580,14 @@ const App: React.FC = () => {
                     </Col>
                     <Col span={12} style={{ color: 'white' }}>
                       {/* {item?.coord[1]} */}
-                      {item?.coord ? item.coord[1] : 'default'}
+                      <Input
+                        id="showStatus"
+                        defaultValue={item?.coord[1]}
+                        onChange={(value) => {
+                          changeNode(value.target.value, index, 'lat');
+                        }}
+                      />
+                      {/* {item?.coord ? item.coord[1] : 'default'} */}
                     </Col>
                   </Row>
                   <Row>
@@ -567,20 +595,25 @@ const App: React.FC = () => {
                       高度
                     </Col>
                     <Col span={12} style={{ color: 'white' }}>
-                      {item?.coord ? item.coord[2] : 'default'}
-
+                      <Input
+                        id="showStatus"
+                        defaultValue={item?.coord[2]}
+                        onChange={(value) => {
+                          changeNode(value.target.value, index, 'height');
+                        }}
+                      />
+                      {/* {item?.coord ? item.coord[2] : 'default'} */}
                       {/* {item?.coord[2]} */}
                     </Col>
                   </Row>
-                  <Row>
+                  {/* <Row>
                     <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
                       距离上一点
                     </Col>
                     <Col span={12} style={{ color: 'white' }}>
                       {item?.coord ? item.coord[2] : 'default'}
-                      {/* {item?.coord[2]} */}
                     </Col>
-                  </Row>
+                  </Row> */}
                   <Row>
                     <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
                       节点名称
@@ -589,14 +622,14 @@ const App: React.FC = () => {
                     <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
                       {item?.name ? item.name : 'default'}
                       {/* <Input
-                      className={styles.inputName}
-                      readOnly={true}
-                      defaultValue={item.name}
-                      placeholder="请输入节点名称"
-                      onChange={(e) => {
-                        changeNodeName(e, index);
-                      }}
-                    /> */}
+                        className={styles.inputName}
+                        readOnly={true}
+                        defaultValue={item.name}
+                        placeholder="请输入节点名称"
+                        onChange={(e) => {
+                          changeNodeName(e, index);
+                        }}
+                      /> */}
                     </Col>
                   </Row>
                   <Row>

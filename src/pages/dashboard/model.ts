@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-16 18:32:55
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-27 13:06:04
+ * @LastEditTime: 2024-01-21 10:36:23
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\model.ts
  * @Description:
  *
@@ -11,7 +11,7 @@
 import type { Effect, ImmerReducer } from 'umi';
 import { getDashboardInfo } from './service';
 import { getAlertList } from './service';
-import type { DashboardInfoType, DroneDataType } from './typings';
+import type { DashboardAnalysData, DashboardInfoType, DroneDataType } from './typings';
 import type { ListUavFlyDataType } from '@/pages/drone/routePlan/data';
 import type { ListAlertHistoryData } from '@/pages/AIalert/data';
 
@@ -31,6 +31,7 @@ export interface DashboardState {
    * @memberof DashboardState
    */
   dashboardInfo: DashboardInfoType;
+  analysisInfo: DashboardAnalysData;
   alertList: string[];
   currentFlyData: ListUavFlyDataType;
   alertData: ListAlertHistoryData;
@@ -64,7 +65,6 @@ export interface DashboardModelType {
   state: DashboardState;
   reducers: {
     changeDestoryTackSignal: ImmerReducer<string> | any;
-
     changeCurrentComponent: ImmerReducer<string> | any;
     saveDashboardInfo: ImmerReducer<string> | any;
     saveAlertList: ImmerReducer<string> | any;
@@ -80,6 +80,7 @@ export interface DashboardModelType {
     changecurrentFlyingid: ImmerReducer<boolean> | any;
     changedashboardinfoMqtt: ImmerReducer<boolean> | any;
     changecurrentHistoryData: ImmerReducer<boolean> | any;
+    changeAnalysisInfo: ImmerReducer<boolean> | any;
   };
   effects: {
     fetchDashboardInfo: Effect;
@@ -91,7 +92,6 @@ const CompanyModel: DashboardModelType = {
 
   state: {
     destoryTackSignal: [false],
-
     currentComponent: 'Analysis',
     dashboardInfo: {
       drone: {
@@ -114,6 +114,49 @@ const CompanyModel: DashboardModelType = {
         linegram: [],
       },
       alarmPie: [],
+    },
+    analysisInfo: {
+      data: [
+        {
+          id: 0,
+          type: 0,
+          lat: 0,
+          lon: 0,
+          alt: 0,
+        },
+        {
+          id: 0,
+          type: 0,
+          lat: 0,
+          lon: 0,
+          alt: 0,
+        },
+        {
+          id: 0,
+          type: 1,
+          lat: 5,
+          lon: 6,
+          alt: 4,
+        },
+        {
+          id: 1,
+          type: 1,
+          lat: 3,
+          lon: 7,
+          alt: 2,
+        },
+      ],
+      week_data: [1, 2, 5, 20, 10, 7],
+      alert_total: [4, 5, 2, 2, 10, 7, 4, 8, 8, 8],
+      alert_confirms: [1, 2, 4, 5, 5, 6, 3, 3, 2],
+      alert_not_confirms: [1, 2, 2, 5, 6, 7, 4, 3, 2, 1],
+      today_yesterday: {
+        todaydata: [1, 1, 1],
+        ydataToday: [1, 1, 1],
+      },
+      total: 32,
+      completion: 2,
+      totaltime: 3,
     },
     checkedCompanyId: undefined,
     enterpriseOptions: [],
@@ -200,6 +243,9 @@ const CompanyModel: DashboardModelType = {
   reducers: {
     changeCurrentComponent(state: DashboardState, action: { payload: string }) {
       state.currentComponent = action.payload;
+    },
+    changeAnalysisInfo(state: DashboardState, action: { payload: DashboardAnalysData }) {
+      state.analysisInfo = action.payload;
     },
     changeDestoryTackSignal(state: DashboardState, action: { payload: [boolean] }) {
       // console.log('changeEditSignal -> payload:', action.payload);

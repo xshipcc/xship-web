@@ -116,7 +116,7 @@ const FlashPromotionList: React.FC = () => {
       hideInSearch: true,
     },
     {
-      title: '无人机编号',
+      title: '无人机id',
       dataIndex: 'uav_id',
       render: (dom, entity) => {
         return (

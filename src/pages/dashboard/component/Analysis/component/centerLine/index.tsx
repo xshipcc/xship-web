@@ -2,20 +2,41 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-18 15:51:21
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-17 10:29:18
+ * @LastEditTime: 2024-01-21 10:50:28
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Analysis\component\centerLine\index.tsx
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
+import { DashboardAnalysData } from '@/pages/dashboard/typings';
 import * as echarts from 'echarts';
 import React, { useEffect } from 'react';
+import { useSelector } from 'umi';
 import styles from './index.less';
 
 const LineChart = (props: any) => {
+  const analysisInfo: DashboardAnalysData = useSelector(
+    (state: any) => state.dashboardModel.analysisInfo,
+  );
+  const calculateYoY = (currentYearData: string | any[], previousYearData: any[]) => {
+    const yoyData = [];
+    for (let i = 0; i < currentYearData.length; i++) {
+      const current = currentYearData[i];
+      const previous = previousYearData[i];
+      const yoy = (current - previous) / previous;
+      yoyData.push(yoy);
+    }
+    return yoyData;
+  };
+
   const initChart = () => {
     const element = document.getElementById('centerLineDiv');
     const myChart = echarts.init(element);
+    const RateList = calculateYoY(
+      analysisInfo.today_yesterday.todaydata,
+      analysisInfo.today_yesterday.ydataToday,
+    );
+    console.log('initChart -> RateList:', RateList);
     const option = {
       // backgroundColor: '#031d33',
       legend: {
@@ -57,7 +78,18 @@ const LineChart = (props: any) => {
         },
         type: 'category',
         boundaryGap: true,
-        data: ['HWS', 'SE', 'V&V', 'HQ', 'RPA', 'SC', 'RPA', 'PM', 'CCB', 'RSW'],
+        data: [
+          '人员',
+          '车辆',
+          '自行车',
+          '汽车',
+          '卡车',
+          '厢式货车',
+          '三轮车',
+          '摩托车',
+          '烟雾',
+          '火警',
+        ],
         axisLabel: {
           //坐标轴刻度标签的相关设置。
           interval: 0, //设置为 1，表示『隔一个标签显示一个标签』
@@ -212,8 +244,7 @@ const LineChart = (props: any) => {
           },
           symbol:
             'path://M12.000,-0.000 C12.000,-0.000 16.074,60.121 22.731,60.121 C26.173,60.121 -3.234,60.121 0.511,60.121 C7.072,60.121 12.000,-0.000 12.000,-0.000 Z',
-
-          data: [23, 44, 22, 27, 12, 2, 3, 23, 12, 32],
+          data: analysisInfo.today_yesterday.todaydata,
         },
         {
           name: '昨日',
@@ -248,49 +279,12 @@ const LineChart = (props: any) => {
           },
           symbol:
             'path://M12.000,-0.000 C12.000,-0.000 16.074,60.121 22.731,60.121 C26.173,60.121 -3.234,60.121 0.511,60.121 C7.072,60.121 12.000,-0.000 12.000,-0.000 Z',
-
-          data: [13, 24, 31, 12, 7, 3, 1, 23, 2, 42],
+          data: analysisInfo.today_yesterday.ydataToday,
         },
-        // {
-        //   name: '本月',
-        //   type: 'pictorialBar',
-        //   barWidth: '50%',
-        //   label: {
-        //     normal: {
-        //       show: false,
-        //     },
-        //   },
-        //   itemStyle: {
-        //     normal: {
-        //       color: {
-        //         type: 'linear',
-        //         x: 0,
-        //         y: 0,
-        //         x2: 0,
-        //         y2: 1,
-        //         colorStops: [
-        //           {
-        //             offset: 0,
-        //             color: 'rgba(161, 159, 158, 0.8)', // 处的颜色
-        //           },
-        //           {
-        //             offset: 1,
-        //             color: 'rgba(133, 133, 196, 0.2)', // 100% 处的颜色
-        //           },
-        //         ],
-        //         globalCoord: false, // 缺省为 false
-        //       }, //渐变颜色
-        //     },
-        //   },
-        //   symbol:
-        //     'path://M12.000,-0.000 C12.000,-0.000 16.074,60.121 22.731,60.121 C26.173,60.121 -3.234,60.121 0.511,60.121 C7.072,60.121 12.000,-0.000 12.000,-0.000 Z',
-
-        //   data: [4, 3, 12, 4, 15, 2, 3, 12, 34, 23],
-        // },
         {
           name: '同比',
           type: 'line',
-          data: [0.3, 0.5, 0.3, 0.35, 0.15, 0.05, 0.05, 0.3, 0.35, 0.4, 0.5],
+          data: RateList,
           smooth: true,
           symbol: 'none',
           lineStyle: {
@@ -343,7 +337,7 @@ const LineChart = (props: any) => {
   };
   useEffect(() => {
     initChart();
-  }, []);
+  }, [analysisInfo]);
   return <div id="centerLineDiv" className={styles.line} />;
 };
 export default LineChart;

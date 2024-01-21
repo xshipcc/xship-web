@@ -32,6 +32,30 @@ export async function upadtaAlert(params: UpdateAlertHistoryReqType) {
   });
 }
 
+/**
+ *
+ *
+ * @export 查询首页的统计数据
+ * @param {*} params 不需要传参
+ * @return {*}
+ */
+export async function queryStatistics(params: any) {
+  return request('/api/uav/alert/statistics', {
+    method: 'POST',
+    data: {
+      ...params,
+    },
+  });
+}
+export async function queryReport(params: any) {
+  return request('/api/uav/plan/statisticslist', {
+    method: 'POST',
+    data: {
+      ...params,
+    },
+  });
+}
+
 //#endregion -----------------------------------------------------------------------
 /**
  * @end

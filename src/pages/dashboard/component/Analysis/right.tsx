@@ -1,9 +1,8 @@
-//@ts-nocheck
 /*
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-17 10:22:45
+ * @LastEditTime: 2024-01-21 11:14:41
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Analysis\right.tsx
  * @Description:
  *
@@ -12,27 +11,17 @@
 import React, { useEffect, useState } from 'react';
 import styles from './right.less';
 import Column from './component/column';
-import Pie from './component/pie';
-
+import { useSelector } from 'umi';
+import { DashboardAnalysData } from '@/pages/dashboard/typings';
 import type { DashboardInfoType } from '@/pages/dashboard/typings';
 import Title from '@/pages/dashboard/component/common/Title';
 
 const AnalysisRight: React.FC = (props) => {
   // @ts-ignore
   const [value] = useState<DashboardInfoType>(props.initValue);
-
-  //#region    -----------------------------------------------------------------------
-  /**
-   *  @file index.tsx
-   *  @time 2023/09/13
-   * @category :
-   * @function :
-   */
-
-  /**
-   * @end
-   */
-  //#endregion -----------------------------------------------------------------------
+  const analysisInfo: DashboardAnalysData = useSelector(
+    (state: any) => state.dashboardModel.analysisInfo,
+  );
 
   return (
     <>
@@ -42,20 +31,20 @@ const AnalysisRight: React.FC = (props) => {
           <div className={styles.sum}>
             <div className={styles.data}>
               <div className={styles.title}>总巡检次数</div>
-              <div className={styles.number}>32</div>
+              <div className={styles.number}>{analysisInfo.total}</div>
             </div>
             <div className={styles.cicle1} />
             {/* <canvas id="canvas1"></canvas>
             <canvas id="canvas2"></canvas> */}
             <div className={styles.data1}>
               <div className={styles.qiu}>
-                <p>80%</p>
+                <p>{analysisInfo.completion}%</p>
               </div>
               <span>总完成率</span>
             </div>
             <div className={styles.data2}>
               <div className={styles.qiu}>
-                <p>70%</p>
+                <p>{analysisInfo.totaltime}h</p>
               </div>
               <span>巡检时间</span>
             </div>

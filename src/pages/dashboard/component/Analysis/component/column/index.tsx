@@ -2,17 +2,22 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-18 15:51:21
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-23 01:16:25
+ * @LastEditTime: 2024-01-21 10:59:19
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Analysis\component\column\index.tsx
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
+import { DashboardAnalysData } from '@/pages/dashboard/typings';
 import * as echarts from 'echarts';
 import React, { useEffect } from 'react';
+import { useSelector } from 'umi';
 import styles from './index.less';
 
 const Column = (props: any) => {
+  const analysisInfo: DashboardAnalysData = useSelector(
+    (state: any) => state.dashboardModel.analysisInfo,
+  );
   const initChart = () => {
     const element = document.getElementById('columnDiv');
     const myChart = echarts.init(element);
@@ -48,10 +53,11 @@ const Column = (props: any) => {
         borderRadius: [0, 20, 20, 0],
       },
     };
+
     let series = [
-      { name: '最多', data: [5, 11, 5, 5, 11, 11, 5, 11, 11, 12] },
-      { name: '平均', data: [3, 9, 3, 2, 5, 11, 5, 5, 11, 2] },
-      { name: '最少', data: [1, 3, 1, 1, 5, 11, 5, 5, 11, 1] },
+      { name: '告警总数', data: analysisInfo.alert_total },
+      { name: '确认', data: analysisInfo.alert_confirms },
+      { name: '未确认', data: analysisInfo.alert_not_confirms },
     ];
     series = series.map((item) => ({
       ...item,
@@ -113,7 +119,18 @@ const Column = (props: any) => {
         splitLine: {
           show: false, //不显示横向分割线
         },
-        data: ['车辆', '人脸', '入侵', '烟雾', '火焰', '区域', '人像', '监控', '人员', '无人机'],
+        data: [
+          '人员',
+          '车辆',
+          '自行车',
+          '汽车',
+          '卡车',
+          '厢式货车',
+          '三轮车',
+          '摩托车',
+          '烟雾',
+          '火警',
+        ],
       },
       series,
     };
@@ -127,7 +144,7 @@ const Column = (props: any) => {
   };
   useEffect(() => {
     initChart();
-  }, []);
+  }, [analysisInfo]);
   return <div id="columnDiv" className={styles.line} />;
 };
 export default Column;

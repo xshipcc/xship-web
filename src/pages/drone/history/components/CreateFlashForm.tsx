@@ -2,14 +2,15 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-24 22:27:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-09-28 16:36:46
+ * @LastEditTime: 2024-01-19 13:32:05
  * @FilePath: \zero-admin-ui-master\src\pages\drone\history\components\CreateFlashForm.tsx
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
 import React, { useEffect, useState } from 'react';
-import { Form, Input, Modal, Select, DatePicker, DatePickerProps, InputNumber } from 'antd';
+import type { DatePickerProps } from 'antd';
+import { Form, Input, Modal, Select, DatePicker, InputNumber } from 'antd';
 import type { AddUavHistoryReqType } from '../data.d';
 import { queryFly } from '../../routePlan/service';
 import { queryDevice } from '../../device/service';

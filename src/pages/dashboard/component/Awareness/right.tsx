@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-18 14:18:11
+ * @LastEditTime: 2024-01-21 11:19:34
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\right.tsx
  * @Description:
  *
@@ -119,12 +119,26 @@ const AwarenessRight: React.FC = () => {
     };
   }, []);
   const [pause, setpause] = useState(true);
+  const [playsignal, setplaysignal] = useState(false);
   const [speed, setspeed] = useState(1);
+  const [showButton, setshowButton] = useState(false);
   const currentFlyingid = useSelector((state: any) => state.dashboardModel.currentFlyingid);
   console.log('ChangeComponent -> currentFlyingid:', currentFlyingid);
   const onChange = (value: number | number[]) => {
     console.log('onChange: ', value);
   };
+  useEffect(() => {
+    if (currentFlyingid != -1) {
+      console.log('useEffect -> currentFlyingid:', currentFlyingid);
+      dispatch({
+        type: 'dashboardModel/changeshowDetail',
+        payload: true,
+      });
+      setshowButton(true);
+    } else {
+      setshowButton(false);
+    }
+  }, [currentFlyingid]);
 
   return (
     <>
@@ -137,21 +151,26 @@ const AwarenessRight: React.FC = () => {
                 <TimeLine client={client} />
                 {/* <Slider range step={1} defaultValue={[0, 0]} onChange={onChange} /> */}
               </div>
-              {showDetail || currentFlyingid != -1 ? (
+              {showButton ? (
                 <Row className={styles.playButton}>
-                  <Col span={6}>
+                  <Col span={8}>
                     <Button
                       type="text"
                       onClick={() => {
                         ChangeComponent('Awareness');
-                        // @ts-ignore
-                        sendMqttControl('play', 'player', currentFlyingid);
+                        if (playsignal) {
+                          setpause(!pause);
+                          sendMqttControl('pause', 'player', pause ? 'on' : 'off');
+                        } else {
+                          setplaysignal(true);
+                          sendMqttControl('play', 'player', currentFlyingid);
+                        }
                       }}
                     >
-                      播放
+                      {playsignal ? (pause ? '暂停' : '继续') : '播放'}
                     </Button>
                   </Col>
-                  <Col span={6}>
+                  {/* <Col span={8}>
                     <Button
                       type="text"
                       onClick={() => {
@@ -162,8 +181,8 @@ const AwarenessRight: React.FC = () => {
                     >
                       {pause ? '暂停' : '继续'}
                     </Button>
-                  </Col>
-                  <Col span={6}>
+                  </Col> */}
+                  <Col span={8}>
                     <Button
                       type="text"
                       onClick={() => {
@@ -179,7 +198,7 @@ const AwarenessRight: React.FC = () => {
                       结束
                     </Button>
                   </Col>
-                  <Col span={6}>
+                  <Col span={8}>
                     <Button
                       type="text"
                       onClick={() => {

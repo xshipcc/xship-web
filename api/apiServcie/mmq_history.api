@@ -9,11 +9,12 @@ type (
 	ListAlertHistoryReq {
 		Current  int64 `json:"current,default=1"`
 		PageSize int64 `json:"pageSize,default=20"`
-		
-		Type        int64  `json:"type"`//'消息类型:0-全部 1-巡检路线 2-入侵 3-烟火 4-人员 5-车辆',
-		Platform    int64  `json:"platform"` //监控的平台 '使用平台：0-全部 1-飞机 2-摄像头;3-机库;4-AI',
-		HistoryID 	int64  `json:"history_id"`// 巡检路线id 告警信息和巡检路线id绑定 巡检路线->告警路线 一对多
-		Confirm       int64  `json:"confirm"`//是否是 审查过的。
+		Type        int64  `json:"type,optional"`//'消息类型:0-全部 1-巡检路线 2-入侵 3-烟火 4-人员 5-车辆',
+		Starttime 	string `json:"start_time,optional"`
+		Endtime 	string `json:"end_time,optional"` //??时间不是一个时间段么？ 
+		Platform    int64  `json:"platform,optional"` //监控的平台 '使用平台：0-全部 1-飞机 2-摄像头;3-机库;4-AI',
+		HistoryID 	int64  `json:"history_id,optional"`// 巡检路线id 告警信息和巡检路线id绑定 巡检路线->告警路线 一对多
+		Confirm       int64  `json:"confirm,optional"`//是否是 审查过的。
 	}
 	ListAlertHistoryData {
 		Id          int64  `json:"id"`
@@ -43,8 +44,36 @@ type (
 		Code     string                          `json:"code"`
 		Message  string                          `json:"message"`
 	}
-	UpdateAlertHistoryReq {
+
+
+
+	ListAlertData {
 		Id          int64  `json:"id"`
+		Type          int64  `json:"type"`
+		Lat          float64  `json:"lat"`
+		Lon          float64  `json:"lon"`
+		Alt          float64  `json:"alt"`
+	}
+
+	Datayesterday {
+		TodayData          [] int64  `json:"id"`
+		YestData  [] int64  `json:"ydataToday"`
+
+	}
+// 告警统计
+	ListAlertStatisticsResp {
+		Data     	  [] *ListAlertData				 `json:"data"`
+		WeekCount     [] int64				 		 `json:"week_data"`
+		TodayYesterday  *Datayesterday				 `json:"today_yesterday"`
+		Total          int64  `json:"total"`
+		Completion	   int64  `json:"completion"`
+		TotalTime	   int64  `json:"totaltime"`
+	}
+
+	//SELECT SUM(TIMESTAMPDIFF(SECOND, start_time, end_time)) AS total_duration FROM your_table;
+	
+	UpdateAlertHistoryReq {
+		Id          int64  `json:"id,default=1"`
 	}
 	UpdateAlertHistoryResp {
 		Code    string `json:"code"`
@@ -77,5 +106,9 @@ service admin-api {
 
 	@handler AlertItemConfirm
 	post /confirm (ConfirmAlertHistoryReq) returns (ConfirmAlertHistoryResp)
+
+
+	@handler Statistics
+	post /statistics (UpdateAlertHistoryReq) returns (ListAlertStatisticsResp)
 
 }

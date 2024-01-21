@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-08 10:25:32
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-10 20:14:27
+ * @LastEditTime: 2024-01-19 15:08:32
  * @FilePath: \zero-admin-ui-master\src\pages\drone\task\components\CreateFlashForm.tsx
  * @Description:
  *
@@ -55,7 +55,13 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
 
   const handleFinish = (values: AddUavPlanReqType) => {
     if (onSubmit) {
-      onSubmit({ ...values, plan });
+      console.log('setTimeout -> plan:', plan);
+      const newStr = '0' + plan.substring(1, plan.length - 1);
+      console.log('handleFinish -> newStr:', newStr);
+      // const newStr = str.slice(0, -1); // 去除最后一个字符
+      setTimeout(() => {
+        onSubmit({ ...values, plan: newStr });
+      }, 500);
     }
   };
 

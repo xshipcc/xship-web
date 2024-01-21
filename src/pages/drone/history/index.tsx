@@ -119,6 +119,16 @@ const FlashPromotionList: React.FC = () => {
       valueType: 'dateTime',
       hideInSearch: true,
     },
+    {
+      hideInSearch: true,
+      title: '历史情况',
+      dataIndex: 'status',
+      valueEnum: {
+        1: { text: '未完成', color: 'yellow' },
+        0: { text: '完成', color: 'green' },
+        2: { text: '故障', color: 'red' },
+      },
+    },
   ];
   const columnsDevice: ProColumns<any>[] = [
     {

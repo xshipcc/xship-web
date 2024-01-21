@@ -63,7 +63,10 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
 
   const handleFinish = (item: { [key: string]: any }) => {
     if (onSubmit) {
-      onSubmit({ ...(item as ListUavPlanDataType), plan });
+      const newStr = '0' + plan.substring(1, plan.length - 1);
+      setTimeout(() => {
+        onSubmit({ ...(item as ListUavPlanDataType), plan: newStr });
+      }, 500);
     }
   };
   const normFile = (e: any) => {

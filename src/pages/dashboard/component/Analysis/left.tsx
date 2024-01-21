@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-17 10:30:45
+ * @LastEditTime: 2024-01-21 10:27:13
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Analysis\left.tsx
  * @Description:
  *
@@ -11,53 +11,13 @@
 import { Col, Row } from 'antd';
 import React, { useEffect, useState } from 'react';
 import styles from './left.less';
-import type { DashboardInfoType } from '@/pages/dashboard/typings';
+import type { DashboardAnalysData, DashboardInfoType } from '@/pages/dashboard/typings';
 import Title from '@/pages/dashboard/component/common/Title';
 import Radar from './component/road';
 import Line from './component/Line';
+import { queryStatistics, queryReport } from '@/pages/AIalert/service';
 
 const Analysis: React.FC = (props) => {
-  // @ts-ignore
-  const [value] = useState<DashboardInfoType>(props.initValue);
-  // console.log('props:', props);
-  //#region    -----------------------------------------------------------------------
-  /**
-   *  @file index.tsx
-   *  @time 2023/09/13
-   * @category :area
-   * @function :
-   */
-
-  const [data, setData] = useState(value.line);
-  // const asyncFetch = () => {
-  //   fetch('https://gw.alipayobjects.com/os/bmw-prod/b21e7336-0b3e-486c-9070-612ede49284e.json')
-  //     .then((response) => response.json())
-  //     .then((json) => setData(json))
-  //     .catch((error) => {
-  //       console.log('fetch data failed', error);
-  //     });
-  // };
-
-  // useEffect(() => {
-  //   asyncFetch();
-  // }, []);
-
-  /**
-   * @end
-   */
-  //#endregion -----------------------------------------------------------------------
-  /**
-   *  @file left.tsx
-   *  @time 2023/10/18
-   * @category :
-   * @function :
-   */
-  //#region -------------------------------------------------------------------------
-
-  //#endregion -----------------------------------------------------------------------
-  /**
-   * @end
-   */
   return (
     <>
       <div className={styles.content}>

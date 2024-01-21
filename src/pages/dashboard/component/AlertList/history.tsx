@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-22 14:51:44
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-18 16:23:52
+ * @LastEditTime: 2024-01-21 09:49:14
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\AlertList\history.tsx
  * @Description:
  *
@@ -181,24 +181,27 @@ export default () => {
                 }}
               >
                 <Row>
+                  <Col span={6} className={styles.historyInfo}>
+                    历史编号:{item.id}
+                  </Col>
                   <Col span={6} className={styles.historyInfoTitle}>
                     巡检路线id:
                   </Col>
-                  <Col span={6} className={styles.historyInfo}>
+                  <Col span={3} className={styles.historyInfo}>
                     {item.fly_id}
                   </Col>
                   <Col span={6} className={styles.historyInfoTitle}>
-                    无人机id :
+                    无人机id:
                   </Col>
-                  <Col span={6} className={styles.historyInfo}>
+                  <Col span={3} className={styles.historyInfo}>
                     {item.uav_id}
                   </Col>
                 </Row>
                 <Row>
-                  <Col span={9} className={styles.historyInfoTitle}>
-                    执行时间 :
+                  <Col span={6} className={styles.historyInfoTitle}>
+                    执行时间:
                   </Col>
-                  <Col span={15} className={styles.historyInfo}>
+                  <Col span={18} className={styles.historyInfo}>
                     {item.create_time + '-' + item.end_time}
                   </Col>
                 </Row>

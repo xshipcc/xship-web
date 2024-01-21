@@ -21,9 +21,10 @@ import AwarenessRight from '@/pages/dashboard/component/Awareness/right';
 import Analysis from '@/pages/dashboard/component/Analysis/left';
 import AnalysisCenter from '@/pages/dashboard/component/Analysis/center';
 import AnalysisRight from '@/pages/dashboard/component/Analysis/right';
-import TimeLine from '@/pages/dashboard/component/Awareness/component/timeLine';
 import Map from '@/pages/dashboard/component/Map';
 import { Header } from '@/pages/dashboard/component/Header';
+import type { DashboardAnalysData } from '@/pages/dashboard/typings';
+import { queryStatistics } from '@/pages/AIalert/service';
 import { useSelector, useDispatch, history } from 'umi';
 const initView = {
   drone: {
@@ -276,6 +277,16 @@ const Dashboard: React.FC = () => {
   //#region -------------------------------------------------------------------------
   const dashboardinfoMqtt = useSelector((state: any) => state.dashboardModel.dashboardinfoMqtt);
   const [data, setData] = useState(null);
+
+  useEffect(() => {
+    // queryReport({ current: 1, pageSize: 10 }).then((res) => {
+    //   console.log('queryAlertHistory -> res:', res);
+    // });
+    queryStatistics({ id: 0 }).then((res: DashboardAnalysData) => {
+      console.log('queryAlertHistory -> res:', res);
+    });
+  }, []);
+
   const dispatch = useDispatch();
   useEffect(() => {
     const fetchData = async () => {
