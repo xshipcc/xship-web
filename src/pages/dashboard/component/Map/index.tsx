@@ -271,6 +271,23 @@ const Map: React.FC = () => {
       viewer.current.dataSources.removeAll();
     }
   }, [currentComponent]);
+  // 视角归中
+  const centering = useSelector((state: any) => state.dashboardModel.centering);
+  useEffect(() => {
+    console.log('currentComponent:', currentComponent);
+    viewer.current.scene.camera.setView({
+      destination: new Cesium.Cartesian3.fromDegrees(
+        114.33919146 + 0.0057,
+        38.07525226 + 0.0011,
+        1033.45,
+      ), // 目标位置
+      orientation: {
+        heading: 0, // 水平角度，正东方向为0
+        pitch: -0.3, // 俯仰角度
+        roll: 0, // 翻滚角度
+      },
+    });
+  }, [centering]);
 
   const destoryTackSignal = useSelector((state: any) => state.dashboardModel.destoryTackSignal);
   useEffect(() => {

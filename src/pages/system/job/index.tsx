@@ -213,7 +213,7 @@ const JobTableList: React.FC = () => {
         rowSelection={{
           onChange: (_, selectedRows) => setSelectedRows(selectedRows),
         }}
-        pagination={{ pageSize: 10 }}
+        pagination={{ pageSize: 10, simple: true }}
       />
       {selectedRowsState?.length > 0 && (
         <FooterToolbar

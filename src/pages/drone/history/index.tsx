@@ -271,7 +271,7 @@ const FlashPromotionList: React.FC = () => {
           };
         }}
         columns={columns}
-        pagination={{ pageSize: 10 }}
+        pagination={{ pageSize: 10, simple: true }}
       />
 
       <CreateFlashForm

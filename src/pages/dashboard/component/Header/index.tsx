@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-09 20:12:31
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-02 00:12:20
+ * @LastEditTime: 2024-01-21 12:55:23
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Header\index.tsx
  * @Description:
  *
@@ -11,7 +11,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './index.less';
 import 'cesium/Source/Widgets/widgets.css';
-import { Button, Col, Row } from 'antd';
+import { Button, Col, Row, message } from 'antd';
 
 import Timer from '@/pages/dashboard/component/Timer';
 import { useSelector, useDispatch } from 'umi';
@@ -43,7 +43,18 @@ export const Header: React.FC = () => {
 
       {/*  */}
       <div className={styles.header}>
-        <div className={styles.title}>无人机自动巡检系统</div>
+        <div
+          className={styles.title}
+          onClick={() => {
+            dispatch({
+              type: 'dashboardModel/changeCentering',
+              payload: Math.random(),
+            });
+            message.success('场景归中');
+          }}
+        >
+          无人机自动巡检系统
+        </div>
         <Row className={styles.buttonRow}>
           <Col span={2} offset={8}>
             <Button

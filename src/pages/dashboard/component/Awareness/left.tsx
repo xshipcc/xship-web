@@ -191,7 +191,7 @@ const Awareness: React.FC = () => {
                 ),
               },
               {
-                label: `无人机画面`,
+                label: `回放画面`,
                 key: 'drone',
                 children: (
                   <Row>

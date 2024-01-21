@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-16 18:32:55
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-21 10:36:23
+ * @LastEditTime: 2024-01-21 12:48:53
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\model.ts
  * @Description:
  *
@@ -56,6 +56,7 @@ export interface DashboardState {
   currentPoint: {};
   destoryTackSignal: [boolean];
   currentFlyingid: number;
+  centering: boolean;
   showDetail: boolean;
   dashboardinfoMqtt: {};
   currentHistoryData: any;
@@ -66,6 +67,7 @@ export interface DashboardModelType {
   reducers: {
     changeDestoryTackSignal: ImmerReducer<string> | any;
     changeCurrentComponent: ImmerReducer<string> | any;
+    changeCentering: ImmerReducer<boolean> | any;
     saveDashboardInfo: ImmerReducer<string> | any;
     saveAlertList: ImmerReducer<string> | any;
     saveCurrentFlyData: ImmerReducer<string> | any;
@@ -200,6 +202,7 @@ const CompanyModel: DashboardModelType = {
     currentFlyingRoad: [],
     currentFlyingid: -1,
     showDetail: false,
+    centering: true,
     currentHistoryData: {
       create_time: '2023-12-1 12:36:41',
       end_time: '2023-12-1 13:38:39',
@@ -243,6 +246,9 @@ const CompanyModel: DashboardModelType = {
   reducers: {
     changeCurrentComponent(state: DashboardState, action: { payload: string }) {
       state.currentComponent = action.payload;
+    },
+    changeCentering(state: DashboardState, action: { payload: boolean }) {
+      state.centering = action.payload;
     },
     changeAnalysisInfo(state: DashboardState, action: { payload: DashboardAnalysData }) {
       state.analysisInfo = action.payload;

@@ -8,7 +8,7 @@
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
-import { Button, Col, Row, Select, Slider } from 'antd';
+import { Button, Col, message, Row, Select, Slider } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './right.less';
 import AlertList from '@/pages/dashboard/component/AlertList/alert';
@@ -124,9 +124,6 @@ const AwarenessRight: React.FC = () => {
   const [showButton, setshowButton] = useState(false);
   const currentFlyingid = useSelector((state: any) => state.dashboardModel.currentFlyingid);
   console.log('ChangeComponent -> currentFlyingid:', currentFlyingid);
-  const onChange = (value: number | number[]) => {
-    console.log('onChange: ', value);
-  };
   useEffect(() => {
     if (currentFlyingid != -1) {
       console.log('useEffect -> currentFlyingid:', currentFlyingid);
@@ -187,15 +184,18 @@ const AwarenessRight: React.FC = () => {
                       type="text"
                       onClick={() => {
                         ChangeComponent('Awareness');
-                        // @ts-ignore
-                        sendMqttControl('stop', 'player', 'on');
-                        dispatch({
-                          type: 'dashboardModel/changeshowDetail',
-                          payload: false,
+                        setspeed((item) => {
+                          // eslint-disable-next-line @typescript-eslint/no-unused-expressions, no-param-reassign
+                          item === 1 ? (item = 2) : item === 2 ? (item = 4) : (item = 1);
+                          return item;
                         });
+                        message.success('播放倍速' + speed);
+
+                        sendMqttControl('speed', 'player', speed);
                       }}
                     >
-                      结束
+                      <FastForwardOutlined rev={undefined} />
+                      {speed === 1 ? 'x1' : speed === 2 ? 'x2' : 'x4'}
                     </Button>
                   </Col>
                   <Col span={8}>
@@ -203,16 +203,17 @@ const AwarenessRight: React.FC = () => {
                       type="text"
                       onClick={() => {
                         ChangeComponent('Awareness');
-                        setspeed((item) => {
-                          // eslint-disable-next-line @typescript-eslint/no-unused-expressions, no-param-reassign
-                          item === 1 ? (item = 2) : item === 2 ? (item = 4) : (item = 1);
-                          return item;
+                        // @ts-ignore
+                        sendMqttControl('stop', 'player', 'on');
+                        dispatch({
+                          type: 'dashboardModel/changeshowDetail',
+                          payload: false,
                         });
-                        sendMqttControl('speed', 'player', speed);
+                        handleClick();
+                        message.success('播放结束');
                       }}
                     >
-                      <FastForwardOutlined rev={undefined} />
-                      {speed === 1 ? 'x1' : speed === 2 ? 'x2' : 'x4'}
+                      结束
                     </Button>
                   </Col>
                 </Row>

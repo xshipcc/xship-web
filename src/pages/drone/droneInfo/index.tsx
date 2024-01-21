@@ -5,71 +5,39 @@ import {
   EditOutlined,
 } from '@ant-design/icons';
 import { Button, Divider, message, Drawer, Modal, Row, Col } from 'antd';
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
-import ProDescriptions from '@ant-design/pro-descriptions';
-import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
-import styles from './index.less';
 
 import * as mqtt from 'mqtt';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const DisplayKeyValuePairs = (data) => {
-  const renderKeyValuePairs = () => {
-    return Object.entries(data).map(([key, value]) => {
-      if (typeof value === 'object') {
-        return (
-          <div key={key}>
-            <h3>{key}</h3>
-            {renderKeyValuePairs()}
-          </div>
-        );
-      }
-
-      return (
-        <p key={key}>
-          {key}: {value}
-        </p>
-      );
-    });
-  };
-
-  return <div>{renderKeyValuePairs()}</div>;
-};
 const FlashPromotionList: React.FC = () => {
-  const [info, handleinfo] = useState<any>({
-    type: 'drone',
-    data: {
-      lat: 0,
-      lon: 0,
-      height: 0,
-      pitch: 0,
-      trajectory: 0,
-      roll_angle: 0,
-      rel_height: 0,
-      target_height: 0,
-      fly_time: 0,
-      fly_distance: 0,
-      speed: 0,
-      gps_speed: 0,
-    },
-  });
-  const [infoHangar, handleinfoHangar] = useState<any>({
-    type: 'hangar',
-    data: {
-      battery_v: 0,
-      battery_temp: 0,
-      warehouse_status: 0,
-      battery_status: 0,
-      homing_status: 0,
-      uavpower_status: 0,
-    },
-  });
+  const actionRef = useRef<ActionType>();
+  const [info, handleinfo] = useState<any>([]);
   const def: any = '';
   const client = useRef(def);
-  // queryNetwork();
+  const getChineseMeaning = useCallback((key) => {
+    return '汉语';
+  }, []);
+  const extractKeysAndValues = useCallback((obj, prefix = '', meaningPrefix = '') => {
+    const result: any = [];
+    for (const key in obj) {
+      const value = obj[key];
+      const meaning = getChineseMeaning(key);
+      // 将键、值和汉语意思添加到结果数组中
+      result.push({ key: key, name: meaning, value: value });
+      // 如果值是对象，则递归调用该函数
+      if (typeof value === 'object' && !Array.isArray(value)) {
+        const newPrefix = `${prefix}${key}.`;
+        const newMeaningPrefix = `${meaningPrefix}${meaning} - `;
+        extractKeysAndValues(value, newPrefix, newMeaningPrefix);
+      }
+    }
+    console.log('extractKeysAndValues -> result:', result);
+    return result;
+  }, []);
+
   useEffect(() => {
     const clientId = 'awareness' + Math.random().toString(16).substring(2, 8);
     const username = 'emqx_test';
@@ -112,10 +80,11 @@ const FlashPromotionList: React.FC = () => {
           // const jsonObject = JSON.stringify(JSON.parse(mqttMessage));
           if (jsonObject.type === 'drone') {
             console.log('dashboardinfo222222222222222', jsonObject);
-            handleinfo(jsonObject);
-          } else {
-            console.log('dashboardinfo222222222222222', jsonObject);
-            handleinfoHangar(jsonObject);
+            console.log(
+              'client.current.on ->  extractKeysAndValues(jsonObject.data):',
+              extractKeysAndValues(jsonObject.data),
+            );
+            handleinfo(extractKeysAndValues(jsonObject.data));
           }
         } catch (error) {
           handleinfo(JSON.stringify('字符解析错误'));
@@ -128,65 +97,78 @@ const FlashPromotionList: React.FC = () => {
       if (client.current) client.current.end();
     };
   }, []);
-
+  const columns: ProColumns<any>[] = [
+    {
+      title: '键',
+      dataIndex: 'key',
+      hideInSearch: true,
+    },
+    {
+      title: '名称',
+      dataIndex: 'name',
+      hideInSearch: true,
+    },
+    {
+      title: '数值',
+      dataIndex: 'value',
+      hideInSearch: true,
+    },
+  ];
   return (
     <PageContainer>
-      <div className={styles.content}>
-        {/* {info} */}
-        <Row>
-          <Col span={12}>
-            <div>
-              <h3>{info.type}</h3>
-              <h3>无人机信息</h3>
-              {Object.entries(info.data).map(([key, value]) => (
-                <div key={key}>
-                  <ul>
-                    <li key={key}>
-                      {key}: {value}
-                    </li>
-                  </ul>
-                </div>
-              ))}
-            </div>
-          </Col>
-          <Col span={12}>
-            <div>
-              <h3>{infoHangar.type}</h3>
-              <h3>机库信息</h3>
-              {Object.entries(infoHangar.data).map(([key, value]) => (
-                <div key={key}>
-                  <ul>
-                    <li key={key}>
-                      {key}: {value}
-                    </li>
-                  </ul>
-                </div>
-              ))}
-            </div>
-          </Col>
-        </Row>
-      </div>
+      <ProTable<any>
+        headerTitle="无人机信息"
+        actionRef={actionRef}
+        rowKey="id"
+        search={false}
+        // toolBarRender={() => [
+        //   <Button type="primary" onClick={() => handleModalVisible(true)}>
+        //     <PlusOutlined rev={undefined} /> 新建网络频段
+        //   </Button>,
+        // ]}
+        dataSource={info}
+        columns={columns}
+        pagination={{ pageSize: 60, simple: true }}
+      />
+      ;
     </PageContainer>
   );
 };
 
 export default FlashPromotionList;
-//  <ProTable<ListUavNetworkDataType>
-//    headerTitle="无人机网络频段列表"
-//    actionRef={actionRef}
-//    rowKey="id"
-//    search={{
-//      labelWidth: 120,
-//    }}
-//    toolBarRender={() => [
-//      <Button type="primary" onClick={() => handleModalVisible(true)}>
-//        <PlusOutlined rev={undefined} /> 新建网络频段
-//      </Button>,
-//    ]}
-//    request={queryNetwork}
-//    columns={columns}
-//    rowSelection={{
-//      onChange: (_, selectedRows) => setSelectedRows(selectedRows),
-//    }}
-//    pagination={{ pageSize: 20 }}
-//  />;
+
+// <div className={styles.content}>
+//     {/* {info} */}
+//     <Row>
+//       <Col span={12}>
+//         <div>
+//           <h3>{info.type}</h3>
+//           <h3>无人机信息</h3>
+//           {Object.entries(info.data).map(([key, value]) => (
+//             <div key={key}>
+//               <ul>
+//                 <li key={key}>
+//                   {key}: {value}
+//                 </li>
+//               </ul>
+//             </div>
+//           ))}
+//         </div>
+//       </Col>
+//       <Col span={12}>
+//         <div>
+//           <h3>{infoHangar.type}</h3>
+//           <h3>机库信息</h3>
+//           {Object.entries(infoHangar.data).map(([key, value]) => (
+//             <div key={key}>
+//               <ul>
+//                 <li key={key}>
+//                   {key}: {value}
+//                 </li>
+//               </ul>
+//             </div>
+//           ))}
+//         </div>
+//       </Col>
+//     </Row>
+//   </div>
