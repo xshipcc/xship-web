@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-21 11:14:41
+ * @LastEditTime: 2024-01-22 11:42:39
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Analysis\right.tsx
  * @Description:
  *
@@ -46,7 +46,7 @@ const AnalysisRight: React.FC = (props) => {
               <div className={styles.qiu}>
                 <p>{analysisInfo.totaltime}h</p>
               </div>
-              <span>巡检时间</span>
+              <span>完成次数</span>
             </div>
             {/* <div className={styles.data3}>
               <div className={styles.qiu}>

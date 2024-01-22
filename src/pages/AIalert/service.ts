@@ -47,14 +47,6 @@ export async function queryStatistics(params: any) {
     },
   });
 }
-export async function queryReport(params: any) {
-  return request('/api/uav/plan/statisticslist', {
-    method: 'POST',
-    data: {
-      ...params,
-    },
-  });
-}
 
 //#endregion -----------------------------------------------------------------------
 /**

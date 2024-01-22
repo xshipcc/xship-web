@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-16 18:32:55
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-21 15:53:33
+ * @LastEditTime: 2024-01-22 11:05:47
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\model.ts
  * @Description:
  *
@@ -137,26 +137,26 @@ const CompanyModel: DashboardModelType = {
         },
         {
           id: 0,
-          type: 1,
-          lat: 5,
-          lon: 6,
-          alt: 4,
+          type: 0,
+          lat: 0,
+          lon: 0,
+          alt: 0,
         },
         {
-          id: 1,
-          type: 1,
-          lat: 3,
-          lon: 7,
-          alt: 2,
+          id: 0,
+          type: 0,
+          lat: 0,
+          lon: 0,
+          alt: 0,
         },
       ],
-      week_data: [1, 2, 5, 20, 10, 7],
-      alert_total: [4, 5, 2, 2, 10, 7, 4, 8, 8, 8],
-      alert_confirms: [1, 2, 4, 5, 5, 6, 3, 3, 2],
-      alert_not_confirms: [1, 2, 2, 5, 6, 7, 4, 3, 2, 1],
+      week_data: [0, 0, 0, 0, 0, 0, 0],
+      alert_total: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      alert_confirms: [0, 0, 0, 0, 0, 0, 0, 0, 0],
+      alert_not_confirms: [0, 0, 0, 0, 0, 0, 0, 0, 0],
       today_yesterday: {
-        todaydata: [1, 1, 1],
-        ydataToday: [1, 1, 1],
+        todaydata: [0, 0, 0],
+        ydataToday: [0, 0, 0],
       },
       total: 32,
       completion: 2,

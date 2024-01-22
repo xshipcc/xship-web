@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-22 14:51:44
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-21 15:02:33
+ * @LastEditTime: 2024-01-22 11:40:13
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\AlertList\alert.tsx
  * @Description:
  *
@@ -96,18 +96,16 @@ export default () => {
   const def: any = '';
   const client = useRef(def);
   const TypeList = [
-    '人员',
-    '车辆',
+    '行人',
     '自行车',
-    '汽车',
+    '车辆',
+    '货车',
     '卡车',
-    '厢式货车',
     '三轮车',
+    '公交车',
     '摩托车',
-    '烟雾',
     '火警',
-    '人脸',
-    '补充',
+    '烟雾',
   ];
   //#endregion -----------------------------------------------------------------------
   /**

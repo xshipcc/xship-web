@@ -3,13 +3,13 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-09 20:12:31
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-16 10:29:28
+ * @LastEditTime: 2024-01-22 11:54:39
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\index.tsx
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import styles from './index.less';
 import 'cesium/Source/Widgets/widgets.css';
 import { Col, Row } from 'antd';
@@ -25,6 +25,8 @@ import Map from '@/pages/dashboard/component/Map';
 import { Header } from '@/pages/dashboard/component/Header';
 import type { DashboardAnalysData } from '@/pages/dashboard/typings';
 import { queryStatistics } from '@/pages/AIalert/service';
+import * as mqtt from 'mqtt';
+import { debounce } from 'lodash';
 import { useSelector, useDispatch, history } from 'umi';
 const initView = {
   drone: {
@@ -278,15 +280,6 @@ const Dashboard: React.FC = () => {
   const dashboardinfoMqtt = useSelector((state: any) => state.dashboardModel.dashboardinfoMqtt);
   const [data, setData] = useState(null);
 
-  useEffect(() => {
-    // queryReport({ current: 1, pageSize: 10 }).then((res) => {
-    //   console.log('queryAlertHistory -> res:', res);
-    // });
-    queryStatistics({ id: 0 }).then((res: DashboardAnalysData) => {
-      console.log('queryAlertHistory -> res:', res);
-    });
-  }, []);
-
   const dispatch = useDispatch();
   useEffect(() => {
     const fetchData = async () => {
@@ -316,19 +309,76 @@ const Dashboard: React.FC = () => {
     };
   }, []);
 
-  //#endregion -----------------------------------------------------------------------
-  /**
-   * @end
-   */
+  const def: any = '';
+  const client = useRef(def);
+  // mqtt消息接收
+  useEffect(() => {
+    const clientId = 'awareness' + Math.random().toString(16).substring(2, 8);
+    const username = 'emqx_test';
+    const password = 'emqx_test';
+    const url = window.location.href;
+    const startIndex = url.indexOf('://') + 3;
+    const endIndex =
+      url.indexOf(':', startIndex) !== -1
+        ? url.indexOf(':', startIndex)
+        : url.indexOf('/', startIndex);
+    const extractedUrl = url.substring(startIndex, endIndex);
+    //TODO   替换
+    const mqttUrl = 'ws://' + extractedUrl + ':' + MQTT_PORT;
+    // const mqttUrl = 'ws://192.168.8.3:8883/mqtt';
 
-  /**
-   *  @file index.tsx
-   *  @time 2023/10/17
-   * @category :组件渲染
-   * @function :
-   */
-  //#region -------------------------------------------------------------------------
+    client.current = mqtt.connect(mqttUrl, {
+      clientId,
+      username,
+      password,
+      // ...other options
+    });
+    const mqttSub = (subscription: { topic: any; qos: any }) => {
+      if (client) {
+        const { topic, qos } = subscription;
+        client.current.subscribe(topic, { qos }, (error: any) => {
+          if (error) {
+            console.log('Subscribe to topics error', error);
+            return;
+          }
+          console.log(`Subscribe to topics: ${topic}`);
+        });
+      }
+    };
+    mqttSub({ topic: 'info', qos: 0 });
 
+    // const dashboardinfo = {};
+
+    client.current.on('message', (topic: string, mqttMessage: any) => {
+      if (topic === 'info') {
+        // const jsonObject = JSON.parse(mqttMessage);
+        const jsonObject = JSON.parse(mqttMessage);
+        console.log('dashboardinfo2', jsonObject);
+
+        dispatch({
+          type: 'dashboardModel/changedashboardinfoMqtt',
+          payload: jsonObject,
+        });
+        if (typeof jsonObject?.data?.postion === 'number') {
+          // 定义一个处理函数，用于更新 data 的值
+          const handleData = debounce(() => {
+            dispatch({
+              type: 'dashboardModel/changePosition',
+              payload: jsonObject.data.postion,
+            });
+          }, 2000); // 设置延迟时间为2秒
+          handleData();
+        }
+        // handleForceupdateMethod();
+      }
+    });
+    // 进入页面  提醒更新 当前状态和路线信息
+    // client.current.publish('control', JSON.stringify({ cmd: 'state', data: 'on' }));
+
+    return () => {
+      if (client.current) client.current.end();
+    };
+  }, []);
   const currentComponent = useSelector((state: any) => state.dashboardModel.currentComponent);
   const RenderComponent = (component) => {
     switch (component) {

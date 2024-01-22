@@ -14,7 +14,7 @@ import type {
   AddUavHistoryReqType,
   ListUavHistoryRespType,
 } from './data.d';
-import { queryHistory, addHistory } from './service';
+import { queryHistory, addHistory, queryReport } from './service';
 import MyDocument from './pdfcomponent';
 // import ReactPDF from '@react-pdf/renderer';
 import { PDFViewer, PDFDownloadLink } from '@react-pdf/renderer';
@@ -122,26 +122,7 @@ const FlashPromotionList: React.FC = () => {
         search={{
           labelWidth: 120,
         }}
-        request={async (params: any = {}, sort, filter) => {
-          console.log('request={ -> params:', params);
-          const data = {
-            ...params,
-            history_id: -1,
-            create_time: params?.create_time ? params.create_time : '',
-            end_time: params?.end_time ? params.end_time : '',
-            operator: params?.operator ? params.operator : '',
-            uav_id: params?.uav_id ? params.uav_id : -1,
-            fly_id: params?.fly_id ? params.fly_id : -1,
-          };
-          const res: ListUavHistoryRespType = await queryHistory(data);
-          return {
-            data: res.data,
-            pageSize: res.pageSize,
-            current: 1,
-            total: +res.total,
-            success: res.success,
-          };
-        }}
+        request={queryReport}
         columns={columns}
         rowSelection={{
           onChange: (_, selectedRows) => setSelectedRows(selectedRows),

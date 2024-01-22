@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-22 09:13:25
+ * @LastEditTime: 2024-01-22 12:03:02
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Analysis\left.tsx
  * @Description:
  *
@@ -17,65 +17,22 @@ import Radar from './component/road';
 import Line from './component/Line';
 import { queryStatistics, queryReport } from '@/pages/AIalert/service';
 import * as mqtt from 'mqtt';
+import { useDispatch } from 'umi';
 
 const Analysis: React.FC = (props) => {
-  const def: any = '';
-  const client = useRef(def);
-  const [info, handleinfo] = useState<any>([]);
+  const dispatch = useDispatch();
+  const [info, handleinfo] = useState<any>(5);
   useEffect(() => {
-    const clientId = 'awareness' + Math.random().toString(16).substring(2, 8);
-    const username = 'emqx_test';
-    const password = 'emqx_test';
-    const url = window.location.href;
-    const startIndex = url.indexOf('://') + 3;
-    const endIndex =
-      url.indexOf(':', startIndex) !== -1
-        ? url.indexOf(':', startIndex)
-        : url.indexOf('/', startIndex);
-    const extractedUrl = url.substring(startIndex, endIndex);
-    //TODO   替换
-    // const mqttUrl = 'ws://' + '127.0.0.1' + ':' + MQTT_PORT;
-    const mqttUrl = 'ws://' + extractedUrl + ':' + MQTT_PORT;
-
-    client.current = mqtt.connect(mqttUrl, {
-      clientId,
-      username,
-      password,
+    // queryReport({ current: 1, pageSize: 10 }).then((res) => {
+    //   console.log('queryAlertHistory -> res:', res);
+    // });
+    queryStatistics({ id: 0 }).then((res: DashboardAnalysData) => {
+      dispatch({
+        type: 'dashboardModel/changeAnalysisInfo',
+        payload: res,
+      });
+      console.log('queryAlertHistory -> res:', res);
     });
-    // console.log('useEffect -> client.current:', client.current);
-    const mqttSub = (subscription: { topic: any; qos: any }) => {
-      if (client) {
-        const { topic, qos } = subscription;
-        client.current.subscribe(topic, { qos }, (error: any) => {
-          if (error) {
-            console.log('Subscribe to topics error', error);
-            return;
-          }
-          console.log(`Subscribe to topics: ${topic}`);
-        });
-      }
-    };
-    mqttSub({ topic: 'info', qos: 0 });
-
-    client.current.on('message', (topic: string, mqttMessage: any) => {
-      if (topic === 'info') {
-        try {
-          const jsonObject = JSON.parse(mqttMessage);
-          // const jsonObject = JSON.stringify(JSON.parse(mqttMessage));
-          if (jsonObject.type === 'drone') {
-            console.log('统计信息', jsonObject);
-            handleinfo(jsonObject.data);
-          }
-        } catch (error) {
-          handleinfo(JSON.stringify('字符解析错误'));
-        }
-        // dashboardinfo[jsonObject.type] = jsonObject.data;
-      }
-    });
-
-    return () => {
-      if (client.current) client.current.end();
-    };
   }, []);
   return (
     <>
