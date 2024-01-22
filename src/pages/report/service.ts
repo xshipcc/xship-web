@@ -37,14 +37,14 @@ export async function queryHistory(params: ListUavHistoryReqType) {
     },
   });
 }
-// export async function queryAlert(params: ListAlertHistoryReq) {
-//   return request('/api/uav/alert/list', {
-//     method: 'POST',
-//     data: {
-//       ...params,
-//     },
-//   });
-// }
+export async function queryAlert(params: ListAlertHistoryReq) {
+  return request('/api/uav/alert/list', {
+    method: 'POST',
+    data: {
+      ...params,
+    },
+  });
+}
 /**
  *
  *

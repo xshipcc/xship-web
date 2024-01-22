@@ -116,8 +116,13 @@ const FlashPromotionList: React.FC = () => {
       hideInSearch: true,
     },
     {
-      title: '无人机id',
-      dataIndex: 'uav_id',
+      title: '巡检计划名称',
+      dataIndex: 'name',
+      hideInSearch: true,
+    },
+    {
+      title: '无人机',
+      dataIndex: 'uav_name',
       render: (dom, entity) => {
         return (
           <a
@@ -147,8 +152,8 @@ const FlashPromotionList: React.FC = () => {
       hideInSearch: true,
     },
     {
-      title: '巡检路线id',
-      dataIndex: 'fly_id',
+      title: '巡检路线',
+      dataIndex: 'fly_name',
       render: (dom, entity) => {
         return (
           <a

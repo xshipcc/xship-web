@@ -171,12 +171,19 @@ const FlashPromotionList: React.FC = () => {
     {
       title: '摄像头状态',
       hideInSearch: true,
-
       dataIndex: 'status',
       valueEnum: {
         0: { text: '禁用', color: '#4d78cc' },
         1: { text: '启用', color: '#282c34' },
-        3: { text: '故障', color: '#282c34' },
+      },
+    },
+    {
+      title: 'ai识别',
+      hideInSearch: true,
+      dataIndex: 'ai_status',
+      valueEnum: {
+        0: { text: '禁用', color: '#4d78cc' },
+        1: { text: '启用', color: '#282c34' },
       },
     },
     {

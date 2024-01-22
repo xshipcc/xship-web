@@ -141,6 +141,16 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
             <Select.Option value={1}>启用</Select.Option>
           </Select>
         </FormItem>
+        <FormItem
+          name="ai_status"
+          label="ai识别状态"
+          rules={[{ required: true, message: '请输入ai识别状态!' }]}
+        >
+          <Select id="showStatus">
+            <Select.Option value={0}>禁止</Select.Option>
+            <Select.Option value={1}>启用</Select.Option>
+          </Select>
+        </FormItem>
       </>
     );
   };

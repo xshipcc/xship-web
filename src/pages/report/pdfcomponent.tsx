@@ -14,6 +14,7 @@ import { Badge, Button, Col, DatePicker, List, Radio, Row, Select, message } fro
 import type { ListAlertHistoryRespType } from './data.d';
 import { queryAlert } from './service';
 // import stylesLess from './pdfcomponent.less';
+// @ts-ignore
 import YouSheBiaoTiHei from '../../assets/font/YouSheBiaoTiHei-2.ttf';
 Font.register({ family: 'FangSong', src: YouSheBiaoTiHei });
 

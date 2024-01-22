@@ -4,8 +4,8 @@ import {
   DeleteOutlined,
   EditOutlined,
 } from '@ant-design/icons';
-import { Button, Divider, message, Drawer, Modal } from 'antd';
-import React, { useState, useRef } from 'react';
+import { Button, Divider, message, Drawer, Modal, Table, TableProps } from 'antd';
+import React, { useState, useRef, useCallback } from 'react';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
@@ -105,11 +105,56 @@ const FlashPromotionList: React.FC = () => {
   //   create_time: string;
   //   creator: string;
   // }
+
+  // coord: (3)[(114.34407002766382, 38.102266826221765, 103.59158938390343)];
+  // heightmode: '00';
+  // hovertime: 10;
+  // name: '0号';
+  // photo: '0';
+  // radius: 25;
+  // speed: 5;
+  const TableJson = useCallback((json: any) => {
+    JSON.parse(json);
+  }, []);
+
+  const columnsRoad: TableProps<any>['columns'] = [
+    {
+      title: '名称',
+      dataIndex: 'name',
+      key: 'name',
+    },
+    {
+      title: '航点坐标',
+      dataIndex: 'coord',
+      key: 'coord',
+      render: (_, record) => (
+        <>
+          {record.coord}
+          {console.log('record.coord:', record.coord)}
+          {/* {JSON.parse(record.data).map((item) => {
+              return (
+                <div>
+                  <div>{item.name}</div>
+                  <div>无人机坐标{item.coord}</div>
+                  <div>悬停时间{item.hovertime}</div>
+                </div>
+              );
+            })} */}
+        </>
+      ),
+    },
+    {
+      title: '悬停时间',
+      dataIndex: 'hovertime',
+      key: 'hovertime',
+    },
+  ];
   const columns: ProColumns<ListUavFlyDataType>[] = [
     {
       title: '航线编号',
       dataIndex: 'id',
       valueType: 'digit',
+      hideInSearch: true,
     },
     {
       title: '航线名称',
@@ -120,6 +165,20 @@ const FlashPromotionList: React.FC = () => {
       title: '航线数据',
       dataIndex: 'data',
       hideInSearch: true,
+      render: (_, record) => (
+        <>
+          <Table columns={columnsRoad} dataSource={JSON.parse(record.data)} pagination={false} />
+          {/* {JSON.parse(record.data).map((item) => {
+              return (
+                <div>
+                  <div>节点序号{item.name}</div>
+                  <div>无人机坐标{item.coord}</div>
+                  <div>悬停时间{item.hovertime}</div>
+                </div>
+              );
+            })} */}
+        </>
+      ),
     },
     {
       title: '创建时间',

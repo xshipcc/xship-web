@@ -131,6 +131,13 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
           <InputNumber id="update-id" placeholder="请输入主键" />
         </FormItem>
         <FormItem
+          name="name"
+          label="巡检计划名称"
+          rules={[{ required: true, message: '请输入巡检计划名称!' }]}
+        >
+          <Input id="update-title" placeholder={'请输入巡检计划名称'} />
+        </FormItem>
+        <FormItem
           name="uav_id"
           label="无人机id"
           rules={[{ required: true, message: '请输入无人机id!' }]}
@@ -148,6 +155,16 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
           rules={[{ required: true, message: '请输入巡检路线id!' }]}
         >
           <Select defaultValue="default" onChange={handleChange} options={roadList} />
+        </FormItem>
+        <FormItem
+          name="status"
+          label="路线状态"
+          rules={[{ required: true, message: '请输入路线状态!' }]}
+        >
+          <Select id="showStatus">
+            <Select.Option value={0}>禁用</Select.Option>
+            <Select.Option value={1}>启动</Select.Option>
+          </Select>
         </FormItem>
       </>
     );

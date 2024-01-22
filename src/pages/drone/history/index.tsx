@@ -64,8 +64,8 @@ const FlashPromotionList: React.FC = () => {
       hideInSearch: true,
     },
     {
-      title: '无人机id',
-      dataIndex: 'uav_id',
+      title: '无人机名称',
+      dataIndex: 'uav_name',
       valueType: 'digit',
       render: (dom, entity) => {
         return (
@@ -84,8 +84,8 @@ const FlashPromotionList: React.FC = () => {
       hideInSearch: true,
     },
     {
-      title: '巡检路线id',
-      dataIndex: 'fly_id',
+      title: '巡检路线名称',
+      dataIndex: 'fly_name',
       valueType: 'digit',
       render: (dom, entity) => {
         return (
@@ -128,6 +128,11 @@ const FlashPromotionList: React.FC = () => {
         0: { text: '完成', color: 'green' },
         2: { text: '故障', color: 'red' },
       },
+    },
+    {
+      title: '异常结束详情',
+      dataIndex: 'remark',
+      hideInSearch: true,
     },
   ];
   const columnsDevice: ProColumns<any>[] = [
