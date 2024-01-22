@@ -61,14 +61,6 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
     form.submit();
   };
 
-  const handleFinish = (item: { [key: string]: any }) => {
-    if (onSubmit) {
-      const newStr = '0' + plan.substring(1, plan.length - 1);
-      setTimeout(() => {
-        onSubmit({ ...(item as ListUavPlanDataType), plan: newStr });
-      }, 500);
-    }
-  };
   const normFile = (e: any) => {
     if (Array.isArray(e)) {
       return e;
@@ -78,6 +70,22 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
 
   const [roadList, setroadList] = useState([{ value: 'demo', label: 'demo' }]);
   const [droneList, setdroneList] = useState([{ value: 'demo', label: 'demo' }]);
+
+  const handleFinish = (item: { [key: string]: any }) => {
+    if (onSubmit) {
+      console.log('handleFinish -> values.uav_id:', values.uav_id);
+
+      const newStr = '0' + plan.substring(1, plan.length - 1);
+      item.uav_name = droneList.find((item1: any) => item1.value === values.uav_id)?.label;
+      item.fly_name = roadList.find((item1: any) => item1.value === values.fly_id)?.label;
+      setTimeout(() => {
+        onSubmit({
+          ...(item as ListUavPlanDataType),
+          plan: newStr,
+        });
+      }, 500);
+    }
+  };
 
   const fetchFlyData = async (params: any) => {
     try {

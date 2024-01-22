@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-08 10:25:32
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-19 15:08:32
+ * @LastEditTime: 2024-01-22 23:27:00
  * @FilePath: \zero-admin-ui-master\src\pages\drone\task\components\CreateFlashForm.tsx
  * @Description:
  *
@@ -53,18 +53,6 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
     form.submit();
   };
 
-  const handleFinish = (values: AddUavPlanReqType) => {
-    if (onSubmit) {
-      console.log('setTimeout -> plan:', plan);
-      const newStr = '0' + plan.substring(1, plan.length - 1);
-      console.log('handleFinish -> newStr:', newStr);
-      // const newStr = str.slice(0, -1); // 去除最后一个字符
-      setTimeout(() => {
-        onSubmit({ ...values, plan: newStr });
-      }, 500);
-    }
-  };
-
   //
   // interface AddUavPlanReqType {
   //   uav_id: number; // 无人机ID
@@ -72,14 +60,29 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
   //   plan: string; // 飞行计划时间
   //   fly_id: number; // 巡检路线id
   // }
-  const normFile = (e: any) => {
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e?.fileList;
-  };
+
   const [roadList, setroadList] = useState([{ value: 'demo', label: 'demo' }]);
   const [droneList, setdroneList] = useState([{ value: 'demo', label: 'demo' }]);
+
+  const handleFinish = (values: AddUavPlanReqType) => {
+    if (onSubmit) {
+      console.log('setTimeout -> plan:', plan);
+      const newStr = '0' + plan.substring(1, plan.length - 1);
+      console.log(
+        'handleFinish -> newStr:',
+        droneList.find((item: any) => item.value === values.uav_id)?.label,
+      );
+      // const newStr = str.slice(0, -1); // 去除最后一个字符
+      setTimeout(() => {
+        onSubmit({
+          ...values,
+          plan: newStr,
+          uav_name: droneList.find((item: any) => item.value === values.uav_id)?.label,
+          fly_name: roadList.find((item: any) => item.value === values.fly_id)?.label,
+        });
+      }, 500);
+    }
+  };
 
   const fetchFlyData = async (params: ListUavFlyReqType) => {
     try {

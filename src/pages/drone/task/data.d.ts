@@ -48,6 +48,8 @@ interface AddUavPlanReqType {
   uav_icon: number; // 无人机 icon
   plan: string | undefined; // 飞行计划时间
   fly_id: number; // 巡检路线id
+  uav_name: any;
+  fly_name: any;
 }
 
 interface AddUavPlanRespType {
@@ -60,6 +62,8 @@ interface ListUavPlanReqType {
   pageSize?: number;
 }
 interface ListUavPlanDataType {
+  uav_name: any;
+  fly_name: any;
   id: number;
   uav_id: number; // 无人机ID
   uav_icon: number; // 无人机 icon
@@ -77,6 +81,8 @@ interface ListUavPlanRespType {
 }
 // 更新
 interface UpdateUavPlanReqType {
+  uav_name: any;
+  fly_name: any;
   id: number;
   uav_id: number; // 无人机ID
   uav_icon: number; // 无人机 icon

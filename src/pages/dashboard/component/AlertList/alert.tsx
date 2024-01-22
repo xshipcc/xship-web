@@ -399,6 +399,10 @@ export default () => {
                   { value: 3, label: '车辆告警' },
                   { value: 4, label: '入侵告警' },
                   { value: 5, label: '烟火告警' },
+                  { value: 6, label: '车辆告警' },
+                  { value: 7, label: '入侵告警' },
+                  { value: 8, label: '烟火告警' },
+                  { value: 9, label: '烟火告警' },
                 ]}
               />
             </Col>

@@ -4,8 +4,8 @@ import {
   DeleteOutlined,
   EditOutlined,
 } from '@ant-design/icons';
-import { Button, Divider, message, Drawer, Modal } from 'antd';
-import React, { useState, useRef } from 'react';
+import { Button, Divider, message, Drawer, Modal, Table, TableProps } from 'antd';
+import React, { useState, useRef, useCallback } from 'react';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import type { ProColumns, ActionType } from '@ant-design/pro-table';
@@ -220,6 +220,41 @@ const FlashPromotionList: React.FC = () => {
       },
     },
   ];
+  const TableJson = useCallback((json: any) => {
+    try {
+      return JSON.parse(json);
+    } catch (error) {
+      return '路线解析错误';
+    }
+  }, []);
+
+  const columnsRoadData: TableProps<any>['columns'] = [
+    {
+      title: '名称',
+      dataIndex: 'name',
+      key: 'name',
+    },
+    {
+      title: '航点坐标',
+      dataIndex: 'coord',
+      key: 'coord',
+      render: (_, record) => (
+        <>
+          {' 经度: ' +
+            record.coord[0].toFixed(7) +
+            ' 维度: ' +
+            record.coord[1].toFixed(7) +
+            ' 高度: ' +
+            record.coord[2].toFixed(7)}
+        </>
+      ),
+    },
+    {
+      title: '悬停时间',
+      dataIndex: 'hovertime',
+      key: 'hovertime',
+    },
+  ];
   const columnsRoad: ProColumns<any>[] = [
     {
       title: '航线编号',
@@ -231,11 +266,7 @@ const FlashPromotionList: React.FC = () => {
       dataIndex: 'name',
       hideInSearch: true,
     },
-    {
-      title: '航线数据',
-      dataIndex: 'data',
-      hideInSearch: true,
-    },
+
     {
       title: '创建时间',
       dataIndex: 'create_time',
@@ -245,6 +276,16 @@ const FlashPromotionList: React.FC = () => {
       title: '创建者',
       dataIndex: 'creator',
       hideInSearch: true,
+    },
+    {
+      title: '航线数据',
+      dataIndex: 'data',
+      hideInSearch: true,
+      render: (_, record) => (
+        <>
+          <Table columns={columnsRoadData} dataSource={TableJson(record.data)} pagination={false} />
+        </>
+      ),
     },
   ];
   return (
@@ -301,7 +342,7 @@ const FlashPromotionList: React.FC = () => {
       />
 
       <Drawer
-        width={600}
+        width={800}
         visible={showDetailRoad}
         onClose={() => {
           setCurrentRow(undefined);

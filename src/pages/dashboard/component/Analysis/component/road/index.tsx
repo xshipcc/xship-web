@@ -11,7 +11,7 @@ const RadarChart = (props: any) => {
   const initChart = () => {
     const element = document.getElementById('roadDiv');
     const myChart = echarts.init(element);
-    const PointsData = analysisInfo.data.map((item) => {
+    const PointsData = analysisInfo.data?.map((item) => {
       return [item.lon, item.lat, item.alt];
     });
     //////////////////////

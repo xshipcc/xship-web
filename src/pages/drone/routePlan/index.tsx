@@ -114,7 +114,11 @@ const FlashPromotionList: React.FC = () => {
   // radius: 25;
   // speed: 5;
   const TableJson = useCallback((json: any) => {
-    JSON.parse(json);
+    try {
+      return JSON.parse(json);
+    } catch (error) {
+      return '路线解析错误';
+    }
   }, []);
 
   const columnsRoad: TableProps<any>['columns'] = [
@@ -129,17 +133,12 @@ const FlashPromotionList: React.FC = () => {
       key: 'coord',
       render: (_, record) => (
         <>
-          {record.coord}
-          {console.log('record.coord:', record.coord)}
-          {/* {JSON.parse(record.data).map((item) => {
-              return (
-                <div>
-                  <div>{item.name}</div>
-                  <div>无人机坐标{item.coord}</div>
-                  <div>悬停时间{item.hovertime}</div>
-                </div>
-              );
-            })} */}
+          {' 经度: ' +
+            record.coord[0].toFixed(7) +
+            ' 维度: ' +
+            record.coord[1].toFixed(7) +
+            ' 高度: ' +
+            record.coord[2].toFixed(7)}
         </>
       ),
     },
@@ -167,7 +166,7 @@ const FlashPromotionList: React.FC = () => {
       hideInSearch: true,
       render: (_, record) => (
         <>
-          <Table columns={columnsRoad} dataSource={JSON.parse(record.data)} pagination={false} />
+          <Table columns={columnsRoad} dataSource={TableJson(record.data)} pagination={false} />
           {/* {JSON.parse(record.data).map((item) => {
               return (
                 <div>
