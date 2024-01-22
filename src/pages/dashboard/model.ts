@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-16 18:32:55
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-21 12:48:53
+ * @LastEditTime: 2024-01-21 15:53:33
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\model.ts
  * @Description:
  *
@@ -23,6 +23,7 @@ export interface DashboardState {
    * @memberof DashboardState
    */
   currentComponent: string;
+  position: string;
 
   /**
    *
@@ -66,6 +67,7 @@ export interface DashboardModelType {
   state: DashboardState;
   reducers: {
     changeDestoryTackSignal: ImmerReducer<string> | any;
+    changePosition: ImmerReducer<string> | any;
     changeCurrentComponent: ImmerReducer<string> | any;
     changeCentering: ImmerReducer<boolean> | any;
     saveDashboardInfo: ImmerReducer<string> | any;
@@ -161,6 +163,7 @@ const CompanyModel: DashboardModelType = {
       totaltime: 3,
     },
     checkedCompanyId: undefined,
+    position: '',
     enterpriseOptions: [],
     alertList: [],
     currentFlyData: {
@@ -249,6 +252,9 @@ const CompanyModel: DashboardModelType = {
     },
     changeCentering(state: DashboardState, action: { payload: boolean }) {
       state.centering = action.payload;
+    },
+    changePosition(state: DashboardState, action: { payload: string }) {
+      state.position = action.payload;
     },
     changeAnalysisInfo(state: DashboardState, action: { payload: DashboardAnalysData }) {
       state.analysisInfo = action.payload;

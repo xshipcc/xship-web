@@ -17,8 +17,89 @@ const FlashPromotionList: React.FC = () => {
   const [info, handleinfo] = useState<any>([]);
   const def: any = '';
   const client = useRef(def);
+  const MeaningList = {
+    head: '帧头1',
+    head2: '帧头2',
+    length: '数据长度',
+    cmd: '命令',
+    s_cmd: '子命令',
+    temp: '温度',
+    eng: '功耗',
+    v: '电压',
+    a: '电流',
+    PWM1: 'PWM1',
+    PWM2: 'PWM2',
+    PWM3: 'PWM3',
+    PWM4: 'PWM4',
+    PWM5: 'PWM5',
+    PWM6: 'PWM6',
+    PWM7: 'PWM7',
+    PWM8: 'PWM8',
+    PWM9: 'PWM9',
+    PWM10: 'PWM10',
+    offset_staus: '差分状态',
+    lat: '纬度',
+    lon: '经度',
+    height: 'GPS高度',
+    rel_height: '相对原点高度x10',
+    real_height: '实时距地高度x10',
+    target_speed: '目标速度x100',
+    speed: '地速x100',
+    gps_speed: '组合导航向速度X100',
+    trajectory: '轨迹角X10',
+    pitch: '俯仰角X100',
+    roll_angle: '横滚角角X100',
+    fu_wing: '副翼',
+    updown: '升降',
+    speedup: '油门',
+    toward: '方向',
+    lock: '锁定',
+    toward_angle: '机头指向角',
+    fly_ctl: '飞行控制模式',
+    staus: '状态',
+    fly_status: '飞行阶段',
+    gps_lost: 'GPS丢星时间',
+    link_lost: '链路中断时间',
+    area: '飞行区域',
+    turns_done: '已飞行圈数',
+    turns_todo: '等待飞行圈数',
+    fly_distance: '飞行点距离',
+    fly_time: '飞行时间',
+    target_point: '目标航点',
+    target_height: '目标高度',
+    target_angle: '目标航向',
+    stay_time: '悬停时间',
+    flyctl_v: '飞控电压',
+    engine_v: '动力电压',
+    gps_stars: 'GPS星数',
+    HDOP: '水平精度HDOP',
+    VDOP: '垂直精度VDOP',
+    SDOP: '速度精度SDOP',
+    year: '年',
+    month: '月',
+    day: '日',
+    hour: '时',
+    min: '分',
+    sec: '秒',
+    flyctl_temp: '飞控温度',
+    offset_dist: '侧偏距',
+    channel_1: '通道1',
+    channel_2: '通道2',
+    channel_3: '通道3',
+    channel_4: '通道4',
+    channel_5: '通道5',
+    channel_6: '通道6',
+    height_cm: '高度厘米位',
+    ms: '毫秒',
+    cmd_back1: '指令返回值1',
+    cmd_back2: '指令返回值2',
+    crc: 'CRC校验值',
+    end: '结束标志',
+    aa: 'AA',
+    bb: 'BB',
+  };
   const getChineseMeaning = useCallback((key) => {
-    return '汉语';
+    return MeaningList[key];
   }, []);
   const extractKeysAndValues = useCallback((obj, prefix = '', meaningPrefix = '') => {
     const result: any = [];
@@ -136,39 +217,3 @@ const FlashPromotionList: React.FC = () => {
 };
 
 export default FlashPromotionList;
-
-// <div className={styles.content}>
-//     {/* {info} */}
-//     <Row>
-//       <Col span={12}>
-//         <div>
-//           <h3>{info.type}</h3>
-//           <h3>无人机信息</h3>
-//           {Object.entries(info.data).map(([key, value]) => (
-//             <div key={key}>
-//               <ul>
-//                 <li key={key}>
-//                   {key}: {value}
-//                 </li>
-//               </ul>
-//             </div>
-//           ))}
-//         </div>
-//       </Col>
-//       <Col span={12}>
-//         <div>
-//           <h3>{infoHangar.type}</h3>
-//           <h3>机库信息</h3>
-//           {Object.entries(infoHangar.data).map(([key, value]) => (
-//             <div key={key}>
-//               <ul>
-//                 <li key={key}>
-//                   {key}: {value}
-//                 </li>
-//               </ul>
-//             </div>
-//           ))}
-//         </div>
-//       </Col>
-//     </Row>
-//   </div>

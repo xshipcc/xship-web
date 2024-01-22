@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-22 14:51:44
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-12-11 00:15:57
+ * @LastEditTime: 2024-01-21 15:02:33
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\AlertList\alert.tsx
  * @Description:
  *
@@ -95,7 +95,20 @@ export default () => {
   //#region -------------------------------------------------------------------------
   const def: any = '';
   const client = useRef(def);
-
+  const TypeList = [
+    '人员',
+    '车辆',
+    '自行车',
+    '汽车',
+    '卡车',
+    '厢式货车',
+    '三轮车',
+    '摩托车',
+    '烟雾',
+    '火警',
+    '人脸',
+    '补充',
+  ];
   //#endregion -----------------------------------------------------------------------
   /**
    * @end
@@ -293,10 +306,10 @@ export default () => {
               告警类型
             </Col>
             <Col span={12} style={{ color: 'white' }}>
-              {drawerData.type}
+              {TypeList[drawerData.type]}
             </Col>
           </Row>
-          <Row>
+          {/* <Row>
             <Col span={11} offset={1} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
               告警等级
             </Col>
@@ -319,7 +332,7 @@ export default () => {
             <Col span={12} style={{ color: 'white' }}>
               {drawerData.platform}
             </Col>
-          </Row>
+          </Row> */}
           <Row>
             <Col span={11} offset={1} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
               经度
@@ -456,7 +469,7 @@ export default () => {
                       <p className={styles.alertTitle}>
                         <Badge
                           status={item.confirm ? 'success' : 'error'}
-                          text={'无人机巡检告警' + item.id}
+                          text={TypeList[item.type] + '告警'}
                         />
                       </p>
                       <Row>
@@ -472,7 +485,7 @@ export default () => {
                           报警内容 :
                         </Col>
                         <Col span={15} className={styles.alertInfo}>
-                          {item.name}
+                          {item.note}
                         </Col>
                       </Row>
                     </Col>

@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-19 13:09:59
+ * @LastEditTime: 2024-01-22 08:36:59
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\center.tsx
  * @Description:
  *
@@ -16,6 +16,7 @@ import RenderComponent from './component/centerTab';
 import type { DashboardinfoType, dashboardStateType } from './data';
 import * as mqtt from 'mqtt';
 import { useDispatch, useSelector } from 'umi';
+import { debounce } from 'lodash';
 
 function useForceUpdate() {
   const [value, setState] = useState(true);
@@ -166,6 +167,7 @@ const AwarenessCenter: React.FC = () => {
         // const jsonObject = JSON.parse(mqttMessage);
         const jsonObject = JSON.parse(mqttMessage);
         console.log('dashboardinfo2', jsonObject);
+        console.log('dashboardinfo2p', jsonObject.data.postion);
         console.log('dashboardinfo2', dashboardinfo[jsonObject.type]);
         // dashboardinfo[jsonObject.type] = jsonObject.data;
         console.log('client.current.on -> dashboardinfo2:', dashboardinfo);
@@ -174,6 +176,16 @@ const AwarenessCenter: React.FC = () => {
           type: 'dashboardModel/changedashboardinfoMqtt',
           payload: jsonObject,
         });
+        if (typeof jsonObject.data.postion === 'number') {
+          // 定义一个处理函数，用于更新 data 的值
+          const handleData = debounce(() => {
+            dispatch({
+              type: 'dashboardModel/changePosition',
+              payload: jsonObject.data.postion,
+            });
+          }, 2000); // 设置延迟时间为2秒
+          handleData();
+        }
 
         handleForceupdateMethod();
       }

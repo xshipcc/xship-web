@@ -528,7 +528,11 @@ const App: React.FC = () => {
               span={5}
               className={styles.title}
               onClick={() => {
-                closeDrawer(currentRoad);
+                if (!editRoadSignal) {
+                  closeDrawer(currentRoad);
+                } else {
+                  message.warning('请先完成航线编辑');
+                }
               }}
             >
               <RollbackOutlined rev={undefined} /> 返回
@@ -540,8 +544,14 @@ const App: React.FC = () => {
               span={5}
               className={styles.title}
               onClick={() => {
+                if (!editRoadSignal) {
+                  // @ts-ignore
+                  handleSave(currentRoad);
+                } else {
+                  message.warning('请先完成航线编辑');
+                }
                 // @ts-ignore
-                handleSave(currentRoad);
+                // handleSave(currentRoad);
               }}
             >
               <CheckOutlined rev={undefined} />

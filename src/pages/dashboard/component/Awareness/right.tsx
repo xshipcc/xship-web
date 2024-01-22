@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-21 11:19:34
+ * @LastEditTime: 2024-01-21 14:51:51
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\right.tsx
  * @Description:
  *
@@ -127,13 +127,16 @@ const AwarenessRight: React.FC = () => {
   useEffect(() => {
     if (currentFlyingid != -1) {
       console.log('useEffect -> currentFlyingid:', currentFlyingid);
-      dispatch({
-        type: 'dashboardModel/changeshowDetail',
-        payload: true,
-      });
+      // dispatch({
+      //   type: 'dashboardModel/changeshowDetail',
+      //   payload: true,
+      // });
       setshowButton(true);
     } else {
       setshowButton(false);
+    }
+    if (currentFlyingid == -1) {
+      setplaysignal(false);
     }
   }, [currentFlyingid]);
 
@@ -189,14 +192,15 @@ const AwarenessRight: React.FC = () => {
                           item === 1 ? (item = 2) : item === 2 ? (item = 4) : (item = 1);
                           return item;
                         });
-                        message.success('播放倍速' + speed);
+                        // message.success('播放倍速' + speed);
 
                         sendMqttControl('speed', 'player', speed);
                       }}
                     >
                       <FastForwardOutlined rev={undefined} />
-                      {speed === 1 ? 'x1' : speed === 2 ? 'x2' : 'x4'}
+                      {'x' + speed}
                     </Button>
+                    ``
                   </Col>
                   <Col span={8}>
                     <Button

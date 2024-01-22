@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-19 14:21:34
+ * @LastEditTime: 2024-01-21 17:22:20
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\left.tsx
  * @Description:
  *
@@ -198,7 +198,7 @@ const Awareness: React.FC = () => {
                     <Col span={24} className={styles.video}>
                       {/* @ts-ignore */}
                       {console.log('droneinfo:', droneinfo)}
-                      <video src={videoUrl} autoPlay controls className={styles.video} />
+                      <video src={videoUrl} autoPlay controls muted className={styles.video} />
                       {/* <Player url={droneinfo.cam_url} height={'19'} width={'100'} /> */}
                       {/* <Player url={droneinfo.cam_url} height={'19'} width={'100'} /> */}
                     </Col>

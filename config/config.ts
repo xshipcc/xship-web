@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-18 15:52:39
+ * @LastEditTime: 2024-01-22 08:47:39
  * @FilePath: \zero-admin-ui-master\config\config.ts
  * @Description:
  *
@@ -93,8 +93,8 @@ export default defineConfig({
   ignoreMomentLocale: true,
   proxy: {
     '/api': {
-      target: 'http://192.168.2.246:80',
-      // target: 'http://uav.javodata.com',
+      // target: 'http://192.168.2.246:80',
+      target: 'http://uav.javodata.com',
       changeOrigin: true,
       // "pathRewrite": { "^/api": "" }
     },

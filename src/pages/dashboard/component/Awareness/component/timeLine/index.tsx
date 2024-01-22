@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-18 15:51:21
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-21 12:16:08
+ * @LastEditTime: 2024-01-21 16:19:36
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\component\timeLine\index.tsx
  * @Description:
  *
@@ -14,17 +14,28 @@ import React, { useEffect } from 'react';
 import styles from './index.less';
 import { useSelector, useDispatch } from 'umi';
 import { Button, Col, Row, message, Slider } from 'antd';
-
+import { useState } from 'react';
 const LineChart = (props: any) => {
   const client = props.client;
-  const currentHistoryData = useSelector((state: any) => state.dashboardModel.currentHistoryData);
-  console.log('LineChart -> currentHistoryData:', currentHistoryData);
-  const showDetail = useSelector((state: any) => state.dashboardModel.showDetail);
+  const currentFlyingid = useSelector((state: any) => state.dashboardModel.currentFlyingid);
+  const position = useSelector((state: any) => state.dashboardModel.position);
+  console.log('LineChart -> position:', position);
+  const [process, setprocess] = useState(10);
+  const [drag, setdrag] = useState(true);
 
   useEffect(() => {
-    console.log('LineChart -> currentHistoryData:', currentHistoryData);
-  }, [currentHistoryData]);
+    setprocess(position * 100);
+    console.log('useEffect -> position111111111:', position);
+    // console.log('LineChart -> currentHistoryData:', currentHistoryData);
+  }, [position]);
 
+  useEffect(() => {
+    if (currentFlyingid != -1) {
+      setdrag(false);
+    } else {
+      setdrag(true);
+    }
+  }, [currentFlyingid]);
   const sendMqttControl = (param: any, type: string, data: any) => {
     let controlInfo = {
       cmd: 'default',
@@ -45,9 +56,13 @@ const LineChart = (props: any) => {
     sendMqttControl('seek', 'player', value);
     // message.success('进度' + value);
   };
-  useEffect(() => {
-    setInterval(function () {}, 1000);
-  }, []);
-  return <Slider step={0.5} defaultValue={0} onChange={onChange} disabled={!showDetail} />;
+  // useEffect(() => {
+  //   setInterval(function () {
+  //     setprocess((item) => {
+  //       return item + 1;
+  //     });
+  //   }, 1000);
+  // }, []);
+  return <Slider step={0.5} value={process} onChange={onChange} disabled={drag} />;
 };
 export default LineChart;

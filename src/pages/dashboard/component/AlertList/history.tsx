@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-22 14:51:44
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-21 09:49:14
+ * @LastEditTime: 2024-01-21 14:51:23
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\AlertList\history.tsx
  * @Description:
  *
@@ -26,7 +26,7 @@ export default () => {
     console.log('toggleDrawer -> param2:', data);
     dispatch({
       type: 'dashboardModel/changeshowDetail',
-      payload: !showDetail,
+      payload: false,
     });
     dispatch({
       type: 'dashboardModel/changecurrentFlyingid',
