@@ -122,7 +122,6 @@ const FlashPromotionList: React.FC = () => {
     {
       title: '摄像头名称',
       hideInSearch: true,
-
       dataIndex: 'name',
     },
     {

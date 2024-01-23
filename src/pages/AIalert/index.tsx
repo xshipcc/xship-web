@@ -83,18 +83,7 @@ const TableList: React.FC = () => {
       // render: (text) => <a href="#">{text}</a>,
       hideInSearch: true,
     },
-    //     data: [
-    //   '人员',
-    //   '车辆',
-    //   '自行车',
-    //   '汽车',
-    //   '卡车',
-    //   '厢式货车',
-    //   '三轮车',
-    //   '摩托车',
-    //   '烟雾',
-    //   '火警',
-    // ],
+
     {
       title: '消息类型',
       dataIndex: 'type',
@@ -131,6 +120,7 @@ const TableList: React.FC = () => {
     // },
     {
       title: '报警平台',
+      hideInSearch: true,
       dataIndex: 'platform',
       valueEnum: {
         0: { text: '全部', color: '#98c379' },
@@ -141,7 +131,7 @@ const TableList: React.FC = () => {
       },
     },
     {
-      title: '创建时间',
+      title: '发现时间',
       dataIndex: 'start_time',
       valueType: 'dateTime',
     },
@@ -170,10 +160,10 @@ const TableList: React.FC = () => {
     {
       title: '报警确认',
       valueEnum: {
-        0: { text: '是', color: '#00ff00' },
-        1: { text: '否', color: '#ff0000' },
+        1: { text: '是', color: '#00ff00' },
+        0: { text: '否', color: '#ff0000' },
       },
-      hideInSearch: true,
+      // hideInSearch: true,
       dataIndex: 'confirm',
     },
     {
@@ -226,12 +216,12 @@ const TableList: React.FC = () => {
 
           const data = {
             ...params,
-            type: params?.type ? params.type : 0,
+            type: params?.type ? Number(params.type) : 0,
             history_id: -1,
             start_time: params?.start_time ? params.start_time : '',
             end_time: params?.end_time ? params.end_time : '',
             platform: params?.uav_id ? params.uav_id : 0,
-            confirm: params?.fly_id ? params.fly_id : 0,
+            confirm: params?.confirm ? Number(params.confirm) : 0,
           };
           const res: ListAlertHistoryRespType = await queryAlert(data);
           const url = window.location.href;

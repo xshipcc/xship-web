@@ -154,15 +154,15 @@ const FlashPromotionList: React.FC = () => {
       dataIndex: 'name',
       hideInSearch: true,
     },
-    {
-      title: '无人机',
-      dataIndex: 'uav_id',
-      hideInSearch: true,
-    },
+    // {
+    //   title: '无人机',
+    //   dataIndex: 'uav_id',
+    //   hideInSearch: true,
+    // },
     {
       title: '无人机',
       dataIndex: 'uav_name',
-      hideInSearch: true,
+      // hideInSearch: true,
 
       render: (dom, entity) => {
         return (
@@ -195,7 +195,7 @@ const FlashPromotionList: React.FC = () => {
     {
       title: '巡检路线',
       dataIndex: 'fly_name',
-      hideInSearch: true,
+      // hideInSearch: true,
 
       render: (dom, entity) => {
         return (
@@ -377,16 +377,24 @@ const FlashPromotionList: React.FC = () => {
         headerTitle="巡检任务"
         actionRef={actionRef}
         rowKey="id"
-        // search={{
-        //   labelWidth: 120,
-        // }}
-        search={false}
+        search={{
+          labelWidth: 120,
+        }}
+        // search={false}
         toolBarRender={() => [
           <Button type="primary" onClick={() => handleModalVisible(true)}>
             <PlusOutlined rev={undefined} /> 新建巡检任务
           </Button>,
         ]}
-        request={queryPlan}
+        request={async (params) => {
+          const data = {
+            ...params,
+            // uav_id: -1,
+            // fly_id: -1,
+          };
+          const res = await queryPlan(data);
+          return res;
+        }}
         columns={columns}
         rowSelection={{
           onChange: (_, selectedRows) => setSelectedRows(selectedRows),
