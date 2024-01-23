@@ -156,7 +156,7 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
           label="路线状态"
           rules={[{ required: true, message: '请输入路线状态!' }]}
         >
-          <Select id="showStatus" defaultValue={0}>
+          <Select id="showStatus">
             <Select.Option value={0}>禁用</Select.Option>
             <Select.Option value={1}>启动</Select.Option>
           </Select>

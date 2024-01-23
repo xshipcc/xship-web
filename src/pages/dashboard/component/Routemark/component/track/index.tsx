@@ -12,102 +12,6 @@ import { CheckOutlined, RollbackOutlined } from '@ant-design/icons';
 import { message, Drawer, Modal } from 'antd';
 import { useDispatch, useModel, useSelector } from 'umi';
 
-const EditableContext = React.createContext<FormInstance<any> | null>(null);
-
-interface Item {
-  key: string;
-  name: string;
-  age: string;
-  address: string;
-}
-
-interface EditableRowProps {
-  index: number;
-}
-
-const EditableRow: React.FC<EditableRowProps> = ({ index, ...props }) => {
-  const [form] = Form.useForm();
-  return (
-    <Form form={form} component={false}>
-      <EditableContext.Provider value={form}>
-        <tr {...props} />
-      </EditableContext.Provider>
-    </Form>
-  );
-};
-
-interface EditableCellProps {
-  title: React.ReactNode;
-  editable: boolean;
-  children: React.ReactNode;
-  dataIndex: keyof Item;
-  record: Item;
-  handleSave: (record: Item) => void;
-}
-
-const EditableCell: React.FC<EditableCellProps> = ({
-  title,
-  editable,
-  children,
-  dataIndex,
-  record,
-  handleSave,
-  ...restProps
-}) => {
-  const [editing, setEditing] = useState(false);
-  const inputRef = useRef<InputRef>(null);
-  const form = useContext(EditableContext)!;
-
-  useEffect(() => {
-    if (editing) {
-      inputRef.current!.focus();
-    }
-  }, [editing]);
-
-  const toggleEdit = () => {
-    setEditing(!editing);
-    form.setFieldsValue({ [dataIndex]: record[dataIndex] });
-  };
-
-  const save = async () => {
-    try {
-      const values = await form.validateFields();
-
-      toggleEdit();
-      handleSave({ ...record, ...values });
-    } catch (errInfo) {
-      console.log('Save failed:', errInfo);
-    }
-  };
-
-  let childNode = children;
-
-  if (editable) {
-    childNode = editing ? (
-      <Form.Item
-        style={{ margin: 0 }}
-        name={dataIndex}
-        rules={[
-          {
-            required: true,
-            message: `${title} is required.`,
-          },
-        ]}
-      >
-        <Input ref={inputRef} onPressEnter={save} onBlur={save} />
-      </Form.Item>
-    ) : (
-      <div className="editable-cell-value-wrap" style={{ paddingRight: 24 }} onClick={toggleEdit}>
-        {children}
-      </div>
-    );
-  }
-
-  return <td {...restProps}>{childNode}</td>;
-};
-
-type EditableTableProps = Parameters<typeof Table>[0];
-
 interface DataType {
   id: number;
   name: string;
@@ -115,8 +19,6 @@ interface DataType {
   create_time: string;
   creator: string;
 }
-
-type ColumnTypes = Exclude<EditableTableProps['columns'], undefined>;
 
 const App: React.FC = () => {
   const { initialState, setInitialState } = useModel('@@initialState');
@@ -130,6 +32,7 @@ const App: React.FC = () => {
       creator: 'string',
     },
   ]);
+
   const [currentListInfo, setcurrentListInfo] = useState({ total: 9, current: 1, pageSize: 9 });
   /**
    *
@@ -177,6 +80,7 @@ const App: React.FC = () => {
   const dispatch = useDispatch();
   const editRoadSignal = useSelector((state: any) => state.dashboardModel.editRoadSignal);
   const [showDrawer, setShowDrawer] = useState(false);
+  const [forceSave, setforceSave] = useState(false);
   const [showList, setshowList] = useState(false);
   const [currentRoad, setcurrentRoad] = useState<ListUavFlyDataType>({
     id: 1,
@@ -352,22 +256,24 @@ const App: React.FC = () => {
     //   coord: currentRoad.data[index]?.coord ? currentRoad.data[index].coord : '1',
     //   name: value,
     // };
+    const currentRoadCache = JSON.parse(JSON.stringify(currentRoad));
     switch (key) {
       case 'lat':
-        currentRoad.data[index].coord[1] = value;
+        currentRoadCache.data[index].coord[1] = Number(value);
         break;
       case 'lon':
-        currentRoad.data[index].coord[0] = value;
+        currentRoadCache.data[index].coord[0] = Number(value);
         break;
       case 'height':
-        currentRoad.data[index].coord[2] = value;
+        currentRoadCache.data[index].coord[2] = Number(value);
         break;
       default:
-        currentRoad.data[index][key] = value;
+        currentRoadCache.data[index][key] = value;
         break;
     }
-    console.log('changeNodeName -> currentRoad:', currentRoad);
-    setcurrentRoad(currentRoad);
+
+    console.log('changeNodeName -> currentRoad:', currentRoadCache);
+    setcurrentRoad(currentRoadCache);
   };
 
   //
@@ -426,13 +332,6 @@ const App: React.FC = () => {
 
     // 路线编辑完成
     if (e) {
-      // @ts-ignore
-      // currentRoad.data = roadData;
-      // 发送当前路径数据
-      // dispatch({
-      //   type: 'dashboardModel/changeEditRoadSignal',
-      //   payload: currentRoad,
-      // });
       console.log('editRoad -> currentRoad:', currentRoad.data);
       setcurrentRoad(currentRoad);
       setshowList(false);
@@ -456,7 +355,7 @@ const App: React.FC = () => {
     }
   };
   ////////////////////
-  const defaultColumns: (ColumnTypes[number] & { editable?: boolean; dataIndex: string })[] = [
+  const defaultColumns: any = [
     {
       title: '航线名称',
       dataIndex: 'name',
@@ -491,29 +390,6 @@ const App: React.FC = () => {
     },
   ];
 
-  const components = {
-    body: {
-      row: EditableRow,
-      cell: EditableCell,
-    },
-  };
-
-  const columns = defaultColumns.map((col) => {
-    if (!col.editable) {
-      return col;
-    }
-    return {
-      ...col,
-      onCell: (record: DataType) => ({
-        record,
-        editable: col.editable,
-        dataIndex: col.dataIndex,
-        title: col.title,
-        handleSave,
-      }),
-    };
-  });
-
   //#endregion -----------------------------------------------------------------------
   /**
    * @end
@@ -538,15 +414,30 @@ const App: React.FC = () => {
               <RollbackOutlined rev={undefined} /> 返回
             </Col>
             <Col span={14}>
-              <div className={styles.title}>{currentRoad.name}</div>
+              <Input
+                id="showStatus"
+                className={styles.title}
+                defaultValue={currentRoad.name}
+                onChange={(value) => {
+                  setcurrentRoad((item: any) => {
+                    const cache = JSON.parse(JSON.stringify(item));
+                    cache.name = value.target.value;
+                    return cache;
+                  });
+                  // changeNode(value.target.value, index, 'lon');
+                }}
+              />
+              {/* <input className={styles.title}>{currentRoad.name}</input> */}
             </Col>
             <Col
               span={5}
               className={styles.title}
               onClick={() => {
                 if (!editRoadSignal) {
+                  setshowList(false);
                   // @ts-ignore
                   handleSave(currentRoad);
+                  // setforceSave(false);
                 } else {
                   message.warning('请先完成航线编辑');
                 }
@@ -715,7 +606,11 @@ const App: React.FC = () => {
               <Button
                 type="primary"
                 onClick={() => {
+                  // if (forceSave) {
+                  //   message.warning('请先保存');
+                  // } else {
                   lookCurrentRoad();
+                  // }
                 }}
               >
                 预览航线
@@ -737,11 +632,9 @@ const App: React.FC = () => {
             },
             total: currentListInfo.total,
           }}
-          components={components}
-          rowClassName={() => 'editable-row'}
           bordered
           dataSource={dataSource}
-          columns={columns as ColumnTypes}
+          columns={defaultColumns}
         />
       )}
     </div>

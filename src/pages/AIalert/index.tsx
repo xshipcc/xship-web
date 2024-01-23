@@ -80,7 +80,7 @@ const TableList: React.FC = () => {
       dataIndex: 'image',
       valueType: 'image',
       fieldProps: { width: 100, height: 80 },
-      render: (text) => <a href="#">{text}</a>,
+      // render: (text) => <a href="#">{text}</a>,
       hideInSearch: true,
     },
     //     data: [
@@ -146,6 +146,7 @@ const TableList: React.FC = () => {
       valueType: 'dateTime',
     },
     {
+      hideInSearch: true,
       title: '结束时间',
       dataIndex: 'end_time',
       valueType: 'dateTime',

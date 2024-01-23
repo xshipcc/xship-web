@@ -117,7 +117,7 @@ const FlashPromotionList: React.FC = () => {
     try {
       return JSON.parse(json);
     } catch (error) {
-      return '路线解析错误';
+      return [{ name: '', coord: [0, 0, 0], hovertime: '' }];
     }
   }, []);
 
@@ -216,9 +216,10 @@ const FlashPromotionList: React.FC = () => {
         headerTitle="航线列表"
         actionRef={actionRef}
         rowKey="id"
-        search={{
-          labelWidth: 120,
-        }}
+        // search={{
+        //   labelWidth: 120,
+        // }}
+        search={false}
         toolBarRender={() => []}
         request={queryFly}
         columns={columns}

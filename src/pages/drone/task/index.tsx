@@ -105,7 +105,7 @@ const FlashPromotionList: React.FC = () => {
     try {
       return JSON.parse(json);
     } catch (error) {
-      return '路线解析错误';
+      return [{ name: '', coord: '', hovertime: '' }];
     }
   }, []);
 
@@ -156,7 +156,14 @@ const FlashPromotionList: React.FC = () => {
     },
     {
       title: '无人机',
+      dataIndex: 'uav_id',
+      hideInSearch: true,
+    },
+    {
+      title: '无人机',
       dataIndex: 'uav_name',
+      hideInSearch: true,
+
       render: (dom, entity) => {
         return (
           <a
@@ -188,6 +195,8 @@ const FlashPromotionList: React.FC = () => {
     {
       title: '巡检路线',
       dataIndex: 'fly_name',
+      hideInSearch: true,
+
       render: (dom, entity) => {
         return (
           <a
@@ -204,7 +213,8 @@ const FlashPromotionList: React.FC = () => {
       },
     },
     {
-      title: '消息类型',
+      title: '计划状态',
+      hideInSearch: true,
       dataIndex: 'status',
       valueEnum: {
         0: { text: '禁用', color: 'red' },
@@ -367,9 +377,10 @@ const FlashPromotionList: React.FC = () => {
         headerTitle="巡检任务"
         actionRef={actionRef}
         rowKey="id"
-        search={{
-          labelWidth: 120,
-        }}
+        // search={{
+        //   labelWidth: 120,
+        // }}
+        search={false}
         toolBarRender={() => [
           <Button type="primary" onClick={() => handleModalVisible(true)}>
             <PlusOutlined rev={undefined} /> 新建巡检任务

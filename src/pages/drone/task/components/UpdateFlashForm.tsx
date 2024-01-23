@@ -70,14 +70,23 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
 
   const [roadList, setroadList] = useState([{ value: 'demo', label: 'demo' }]);
   const [droneList, setdroneList] = useState([{ value: 'demo', label: 'demo' }]);
+  const [droneid, setdroneid] = useState();
+  const [roadId, setroadId] = useState();
 
   const handleFinish = (item: { [key: string]: any }) => {
     if (onSubmit) {
       console.log('handleFinish -> values.uav_id:', values.uav_id);
 
       const newStr = '0' + plan.substring(1, plan.length - 1);
-      item.uav_name = droneList.find((item1: any) => item1.value === values.uav_id)?.label;
-      item.fly_name = roadList.find((item1: any) => item1.value === values.fly_id)?.label;
+
+      item.uav_name = droneList.find((subItem: any) => subItem.value === item.uav_id)?.label;
+      console.log(
+        'handleFinish -> droneList.find((subItem: any) => subItem.value === values.uav_id)?.label:',
+        droneList.find((subItem: any) => subItem.value === item.uav_id)?.label,
+      );
+      item.fly_name = roadList.find((subItem: any) => subItem.value === item.fly_id)?.label;
+      console.log('handleFinish -> item:', item);
+
       setTimeout(() => {
         onSubmit({
           ...(item as ListUavPlanDataType),
@@ -115,7 +124,12 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
   useEffect(() => {
     fetchFlyData({ pageSize: 10, current: 1 });
   }, []);
-  const handleChange = (params: string) => {
+  const handleChangeDrone = (params: string) => {
+    // setcurrentRoad(JSON.parse(params));
+    console.log('handleChange -> JSON.parse(params):', JSON.parse(params));
+    console.log(`handleChange ${params}`);
+  };
+  const handleChangeRoad = (params: string) => {
     // setcurrentRoad(JSON.parse(params));
     console.log('handleChange -> JSON.parse(params):', JSON.parse(params));
     console.log(`handleChange ${params}`);
@@ -150,7 +164,8 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
           label="无人机id"
           rules={[{ required: true, message: '请输入无人机id!' }]}
         >
-          <Select defaultValue="default" onChange={handleChange} options={droneList} />
+          {/* <Select defaultValue="default" onChange={handleChangeDrone} options={droneList} /> */}
+          <Select defaultValue="default" options={droneList} />
         </FormItem>
 
         <FormItem id="plan" label="飞行计划时间">
@@ -162,7 +177,8 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
           label="巡检路线id"
           rules={[{ required: true, message: '请输入巡检路线id!' }]}
         >
-          <Select defaultValue="default" onChange={handleChange} options={roadList} />
+          {/* <Select defaultValue="default" onChange={handleChangeRoad} options={roadList} /> */}
+          <Select defaultValue="default" options={roadList} />
         </FormItem>
         <FormItem
           name="status"

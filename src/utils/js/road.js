@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-27 14:41:11
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-18 15:57:55
+ * @LastEditTime: 2024-01-23 09:51:55
  * @FilePath: \zero-admin-ui-master\src\utils\js\road.js
  * @Description:
  *
@@ -80,6 +80,7 @@ class Road {
 
     this.dataSource = new Cesium.CustomDataSource('TrackPath');
     for (let i = 0; i < Lines.length; i++) {
+      console.log('Road -> TrackPath ->  Lines[i].coord[0]:', Lines[i].coord[0]);
       let LinesIndex = new Cesium.Cartesian3.fromDegrees(
         Lines[i].coord[0],
         Lines[i].coord[1],

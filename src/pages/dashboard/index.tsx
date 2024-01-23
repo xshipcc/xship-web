@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-09 20:12:31
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-22 11:54:39
+ * @LastEditTime: 2024-01-23 09:18:17
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\index.tsx
  * @Description:
  *
@@ -28,6 +28,7 @@ import { queryStatistics } from '@/pages/AIalert/service';
 import * as mqtt from 'mqtt';
 import { debounce } from 'lodash';
 import { useSelector, useDispatch, history } from 'umi';
+import { CompassOutlined, LinkOutlined, ThunderboltOutlined, ApiOutlined } from '@ant-design/icons';
 const initView = {
   drone: {
     total: 2,
@@ -454,10 +455,10 @@ const Dashboard: React.FC = () => {
           {/* header */}
           <div className={styles.header}>
             <div className={styles.titleOfstate}>
-              GPS状态: {dashboardinfoMqtt?.drone?.gps_stars}剩余电量:
-              {dashboardinfoMqtt.drone.v}
+              <CompassOutlined />: {dashboardinfoMqtt?.drone?.gps_stars}
+              <ApiOutlined />: {dashboardinfoMqtt.drone.v}
               <br />
-              电流值:{dashboardinfoMqtt?.drone?.a} 数据帧频:
+              <ThunderboltOutlined />: {dashboardinfoMqtt?.drone?.a} <LinkOutlined />:
               {dashboardinfoMqtt?.drone?.gps_lost}
             </div>
             <Header />
