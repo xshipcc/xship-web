@@ -143,6 +143,31 @@ const FlashPromotionList: React.FC = () => {
   //   plan: string; // 飞行计划时间
   //   fly_id: number; // 巡检路线id
   // }
+  const parseField = (field: string, unit: string) => {
+    console.log('parseField -> field:', field);
+    if (field === '*') {
+      return '每' + unit;
+    } else {
+      // const values = field.split(',');
+      return '第' + field + unit;
+    }
+  };
+  const cronToChinese = (cronExpression: string) => {
+    const parts = cronExpression.split(' ');
+    console.log('cronToChinese -> parts:', parts);
+    const [second, minute, hour, dayOfMonth, month, dayOfWeek, demo] = parts;
+
+    const minuteStr = parseField(minute, '分钟');
+    const hourStr = parseField(hour, '小时');
+    const monthStr = parseField(month, '月');
+    if (dayOfWeek === '*') {
+      const dayOfMonthStr = parseField(dayOfMonth, '号');
+      return `${monthStr}  ${dayOfMonthStr} ${hourStr} ${minuteStr} `;
+    } else {
+      const dayOfWeekStr = parseField(dayOfWeek, '周');
+      return `${monthStr}  ${dayOfWeekStr}  ${hourStr} ${minuteStr}`;
+    }
+  };
   const columns: ProColumns<ListUavPlanDataType>[] = [
     {
       title: '编号',
@@ -179,24 +204,19 @@ const FlashPromotionList: React.FC = () => {
         );
       },
     },
-
-    // {
-    //   title: '无人机图片',
-    //   dataIndex: 'uav_icon',
-    //   valueType: 'image',
-    //   fieldProps: { width: 100, height: 80 },
-    //   hideInSearch: true,
-    // },
     {
       title: '飞行计划时间',
       dataIndex: 'plan',
       hideInSearch: true,
+      render: (dom, entity) => {
+        // @ts-ignore
+        return <div>{cronToChinese(entity.plan)}</div>;
+      },
     },
     {
       title: '巡检路线',
       dataIndex: 'fly_name',
       // hideInSearch: true,
-
       render: (dom, entity) => {
         return (
           <a

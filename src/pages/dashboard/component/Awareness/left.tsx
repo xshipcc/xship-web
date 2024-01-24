@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-21 17:22:20
+ * @LastEditTime: 2024-01-23 17:31:18
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\left.tsx
  * @Description:
  *
@@ -12,13 +12,10 @@ import { Button, Col, List, Row, Select, Tabs } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './left.less';
 // import Player from '@/components/VideoReact';
-import Player from '@/components/VideoFlv';
-import * as mqtt from 'mqtt';
-import Title from '../common/Title';
 import { queryDevice } from '@/pages/drone/device/service';
-import { ControlOutlined } from '@ant-design/icons';
-import AwarenessButton from './component/button';
-
+// import schedule from 'node-schedule';
+import cronParser from 'cron-parser';
+import * as mqtt from 'mqtt';
 import { useDispatch } from 'umi';
 import { queryPlan } from '@/pages/drone/task/service';
 function useForceUpdate() {
@@ -37,9 +34,9 @@ const Awareness: React.FC = () => {
   const handleForceupdateMethod = useForceUpdate();
   const def: any = '';
   const client = useRef(def);
-  const dispatch = useDispatch();
 
   const [droneinfo, setdroneinfo] = useState({ cam_url: '' });
+  const [timeInfo, settimeInfo] = useState('');
   const [consoleInfo, setconsoleInfo] = useState(['控制台信息']);
   const [videoUrl, setVideoUrl] = useState('');
   const getDroneData = async () => {
@@ -50,24 +47,40 @@ const Awareness: React.FC = () => {
     handleForceupdateMethod();
   };
   const [taskList, settaskList] = useState<any>([]);
-  const [currentTask, setcurrentTask] = useState<any>();
-  const [flyList, setflyList] = useState<any>([]);
 
   useEffect(() => {
     getDroneData();
     queryPlan({ pageSize: 1000, current: 1 }).then((resp) => {
       const tasks = resp.data.map((item: any) => {
-        return { value: item.id, label: item.id };
+        return { value: item.plan, label: item.name };
       });
-      setflyList(resp.data);
       settaskList(tasks);
       console.log('resRoad.data.map -> item:', resp.data);
     });
   }, []);
-  const handleChange = (params: string) => {
-    setcurrentTask(params);
-    console.log(`handleChange ${params}`);
+  const getHoursUntilNextExecution = (cronExpression: string) => {
+    const interval = cronParser.parseExpression(cronExpression);
+    const nextDate = interval.next().toString();
+    return nextDate;
   };
+
+  const handleChange = (params: string) => {
+    console.log(`handleChange ${params}`);
+    const difference = getHoursUntilNextExecution(params);
+    const options = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      weekday: 'long',
+      hour: 'numeric',
+      minute: 'numeric',
+    };
+    const date = new Date(difference);
+    const chineseDate = date.toLocaleString('zh-CN', options);
+    settimeInfo(chineseDate);
+    console.log('handleChange -> difference:', difference);
+  };
+
   // mqtt消息接收
   useEffect(() => {
     const clientId = 'awareness' + Math.random().toString(16).substring(2, 8);
@@ -131,22 +144,6 @@ const Awareness: React.FC = () => {
     };
   }, []);
 
-  const sendMqttControl = () => {
-    console.log('flyList.map -> flyList:', flyList);
-
-    flyList.map((item: any) => {
-      if (item.id === currentTask) {
-        const controlInfo = {
-          cmd: 'fly',
-          fly_id: item.fly_id,
-          uav_id: item.uav_id,
-        };
-        client.current.publish('fly_control', JSON.stringify(controlInfo));
-        console.log('sendMqttControl -> controlInfo:', controlInfo);
-      }
-    });
-    // console.log('sendMqttControl -> controlInfo:', JSON.stringify(controlInfo));
-  };
   /**
    * @end
    */
@@ -169,14 +166,16 @@ const Awareness: React.FC = () => {
                         <Select onChange={handleChange} options={taskList} />
                       </Col>
                       <Col
-                        span={8}
-                        offset={6}
-                        style={{ color: 'white' }}
-                        onClick={() => {
-                          sendMqttControl();
-                        }}
+                        span={14}
+                        offset={2}
+                        // onClick={() => {
+                        //   sendMqttControl();
+                        // }}
+                        className={styles.infoTime}
                       >
-                        <button className={styles.infoButton}>自动飞行</button>
+                        执行时间:
+                        {timeInfo}
+                        {/* <button className={styles.infoButton}>自动飞行</button> */}
                       </Col>
                     </Row>
                     <List

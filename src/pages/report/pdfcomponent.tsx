@@ -2,118 +2,181 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-11-21 11:23:26
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-15 15:58:16
+ * @LastEditTime: 2024-01-24 10:52:52
  * @FilePath: \zero-admin-ui-master\src\pages\report\pdfcomponent.tsx
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
 import React, { useEffect, useState } from 'react';
-import { Page, Text, View, Document, StyleSheet, Font } from '@react-pdf/renderer';
-import { Badge, Button, Col, DatePicker, List, Radio, Row, Select, message } from 'antd';
-import type { ListAlertHistoryRespType } from './data.d';
+// import { Page, Text, View, Document, StyleSheet, Font } from '@react-pdf/renderer';
+import { Document, Page, Text, StyleSheet, View, Image, Font } from '@react-pdf/renderer';
+import type { ListAlertHistoryRespType, SnapshotData } from './data.d';
 import { queryAlert } from './service';
 // import stylesLess from './pdfcomponent.less';
 // @ts-ignore
 import YouSheBiaoTiHei from '../../assets/font/YouSheBiaoTiHei-2.ttf';
 Font.register({ family: 'FangSong', src: YouSheBiaoTiHei });
 
-// create style
-const styles = StyleSheet.create({
-  page: {
-    backgroundColor: '#E4E4E4',
-  },
-  section: {
-    margin: 10,
-    padding: 10,
-    flexGrow: 1,
-  },
+// 自定义字体
+Font.register({
+  family: 'Oswald',
+  src: YouSheBiaoTiHei,
+});
 
-  first: {
-    fontSize: 40,
+const styles = StyleSheet.create({
+  body: {
+    paddingTop: 60,
+    paddingLeft: 40,
+    paddingRight: 40,
+    paddingBottom: 30,
+    fontFamily: 'Oswald',
+  },
+  title: {
+    fontSize: 18,
     textAlign: 'center',
-    fontFamily: 'FangSong',
+    marginBottom: 30,
   },
-  position: {
-    fontSize: 24,
-    textAlign: 'left',
-    fontFamily: 'FangSong',
-  },
-  time: {
-    fontSize: 20,
-    textAlign: 'left',
-    fontFamily: 'FangSong',
-  },
-  alert: {
+  subtitle: {
     fontSize: 16,
-    fontFamily: 'FangSong',
+    textAlign: 'center',
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  graphText: {
+    fontWeight: 'bold',
+    textDecoration: 'underline',
+    color: '#000',
+  },
+  signImg: {
+    width: '120px',
+    height: '90px',
+    padding: 2,
+    zIndex: 2,
+  },
+  tables: {
+    border: 1,
+    paddingTop: 10,
+    paddingLeft: 10,
+    paddingeRigft: 10,
+  },
+  itemleft: {
+    fontSize: 15,
+  },
+  itemr: {
+    fontSize: 16,
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  signImgr: {
+    padding: 10,
+  },
+  item: {
+    fontSize: 15,
+    textDecoration: 'underline',
   },
 });
 
-// create document component
-const MyDocument = (props: any) => {
-  const [historyData, sethistoryData] = useState([]);
-  console.log('MyDocument -> props:', props);
-  const { currentHistory } = props;
+const Content = (props: { data: any }) => {
+  const { data } = props;
+  const [currentRow, setCurrentRow] = useState<SnapshotData>();
+  const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
+
   useEffect(() => {
-    const queryData = async () => {
-      // interface ListAlertHistoryReq {
-      //   current?: number;
-      //   pageSize?: number;
-      //   type: number;
-      //   start_time: string;
-      //   end_time: string;
-      //   platform: number;
-      //   confirm: number;
-      // }
-
-      const data = {
-        current: 1,
-        pageSize: 3000,
-        type: 0,
-        history_id: currentHistory.id,
-        start_time: '',
-        end_time: '',
-        platform: 0,
-        confirm: 0,
-      };
-      const res: ListAlertHistoryRespType = await queryAlert(data);
-      console.log('queryData -> res:', res);
-      sethistoryData(res.data);
-    };
-    if (currentHistory?.id) {
-      queryData();
+    if (data) {
+      setCurrentRow(data);
+      handleUpdateModalVisible(true);
+      // setStartDate(values.startDate || '');
+      // setEndDate(values.endDate || '');
     }
-  }, [currentHistory]);
+    // handleUpdateModalVisible(false);
+  }, [props.data]);
 
-  console.log('MyDocument -> currentHistory:', currentHistory);
+  // id: number;
+  // total: number;
+  // person: number;
+  // car: number;
+  // bicycle: number;
+  // bus: number;
+  // truck: number;
+  // box_truck: number;
+  // tricycle: number;
+  // motorcycle: number;
+  // smoke: number;
+  // fire: number;
+  // remark: string;
+  // snapshots: SnapshotImages;
+  // create_time: string;
+  // 行人;
+  // 自行车;
+  // 车辆;
+  // 货车;
+  // 卡车;
+  // 三轮车;
+  // 公交车;
+  // 摩托车;
+  // 火警;
+  // 烟雾;
+  const ImageList = new Array(10).fill(null).map((_, i) => {
+    return (
+      <Text style={styles.signImgr}>
+        <Image style={styles.signImg} src="https://i.loli.net/2021/04/14/nNly8EdXJ2aHYTe.jpg" />
+      </Text>
+    );
+  });
   return (
-    <Document>
-      <Page size="A4" style={styles.page}>
-        {historyData.length > 0 && (
-          <View style={styles.section}>
-            <Text style={styles.first}>巡检历史{currentHistory.id} </Text>
-            <Text style={styles.position}>
-              无人机起飞点 经度{currentHistory.id} 维度{currentHistory.id} 高度{currentHistory.id}
+    <>
+      {updateModalVisible && (
+        <Document>
+          <Page size="A4" style={styles.body}>
+            <Text style={styles.title}>巡检报表-{currentRow?.create_time}</Text>
+            <Text style={styles.subtitle}>告警数据总数 :{currentRow?.total} 个</Text>
+            <Text style={styles.tables}>
+              <Text style={styles.itemleft}>行人 : </Text>
+              <Text style={styles.item}>{currentRow?.person} 个</Text>
+              <Text style={styles.itemleft}>自行车 : </Text>
+              <Text style={styles.item}>{currentRow?.bicycle} 个</Text>
+              <Text style={styles.itemleft}>汽车 : </Text>
+              <Text style={styles.item}>{currentRow?.car} 个</Text>
+              <Text style={styles.itemleft}>货车 : </Text>
+              <Text style={styles.item}>{currentRow?.box_truck} 个</Text>
+              <Text style={styles.itemleft}>卡车 : </Text>
+              <Text style={styles.item}>{currentRow?.truck} 个</Text>
             </Text>
-            <Text style={styles.time}>开始时间{currentHistory.create_time}</Text>
-            <Text style={styles.time}>结束时间{currentHistory.end_time}</Text>
-            {historyData.map((item, index) => {
-              return (
-                <Text key={1} style={styles.alert}>
-                  第{index}条{' '}
-                  {Object.entries(item).map(([key, value]) => {
-                    if (key != 'image') return ' ' + key + ':' + value + ' ';
-                    return '   ';
-                  })}
-                </Text>
-              );
-            })}
-          </View>
-        )}
-      </Page>
-    </Document>
+            <Text style={styles.tables}>
+              <Text style={styles.itemleft}>三轮车 : </Text>
+              <Text style={styles.item}>{currentRow?.tricycle} 个</Text>
+              <Text style={styles.itemleft}>公交车 : </Text>
+              <Text style={styles.item}>{currentRow?.bus} 个</Text>
+              <Text style={styles.itemleft}>摩托车 : </Text>
+              <Text style={styles.item}>{currentRow?.motorcycle} 个</Text>
+              <Text style={styles.itemleft}>火警 : </Text>
+              <Text style={styles.item}>{currentRow?.fire} 个</Text>
+              <Text style={styles.itemleft}>烟雾 : </Text>
+              <Text style={styles.item}>{currentRow?.smoke} 个</Text>
+            </Text>
+            <Text style={styles.subtitle}>告警数据详情</Text>
+
+            {/* <Text style={styles.graph}>
+          <Text style={styles.graphText}>加粗文案 </Text>
+          <Text>当前文案在一行内</Text>
+        </Text> */}
+
+            <Text style={styles.itemr}>行人 : {ImageList}</Text>
+            <Text style={styles.itemr}>自行车 : {ImageList}</Text>
+            <Text style={styles.itemr}>汽车 : {ImageList}</Text>
+            <Text style={styles.itemr}>货车 : {ImageList}</Text>
+            <Text style={styles.itemr}>卡车 : {ImageList}</Text>
+            <Text style={styles.itemr}>三轮车 : {ImageList}</Text>
+            <Text style={styles.itemr}>公交车 : {ImageList}</Text>
+            <Text style={styles.itemr}>摩托车 : {ImageList}</Text>
+            <Text style={styles.itemr}>火警 : {ImageList}</Text>
+            <Text style={styles.itemr}>烟雾 : {ImageList}</Text>
+          </Page>
+        </Document>
+      )}
+    </>
   );
 };
 
-export default MyDocument;
+export default Content;

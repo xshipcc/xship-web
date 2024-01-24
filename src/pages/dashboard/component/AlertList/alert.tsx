@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-22 14:51:44
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-22 11:40:13
+ * @LastEditTime: 2024-01-24 11:00:32
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\AlertList\alert.tsx
  * @Description:
  *
@@ -237,7 +237,7 @@ export default () => {
   };
   const onChangeSelector = (value: number) => {
     console.log('onChangeSelector -> value:', value);
-    reqParams.type = value;
+    reqParams.type = Number(value);
     setreqParams(reqParams);
   };
 
@@ -393,16 +393,16 @@ export default () => {
                 defaultValue={0}
                 onChange={onChangeSelector}
                 options={[
-                  { value: 0, label: '全部' },
-                  { value: 1, label: '巡检路线' },
-                  { value: 2, label: '人员告警' },
-                  { value: 3, label: '车辆告警' },
-                  { value: 4, label: '入侵告警' },
-                  { value: 5, label: '烟火告警' },
-                  { value: 6, label: '车辆告警' },
-                  { value: 7, label: '入侵告警' },
-                  { value: 8, label: '烟火告警' },
-                  { value: 9, label: '烟火告警' },
+                  { value: 0, label: '行人' },
+                  { value: 1, label: '自行车' },
+                  { value: 2, label: '车辆' },
+                  { value: 3, label: '货车' },
+                  { value: 4, label: '卡车' },
+                  { value: 5, label: '三轮车' },
+                  { value: 6, label: '公交车' },
+                  { value: 7, label: '摩托车' },
+                  { value: 8, label: '火警' },
+                  { value: 9, label: '烟雾' },
                 ]}
               />
             </Col>

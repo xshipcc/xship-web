@@ -96,7 +96,7 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
           <Input id="update-title" placeholder={'请输入摄像头ip'} />
         </FormItem>
         <FormItem
-          name="url"
+          name="data"
           label="视频流地址"
           rules={[{ required: true, message: '请输入视频流地址!' }]}
         >
@@ -108,11 +108,8 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
           rules={[{ required: true, message: '请输入摄像头平台!' }]}
         >
           <Select id="showStatus">
-            <Select.Option value={0}>全部</Select.Option>
-            <Select.Option value={1}>飞机</Select.Option>
-            <Select.Option value={2}>摄像头</Select.Option>
-            <Select.Option value={3}>机库</Select.Option>
-            <Select.Option value={4}>AI</Select.Option>
+            <Select.Option value={0}>飞机摄像头</Select.Option>
+            <Select.Option value={1}>摄像头</Select.Option>
           </Select>
         </FormItem>
         <FormItem

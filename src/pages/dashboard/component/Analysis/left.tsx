@@ -50,8 +50,10 @@ const Analysis: React.FC = (props) => {
             <div className={styles.total}>
               <div className={styles.totalValue}>
                 {/* <div className={styles.round}></div> */}
-                <span>{info}</span>
-                <span>{info}</span>
+                {/* <span>{info}</span>
+                <span>{info}</span> */}
+                <span>雨天</span>
+                <span>东南风</span>
               </div>
             </div>
           </div>

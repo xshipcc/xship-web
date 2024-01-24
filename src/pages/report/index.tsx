@@ -25,7 +25,7 @@ function MyPDF(currentHistory: any) {
     <div>
       {/* @ts-ignore */}
       <PDFViewer width={900} height={800}>
-        <MyDocument currentHistory={currentHistory} />
+        <MyDocument data={currentHistory} />
       </PDFViewer>
     </div>
   );
@@ -91,7 +91,10 @@ const FlashPromotionList: React.FC = () => {
           </Button>
           <Divider type="vertical" />
           {/* @ts-ignore */}
-          <PDFDownloadLink document={<MyDocument />} fileName={'巡检历史' + currentRow?.id}>
+          <PDFDownloadLink
+            document={<MyDocument data={currentRow} />}
+            fileName={'巡检历史' + currentRow?.id}
+          >
             {({ blob, url, loading, error }) =>
               loading ? (
                 'Loading document...'
@@ -144,15 +147,3 @@ const FlashPromotionList: React.FC = () => {
 };
 
 export default FlashPromotionList;
-
-// function MyPDF() {
-//   return (
-//     <div>
-//       <PDFViewer width={900} height={800}>
-//         <MyDocument />
-//       </PDFViewer>
-//     </div>
-//   );
-// }
-
-// export default MyPDF;

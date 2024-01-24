@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-24 18:10:03
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-01 10:49:41
+ * @LastEditTime: 2024-01-24 10:58:58
  * @FilePath: \zero-admin-ui-master\src\pages\AIrecognition\camera\components\CreateFlashForm.tsx
  * @Description:
  *
@@ -89,7 +89,7 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
           <Input id="update-title" placeholder={'请输入摄像头ip'} />
         </FormItem>
         <FormItem
-          name="url"
+          name="data"
           label="视频流地址"
           rules={[{ required: true, message: '请输入视频流地址!' }]}
         >
@@ -101,11 +101,8 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
           rules={[{ required: true, message: '请输入摄像头平台!' }]}
         >
           <Select id="showStatus">
-            <Select.Option value={0}>全部</Select.Option>
-            <Select.Option value={1}>飞机</Select.Option>
-            <Select.Option value={2}>摄像头</Select.Option>
-            <Select.Option value={3}>机库</Select.Option>
-            <Select.Option value={4}>AI</Select.Option>
+            <Select.Option value={0}>飞机摄像头</Select.Option>
+            <Select.Option value={1}>摄像头</Select.Option>
           </Select>
         </FormItem>
         <FormItem

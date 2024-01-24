@@ -2,14 +2,14 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-24 22:27:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-22 12:26:43
+ * @LastEditTime: 2024-01-24 08:58:01
  * @FilePath: \zero-admin-ui-master\src\pages\report\service.ts
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
 import { request } from 'umi';
-import type { ListUavHistoryReqType, AddUavHistoryReqType } from './data.d';
+import type { ListUavHistoryReqType, AddUavHistoryReqType, ListAlertHistoryReq } from './data.d';
 
 /**
  *  @file service.ts

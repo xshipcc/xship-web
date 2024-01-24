@@ -179,11 +179,11 @@ const FlashPromotionList: React.FC = () => {
     };
   }, []);
   const columns: ProColumns<any>[] = [
-    {
-      title: '键',
-      dataIndex: 'key',
-      hideInSearch: true,
-    },
+    // {
+    //   title: '键',
+    //   dataIndex: 'key',
+    //   hideInSearch: true,
+    // },
     {
       title: '名称',
       dataIndex: 'name',

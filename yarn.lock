@@ -9525,6 +9525,13 @@ cron-parser@^2.13.0:
     is-nan "^1.3.0"
     moment-timezone "^0.5.31"
 
+cron-parser@^4.2.0, cron-parser@^4.9.0:
+  version "4.9.0"
+  resolved "https://registry.npmmirror.com/cron-parser/-/cron-parser-4.9.0.tgz#0340694af3e46a0894978c6f52a6dbb5c0f11ad5"
+  integrity sha512-p0SaNjrHOnQeR8/VnfGbmg9te2kfyYSQ7Sc/j/6DtPL3JQvKxmjO9TSjNFpujqV3vEYYBvNNvXSxzyksBWAx1Q==
+  dependencies:
+    luxon "^3.2.1"
+
 cron-react@^2.2.0:
   version "2.2.0"
   resolved "https://registry.npmmirror.com/cron-react/-/cron-react-2.2.0.tgz#b4490d8bf6f8f58db54901112bb06c7b10632b9f"
@@ -15271,6 +15278,11 @@ log4js@1.1.1:
     semver "^5.3.0"
     streamroller "^0.4.0"
 
+long-timeout@0.1.1:
+  version "0.1.1"
+  resolved "https://registry.npmmirror.com/long-timeout/-/long-timeout-0.1.1.tgz#9721d788b47e0bcb5a24c2e2bee1a0da55dab514"
+  integrity sha512-BFRuQUqc7x2NWxfJBCyUrN8iYUYznzL9JROmRz1gZ6KlOIgmoD+njPVbb+VNn2nGMKggMsK79iUNErillsrx7w==
+
 long@^5.0.0:
   version "5.2.3"
   resolved "https://registry.npmmirror.com/long/-/long-5.2.3.tgz#a3ba97f3877cf1d778eccbcb048525ebb77499e1"
@@ -15344,6 +15356,11 @@ lru-queue@^0.1.0:
   integrity sha512-BpdYkt9EvGl8OfWHDQPISVpcl5xZthb+XPsbELj5AQXxIC8IriDZIQYjBJPEm5rS420sjZ0TLEzRcq5KdBhYrQ==
   dependencies:
     es5-ext "~0.10.2"
+
+luxon@^3.2.1:
+  version "3.4.4"
+  resolved "https://registry.npmmirror.com/luxon/-/luxon-3.4.4.tgz#cf20dc27dc532ba41a169c43fdcc0063601577af"
+  integrity sha512-zobTr7akeGHnv7eBOXcRgMeCP6+uyYsczwmeRCauvpvaAltgNyTbLH/+VaEAPUeWBT+1GuNmz4wC/6jtQzbbVA==
 
 lz-string@^1.4.4:
   version "1.5.0"
@@ -16644,6 +16661,15 @@ node-releases@^2.0.14:
   version "2.0.14"
   resolved "https://registry.npmmirror.com/node-releases/-/node-releases-2.0.14.tgz#2ffb053bceb8b2be8495ece1ab6ce600c4461b0b"
   integrity sha512-y10wOWt8yZpqXmOgRo77WaHEmhYQYGNA6y421PKsKYWEK8aW+cqAphborZDhqfyKrbZEN92CN1X2KbafY2s7Yw==
+
+node-schedule@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.npmmirror.com/node-schedule/-/node-schedule-2.1.1.tgz#6958b2c5af8834954f69bb0a7a97c62b97185de3"
+  integrity sha512-OXdegQq03OmXEjt2hZP33W2YPs/E5BcFQks46+G2gAxs4gHOIVD1u7EqlYLYSKsaIpyKCK9Gbk0ta1/gjRSMRQ==
+  dependencies:
+    cron-parser "^4.2.0"
+    long-timeout "0.1.1"
+    sorted-array-functions "^1.3.0"
 
 normalize-package-data@^2.4.0, normalize-package-data@^2.5.0:
   version "2.5.0"
@@ -22360,6 +22386,11 @@ sort-package-json@1.57.0, sort-package-json@^1.22.1:
     globby "10.0.0"
     is-plain-obj "2.1.0"
     sort-object-keys "^1.1.3"
+
+sorted-array-functions@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.npmmirror.com/sorted-array-functions/-/sorted-array-functions-1.3.0.tgz#8605695563294dffb2c9796d602bd8459f7a0dd5"
+  integrity sha512-2sqgzeFlid6N4Z2fUQ1cvFmTOLRi/sEDzSQ0OKYchqgoPmQBVyM3959qYx3fpS6Esef80KjmpgPeEr028dP3OA==
 
 source-list-map@^2.0.1:
   version "2.0.1"

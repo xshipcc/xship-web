@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-24 22:27:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-05 19:18:16
+ * @LastEditTime: 2024-01-24 09:56:41
  * @FilePath: \zero-admin-ui-master\src\pages\report\data.d.ts
  * @Description:
  *
@@ -96,6 +96,37 @@ export interface ListAlertHistoryRespType {
   total: number;
   code: string;
   message: string;
+}
+
+export interface SnapshotData {
+  id: number;
+  total: number;
+  person: number;
+  car: number;
+  bicycle: number;
+  bus: number;
+  truck: number;
+  box_truck: number;
+  tricycle: number;
+  motorcycle: number;
+  smoke: number;
+  fire: number;
+  remark: string;
+  snapshots: SnapshotImages;
+  create_time: string;
+}
+
+export interface SnapshotImages {
+  bicycle: string[];
+  boxtruck: string[];
+  bus: string[];
+  car: string[];
+  fire: string[];
+  motorcycle: string[];
+  person: string[];
+  smoke: string[];
+  tricycle: string[];
+  truck: string[];
 }
 
 //#endregion -----------------------------------------------------------------------
