@@ -124,11 +124,11 @@ const FlashPromotionList: React.FC = () => {
       hideInSearch: true,
       dataIndex: 'name',
     },
-    {
-      title: '摄像头ip地址',
-      dataIndex: 'ip',
-      hideInSearch: true,
-    },
+    // {
+    //   title: '摄像头ip地址',
+    //   dataIndex: 'ip',
+    //   hideInSearch: true,
+    // },
     {
       title: '摄像头平台',
       dataIndex: 'platform',
@@ -176,15 +176,15 @@ const FlashPromotionList: React.FC = () => {
         1: { text: '启用', color: '#282c34' },
       },
     },
-    {
-      title: 'ai识别',
-      hideInSearch: true,
-      dataIndex: 'ai_status',
-      valueEnum: {
-        0: { text: '禁用', color: '#4d78cc' },
-        1: { text: '启用', color: '#282c34' },
-      },
-    },
+    // {
+    //   title: 'ai识别',
+    //   hideInSearch: true,
+    //   dataIndex: 'ai_status',
+    //   valueEnum: {
+    //     0: { text: '禁用', color: '#4d78cc' },
+    //     1: { text: '启用', color: '#282c34' },
+    //   },
+    // },
     {
       title: '操作',
       dataIndex: 'option',

@@ -37,4 +37,6 @@
 
 
 
-{"drone": {"check": {"data": "on"}, "unlock": {"data": "on"}, "lock": {"data": "on"}, "takeoff": {"data": "on"}, "return": {"data": "on"}, "land": {"data": "on"}, "light": {"data": "on"}, "mode": {"data": "on"}, "historyid": {"data": -1}}, "monitor": {"video": {"data": "on"}, "photo": {"data": "on"}, "positioning": {"data": "on"}}, "hangar": {"hatch": {"data": "off"}, "charging": {"data": "on"}, "mechanism": {"data": "on"}, "wind_angle": {"data": "2"}, "rain_snow": {"data": "0"}, "out_temp": {"data": "19"}, "in_temp": {"data": "23"}}, "player": {"play": {"data": -1}, "pause": {"data": "on"}, "speed": {"data": "on"}}}
+{"drone": {"check": {"data": "on"}, "unlock": {"data": "on"}, "lock": {"data": "on"}, "takeoff": {"data": "on"}, "return": {"data": "on"}, "land": {"data": "on"}, "light": {"data": "on"}, "mode": {"data": "on"}, "historyid": {"data": -1},"freq": {"data": "on"}}, "monitor": {"video": {"data": "on"}, "photo": {"data": "on"}, "positioning": {"data": "on"}}, "hangar": {"hatch": {"data": "off"}, "charging": {"data": "on"}, "mechanism": {"data": "on"}, "wind_angle": {"data": "2"}, "rain_snow": {"data": "0"}, "out_temp": {"data": "19"}, "in_temp": {"data": "23"}}, "player": {"play": {"data": -1}, "pause": {"data": "on"}, "speed": {"data": "on"}}}
+
+

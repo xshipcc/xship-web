@@ -51,13 +51,13 @@ const FlashPromotionList: React.FC = () => {
     {
       title: '报表日期',
       dataIndex: 'create_time',
-      valueType: 'dateTime',
+      valueType: 'date',
     },
     {
       title: '操作',
       dataIndex: 'option',
       valueType: 'option',
-      width: '10%',
+      width: '30%',
       hideInSearch: true,
       render: (_, record) => (
         <>

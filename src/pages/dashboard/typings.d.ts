@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-16 18:56:46
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-21 10:12:43
+ * @LastEditTime: 2024-01-25 11:44:57
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\typings.d.ts
  * @Description:
  *
@@ -108,4 +108,14 @@ export type Alert = {
   alt: number;
   history_id: number;
   confirm: number;
+};
+
+export type Hangar = {
+  hatch: boolean;
+  charging: boolean;
+  mechanism: boolean;
+  wind_angle: string;
+  rain_snow: string;
+  out_temp: string;
+  in_temp: string;
 };

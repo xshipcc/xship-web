@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-16 18:32:55
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-22 11:05:47
+ * @LastEditTime: 2024-01-25 11:24:42
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\model.ts
  * @Description:
  *
@@ -11,7 +11,7 @@
 import type { Effect, ImmerReducer } from 'umi';
 import { getDashboardInfo } from './service';
 import { getAlertList } from './service';
-import type { DashboardAnalysData, DashboardInfoType, DroneDataType } from './typings';
+import type { DashboardAnalysData, DashboardInfoType, DroneDataType, DataHangr } from './typings';
 import type { ListUavFlyDataType } from '@/pages/drone/routePlan/data';
 import type { ListAlertHistoryData } from '@/pages/AIalert/data';
 
@@ -59,6 +59,7 @@ export interface DashboardState {
   currentFlyingid: number;
   centering: boolean;
   showDetail: boolean;
+  hangar: DataHangr;
   dashboardinfoMqtt: {};
   currentHistoryData: any;
 }
@@ -85,6 +86,7 @@ export interface DashboardModelType {
     changedashboardinfoMqtt: ImmerReducer<boolean> | any;
     changecurrentHistoryData: ImmerReducer<boolean> | any;
     changeAnalysisInfo: ImmerReducer<boolean> | any;
+    setHangarInfo: ImmerReducer<boolean> | any;
   };
   effects: {
     fetchDashboardInfo: Effect;
@@ -243,12 +245,49 @@ const CompanyModel: DashboardModelType = {
         fly_distance: 0,
         speed: 0,
         gps_speed: 0,
+        freq: 0,
+      },
+    },
+    hangar: {
+      drone: {
+        check: true,
+        unlock: true,
+        lock: true,
+        takeoff: true,
+        return: true,
+        land: true,
+        light: true,
+        mode: true,
+        historyid: -1,
+        freq: true,
+      },
+      monitor: {
+        video: true,
+        photo: true,
+        positioning: true,
+      },
+      hangar: {
+        hatch: false,
+        charging: true,
+        mechanism: true,
+        wind_angle: '0',
+        rain_snow: '0',
+        out_temp: '0',
+        in_temp: '0',
+      },
+      player: {
+        play: -1,
+        pause: true,
+        speed: true,
       },
     },
   },
   reducers: {
     changeCurrentComponent(state: DashboardState, action: { payload: string }) {
       state.currentComponent = action.payload;
+    },
+    setHangarInfo(state: DashboardState, action: { payload: DataHangr }) {
+      state.hangar = action.payload;
     },
     changeCentering(state: DashboardState, action: { payload: boolean }) {
       state.centering = action.payload;

@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-09 20:12:31
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-25 09:47:20
+ * @LastEditTime: 2024-01-25 11:43:56
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\index.tsx
  * @Description:
  *
@@ -279,6 +279,7 @@ const Dashboard: React.FC = () => {
    */
   //#region -------------------------------------------------------------------------
   const dashboardinfoMqtt = useSelector((state: any) => state.dashboardModel.dashboardinfoMqtt);
+  const hangar = useSelector((state: any) => state.dashboardModel.hangar);
   const [data, setData] = useState(null);
 
   const dispatch = useDispatch();
@@ -347,6 +348,9 @@ const Dashboard: React.FC = () => {
       }
     };
     mqttSub({ topic: 'info', qos: 0 });
+    // setTimeout(() => {
+    //   mqttSub({ topic: 'state', qos: 0 });
+    // }, 500);
 
     // const dashboardinfo = {};
 
@@ -371,6 +375,94 @@ const Dashboard: React.FC = () => {
           handleData();
         }
         // handleForceupdateMethod();
+      }
+      if (topic === 'state') {
+        // const jsonObject = JSON.parse(mqttMessage);
+        // const jsonObject = JSON.parse(mqttMessage);
+        const jsonObject = {
+          drone: {
+            check: {
+              data: 'on',
+            },
+            unlock: {
+              data: 'on',
+            },
+            lock: {
+              data: 'on',
+            },
+            takeoff: {
+              data: 'on',
+            },
+            return: {
+              data: 'on',
+            },
+            land: {
+              data: 'on',
+            },
+            light: {
+              data: 'on',
+            },
+            mode: {
+              data: 'on',
+            },
+            historyid: {
+              data: -1,
+            },
+            freq: {
+              data: 'on',
+            },
+          },
+          monitor: {
+            video: {
+              data: 'on',
+            },
+            photo: {
+              data: 'on',
+            },
+            positioning: {
+              data: 'on',
+            },
+          },
+          hangar: {
+            hatch: {
+              data: 'off',
+            },
+            charging: {
+              data: 'on',
+            },
+            mechanism: {
+              data: 'on',
+            },
+            wind_angle: {
+              data: '2',
+            },
+            rain_snow: {
+              data: '0',
+            },
+            out_temp: {
+              data: '19',
+            },
+            in_temp: {
+              data: '23',
+            },
+          },
+          player: {
+            play: {
+              data: -1,
+            },
+            pause: {
+              data: 'on',
+            },
+            speed: {
+              data: 'on',
+            },
+          },
+        };
+        console.log('主页显示dashboardTime', jsonObject);
+        dispatch({
+          type: 'dashboardModel/setHangarInfo',
+          payload: jsonObject,
+        });
       }
     });
     // 进入页面  提醒更新 当前状态和路线信息
@@ -458,7 +550,7 @@ const Dashboard: React.FC = () => {
               <CompassOutlined />: {dashboardinfoMqtt?.drone?.gps_stars}
               <ApiOutlined />: {dashboardinfoMqtt.drone.v}
               <ThunderboltOutlined />: {dashboardinfoMqtt?.drone?.a} <LinkOutlined />:
-              {dashboardinfoMqtt?.drone?.gps_lost}
+              {dashboardinfoMqtt?.drone?.freq}
             </div>
             <Header />
           </div>

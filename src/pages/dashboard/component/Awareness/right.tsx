@@ -112,7 +112,7 @@ const AwarenessRight: React.FC = () => {
         });
       }
     };
-    mqttSub({ topic: 'control', qos: 0 });
+    mqttSub({ topic: 'fly_control', qos: 0 });
 
     return () => {
       if (client.current) client.current.end();

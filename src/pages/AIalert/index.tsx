@@ -70,11 +70,11 @@ const TableList: React.FC = () => {
       dataIndex: 'history_id',
       hideInSearch: true,
     },
-    {
-      title: '报警标题',
-      dataIndex: 'name',
-      hideInSearch: true,
-    },
+    // {
+    //   title: '报警标题',
+    //   dataIndex: 'name',
+    //   hideInSearch: true,
+    // },
     {
       title: '报警截图',
       dataIndex: 'image',
@@ -220,7 +220,7 @@ const TableList: React.FC = () => {
 
           const data = {
             ...params,
-            type: params?.type ? Number(params.type) : 0,
+            type: params?.type ? Number(params.type) : -1,
             history_id: -1,
             start_time: params?.start_time ? params.start_time : '',
             end_time: params?.end_time ? params.end_time : '',
