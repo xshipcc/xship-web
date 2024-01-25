@@ -146,28 +146,89 @@ const FlashPromotionList: React.FC = () => {
   const parseField = (field: string, unit: string) => {
     console.log('parseField -> field:', field);
     if (field === '*') {
-      return '每' + unit;
+      return ['每'];
     } else {
-      // const values = field.split(',');
-      return '第' + field + unit;
+      const values = field.split(',');
+      return values;
     }
   };
+  const cartesianProduct = (arrays: any[][]): any[][] => {
+    const result: any[][] = [];
+    function cartesianHelper(current: any[], index: number) {
+      if (index === arrays.length) {
+        result.push(current);
+        return;
+      }
+      for (let i = 0; i < arrays[index].length; i++) {
+        cartesianHelper([...current, arrays[index][i]], index + 1);
+      }
+    }
+    cartesianHelper([], 0);
+    console.log('cartesianProduct -> result:', result);
+
+    return result;
+  };
+
   const cronToChinese = (cronExpression: string) => {
     const parts = cronExpression.split(' ');
-    console.log('cronToChinese -> parts:', parts);
+    // console.log('cronToChinese -> parts:', parts);
     const [second, minute, hour, dayOfMonth, month, dayOfWeek, demo] = parts;
 
     const minuteStr = parseField(minute, '分钟');
-    const hourStr = parseField(hour, '小时');
+    const hourStr = parseField(hour, '时');
     const monthStr = parseField(month, '月');
+
     if (dayOfWeek === '*') {
-      const dayOfMonthStr = parseField(dayOfMonth, '号');
-      return `${monthStr}  ${dayOfMonthStr} ${hourStr} ${minuteStr} `;
+      const dayOfMonthStr = parseField(dayOfMonth, '日');
+      console.log('cronToChinese -> minuteStr:', minuteStr, hourStr, dayOfMonthStr, monthStr);
+      // @ts-ignore
+      const cartesianData = cartesianProduct([monthStr, dayOfMonthStr, hourStr, minuteStr]);
+      const arraytable = cartesianData.map((item: any) => {
+        const itemModif = item.map((itemTime, index) => {
+          switch (index) {
+            case item.length - 1:
+              return itemTime + '分';
+            case item.length - 2:
+              return itemTime + '时';
+            case item.length - 3:
+              return itemTime + '日';
+            case item.length - 4:
+              return itemTime + '月';
+          }
+        });
+        return { time: itemModif.join(' ') };
+      });
+      console.log('cartesianData.map -> cartesianData:', arraytable);
+      return arraytable;
     } else {
       const dayOfWeekStr = parseField(dayOfWeek, '周');
-      return `${monthStr}  ${dayOfWeekStr}  ${hourStr} ${minuteStr}`;
+      const cartesianData = cartesianProduct([monthStr, dayOfWeekStr, hourStr, minuteStr]);
+      const arraytable = cartesianData.map((item: any) => {
+        const itemModif = item.map((itemTime, index) => {
+          switch (index) {
+            case item.length - 1:
+              return itemTime + '分';
+            case item.length - 2:
+              return itemTime + '时';
+            case item.length - 3:
+              return '周' + itemTime;
+            case item.length - 4:
+              return itemTime + '月';
+          }
+        });
+        return { time: itemModif.join(' ') };
+      });
+      console.log('cartesianData.map -> cartesianData:', arraytable);
+      return arraytable;
     }
   };
+
+  const columnsTime: TableProps<any>['columns'] = [
+    {
+      dataIndex: 'time',
+      key: 'time',
+    },
+  ];
   const columns: ProColumns<ListUavPlanDataType>[] = [
     {
       title: '编号',
@@ -208,10 +269,22 @@ const FlashPromotionList: React.FC = () => {
       title: '飞行计划时间',
       dataIndex: 'plan',
       hideInSearch: true,
-      render: (dom, entity) => {
+      render: (_, record) => (
         // @ts-ignore
-        return <div>{cronToChinese(entity.plan)}</div>;
-      },
+        // cronToChinese(record.plan),
+        <>
+          <Table
+            columns={columnsTime}
+            // @ts-ignore
+            dataSource={cronToChinese(record.plan)}
+            pagination={false}
+          />
+        </>
+      ),
+      // render: (dom, entity) => {
+      //   // @ts-ignore
+      //   return <div>{cronToChinese(entity.plan)}</div>;
+      // },
     },
     {
       title: '巡检路线',

@@ -30,7 +30,11 @@
 }
 
 
-{"drone": {"check": {"data": "on"}, "unlock": {"data": "on"}, "lock": {"data": "on"}, "takeoff": {"data": "on"}, "return": {"data": "on"}, "land": {"data": "on"}, "light": {"data": "on"}, "mode": {"data": "on"}, "historyid": {"data": -1}}, "monitor": {"video": {"data": "on"}, "photo": {"data": "on"}, "positioning": {"data": "on"}}, "hangar": {"hatch": {"data": "on"}, "charging": {"data": "on"}, "mechanism": {"data": "on"}}, "player": {"play": {"data": -1}, "pause": {"data": "on"}, "speed": {"data": "on"}}}
-
 
 {"road": [{"coord": [114.35003926628538, 38.10873451559873, 98.18541746616361], "name": "0\u53f7", "speed": 5, "hovertime": 10, "radius": 25, "photo": "0", "heightmode": "00", "turning": "00"}, {"coord": [114.3441764014028, 38.10584319541692, 102.10617338982343], "name": "1\u53f7", "speed": 5, "hovertime": 10, "radius": 25, "photo": "0", "heightmode": "00", "turning": "00"}, {"coord": [114.3450787889017, 38.1011531659661, 103.90929923175402], "name": "2\u53f7", "speed": 5, "hovertime": 10, "radius": 25, "photo": "0", "heightmode": "00", "turning": "00"}, {"coord": [114.35060925519316, 38.10370051774697, 99.8931942827578], "name": "3\u53f7", "speed": 5, "hovertime": 10, "radius": 25, "photo": "0", "heightmode": "00", "turning": "00"}, {"coord": [114.34913049671009, 38.10530845815439, 100.0189957853864], "name": "4\u53f7", "speed": 5, "hovertime": 10, "radius": 25, "photo": "0", "heightmode": "00", "turning": "00"}, {"coord": [114.34913049671009, 38.10530845815439, 100.0189957853864], "name": "5\u53f7", "speed": 5, "hovertime": 10, "radius": 25, "photo": "0", "heightmode": "00", "turning": "00"}, {"coord": [114.34876392487688, 38.105558612739074, 100.11148660740545], "name": "6\u53f7", "speed": 5, "hovertime": 10, "radius": 25, "photo": "0", "heightmode": "00", "turning": "00"}, {"coord": [0, 0, 0], "speed": 5, "hovertime": 10, "radius": 25, "photo": "0", "heightmode": "00", "turning": "00"}]}
+
+
+
+
+
+{"drone": {"check": {"data": "on"}, "unlock": {"data": "on"}, "lock": {"data": "on"}, "takeoff": {"data": "on"}, "return": {"data": "on"}, "land": {"data": "on"}, "light": {"data": "on"}, "mode": {"data": "on"}, "historyid": {"data": -1}}, "monitor": {"video": {"data": "on"}, "photo": {"data": "on"}, "positioning": {"data": "on"}}, "hangar": {"hatch": {"data": "off"}, "charging": {"data": "on"}, "mechanism": {"data": "on"}, "wind_angle": {"data": "2"}, "rain_snow": {"data": "0"}, "out_temp": {"data": "19"}, "in_temp": {"data": "23"}}, "player": {"play": {"data": -1}, "pause": {"data": "on"}, "speed": {"data": "on"}}}
