@@ -77,6 +77,7 @@ export type DashboardAnalysData = {
   total: number;
   completion: number;
   totaltime: number;
+  fly_total: number;
 };
 
 export type ComponentParam = {

@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-22 14:51:44
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-24 11:00:32
+ * @LastEditTime: 2024-01-24 14:05:59
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\AlertList\alert.tsx
  * @Description:
  *
@@ -152,6 +152,27 @@ export default () => {
         return info;
       });
       setShowElement(true);
+    } else {
+      // @ts-ignore
+      setcurrentList([
+        {
+          id: 0,
+          name: '',
+          image: '',
+          type: -1,
+          code: '',
+          level: 0,
+          count: 0,
+          platform: 0,
+          start_time: '无匹配结果',
+          note: '',
+          lat: 0,
+          lon: 0,
+          alt: 0,
+          history_id: 0,
+          confirm: 0,
+        },
+      ]);
     }
     console.log('currentList={ -> res:', res);
     console.log('currentList:', currentList);
@@ -255,6 +276,9 @@ export default () => {
   /**
    * @end
    */
+
+  const [buttonShow, setbuttonShow] = useState(true);
+
   return (
     <div className={styles.alertList}>
       {showDrawer ? (
@@ -385,26 +409,26 @@ export default () => {
       ) : (
         <div>
           <Row className={styles.buttonRow}>
-            <Col span={10}>
-              <DatePicker onChange={onChangePicker} />
-            </Col>
+            <Col span={10}>{buttonShow && <DatePicker onChange={onChangePicker} />}</Col>
             <Col span={10} offset={3}>
-              <Select
-                defaultValue={0}
-                onChange={onChangeSelector}
-                options={[
-                  { value: 0, label: '行人' },
-                  { value: 1, label: '自行车' },
-                  { value: 2, label: '车辆' },
-                  { value: 3, label: '货车' },
-                  { value: 4, label: '卡车' },
-                  { value: 5, label: '三轮车' },
-                  { value: 6, label: '公交车' },
-                  { value: 7, label: '摩托车' },
-                  { value: 8, label: '火警' },
-                  { value: 9, label: '烟雾' },
-                ]}
-              />
+              {buttonShow && (
+                <Select
+                  defaultValue={0}
+                  onChange={onChangeSelector}
+                  options={[
+                    { value: 0, label: '行人' },
+                    { value: 1, label: '自行车' },
+                    { value: 2, label: '车辆' },
+                    { value: 3, label: '货车' },
+                    { value: 4, label: '卡车' },
+                    { value: 5, label: '三轮车' },
+                    { value: 6, label: '公交车' },
+                    { value: 7, label: '摩托车' },
+                    { value: 8, label: '火警' },
+                    { value: 9, label: '烟雾' },
+                  ]}
+                />
+              )}
             </Col>
           </Row>
           <Row className={styles.buttonRow2}>
@@ -412,6 +436,7 @@ export default () => {
               <Button
                 type="text"
                 onClick={() => {
+                  setbuttonShow(false);
                   // 默认查询结果
                   setreqParams({
                     type: 0,
@@ -421,6 +446,9 @@ export default () => {
                     end_time: '',
                     history_id: 0,
                   });
+                  setTimeout(() => {
+                    setbuttonShow(true);
+                  }, 100);
                   getList({ current: 1, pageSize: 7 });
                 }}
               >

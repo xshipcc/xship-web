@@ -14,6 +14,8 @@ import styles from './index.less';
 import Title from '../common/Title';
 import Line from './component/statistic/demo';
 import Track from './component/track';
+import { useSelector } from 'umi';
+import { DashboardAnalysData } from '../../typings';
 
 // export default App;
 

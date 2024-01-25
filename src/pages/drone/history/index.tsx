@@ -66,7 +66,7 @@ const FlashPromotionList: React.FC = () => {
     {
       title: '无人机名称',
       dataIndex: 'uav_name',
-      valueType: 'digit',
+      // valueType: 'digit',
       render: (dom, entity) => {
         return (
           <a
@@ -86,7 +86,7 @@ const FlashPromotionList: React.FC = () => {
     {
       title: '巡检路线名称',
       dataIndex: 'fly_name',
-      valueType: 'digit',
+      // valueType: 'digit',
       render: (dom, entity) => {
         return (
           <a
@@ -110,23 +110,27 @@ const FlashPromotionList: React.FC = () => {
     {
       title: '创建时间',
       dataIndex: 'create_time',
-      valueType: 'dateTime',
-      hideInSearch: true,
+      valueType: 'date',
+      // hideInSearch: true,
+      render: (dom, entity) => {
+        return <>{entity.create_time}</>;
+      },
     },
     {
       title: '结束时间',
       dataIndex: 'end_time',
-      valueType: 'dateTime',
+      valueType: 'date',
       hideInSearch: true,
     },
     {
-      hideInSearch: true,
+      // hideInSearch: true,
       title: '历史情况',
       dataIndex: 'status',
       valueEnum: {
-        1: { text: '未完成', color: 'yellow' },
-        0: { text: '完成', color: 'green' },
-        2: { text: '故障', color: 'red' },
+        0: { text: '正在巡检', color: 'purple' },
+        1: { text: '正常完成', color: 'green' },
+        2: { text: '飞行异常', color: 'red' },
+        3: { text: '无法起飞', color: 'red' },
       },
     },
     {
@@ -294,18 +298,17 @@ const FlashPromotionList: React.FC = () => {
         headerTitle="无人机巡检历史"
         actionRef={actionRef}
         rowKey="id"
-        search={false}
+        search={{
+          labelWidth: 120,
+        }}
+        // search={false}
         toolBarRender={() => []}
         request={async (params: any = {}, sort, filter) => {
           console.log('request={ -> params:', params);
+          params.status = params?.status ? Number(params.status) : -1;
           const data = {
             ...params,
-            history_id: -1,
             create_time: params?.create_time ? params.create_time : '',
-            end_time: params?.end_time ? params.end_time : '',
-            operator: params?.operator ? params.operator : '',
-            uav_id: params?.uav_id ? params.uav_id : -1,
-            fly_id: params?.fly_id ? params.fly_id : -1,
           };
           const res: ListUavHistoryRespType = await queryHistory(data);
           return {

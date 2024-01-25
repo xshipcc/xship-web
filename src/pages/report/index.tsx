@@ -49,26 +49,8 @@ const FlashPromotionList: React.FC = () => {
   // }
   const columns: ProColumns<ListUavHistoryDataType>[] = [
     {
-      title: '报表id',
-      dataIndex: 'id',
-      hideInSearch: true,
-    },
-    {
-      title: '无人机id',
-      dataIndex: 'uav_id',
-    },
-    {
-      title: '巡检路线id',
-      dataIndex: 'fly_id',
-    },
-    {
-      title: '创建时间',
+      title: '报表日期',
       dataIndex: 'create_time',
-      valueType: 'dateTime',
-    },
-    {
-      title: '结束时间',
-      dataIndex: 'end_time',
       valueType: 'dateTime',
     },
     {
@@ -122,9 +104,7 @@ const FlashPromotionList: React.FC = () => {
         headerTitle="报表管理"
         actionRef={actionRef}
         rowKey="id"
-        search={{
-          labelWidth: 120,
-        }}
+        search={false}
         request={queryReport}
         columns={columns}
         rowSelection={{

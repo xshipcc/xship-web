@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-23 17:31:18
+ * @LastEditTime: 2024-01-24 14:01:45
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\left.tsx
  * @Description:
  *
@@ -51,11 +51,13 @@ const Awareness: React.FC = () => {
   useEffect(() => {
     getDroneData();
     queryPlan({ pageSize: 1000, current: 1 }).then((resp) => {
-      const tasks = resp.data.map((item: any) => {
-        return { value: item.plan, label: item.name };
-      });
-      settaskList(tasks);
-      console.log('resRoad.data.map -> item:', resp.data);
+      if (resp?.data) {
+        const tasks = resp?.data.map((item: any) => {
+          return { value: item.plan, label: item.name };
+        });
+        settaskList(tasks);
+        console.log('resRoad.data.map -> item:', resp.data);
+      }
     });
   }, []);
   const getHoursUntilNextExecution = (cronExpression: string) => {
@@ -131,8 +133,7 @@ const Awareness: React.FC = () => {
       if (topic === 'control') {
         // const jsonObject = JSON.parse(mqttMessage);
         const jsonObject = JSON.parse(mqttMessage);
-
-        const url1 = 'http://' + extractedUrl + '/' + jsonObject.url;
+        const url1 = 'http://' + extractedUrl + '/' + jsonObject.data;
         console.log('client111.current.on -> url:', url1);
         setVideoUrl(url1);
         handleForceupdateMethod();

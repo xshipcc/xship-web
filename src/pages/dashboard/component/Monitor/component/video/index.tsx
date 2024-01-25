@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-22 14:51:44
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-25 09:58:56
+ * @LastEditTime: 2024-01-24 20:16:58
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Monitor\component\video\index.tsx
  * @Description:
  *
@@ -89,7 +89,7 @@ export default () => {
 
   return (
     <div className={styles.monitorList}>
-      <Row className={styles.buttonRow}>
+      {/* <Row className={styles.buttonRow}>
         <Col span={3}>
           <DatePicker onChange={onChangePicker} />
         </Col>
@@ -135,7 +135,7 @@ export default () => {
             查询
           </Button>
         </Col>
-      </Row>
+      </Row> */}
       {/*  */}
       <List
         grid={{ gutter: 24, column: 3 }}

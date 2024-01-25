@@ -2,17 +2,22 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-18 15:51:21
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-23 00:32:20
+ * @LastEditTime: 2024-01-24 19:52:41
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Routemark\component\statistic\demo.tsx
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
+import { DashboardAnalysData } from '@/pages/dashboard/typings';
 import * as echarts from 'echarts';
 import React, { useEffect } from 'react';
+import { useSelector } from 'umi';
 import styles from './index.less';
 
 const LineChart = (props: any) => {
+  const analysisInfo: DashboardAnalysData = useSelector(
+    (state: any) => state.dashboardModel.analysisInfo,
+  );
   return (
     <div id="lineDiv" className={styles.line}>
       <div className="total">
@@ -20,7 +25,7 @@ const LineChart = (props: any) => {
           <div className="sphere-bg"></div>
           <div className="sum">
             <span>航线总数</span>
-            <p>61条</p>
+            <p>{analysisInfo?.fly_total}条</p>
           </div>
         </div>
         <div className="cicle3"></div>

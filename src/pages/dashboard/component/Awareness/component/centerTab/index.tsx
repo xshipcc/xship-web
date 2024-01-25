@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-18 15:54:49
+ * @LastEditTime: 2024-01-24 16:38:43
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\component\centerTab\index.tsx
  * @Description:
  *
@@ -84,7 +84,7 @@ const CenterTab: React.FC = (props: any) => {
       case 'lat':
         return dashboardinfoMqtt[type][key].toFixed(7);
       case 'height':
-        return dashboardinfoMqtt[type][key].toFixed(7);
+        return dashboardinfoMqtt[type][key].toFixed(2);
       default:
         return dashboardinfoMqtt[type][key];
     }

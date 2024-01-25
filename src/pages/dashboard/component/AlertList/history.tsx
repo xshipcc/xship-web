@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-22 14:51:44
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-21 14:51:23
+ * @LastEditTime: 2024-01-24 19:32:52
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\AlertList\history.tsx
  * @Description:
  *
@@ -42,14 +42,8 @@ export default () => {
   // UavId      int64  `json:"uav_id"`      //无人机id
   // FlyID      int64  `json:"fly_id"`      // 巡检路线id
   const [reqParams, setreqParams] = useState({
-    platform: 0,
-    confirm: 0,
+    status: -1,
     create_time: '',
-    end_time: '',
-    uav_id: 0,
-    fly_id: -1,
-    history_id: -1,
-    operator: '',
   });
   const [currentListInfo, setcurrentListInfo] = useState({ total: 10, current: 1, pageSize: 5 });
   const [showElement, setShowElement] = useState(false);
@@ -83,6 +77,9 @@ export default () => {
         return info;
       });
       setShowElement(true);
+    } else {
+      // @ts-ignore
+      setcurrentList([]);
     }
     console.log('currentList={ -> res:', res);
     console.log('currentList:', currentList);
@@ -99,29 +96,28 @@ export default () => {
   };
   const onChangeSelector = (value: string) => {
     console.log('onChangeSelector -> value:', value);
-    reqParams.operator = value;
+    reqParams.status = Number(value);
     setreqParams(reqParams);
   };
-
-  const showAlertPosition = (item: any) => {
-    console.log('onChangeSelector -> value:', item);
-  };
+  const [buttonShow, setbuttonShow] = useState(true);
 
   return (
     <div className={styles.historyList}>
       <Row className={styles.buttonRow}>
-        <Col span={10}>
-          <DatePicker onChange={onChangePicker} />
-        </Col>
+        <Col span={10}>{buttonShow && <DatePicker onChange={onChangePicker} />}</Col>
         <Col span={10} offset={3}>
-          <Select
-            defaultValue={'0'}
-            onChange={onChangeSelector}
-            options={[
-              { value: '0', label: 'admin' },
-              { value: '1', label: '测试' },
-            ]}
-          />
+          {buttonShow && (
+            <Select
+              defaultValue={'0'}
+              onChange={onChangeSelector}
+              options={[
+                { value: '0', label: '正在巡检' },
+                { value: '1', label: '正常完成' },
+                { value: '2', label: '飞行异常' },
+                { value: '3', label: '无法起飞' },
+              ]}
+            />
+          )}
         </Col>
       </Row>
       <Row className={styles.buttonRow2}>
@@ -129,17 +125,16 @@ export default () => {
           <Button
             type="text"
             onClick={() => {
+              setbuttonShow(false);
+
               // 默认查询结果
               setreqParams({
-                platform: 0,
-                confirm: 0,
                 create_time: '',
-                end_time: '',
-                uav_id: 0,
-                fly_id: 0,
-                history_id: -1,
-                operator: '',
+                status: 0,
               });
+              setTimeout(() => {
+                setbuttonShow(true);
+              }, 100);
               getList({ current: 1, pageSize: 5 });
             }}
           >

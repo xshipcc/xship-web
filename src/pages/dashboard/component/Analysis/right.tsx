@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-22 11:42:39
+ * @LastEditTime: 2024-01-24 19:57:51
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Analysis\right.tsx
  * @Description:
  *
@@ -22,6 +22,12 @@ const AnalysisRight: React.FC = (props) => {
   const analysisInfo: DashboardAnalysData = useSelector(
     (state: any) => state.dashboardModel.analysisInfo,
   );
+  console.log(
+    'analysisInfo:',
+    analysisInfo.completion / analysisInfo.total,
+    analysisInfo.completion,
+    analysisInfo.total,
+  );
 
   return (
     <>
@@ -38,13 +44,17 @@ const AnalysisRight: React.FC = (props) => {
             <canvas id="canvas2"></canvas> */}
             <div className={styles.data1}>
               <div className={styles.qiu}>
-                <p>{analysisInfo.completion}%</p>
+                <p>
+                  {analysisInfo.completion /
+                    (analysisInfo.total === 0 ? analysisInfo.total + 1 : analysisInfo.total)}
+                  %
+                </p>
               </div>
               <span>总完成率</span>
             </div>
             <div className={styles.data2}>
               <div className={styles.qiu}>
-                <p>{analysisInfo.totaltime}h</p>
+                <p>{analysisInfo.completion}次</p>
               </div>
               <span>完成次数</span>
             </div>
@@ -78,4 +88,5 @@ const AnalysisRight: React.FC = (props) => {
     </>
   );
 };
+
 export default AnalysisRight;

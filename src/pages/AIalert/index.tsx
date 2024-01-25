@@ -133,19 +133,22 @@ const TableList: React.FC = () => {
     {
       title: '发现时间',
       dataIndex: 'start_time',
-      valueType: 'dateTime',
+      valueType: 'date',
+      render: (dom, entity) => {
+        return <>{entity.start_time}</>;
+      },
     },
-    {
-      hideInSearch: true,
-      title: '结束时间',
-      dataIndex: 'end_time',
-      valueType: 'dateTime',
-    },
-    {
-      title: '备注',
-      dataIndex: 'note',
-      hideInSearch: true,
-    },
+    // {
+    //   hideInSearch: true,
+    //   title: '结束时间',
+    //   dataIndex: 'end_time',
+    //   valueType: 'dateTime',
+    // },
+    // {
+    //   title: '备注',
+    //   dataIndex: 'note',
+    //   hideInSearch: true,
+    // },
     {
       title: '坐标',
       render: (text, record) => (
@@ -158,6 +161,7 @@ const TableList: React.FC = () => {
       hideInSearch: true,
     },
     {
+      hideInSearch: true,
       title: '报警确认',
       valueEnum: {
         1: { text: '是', color: '#00ff00' },
@@ -231,20 +235,30 @@ const TableList: React.FC = () => {
               ? url.indexOf(':', startIndex)
               : url.indexOf('/', startIndex);
           const extractedUrl = url.substring(startIndex, endIndex);
-          res.data.map((item: any) => {
-            // return item;
-            // return (item.image = 'http://127.0.0.1/' + item.image);
-            return (item.image = 'http://' + extractedUrl + '/' + item.image);
-          });
-          console.log('res.data.map -> res.data:', res.data);
-          // {data: [], pageSize: 10, current: 1, total:28, success: true,}
-          return {
-            data: res.data,
-            pageSize: res.pageSize,
-            current: 1,
-            total: +res.total,
-            success: res.success,
-          };
+          if (res?.data) {
+            res.data.map((item: any) => {
+              // return item;
+              // return (item.image = 'http://127.0.0.1/' + item.image);
+              return (item.image = 'http://' + extractedUrl + '/' + item.image);
+            });
+            console.log('res.data.map -> res.data:', res.data);
+            // {data: [], pageSize: 10, current: 1, total:28, success: true,}
+            return {
+              data: res.data,
+              pageSize: res.pageSize,
+              current: 1,
+              total: +res.total,
+              success: res.success,
+            };
+          } else {
+            return {
+              data: null,
+              pageSize: res.pageSize,
+              current: 1,
+              total: +res.total,
+              success: res.success,
+            };
+          }
         }}
         columns={columns}
         pagination={{ pageSize: 10, simple: true }}

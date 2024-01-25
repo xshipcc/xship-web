@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-09 20:12:31
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-23 09:18:17
+ * @LastEditTime: 2024-01-24 19:22:33
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\index.tsx
  * @Description:
  *
@@ -457,7 +457,6 @@ const Dashboard: React.FC = () => {
             <div className={styles.titleOfstate}>
               <CompassOutlined />: {dashboardinfoMqtt?.drone?.gps_stars}
               <ApiOutlined />: {dashboardinfoMqtt.drone.v}
-              <br />
               <ThunderboltOutlined />: {dashboardinfoMqtt?.drone?.a} <LinkOutlined />:
               {dashboardinfoMqtt?.drone?.gps_lost}
             </div>
