@@ -48,6 +48,7 @@ export default () => {
     history_id: 1,
   });
   const [currentList, setcurrentList] = useState([]);
+  const [show, setshow] = useState(false);
   const [currentListInfo, setcurrentListInfo] = useState({ total: 10, current: 1, pageSize: 6 });
 
   const getList = async (params = {}) => {
@@ -62,6 +63,12 @@ export default () => {
       setcurrentList(res.data);
       setcurrentListInfo((info) => {
         info.total = res.total;
+        return info;
+      });
+      setshow(true);
+    } else {
+      setcurrentListInfo((info) => {
+        info.total = 0;
         return info;
       });
     }
@@ -137,33 +144,35 @@ export default () => {
         </Col>
       </Row> */}
       {/*  */}
-      <List
-        grid={{ gutter: 24, column: 3 }}
-        pagination={{
-          pageSize: 6,
-          showSizeChanger: false,
-          defaultCurrent: 1,
-          onChange: (param) => {
-            console.log('param:', param);
-            getList({ pageSize: 6, current: param });
-            return {};
-          },
-          total: currentListInfo.total,
-        }}
-        className={styles.list}
-        dataSource={currentList}
-        renderItem={(item: ListCamerasData) => (
-          <List.Item>
-            <div>
-              <Title title={item.name} />
-              <div className={styles.video}>
-                {/* <Player url={VIDEO_URL} height={'25'} width={'100'} /> */}
-                <Player url={item.url} height={'25'} width={'100'} />
+      {show && (
+        <List
+          grid={{ gutter: 24, column: 3 }}
+          pagination={{
+            pageSize: 6,
+            showSizeChanger: false,
+            defaultCurrent: 1,
+            onChange: (param) => {
+              console.log('param:', param);
+              getList({ pageSize: 6, current: param });
+              return {};
+            },
+            total: currentListInfo.total,
+          }}
+          className={styles.list}
+          dataSource={currentList}
+          renderItem={(item: ListCamerasData) => (
+            <List.Item>
+              <div>
+                <Title title={item.name} />
+                <div className={styles.video}>
+                  {/* <Player url={VIDEO_URL} height={'25'} width={'100'} /> */}
+                  <Player url={item.url} height={'25'} width={'100'} />
+                </div>
               </div>
-            </div>
-          </List.Item>
-        )}
-      />
+            </List.Item>
+          )}
+        />
+      )}
     </div>
   );
 };

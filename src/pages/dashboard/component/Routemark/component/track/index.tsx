@@ -11,6 +11,8 @@ import { queryFly, updateFly, addFly } from '@/pages/drone/routePlan/service';
 import { CheckOutlined, RollbackOutlined } from '@ant-design/icons';
 import { message, Drawer, Modal } from 'antd';
 import { useDispatch, useModel, useSelector } from 'umi';
+import { queryStatistics } from '@/pages/AIalert/service';
+import { DashboardAnalysData } from '@/pages/dashboard/typings';
 
 interface DataType {
   id: number;
@@ -251,6 +253,18 @@ const App: React.FC = () => {
     // updateFly(newData);
   };
 
+  useEffect(() => {
+    // queryReport({ current: 1, pageSize: 10 }).then((res) => {
+    //   console.log('queryAlertHistory -> res:', res);
+    // });
+    queryStatistics({ id: 0 }).then((res: DashboardAnalysData) => {
+      dispatch({
+        type: 'dashboardModel/changeAnalysisInfo',
+        payload: res,
+      });
+      console.log('queryAlertHistory -> res:', res);
+    });
+  }, [showDrawer]);
   /**
    *
    *

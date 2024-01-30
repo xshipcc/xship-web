@@ -88,16 +88,22 @@ const FlashPromotionList: React.FC = () => {
       title: '巡检路线名称',
       dataIndex: 'fly_name',
       // valueType: 'digit',
-      render: (dom, entity) => {
+      render: (dom, entity: any) => {
         return (
           <a
             onClick={() => {
-              queryFly({ id: entity.fly_id, current: 1, pageSize: 10 }).then((resp) => {
-                setCurrentRow(resp.data[0]);
-                setShowDetailRoad(true);
-                console.log('TableJson:', entity);
-                setCurrentRowHistory(entity);
-              });
+              // console.log('TableJson:', entity);
+              setCurrentRow({ data: entity.fly_data });
+              setShowDetailRoad(true);
+              console.log('TableJson1:', entity.fly_data);
+              setCurrentRowHistory(entity);
+              // queryFly({ id: entity.fly_id, current: 1, pageSize: 10 }).then((resp) => {
+              //   setCurrentRow(resp.data[0]);
+              //   setShowDetailRoad(true);
+              //   console.log('TableJson1 -> resp.data[0]:', resp.data[0]);
+              //   console.log('TableJson1:', entity);
+              //   setCurrentRowHistory(entity);
+              // });
             }}
           >
             {dom}
@@ -123,6 +129,9 @@ const FlashPromotionList: React.FC = () => {
       title: '结束时间',
       dataIndex: 'end_time',
       valueType: 'date',
+      render: (dom, entity) => {
+        return <>{entity.create_time}</>;
+      },
       hideInSearch: true,
     },
     {
@@ -230,7 +239,7 @@ const FlashPromotionList: React.FC = () => {
   const TableJson = (json: any) => {
     try {
       const jsonData = JSON.parse(json.data);
-      console.log('TableJson -> jsonData:', jsonData);
+      console.log('TableJson1 -> jsonData:', jsonData);
       console.log('TableJson -> jsonData:', currentRowHistory);
       console.log('TableJson -> jsonData:', jsonData);
       jsonData.push({
@@ -287,27 +296,27 @@ const FlashPromotionList: React.FC = () => {
     },
   ];
   const columnsRoad: ProColumns<any>[] = [
-    {
-      title: '航线编号',
-      dataIndex: 'id',
-      valueType: 'digit',
-    },
-    {
-      title: '航线名称',
-      dataIndex: 'name',
-      hideInSearch: true,
-    },
+    // {
+    //   title: '航线编号',
+    //   dataIndex: 'id',
+    //   valueType: 'digit',
+    // },
+    // {
+    //   title: '航线名称',
+    //   dataIndex: 'name',
+    //   hideInSearch: true,
+    // },
 
-    {
-      title: '创建时间',
-      dataIndex: 'create_time',
-      hideInSearch: true,
-    },
-    {
-      title: '创建者',
-      dataIndex: 'creator',
-      hideInSearch: true,
-    },
+    // {
+    //   title: '创建时间',
+    //   dataIndex: 'create_time',
+    //   hideInSearch: true,
+    // },
+    // {
+    //   title: '创建者',
+    //   dataIndex: 'creator',
+    //   hideInSearch: true,
+    // },
     {
       title: '航线数据',
       dataIndex: 'data',
@@ -380,16 +389,19 @@ const FlashPromotionList: React.FC = () => {
         }}
         closable={false}
       >
-        {currentRow?.id && (
+        {currentRow?.data && (
           <ProDescriptions<any>
             column={2}
-            title={'详细信息'}
-            request={async () => ({
-              data: currentRow || {},
-            })}
-            params={{
-              id: currentRow?.id,
+            title={'航线信息'}
+            request={async () => {
+              console.log('request={ -> currentRow11:', currentRow);
+              return {
+                data: currentRow || {},
+              };
             }}
+            // params={{
+            //   id: currentRow?.id,
+            // }}
             columns={columnsRoad as ProDescriptionsItemProps<any>[]}
           />
         )}

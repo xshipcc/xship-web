@@ -48,14 +48,17 @@ const RadarChart = (props: any) => {
       // 三维坐标轴
       xAxis3D: {
         name: '经度',
-        max: 100,
+        min: 110,
+        max: 180,
       },
       yAxis3D: {
         name: '维度',
-        max: 100,
+        min: 30,
+        max: 90,
       },
       zAxis3D: {
-        max: 100,
+        // min: 100,
+        max: 500,
         name: '高度',
       },
       axisLine: {
