@@ -324,6 +324,7 @@ const Map: React.FC = () => {
         const demo: Alert = JSON.parse(mqttMessage);
         console.log('useEffect.on -> demo:', demo);
         let image;
+        // ['行人', '自行车', '车辆', '货车', '卡车', '三轮车', '公交车', '摩托车', '火警', '烟雾'];
         switch (demo.type) {
           case 0:
             image = '/alert/people.png';
@@ -425,7 +426,7 @@ const Map: React.FC = () => {
   );
   // 显示告警信息位置
   useEffect(() => {
-    if (alertData.lon != 0 || alertData.lat != 0 || alertData.alt != 0) {
+    if (alertData.lon != 0 && alertData.lat != 0 && alertData.alt != 0) {
       const destination = Cesium.Cartesian3.fromDegrees(
         alertData.lon,
         alertData.lat,

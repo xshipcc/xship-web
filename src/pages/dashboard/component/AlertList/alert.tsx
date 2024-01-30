@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-22 14:51:44
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-28 17:06:45
+ * @LastEditTime: 2024-01-30 16:40:05
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\AlertList\alert.tsx
  * @Description:
  *
@@ -275,10 +275,10 @@ export default () => {
 
   const showAlertPosition = (item: any) => {
     console.log('onChangeSelector -> value:', item);
-    // dispatch({
-    //   type: 'dashboardModel/saveAlertData',
-    //   payload: item,
-    // });
+    dispatch({
+      type: 'dashboardModel/saveAlertData',
+      payload: item,
+    });
   };
   //#endregion -----------------------------------------------------------------------
   /**

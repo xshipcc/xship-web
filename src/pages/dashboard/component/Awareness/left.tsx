@@ -2,13 +2,13 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-25 15:27:26
+ * @LastEditTime: 2024-01-30 17:57:39
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\left.tsx
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
-import { Button, Col, List, Row, Select, Tabs } from 'antd';
+import { Button, Col, List, message, Row, Select, Tabs } from 'antd';
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './left.less';
 // import Player from '@/components/VideoReact';
@@ -47,16 +47,19 @@ const Awareness: React.FC = () => {
     setdroneinfo(resp.data[0]);
     handleForceupdateMethod();
   };
-  const [taskList, settaskList] = useState<any>([]);
-
+  // const [taskList, settaskList] = useState<any>([]);
+  const taskList = useRef(def);
   useEffect(() => {
     getDroneData();
     queryPlan({ pageSize: 1000, current: 1 }).then((resp) => {
       if (resp?.data) {
-        const tasks = resp?.data.map((item: any) => {
-          return { value: item.plan, label: item.name };
-        });
-        settaskList(tasks);
+        const tasks = resp?.data
+          .filter((item1: { status: number }) => item1.status === 1)
+          .map((item: any) => {
+            return { value: JSON.stringify({ plan: item.plan, id: item.id }), label: item.name };
+          });
+        taskList.current = tasks;
+        // settaskList(tasks);
         console.log('resRoad.data.map -> item:', resp.data);
       }
     });
@@ -66,23 +69,16 @@ const Awareness: React.FC = () => {
     const nextDate = interval.next().toString();
     return nextDate;
   };
+  // const [defaultTask, setdefaultTask] = useState<any>(null);
+  const defaultTask = useRef(def);
 
-  const handleChange = (params: string) => {
-    console.log(`handleChange ${params}`);
-    const difference = getHoursUntilNextExecution(params);
-    const options = {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      weekday: 'long',
-      hour: 'numeric',
-      minute: 'numeric',
-    };
-    const date = new Date(difference);
-    const chineseDate = date.toLocaleString('zh-CN', options);
-    settimeInfo(chineseDate);
-    console.log('handleChange -> difference:', difference);
-  };
+  const [show, setshow] = useState<any>(true);
+  // useEffect(() => {
+  //   if (defaultTask.current.length > 0) {
+  //     setshow(true);
+  //   }
+  //   console.log('defaultTask.current:', defaultTask.current);
+  // }, [defaultTask.current]);
 
   // mqtt消息接收
   useEffect(() => {
@@ -118,7 +114,7 @@ const Awareness: React.FC = () => {
         });
       }
     };
-    mqttSub({ topic: ['console', 'control'], qos: 0 });
+    mqttSub({ topic: ['console', 'control', 'state'], qos: 0 });
 
     client.current.on('message', (topic: string, mqttMessage: any) => {
       if (topic === 'console') {
@@ -139,12 +135,63 @@ const Awareness: React.FC = () => {
         setVideoUrl(url1);
         handleForceupdateMethod();
       }
+      if (topic === 'state') {
+        // const jsonObject = JSON.parse(mqttMessage);
+        const jsonObject = JSON.parse(mqttMessage);
+        console.log('client.current.on -> jsonObjecttask:', jsonObject);
+        if (jsonObject?.drone?.planid?.data) {
+          const currentTask = taskList.current.filter((item1: { value: string }) => {
+            console.log('client.current.on -> currentTask:', JSON.parse(item1.value).id);
+            console.log('currentTask -> currentTask?.drone?.planid:', jsonObject?.drone?.planid);
+            return JSON.parse(item1.value).id === jsonObject?.drone?.planid.data;
+          });
+          console.log('client.current.on -> currentTask当前巡检路线:', currentTask);
+          console.log('client.current.on -> currentTask:', taskList.current);
+
+          if (currentTask.length > 0) {
+            // setdefaultTask(currentTask[0].value);
+            defaultTask.current = currentTask[0].value;
+            message.success(`当前执行 ${currentTask[0].label}`);
+          } else {
+            message.success('当前未执行');
+          }
+        }
+      }
     });
 
     return () => {
       if (client.current) client.current.end();
     };
   }, []);
+
+  const excute = (data: any) => {
+    // const data = { data: 'on' };
+    const controlInfo = {
+      cmd: 'drone' + '/' + 'plan',
+      data: data,
+    };
+    console.log('sendMqttControl -> controlInfo:', controlInfo);
+    console.log('sendMqttControl -> controlInfo:', JSON.stringify(controlInfo));
+    client.current.publish('control', JSON.stringify(controlInfo));
+  };
+  const handleChange = (params: any) => {
+    console.log(`handleChange ${params}`);
+    const selectData = JSON.parse(params);
+    const difference = getHoursUntilNextExecution(selectData.plan);
+    const options = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      weekday: 'long',
+      hour: 'numeric',
+      minute: 'numeric',
+    };
+    const date = new Date(difference);
+    const chineseDate = date.toLocaleString('zh-CN', options);
+    settimeInfo(chineseDate);
+    excute(selectData.id);
+    console.log('handleChange -> difference:', difference);
+  };
 
   /**
    * @end
@@ -166,7 +213,13 @@ const Awareness: React.FC = () => {
                   <div className={styles.infoList}>
                     <Row>
                       <Col span={8}>
-                        <Select onChange={handleChange} options={taskList} />
+                        {show && (
+                          <Select
+                            onChange={handleChange}
+                            options={taskList.current}
+                            value={defaultTask.current}
+                          />
+                        )}
                       </Col>
                       <Col
                         span={14}

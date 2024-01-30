@@ -234,7 +234,7 @@ const FlashPromotionList: React.FC = () => {
       console.log('TableJson -> jsonData:', currentRowHistory);
       console.log('TableJson -> jsonData:', jsonData);
       jsonData.push({
-        name: '装订点',
+        name: '返航点',
         coord: [currentRowHistory.lon, currentRowHistory.lat, currentRowHistory.alt],
         hovertime: '',
         photo: '0',

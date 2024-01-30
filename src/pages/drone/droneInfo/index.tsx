@@ -193,6 +193,7 @@ const FlashPromotionList: React.FC = () => {
       title: '数值',
       dataIndex: 'value',
       hideInSearch: true,
+      width: '40%',
     },
   ];
   return (

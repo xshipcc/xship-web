@@ -37,6 +37,19 @@
 
 
 
-{"drone": {"check": {"data": "on"}, "unlock": {"data": "on"}, "lock": {"data": "on"}, "takeoff": {"data": "on"}, "return": {"data": "on"}, "land": {"data": "on"}, "light": {"data": "on"}, "mode": {"data": "on"}, "historyid": {"data": -1},"freq": {"data": "on"}}, "monitor": {"video": {"data": "on"}, "photo": {"data": "on"}, "positioning": {"data": "on"}}, "hangar": {"hatch": {"data": "off"}, "charging": {"data": "on"}, "mechanism": {"data": "on"}, "wind_angle": {"data": "2"}, "rain_snow": {"data": "0"}, "out_temp": {"data": "19"}, "in_temp": {"data": "23"}}, "player": {"play": {"data": -1}, "pause": {"data": "on"}, "speed": {"data": "on"}}}
+{"drone": {"check": {"data": "on"}, "unlock": {"data": "on"}, "unlock": {"data": "on"},"planid": {"data": 11}, "takeoff": {"data": "on"}, "return": {"data": "on"}, "land": {"data": "on"}, "light": {"data": "on"}, "mode": {"data": "on"}, "historyid": {"data": -1},"freq": {"data": "on"}}, "monitor": {"video": {"data": "on"}, "photo": {"data": "on"}, "positioning": {"data": "on"}}, "hangar": {"hatch": {"data": "off"}, "charging": {"data": "on"}, "mechanism": {"data": "on"}, "wind_angle": {"data": "2"}, "rain_snow": {"data": "0"}, "out_temp": {"data": "19"}, "in_temp": {"data": "23"}}, "player": {"play": {"data": -1}, "pause": {"data": "on"}, "speed": {"data": "on"}}}
 
-
+新增  planid
+msg_dict ={
+        'drone': {  
+            "check": { "data": r.hget(uav.id, 'check') .decode()},
+            "unlock": { "data": r.hget(uav.id, 'unlock') .decode()},         
+            "lock": { "data": r.hget(uav.id, 'lock') .decode()},
+            "takeoff": { "data": r.hget(uav.id, 'takeoff') .decode()},
+            "return": { "data": r.hget(uav.id, 'return') .decode()},
+            "land": { "data": r.hget(uav.id, 'land') .decode()},
+            "light": { "data": r.hget(uav.id, 'light') .decode()},
+            "mode": { "data": r.hget(uav.id, 'mode') .decode()},
+            "historyid": { "data": int(r.hget(uav.id, 'historyid') .decode())},
+            "planid": { "data": int(r.hget(uav.id, 'plan') .decode())},
+        },
