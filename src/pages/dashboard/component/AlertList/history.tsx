@@ -2,13 +2,13 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-22 14:51:44
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-24 19:32:52
+ * @LastEditTime: 2024-01-28 17:25:35
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\AlertList\history.tsx
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
-import type { DatePickerProps } from 'antd';
+import { DatePickerProps, message } from 'antd';
 import { Button, Col, DatePicker, List, Row, Select } from 'antd';
 import styles from './history.less';
 import { useEffect, useState } from 'react';
@@ -59,7 +59,7 @@ export default () => {
   //   if (res?.data) setcurrentList(res.data);
   // };
 
-  const getList = async (params = {}) => {
+  const getList = async (params: any) => {
     console.log('request={ -> params:', params);
     const req = {
       ...params,
@@ -69,17 +69,33 @@ export default () => {
     const res: ListAlertHistoryRespType = await queryHistory(req);
     console.log('requestres:', res);
     if (res?.data) {
-      // @ts-ignore
-      setcurrentList(res.data);
+      setShowElement(false);
+
       // @ts-ignore
       setcurrentListInfo((info) => {
+        info.current = params.current;
         info.total = res.total;
         return info;
       });
-      setShowElement(true);
+      // @ts-ignore
+      setcurrentList(res.data);
+
+      setTimeout(() => {
+        setShowElement(true);
+      }, 100);
     } else {
+      setShowElement(false);
+
       // @ts-ignore
       setcurrentList([]);
+      setcurrentListInfo((info) => {
+        info.current = 1;
+        info.total = 0;
+        return info;
+      });
+      setTimeout(() => {
+        setShowElement(true);
+      }, 100);
     }
     console.log('currentList={ -> res:', res);
     console.log('currentList:', currentList);
@@ -108,9 +124,10 @@ export default () => {
         <Col span={10} offset={3}>
           {buttonShow && (
             <Select
-              defaultValue={'0'}
+              defaultValue={'-1'}
               onChange={onChangeSelector}
               options={[
+                { value: '-1', label: '全部' },
                 { value: '0', label: '正在巡检' },
                 { value: '1', label: '正常完成' },
                 { value: '2', label: '飞行异常' },
@@ -126,7 +143,6 @@ export default () => {
             type="text"
             onClick={() => {
               setbuttonShow(false);
-
               // 默认查询结果
               setreqParams({
                 create_time: '',
@@ -135,6 +151,7 @@ export default () => {
               setTimeout(() => {
                 setbuttonShow(true);
               }, 100);
+              message.success('双击重置');
               getList({ current: 1, pageSize: 5 });
             }}
           >

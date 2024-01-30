@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-18 15:51:21
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-21 16:19:36
+ * @LastEditTime: 2024-01-25 16:02:28
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\component\timeLine\index.tsx
  * @Description:
  *
@@ -54,6 +54,7 @@ const LineChart = (props: any) => {
 
   const onChange = (value: number | number[]) => {
     sendMqttControl('seek', 'player', value);
+    // setprocess(value);
     // message.success('进度' + value);
   };
   // useEffect(() => {
@@ -63,6 +64,6 @@ const LineChart = (props: any) => {
   //     });
   //   }, 1000);
   // }, []);
-  return <Slider step={0.5} value={process} onChange={onChange} disabled={drag} />;
+  return <Slider step={0.5} value={process} onChange={onChange} disabled={false} />;
 };
 export default LineChart;

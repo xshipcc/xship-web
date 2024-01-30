@@ -1,6 +1,6 @@
 .content {
-  width: 520px;
-  height: 250px;
+  width: 580px;
+  height: 300px;
   padding: 10px;
   background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #0114419d 100%);
 
@@ -11,6 +11,7 @@
 .video {
   width: 500px;
   height: 240px;
+  margin-top: 10px;
 
   // padding-right: 2vh;
   // padding-left: 2vh;
@@ -27,8 +28,10 @@
 .tab {
   display: flex;
   flex-direction: column;
-  width: 500px;
-  height: 260px;
+  width: 570px;
+  height: 290px;
+  // border: 6px outset rgba(2, 84, 206, 0.397);
+  // transition: 0.5s linear;
   // background-color: rgb(246, 0, 0);
   :global {
     .ant-tabs-left > .ant-tabs-nav .ant-tabs-tab,
@@ -43,15 +46,16 @@
     .ant-tabs-left > div > .ant-tabs-nav,
     .ant-tabs-right > div > .ant-tabs-nav {
       flex-direction: column;
-      min-width: 1px;
-      max-width: 300px;
+      width: 20px;
+      min-width: 20px;
+      max-width: 20px;
     }
     .ant-tabs > .ant-tabs-nav .ant-tabs-nav-list,
     .ant-tabs > div > .ant-tabs-nav .ant-tabs-nav-list {
       position: relative;
       display: flex;
       justify-content: space-between;
-      height: 240px;
+      height: 280px;
       transition: transform 0.3s;
     }
     .ant-tabs-left > .ant-tabs-nav .ant-tabs-tab + .ant-tabs-tab,
@@ -81,8 +85,7 @@
   }
 }
 .infoList {
-  height: 240px;
-
+  height: 280px;
   :global {
     .ant-picker {
       position: relative;

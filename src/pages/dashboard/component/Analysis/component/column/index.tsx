@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-18 15:51:21
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-21 10:59:19
+ * @LastEditTime: 2024-01-30 11:34:59
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Analysis\component\column\index.tsx
  * @Description:
  *
@@ -120,16 +120,16 @@ const Column = (props: any) => {
           show: false, //不显示横向分割线
         },
         data: [
-          '人员',
-          '车辆',
+          '行人',
           '自行车',
-          '汽车',
+          '车辆',
+          '货车',
           '卡车',
-          '厢式货车',
           '三轮车',
+          '公交车',
           '摩托车',
-          '烟雾',
           '火警',
+          '烟雾',
         ],
       },
       series,

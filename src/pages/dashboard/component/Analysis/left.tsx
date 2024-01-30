@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-25 11:46:47
+ * @LastEditTime: 2024-01-25 16:23:19
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Analysis\left.tsx
  * @Description:
  *
@@ -77,11 +77,13 @@ const Analysis: React.FC = (props) => {
             console.log('Subscribe to topics error', error);
             return;
           }
-          console.log(`Subscribe to topics: ${topic}`);
+          console.log(`Subscribe to topics11111: ${topic}`);
         });
       }
     };
-    mqttSub({ topic: 'state', qos: 0 });
+    setTimeout(() => {
+      mqttSub({ topic: ['state', 'control'], qos: 0 });
+    }, 4000);
 
     client.current.on('message', (topic: string, mqttMessage: any) => {
       if (topic === 'state') {
@@ -93,13 +95,14 @@ const Analysis: React.FC = (props) => {
           hangarInfo[key] = jsonObject[key].data;
         });
         console.log('Object.keys -> hangarInfo:', hangarInfo);
-
         handleinfo(hangarInfo);
       }
     });
     // 进入页面  提醒更新 当前状态和路线信息
     // client.current.publish('control', JSON.stringify({ cmd: 'state', data: 'on' }));
-
+    setTimeout(() => {
+      client.current.publish('control', JSON.stringify({ cmd: 'road', data: 'on' }));
+    }, 5000);
     return () => {
       if (client.current) client.current.end();
     };

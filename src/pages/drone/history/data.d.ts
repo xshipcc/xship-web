@@ -48,6 +48,9 @@ export interface ListUavHistoryDataType {
   operator: string; // 操作者
   create_time: string; // 创建时间
   end_time: string; // 结束时间
+  lon: number;
+  lat: number;
+  height: number;
 }
 
 export interface ListUavHistoryRespType {

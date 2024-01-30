@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-24 14:01:45
+ * @LastEditTime: 2024-01-25 15:27:26
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\left.tsx
  * @Description:
  *
@@ -16,7 +16,7 @@ import { queryDevice } from '@/pages/drone/device/service';
 // import schedule from 'node-schedule';
 import cronParser from 'cron-parser';
 import * as mqtt from 'mqtt';
-import { useDispatch } from 'umi';
+import { useDispatch, useSelector } from 'umi';
 import { queryPlan } from '@/pages/drone/task/service';
 function useForceUpdate() {
   const [value, setState] = useState(true);
@@ -34,6 +34,7 @@ const Awareness: React.FC = () => {
   const handleForceupdateMethod = useForceUpdate();
   const def: any = '';
   const client = useRef(def);
+  const currentTab = useSelector((state: any) => state.dashboardModel.currentTab);
 
   const [droneinfo, setdroneinfo] = useState({ cam_url: '' });
   const [timeInfo, settimeInfo] = useState('');
@@ -155,6 +156,7 @@ const Awareness: React.FC = () => {
         <div className={styles.tab}>
           <Tabs
             tabPosition={'left'}
+            activeKey={currentTab}
             items={[
               {
                 label: `控制台信息`,

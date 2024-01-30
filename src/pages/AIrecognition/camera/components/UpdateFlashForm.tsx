@@ -103,6 +103,13 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
           <Input id="update-title" placeholder={'请输入视频流地址'} />
         </FormItem>
         <FormItem
+          name="rtsp_url"
+          label="rtsp流地址"
+          rules={[{ required: true, message: '请输入rtsp流地址!' }]}
+        >
+          <Input id="update-title" placeholder={'请输入rtsp流地址'} />
+        </FormItem>
+        <FormItem
           name="platform"
           label="摄像头平台"
           rules={[{ required: true, message: '请输入摄像头平台!' }]}
@@ -141,7 +148,6 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
         <FormItem
           name="ai_status"
           label="ai识别状态"
-          hidden
           rules={[{ required: true, message: '请输入ai识别状态!' }]}
         >
           <Select id="showStatus">

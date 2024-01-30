@@ -57,6 +57,14 @@ const App: React.FC = () => {
           return info;
         });
         setDataSource(res.data);
+      } else {
+        // @ts-ignore
+        setcurrentListInfo((info) => {
+          info.total = 0;
+          info.currnet = 0;
+          return info;
+        });
+        setDataSource([]);
       }
       return true;
     } catch (error) {
@@ -327,9 +335,8 @@ const App: React.FC = () => {
     // 发送编辑信号
     dispatch({
       type: 'dashboardModel/changeEditRoadSignal',
-      payload: !e,
+      payload: true,
     });
-
     // 路线编辑完成
     if (e) {
       console.log('editRoad -> currentRoad:', currentRoad.data);
@@ -467,9 +474,9 @@ const App: React.FC = () => {
                       {/* {item?.coord[0]} */}
                       <Input
                         id="showStatus"
-                        defaultValue={item?.coord[0]}
+                        defaultValue={item?.coord[0].toFixed(7)}
                         onChange={(value) => {
-                          changeNode(value.target.value, index, 'lon');
+                          changeNode(parseFloat(value.target.value), index, 'lon');
                         }}
                       />
                       {/* {item?.coord ? item.coord[0] : 'default'} */}
@@ -483,9 +490,9 @@ const App: React.FC = () => {
                       {/* {item?.coord[1]} */}
                       <Input
                         id="showStatus"
-                        defaultValue={item?.coord[1]}
+                        defaultValue={item?.coord[1].toFixed(7)}
                         onChange={(value) => {
-                          changeNode(value.target.value, index, 'lat');
+                          changeNode(parseFloat(value.target.value), index, 'lat');
                         }}
                       />
                       {/* {item?.coord ? item.coord[1] : 'default'} */}
@@ -498,9 +505,14 @@ const App: React.FC = () => {
                     <Col span={12} style={{ color: 'white' }}>
                       <Input
                         id="showStatus"
-                        defaultValue={item?.coord[2]}
+                        defaultValue={item?.coord[2].toFixed(2)}
                         onChange={(value) => {
-                          changeNode(value.target.value, index, 'height');
+                          console.log(' parseFloat(value.target.value):', value.target.value);
+                          console.log(
+                            ' parseFloat(value.target.value):',
+                            parseFloat(value.target.value),
+                          );
+                          changeNode(parseFloat(value.target.value), index, 'height');
                         }}
                       />
                       {/* {item?.coord ? item.coord[2] : 'default'} */}
@@ -508,6 +520,7 @@ const App: React.FC = () => {
                     </Col>
                   </Row>
                   {/* <Row>
+                
                     <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
                       距离上一点
                     </Col>
@@ -599,17 +612,21 @@ const App: React.FC = () => {
                   editRoad(editRoadSignal);
                 }}
               >
-                {editRoadSignal ? '编辑完成' : '航线编辑'}
+                航线编辑
               </Button>
             </Col>
             <Col span={9} offset={2}>
               <Button
                 type="primary"
                 onClick={() => {
+                  if (editRoadSignal) {
+                    message.warning('请先完成编辑');
+                  } else {
+                    lookCurrentRoad();
+                  }
                   // if (forceSave) {
                   //   message.warning('请先保存');
                   // } else {
-                  lookCurrentRoad();
                   // }
                 }}
               >

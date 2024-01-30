@@ -89,7 +89,7 @@ const FlashPromotionList: React.FC = () => {
   const showDeleteConfirm = (item: ListCamerasData) => {
     confirm({
       title: '是否删除记录?',
-      icon: <ExclamationCircleOutlined />,
+      icon: <ExclamationCircleOutlined rev={undefined} />,
       content: '删除的记录不能恢复,请确认!',
       onOk() {
         handleRemove([item]).then((r) => {
@@ -153,6 +153,11 @@ const FlashPromotionList: React.FC = () => {
       hideInSearch: true,
     },
     {
+      title: 'rtsp地址',
+      dataIndex: 'rtsp_url',
+      hideInSearch: true,
+    },
+    {
       title: '经度',
       dataIndex: 'lon',
       hideInSearch: true,
@@ -193,7 +198,7 @@ const FlashPromotionList: React.FC = () => {
         <>
           <Button
             type="primary"
-            icon={<EditOutlined />}
+            icon={<EditOutlined rev={undefined} />}
             onClick={() => {
               handleUpdateModalVisible(true);
               setCurrentRow(record);
@@ -205,7 +210,7 @@ const FlashPromotionList: React.FC = () => {
           <Button
             type="primary"
             danger
-            icon={<DeleteOutlined />}
+            icon={<DeleteOutlined rev={undefined} />}
             onClick={() => {
               showDeleteConfirm(record);
             }}
@@ -229,7 +234,7 @@ const FlashPromotionList: React.FC = () => {
         search={false}
         toolBarRender={() => [
           <Button type="primary" onClick={() => handleModalVisible(true)}>
-            <PlusOutlined /> 新建摄像头
+            <PlusOutlined rev={undefined} /> 新建摄像头
           </Button>,
         ]}
         request={queryCameras}

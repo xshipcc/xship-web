@@ -46,6 +46,7 @@ const FlashPromotionList: React.FC = () => {
   const [createModalVisible, handleModalVisible] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
   const [currentRow, setCurrentRow] = useState<ListUavHistoryDataType>();
+  const [currentRowHistory, setCurrentRowHistory] = useState<ListUavHistoryDataType>();
 
   // interface ListUavHistoryDataType {
   //   id: number;
@@ -94,6 +95,8 @@ const FlashPromotionList: React.FC = () => {
               queryFly({ id: entity.fly_id, current: 1, pageSize: 10 }).then((resp) => {
                 setCurrentRow(resp.data[0]);
                 setShowDetailRoad(true);
+                console.log('TableJson:', entity);
+                setCurrentRowHistory(entity);
               });
             }}
           >
@@ -224,13 +227,37 @@ const FlashPromotionList: React.FC = () => {
       },
     },
   ];
-  const TableJson = useCallback((json: any) => {
+  const TableJson = (json: any) => {
     try {
-      return JSON.parse(json);
+      const jsonData = JSON.parse(json.data);
+      console.log('TableJson -> jsonData:', jsonData);
+      console.log('TableJson -> jsonData:', currentRowHistory);
+      console.log('TableJson -> jsonData:', jsonData);
+      jsonData.push({
+        name: '装订点',
+        coord: [currentRowHistory.lon, currentRowHistory.lat, currentRowHistory.alt],
+        hovertime: '',
+        photo: '0',
+        radius: 25,
+        speed: 5,
+        turning: '00',
+      });
+      console.log('TableJson -> jsonData:', jsonData);
+      return jsonData;
     } catch (error) {
-      return '路线解析错误';
+      return [
+        {
+          name: '航线错误',
+          coord: [0, 0, 0],
+          hovertime: '',
+          photo: '0',
+          radius: 25,
+          speed: 5,
+          turning: '00',
+        },
+      ];
     }
-  }, []);
+  };
 
   const columnsRoadData: TableProps<any>['columns'] = [
     {
@@ -249,7 +276,7 @@ const FlashPromotionList: React.FC = () => {
             ' 维度: ' +
             record.coord[1].toFixed(7) +
             ' 高度: ' +
-            record.coord[2].toFixed(7)}
+            record.coord[2].toFixed(2)}
         </>
       ),
     },
@@ -287,7 +314,7 @@ const FlashPromotionList: React.FC = () => {
       hideInSearch: true,
       render: (_, record) => (
         <>
-          <Table columns={columnsRoadData} dataSource={TableJson(record.data)} pagination={false} />
+          <Table columns={columnsRoadData} dataSource={TableJson(record)} pagination={false} />
         </>
       ),
     },

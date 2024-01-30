@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-21 14:51:51
+ * @LastEditTime: 2024-01-25 16:00:48
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\right.tsx
  * @Description:
  *
@@ -35,15 +35,27 @@ const AwarenessRight: React.FC = () => {
   const showDetail = useSelector((state: any) => state.dashboardModel.showDetail);
 
   const sendMqttControl = (param: any, type: string, data: any) => {
-    console.log('sendMqttControl -> data:', data);
-    const controlInfo = {
-      cmd: type + '/' + param,
-      data: data,
-    };
+    if (param === 'play') {
+      console.log('sendMqttControl -> data:', data);
+      const controlInfo = {
+        cmd: type + '/' + param,
+        history_id: data,
+      };
 
-    console.log('sendMqttControl -> controlInfo:', controlInfo);
-    console.log('sendMqttControl -> controlInfo:', JSON.stringify(controlInfo));
-    client.current.publish('control', JSON.stringify(controlInfo));
+      console.log('sendMqttControl -> controlInfo:', controlInfo);
+      console.log('sendMqttControl -> controlInfo:', JSON.stringify(controlInfo));
+      client.current.publish('fly_control', JSON.stringify(controlInfo));
+    } else {
+      console.log('sendMqttControl -> data:', data);
+      const controlInfo = {
+        cmd: type + '/' + param,
+        data: data,
+      };
+
+      console.log('sendMqttControl -> controlInfo:', controlInfo);
+      console.log('sendMqttControl -> controlInfo:', JSON.stringify(controlInfo));
+      client.current.publish('fly_control', JSON.stringify(controlInfo));
+    }
   };
   /**
    *切换列表
@@ -164,6 +176,10 @@ const AwarenessRight: React.FC = () => {
                         } else {
                           setplaysignal(true);
                           sendMqttControl('play', 'player', currentFlyingid);
+                          dispatch({
+                            type: 'dashboardModel/changecurrentTab',
+                            payload: 'drone',
+                          });
                         }
                       }}
                     >
@@ -214,6 +230,14 @@ const AwarenessRight: React.FC = () => {
                           payload: false,
                         });
                         handleClick();
+                        dispatch({
+                          type: 'dashboardModel/changecurrentTab',
+                          payload: 'hangar',
+                        });
+                        dispatch({
+                          type: 'dashboardModel/changePosition',
+                          payload: 0,
+                        });
                         message.success('播放结束');
                       }}
                     >

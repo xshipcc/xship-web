@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-16 18:32:55
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-25 11:24:42
+ * @LastEditTime: 2024-01-25 15:25:44
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\model.ts
  * @Description:
  *
@@ -62,6 +62,8 @@ export interface DashboardState {
   hangar: DataHangr;
   dashboardinfoMqtt: {};
   currentHistoryData: any;
+  currentTab: any;
+  queryAlertData: any;
 }
 export interface DashboardModelType {
   namespace: 'dashboardModel';
@@ -87,6 +89,8 @@ export interface DashboardModelType {
     changecurrentHistoryData: ImmerReducer<boolean> | any;
     changeAnalysisInfo: ImmerReducer<boolean> | any;
     setHangarInfo: ImmerReducer<boolean> | any;
+    changecurrentTab: ImmerReducer<boolean> | any;
+    setqueryAlertData: ImmerReducer<boolean> | any;
   };
   effects: {
     fetchDashboardInfo: Effect;
@@ -280,11 +284,19 @@ const CompanyModel: DashboardModelType = {
         pause: true,
         speed: true,
       },
+      queryAlertData: [],
+      currentTab: 'hangar',
     },
   },
   reducers: {
     changeCurrentComponent(state: DashboardState, action: { payload: string }) {
       state.currentComponent = action.payload;
+    },
+    setqueryAlertData(state: DashboardState, action: { payload: string }) {
+      state.queryAlertData = action.payload;
+    },
+    changecurrentTab(state: DashboardState, action: { payload: string }) {
+      state.currentTab = action.payload;
     },
     setHangarInfo(state: DashboardState, action: { payload: DataHangr }) {
       state.hangar = action.payload;

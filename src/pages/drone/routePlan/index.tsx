@@ -138,7 +138,7 @@ const FlashPromotionList: React.FC = () => {
             ' 维度: ' +
             record.coord[1].toFixed(7) +
             ' 高度: ' +
-            record.coord[2].toFixed(7)}
+            record.coord[2].toFixed(2)}
         </>
       ),
     },

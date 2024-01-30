@@ -156,6 +156,10 @@ const Map: React.FC = () => {
               type: 'dashboardModel/saveCurrentRoad',
               payload: trackPosition,
             });
+            dispatch({
+              type: 'dashboardModel/changeEditRoadSignal',
+              payload: false,
+            });
             // dispatch({
             //   type: 'dashboardModel/changeEditRoadSignal',
             //   payload: false,
@@ -322,22 +326,34 @@ const Map: React.FC = () => {
         let image;
         switch (demo.type) {
           case 0:
-            image = '/alert/alert.png';
+            image = '/alert/people.png';
             break;
           case 1:
-            image = '/alert/animal.png';
+            image = '/alert/bike.png';
             break;
           case 2:
             image = '/alert/car.png';
             break;
           case 3:
-            image = '/alert/group.png';
+            image = '/alert/truck.png';
             break;
           case 4:
-            image = '/alert/invade.png';
+            image = '/alert/kache.png';
             break;
-          case 10:
-            image = '/alert/people.png';
+          case 5:
+            image = '/alert/sanlun.png';
+            break;
+          case 6:
+            image = '/alert/bus.png';
+            break;
+          case 7:
+            image = '/alert/moto.png';
+            break;
+          case 8:
+            image = '/alert/fire.png';
+            break;
+          case 9:
+            image = '/alert/smoke.png';
             break;
           default:
             image = '/alert/alert.png';
@@ -403,6 +419,7 @@ const Map: React.FC = () => {
     // viewer.current.entities.add(billboard);
     // }, 10000);
   }, []);
+
   const alertData: ListAlertHistoryData = useSelector(
     (state: any) => state.dashboardModel.alertData,
   );
@@ -438,6 +455,113 @@ const Map: React.FC = () => {
       });
     }
   }, [alertData]);
+  const queryAlertData: ListAlertHistoryData = useSelector(
+    (state: any) => state.dashboardModel.queryAlertData,
+  );
+  // 显示告警信息位置
+  useEffect(() => {
+    console.log('useEffect -> queryAlertData:', queryAlertData);
+    //  { value: -1, label: '全部' },
+    //     { value: 0, label: '行人' },
+    //     { value: 1, label: '自行车' },
+    //     { value: 2, label: '车辆' },
+    //     { value: 3, label: '货车' },
+    //     { value: 4, label: '卡车' },
+    //     { value: 5, label: '三轮车' },
+    //     { value: 6, label: '公交车' },
+    //     { value: 7, label: '摩托车' },
+    //     { value: 8, label: '火警' },
+    //     { value: 9, label: '烟雾' },
+    if (queryAlertData?.length > 0) {
+      queryAlertData.forEach((element) => {
+        let image;
+        switch (element.type) {
+          case 0:
+            image = '/alert/people.png';
+            break;
+          case 1:
+            image = '/alert/bike.png';
+            break;
+          case 2:
+            image = '/alert/car.png';
+            break;
+          case 3:
+            image = '/alert/truck.png';
+            break;
+          case 4:
+            image = '/alert/kache.png';
+            break;
+          case 5:
+            image = '/alert/sanlun.png';
+            break;
+          case 6:
+            image = '/alert/bus.png';
+            break;
+          case 7:
+            image = '/alert/moto.png';
+            break;
+          case 8:
+            image = '/alert/fire.png';
+            break;
+          case 9:
+            image = '/alert/smoke.png';
+            break;
+          default:
+            image = '/alert/alert.png';
+            break;
+        }
+        const billboard = new Cesium.Entity({
+          name: 'alert', // 设置实体的唯一ID
+          position: Cesium.Cartesian3.fromDegrees(element.lon, element.lat, element.alt),
+          // position: Cesium.Cartesian3.fromDegrees(114.40856, 38.03867, 2000.56),
+          billboard: {
+            image: image,
+            width: 30, //图片宽度,单位px
+            height: 30, //图片高度，单位px
+            eyeOffset: new Cesium.Cartesian3(0, 0, -10), //与坐标位置的偏移距离
+            scale: 1, //缩放比例
+          },
+          // billboard: {
+          //   image: "/alertBackground.png",
+          //   width: 30, //图片宽度,单位px
+          //   height: 30, //图片高度，单位px
+          //   eyeOffset: new Cesium.Cartesian3(0, 0, -10), //与坐标位置的偏移距离
+          //   color: Cesium.Color.RED, //颜色
+          //   scale: 1, //缩放比例
+          // },
+          label: {
+            //文字标签
+            text:
+              '[' +
+              element.lat.toFixed(2) +
+              ',' +
+              element.lon.toFixed(2) +
+              ',' +
+              element.alt.toFixed(2) +
+              ']',
+            font: '800 25px sans-serif', // 15pt monospace
+            scale: 0.5,
+            style: Cesium.LabelStyle.FILL,
+            fillColor: Cesium.Color.WHITE,
+            pixelOffset: new Cesium.Cartesian2(0, 20), //偏移量
+            showBackground: false,
+            // backgroundColor: new this.Cesium.Color(26 / 255, 196 / 255, 228 / 255, 1.0)   //背景顔色
+          },
+        });
+        viewer.current.entities.add(billboard);
+      });
+    }
+    // 删除指定名称的实体
+    const entities = viewer.current.entities.values;
+    for (let i = 0; i < entities.length; i++) {
+      const entity = entities[i];
+      if (entity.name === 'alert') {
+        viewer.current.entities.remove(entity);
+      }
+    }
+    // viewer.current.entities.removeById('alert');
+  }, [queryAlertData]);
+
   const [showPlane, setShowPlane] = useState(false);
 
   // 无人机位置实时更新

@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-18 15:51:21
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-22 11:08:19
+ * @LastEditTime: 2024-01-30 11:35:29
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Analysis\component\centerLine\index.tsx
  * @Description:
  *
@@ -79,16 +79,16 @@ const LineChart = (props: any) => {
         type: 'category',
         boundaryGap: true,
         data: [
-          '人员',
-          '车辆',
+          '行人',
           '自行车',
-          '汽车',
+          '车辆',
+          '货车',
           '卡车',
-          '厢式货车',
           '三轮车',
+          '公交车',
           '摩托车',
-          '烟雾',
           '火警',
+          '烟雾',
         ],
         axisLabel: {
           //坐标轴刻度标签的相关设置。

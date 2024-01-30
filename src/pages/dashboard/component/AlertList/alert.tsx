@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-22 14:51:44
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-24 14:05:59
+ * @LastEditTime: 2024-01-28 17:06:45
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\AlertList\alert.tsx
  * @Description:
  *
@@ -120,9 +120,10 @@ export default () => {
    */
   //#region -------------------------------------------------------------------------
   const currentFlyingid = useSelector((state: any) => state.dashboardModel.currentFlyingid);
+  const dispatch = useDispatch();
 
   const [reqParams, setreqParams] = useState({
-    type: 0,
+    type: -1,
     platform: 0,
     confirm: 0,
     start_time: '',
@@ -133,7 +134,7 @@ export default () => {
   const [currentListInfo, setcurrentListInfo] = useState({ total: 1, current: 1, pageSize: 7 });
   const [showElement, setShowElement] = useState(false);
 
-  const getList = async (params = {}) => {
+  const getList = async (params: any) => {
     console.log('request={ -> params:', params);
     console.log('reqParams:', reqParams);
     const req = {
@@ -144,39 +145,43 @@ export default () => {
     const res: ListAlertHistoryRespType = await queryAlert(req);
     console.log('requestres:', res);
     if (res?.data) {
-      // @ts-ignore
-      setcurrentList(res.data);
+      setShowElement(false);
       // @ts-ignore
       setcurrentListInfo((info) => {
         info.total = res.total;
+        info.current = params.current;
         return info;
       });
-      setShowElement(true);
-    } else {
       // @ts-ignore
-      setcurrentList([
-        {
-          id: 0,
-          name: '',
-          image: '',
-          type: -1,
-          code: '',
-          level: 0,
-          count: 0,
-          platform: 0,
-          start_time: '无匹配结果',
-          note: '',
-          lat: 0,
-          lon: 0,
-          alt: 0,
-          history_id: 0,
-          confirm: 0,
-        },
-      ]);
+      setcurrentList(res.data);
+      setTimeout(() => {
+        setShowElement(true);
+      }, 100);
+
+      dispatch({
+        type: 'dashboardModel/setqueryAlertData',
+        payload: res.data,
+      });
+    } else {
+      setShowElement(false);
+
+      // @ts-ignore
+      setcurrentList([]);
+      setcurrentListInfo((info) => {
+        info.current = 1;
+        info.total = 0;
+        return info;
+      });
+      dispatch({
+        type: 'dashboardModel/setqueryAlertData',
+        payload: [],
+      });
     }
     console.log('currentList={ -> res:', res);
     console.log('currentList:', currentList);
-
+    setTimeout(() => {
+      setShowElement(true);
+    }, 100);
     // return { data: currentList };
   };
 
@@ -243,6 +248,10 @@ export default () => {
             info.total += 1;
             return info;
           });
+          setShowElement(false);
+          setTimeout(() => {
+            setShowElement(true);
+          }, 100);
         }, 200);
       }
     });
@@ -263,7 +272,6 @@ export default () => {
   };
 
   // 点击展示当前告警信息位置
-  const dispatch = useDispatch();
 
   const showAlertPosition = (item: any) => {
     console.log('onChangeSelector -> value:', item);
@@ -413,9 +421,10 @@ export default () => {
             <Col span={10} offset={3}>
               {buttonShow && (
                 <Select
-                  defaultValue={0}
+                  defaultValue={-1}
                   onChange={onChangeSelector}
                   options={[
+                    { value: -1, label: '全部' },
                     { value: 0, label: '行人' },
                     { value: 1, label: '自行车' },
                     { value: 2, label: '车辆' },
@@ -439,7 +448,7 @@ export default () => {
                   setbuttonShow(false);
                   // 默认查询结果
                   setreqParams({
-                    type: 0,
+                    type: -1,
                     platform: 0,
                     confirm: 0,
                     start_time: '',
@@ -449,6 +458,7 @@ export default () => {
                   setTimeout(() => {
                     setbuttonShow(true);
                   }, 100);
+                  message.success('双击重置');
                   getList({ current: 1, pageSize: 7 });
                 }}
               >
@@ -472,7 +482,7 @@ export default () => {
               pagination={{
                 pageSize: 7,
                 showSizeChanger: false,
-                defaultCurrent: 1,
+                current: currentListInfo.current,
                 onChange: (param) => {
                   console.log('param:', param);
                   getList({ pageSize: 7, current: param });

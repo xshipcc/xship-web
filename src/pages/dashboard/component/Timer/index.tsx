@@ -2,13 +2,14 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-10-16 03:02:55
+ * @LastEditTime: 2024-01-25 18:21:18
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Timer\index.tsx
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
 
+import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import styles from './index.less';
 
@@ -34,8 +35,13 @@ const Timer: React.FC = () => {
     const seconds = s <= 9 ? '0' + s : s;
     const d = year + '年' + month + '月' + day + '日';
     const t = hour + ':' + minutes + ':' + seconds;
-    setDate(d);
-    setTime(t);
+    const formattedTime = moment().format('YYYYMMDDHHmmss');
+    const newDate = formattedTime.replace(
+      /^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})$/,
+      '$1-$2-$3 $4:$5:$6',
+    );
+    // setDate(d);
+    setTime(newDate);
   };
   useEffect(() => {
     const timer = setInterval(getNewDate, 1000);
@@ -49,7 +55,7 @@ const Timer: React.FC = () => {
   //#endregion -----------------------------------------------------------------------
   return (
     <>
-      <div className={styles.date}>{date}</div>
+      {/* <div className={styles.date}>{date}</div> */}
 
       <div className={styles.time}>{time}</div>
     </>

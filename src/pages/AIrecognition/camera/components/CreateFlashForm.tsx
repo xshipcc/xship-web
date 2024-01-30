@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-24 18:10:03
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-25 12:14:56
+ * @LastEditTime: 2024-01-28 15:59:26
  * @FilePath: \zero-admin-ui-master\src\pages\AIrecognition\camera\components\CreateFlashForm.tsx
  * @Description:
  *
@@ -48,7 +48,7 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
   const handleFinish = (values: AddCamerasReq) => {
     if (onSubmit) {
       // @ts-ignore
-      onSubmit({ ...values, ai_status: 0 });
+      onSubmit({ ...values });
       // onSubmit({ ...values, startDate, endDate });
     }
   };
@@ -97,6 +97,13 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
           <Input id="update-title" placeholder={'请输入视频流地址'} />
         </FormItem>
         <FormItem
+          name="rtsp_url"
+          label="rtsp流地址"
+          rules={[{ required: true, message: '请输入rtsp流地址!' }]}
+        >
+          <Input id="update-title" placeholder={'请输入rtsp流地址'} />
+        </FormItem>
+        <FormItem
           name="platform"
           label="摄像头平台"
           rules={[{ required: true, message: '请输入摄像头平台!' }]}
@@ -132,9 +139,8 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
             <Select.Option value={1}>启用</Select.Option>
           </Select>
         </FormItem>
-        {/* <FormItem
+        <FormItem
           name="ai_status"
-          hidden
           label="ai识别状态"
           rules={[{ required: true, message: '请输入ai识别状态!' }]}
         >
@@ -142,7 +148,7 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
             <Select.Option value={0}>禁止</Select.Option>
             <Select.Option value={1}>启用</Select.Option>
           </Select>
-        </FormItem> */}
+        </FormItem>
       </>
     );
   };
