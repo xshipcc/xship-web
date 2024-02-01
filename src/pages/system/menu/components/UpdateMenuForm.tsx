@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   Form,
   Input,
@@ -12,6 +12,7 @@ import {
 import { MenuListItem } from '../data.d';
 import { queryMenu } from '@/pages/system/menu/service';
 import { tree } from '@/utils/utils';
+import { debounce } from 'lodash';
 
 export interface UpdateFormProps {
   onCancel: () => void;
@@ -160,8 +161,12 @@ const UpdateMenuForm: React.FC<UpdateFormProps> = (props) => {
       </>
     );
   };
-
-  const modalFooter = { okText: '保存', onOk: handleSubmit, onCancel };
+  const load = useCallback(
+    debounce(() => handleSubmit(), 500),
+    [],
+  );
+  const modalFooter = { okText: '保存', onOk: load, onCancel };
+  // const modalFooter = { okText: '保存', onOk: handleSubmit, onCancel };
 
   return (
     <Modal forceRender destroyOnClose title="修改菜单" open={updateModalVisible} {...modalFooter}>

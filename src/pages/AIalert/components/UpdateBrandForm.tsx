@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Form, Input, InputNumber, Modal, Select } from 'antd';
 import type { UpdateAlertHistoryReqType } from '../data.d';
+import { debounce } from 'lodash';
 
 export interface UpdateFormProps {
   onCancel: () => void;
@@ -122,8 +123,12 @@ const UpdateBrandForm: React.FC<UpdateFormProps> = (props) => {
       </>
     );
   };
-
-  const modalFooter = { okText: '保存', onOk: handleSubmit, onCancel };
+  const load = useCallback(
+    debounce(() => handleSubmit(), 500),
+    [],
+  );
+  const modalFooter = { okText: '保存', onOk: load, onCancel };
+  // const modalFooter = { okText: '保存', onOk: handleSubmit, onCancel };
 
   return (
     <Modal

@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Form, Input, Modal, Radio, Select, TreeSelect } from 'antd';
 import type { JobList, RoleList, UserListItem } from '../data.d';
 import { querySelectAllData } from '@/pages/system/user/service';
 import { tree } from '@/utils/utils';
+import { debounce } from 'lodash';
 
 export interface CreateFormProps {
   onCancel: () => void;
@@ -31,6 +32,7 @@ const CreateUserForm: React.FC<CreateFormProps> = (props) => {
       form.resetFields();
     } else {
       querySelectAllData({ pageSize: 100, current: 1 }).then((res) => {
+        console.log('querySelectAllData -> res:', res);
         setRoleConf(res.roleAll);
         setJobConf(res.jobAll);
         setDeptConf(tree(res.deptAll, 0, 'parentId'));
@@ -46,6 +48,8 @@ const CreateUserForm: React.FC<CreateFormProps> = (props) => {
   const handleFinish = (values: UserListItem) => {
     if (onSubmit) {
       // values.deptId=Number(selectedKey)
+      values.jobId = 1;
+      // values.roleId = 0;
       onSubmit(values);
     }
   };
@@ -61,25 +65,22 @@ const CreateUserForm: React.FC<CreateFormProps> = (props) => {
             treeDefaultExpandAll
           />
         </FormItem>
-        <FormItem name="jobId" label="职位" rules={[{ required: true, message: '请选择职位' }]}>
+        {/* <FormItem name="jobId" label="职位" rules={[{ required: true, message: '请选择职位' }]}>
           <Input id="update-name" placeholder={'请输入职位'} />
 
-          {/* <Select id="jobId" placeholder={'请选择职位'}>
+          <Select id="jobId" placeholder={'请选择职位'}>
             {jobConf.map((r) => (
               <Select.Option value={r.id}>{r.jobName}</Select.Option>
             ))}
-          </Select> */}
-        </FormItem>
+          </Select>
+        </FormItem> */}
         <FormItem name="roleId" label="角色" rules={[{ required: true, message: '请选择角色' }]}>
-          <Input id="update-name" placeholder={'请输入角色'} />
-          {/* <Select id="roleId" placeholder={'请选择角色'}>
+          {/* <Input id="update-name" placeholder={'请输入角色'} /> */}
+          <Select id="roleId" placeholder={'请选择角色'}>
             {roleConf.map((r) => (
               <Select.Option value={r.id}>{r.name + r.remark}</Select.Option>
             ))}
-          </Select> */}
-        </FormItem>
-        <FormItem name="name" label="用户名" rules={[{ required: true, message: '请输入用户名' }]}>
-          <Input id="update-name" placeholder={'请输入用户名'} />
+          </Select>
         </FormItem>
         <FormItem name="nickName" label="昵称" rules={[{ required: true, message: '请输入昵称' }]}>
           <Input id="update-nick_name" placeholder={'请输入昵称'} />
@@ -93,6 +94,12 @@ const CreateUserForm: React.FC<CreateFormProps> = (props) => {
         </FormItem>
         <FormItem name="email" label="邮箱" rules={[{ required: true, message: '请输入邮箱' }]}>
           <Input id="update-email" placeholder={'请输入邮箱'} />
+        </FormItem>
+        <FormItem name="name" label="账号" rules={[{ required: true, message: '请输入用户账号' }]}>
+          <Input id="update-name" placeholder={'请输入用户账号'} />
+        </FormItem>
+        <FormItem name="password" label="密码" rules={[{ required: true, message: '请输入密码' }]}>
+          <Input id="update-name" placeholder={'请输入密码'} />
         </FormItem>
         <FormItem
           name="status"
@@ -108,8 +115,12 @@ const CreateUserForm: React.FC<CreateFormProps> = (props) => {
       </>
     );
   };
-
-  const modalFooter = { okText: '保存', onOk: handleSubmit, onCancel };
+  const load = useCallback(
+    debounce(() => handleSubmit(), 500),
+    [],
+  );
+  const modalFooter = { okText: '保存', onOk: load, onCancel };
+  // const modalFooter = { okText: '保存', onOk: handleSubmit, onCancel };
 
   return (
     <Modal forceRender destroyOnClose title="新建用户" open={createModalVisible} {...modalFooter}>

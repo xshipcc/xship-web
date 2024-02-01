@@ -1,3 +1,13 @@
+/*
+ * @Author: weiaodi 1635654853@qq.com
+ * @Date: 2023-09-24 22:25:18
+ * @LastEditors: weiaodi 1635654853@qq.com
+ * @LastEditTime: 2024-02-01 08:13:07
+ * @FilePath: \zero-admin-ui-master\src\pages\system\user\service.ts
+ * @Description:
+ *
+ * Copyright (c) 2024 by ${git_name_email}, All Rights Reserved.
+ */
 import { request } from 'umi';
 import { UserListParams, UserListItem } from './data.d';
 
@@ -42,6 +52,14 @@ export async function addUser(params: UserListItem) {
 
 export async function updateUser(params: UserListItem) {
   return request('/api/sys/user/update', {
+    method: 'POST',
+    data: {
+      ...params,
+    },
+  });
+}
+export async function updateUserPassword(params: UserListItem) {
+  return request('/api/sys/user/reSetPassword', {
     method: 'POST',
     data: {
       ...params,

@@ -102,6 +102,7 @@ const Analysis: React.FC = (props) => {
     // client.current.publish('control', JSON.stringify({ cmd: 'state', data: 'on' }));
     setTimeout(() => {
       client.current.publish('control', JSON.stringify({ cmd: 'road', data: 'on' }));
+      client.current.publish('control', JSON.stringify({ cmd: 'state', data: 'on' }));
     }, 5000);
     return () => {
       if (client.current) client.current.end();

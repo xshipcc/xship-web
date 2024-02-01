@@ -13,8 +13,9 @@ import ProDescriptions from '@ant-design/pro-descriptions';
 import type { ProDescriptionsItemProps } from '@ant-design/pro-descriptions';
 import CreateUserForm from './components/CreateUserForm';
 import UpdateUserForm from './components/UpdateUserForm';
+import UpdateUserPassword from './components/UpdateUserPassword';
 import type { UserListItem } from './data.d';
-import { queryUserList, updateUser, addUser, removeUser } from './service';
+import { queryUserList, updateUser, addUser, removeUser, updateUserPassword } from './service';
 
 const { confirm } = Modal;
 
@@ -80,6 +81,7 @@ const handleRemove = async (selectedRows: UserListItem[]) => {
 const UserList: React.FC = () => {
   const [createModalVisible, handleModalVisible] = useState<boolean>(false);
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
+  const [updatePasswordVisible, handleupdatePasswordVisible] = useState<boolean>(false);
   const [showDetail, setShowDetail] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
   const [currentRow, setCurrentRow] = useState<UserListItem>();
@@ -106,7 +108,7 @@ const UserList: React.FC = () => {
       hideInSearch: true,
     },
     {
-      title: '用户名',
+      title: '账号',
       dataIndex: 'name',
       render: (dom, entity) => {
         return (
@@ -140,11 +142,11 @@ const UserList: React.FC = () => {
       dataIndex: 'deptName',
       hideInSearch: true,
     },
-    {
-      title: '职位',
-      dataIndex: 'jobName',
-      hideInSearch: true,
-    },
+    // {
+    //   title: '职位',
+    //   dataIndex: 'jobName',
+    //   hideInSearch: true,
+    // },
     {
       title: '角色',
       dataIndex: 'roleName',
@@ -193,7 +195,7 @@ const UserList: React.FC = () => {
         <>
           <Button
             type="primary"
-            icon={<EditOutlined />}
+            icon={<EditOutlined rev={undefined} />}
             onClick={() => {
               handleUpdateModalVisible(true);
               setCurrentRow(record);
@@ -202,10 +204,21 @@ const UserList: React.FC = () => {
             编辑
           </Button>
           <Divider type="vertical" />
+          {/* <Button
+            type="primary"
+            icon={<EditOutlined rev={undefined} />}
+            onClick={() => {
+              handleupdatePasswordVisible(true);
+              setCurrentRow(record);
+            }}
+          >
+            修改密码
+          </Button>
+          <Divider type="vertical" /> */}
           <Button
             type="primary"
             danger
-            icon={<DeleteOutlined />}
+            icon={<DeleteOutlined rev={undefined} />}
             onClick={() => {
               showDeleteConfirm(record);
             }}
@@ -298,6 +311,27 @@ const UserList: React.FC = () => {
           }
         }}
         updateModalVisible={updateModalVisible}
+        values={currentRow || {}}
+      />
+      <UpdateUserPassword
+        key={'UpdateUserPassword'}
+        onSubmit={async (value) => {
+          const success = await updateUserPassword(value);
+          if (success) {
+            handleupdatePasswordVisible(false);
+            setCurrentRow(undefined);
+            if (actionRef.current) {
+              actionRef.current.reload();
+            }
+          }
+        }}
+        onCancel={() => {
+          handleupdatePasswordVisible(false);
+          if (!showDetail) {
+            setCurrentRow(undefined);
+          }
+        }}
+        updateModalVisible={updatePasswordVisible}
         values={currentRow || {}}
       />
 

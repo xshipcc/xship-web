@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Form, Input, InputNumber, Modal, Select, Upload, UploadProps } from 'antd';
 import type { UpdateCarReq } from '../data.d';
 import { PlusOutlined } from '@ant-design/icons';
 import { RcFile, UploadFile } from 'antd/lib/upload';
+import { debounce } from 'lodash';
 // interface UpdateCarReq {
 //   id: number;
 //   name: string;
@@ -221,8 +222,12 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
       </>
     );
   };
-
-  const modalFooter = { okText: '保存', onOk: handleSubmit, onCancel };
+  const load = useCallback(
+    debounce(() => handleSubmit(), 500),
+    [],
+  );
+  const modalFooter = { okText: '保存', onOk: load, onCancel };
+  // const modalFooter = { okText: '保存', onOk: handleSubmit, onCancel };
 
   return (
     <Modal

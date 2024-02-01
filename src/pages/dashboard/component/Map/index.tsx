@@ -240,6 +240,7 @@ const Map: React.FC = () => {
         // Lines: currentFlyingRoad,
       });
       if (isArrayWithSpecificFormat(currentFlyingRoad)) {
+        viewer.current.entities.removeAll();
         viewer.current.dataSources.removeAll();
         roaming.TrackPath(currentFlyingRoad);
         message.success('加载成功');

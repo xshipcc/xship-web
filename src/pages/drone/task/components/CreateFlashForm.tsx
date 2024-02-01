@@ -8,7 +8,7 @@
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   Form,
   Input,
@@ -34,6 +34,7 @@ import { queryDevice } from '../../device/service';
 // import Cron from 'antd-cron';
 import CronPlus from 'react-cron-plus';
 import CronEditor from 'cron-editor-react';
+import { debounce } from 'lodash';
 export interface CreateFormProps {
   onCancel: () => void;
   onSubmit: (values: AddUavPlanReqType) => void;
@@ -408,8 +409,12 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
       </>
     );
   };
-
-  const modalFooter = { okText: '保存', onOk: handleSubmit, onCancel };
+  const load = useCallback(
+    debounce(() => handleSubmit(), 500),
+    [],
+  );
+  const modalFooter = { okText: '保存', onOk: load, onCancel };
+  // const modalFooter = { okText: '保存', onOk: handleSubmit, onCancel };
 
   return (
     <Modal

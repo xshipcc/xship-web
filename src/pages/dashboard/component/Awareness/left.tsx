@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-30 17:57:39
+ * @LastEditTime: 2024-01-31 11:37:53
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\left.tsx
  * @Description:
  *
@@ -49,6 +49,25 @@ const Awareness: React.FC = () => {
   };
   // const [taskList, settaskList] = useState<any>([]);
   const taskList = useRef(def);
+
+  const getHoursUntilNextExecution = (cronExpression: string) => {
+    const interval = cronParser.parseExpression(cronExpression);
+    const nextDate = interval.next().toString();
+    return nextDate;
+  };
+  // const [defaultTask, setdefaultTask] = useState<any>(null);
+  const defaultTask = useRef(def);
+
+  const [show, setshow] = useState<any>(true);
+  // useEffect(() => {
+  //   // if (defaultTask.current.length > 0) {
+  //   //   setshow(true);
+  //   // }
+  //   //  else {
+  //   //   setshow(false);
+  //   // }
+  //   console.log('defaultTask.current:', defaultTask.current);
+  // }, [defaultTask.current]);
   useEffect(() => {
     getDroneData();
     queryPlan({ pageSize: 1000, current: 1 }).then((resp) => {
@@ -62,23 +81,40 @@ const Awareness: React.FC = () => {
         // settaskList(tasks);
         console.log('resRoad.data.map -> item:', resp.data);
       }
+      setshow(false);
+      setTimeout(() => {
+        setshow(true);
+      }, 200);
     });
   }, []);
-  const getHoursUntilNextExecution = (cronExpression: string) => {
-    const interval = cronParser.parseExpression(cronExpression);
-    const nextDate = interval.next().toString();
-    return nextDate;
+  const excute = (data: any) => {
+    // const data = { data: 'on' };
+    const controlInfo = {
+      cmd: 'drone' + '/' + 'plan',
+      data: data,
+    };
+    console.log('sendMqttControl -> controlInfo:', controlInfo);
+    console.log('sendMqttControl -> controlInfo:', JSON.stringify(controlInfo));
+    client.current.publish('control', JSON.stringify(controlInfo));
   };
-  // const [defaultTask, setdefaultTask] = useState<any>(null);
-  const defaultTask = useRef(def);
-
-  const [show, setshow] = useState<any>(true);
-  // useEffect(() => {
-  //   if (defaultTask.current.length > 0) {
-  //     setshow(true);
-  //   }
-  //   console.log('defaultTask.current:', defaultTask.current);
-  // }, [defaultTask.current]);
+  const handleChange = (params: any) => {
+    console.log(`handleChange ${params}`);
+    const selectData = JSON.parse(params);
+    const difference = getHoursUntilNextExecution(selectData.plan);
+    const options = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      weekday: 'long',
+      hour: 'numeric',
+      minute: 'numeric',
+    };
+    const date = new Date(difference);
+    const chineseDate = date.toLocaleString('zh-CN', options);
+    settimeInfo(chineseDate);
+    excute(selectData.id);
+    console.log('handleChange -> difference:', difference);
+  };
 
   // mqtt消息接收
   useEffect(() => {
@@ -150,48 +186,46 @@ const Awareness: React.FC = () => {
 
           if (currentTask.length > 0) {
             // setdefaultTask(currentTask[0].value);
+            console.log('client.current.on -> currentTask:', currentTask[0].value);
+            // handleChange(currentTask[0].value);
+            const selectData = JSON.parse(currentTask[0].value);
+            const difference = getHoursUntilNextExecution(selectData.plan);
+            const options = {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+              weekday: 'long',
+              hour: 'numeric',
+              minute: 'numeric',
+            };
+            const date = new Date(difference);
+            const chineseDate = date.toLocaleString('zh-CN', options);
+            settimeInfo(chineseDate);
             defaultTask.current = currentTask[0].value;
             message.success(`当前执行 ${currentTask[0].label}`);
+            setshow(false);
+            setTimeout(() => {
+              setshow(true);
+            }, 200);
           } else {
             message.success('当前未执行');
+            setshow(false);
+            setTimeout(() => {
+              setshow(true);
+            }, 200);
           }
         }
       }
     });
 
+    // setTimeout(() => {
+    //   setshow(true);
+    //   message.warning('未收到巡检计划');
+    // }, 3000);
     return () => {
       if (client.current) client.current.end();
     };
   }, []);
-
-  const excute = (data: any) => {
-    // const data = { data: 'on' };
-    const controlInfo = {
-      cmd: 'drone' + '/' + 'plan',
-      data: data,
-    };
-    console.log('sendMqttControl -> controlInfo:', controlInfo);
-    console.log('sendMqttControl -> controlInfo:', JSON.stringify(controlInfo));
-    client.current.publish('control', JSON.stringify(controlInfo));
-  };
-  const handleChange = (params: any) => {
-    console.log(`handleChange ${params}`);
-    const selectData = JSON.parse(params);
-    const difference = getHoursUntilNextExecution(selectData.plan);
-    const options = {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      weekday: 'long',
-      hour: 'numeric',
-      minute: 'numeric',
-    };
-    const date = new Date(difference);
-    const chineseDate = date.toLocaleString('zh-CN', options);
-    settimeInfo(chineseDate);
-    excute(selectData.id);
-    console.log('handleChange -> difference:', difference);
-  };
 
   /**
    * @end
@@ -201,67 +235,68 @@ const Awareness: React.FC = () => {
     <>
       <div className={styles.content}>
         <div className={styles.tab}>
-          <Tabs
-            tabPosition={'left'}
-            activeKey={currentTab}
-            items={[
-              {
-                label: `控制台信息`,
-                key: 'hangar',
-                // @ts-ignore
-                children: (
-                  <div className={styles.infoList}>
-                    <Row>
-                      <Col span={8}>
-                        {show && (
+          {show && (
+            <Tabs
+              tabPosition={'left'}
+              activeKey={currentTab}
+              items={[
+                {
+                  label: `控制台信息`,
+                  key: 'hangar',
+                  // @ts-ignore
+                  children: (
+                    <div className={styles.infoList}>
+                      <Row>
+                        <Col span={8}>
                           <Select
                             onChange={handleChange}
                             options={taskList.current}
-                            value={defaultTask.current}
+                            defaultValue={defaultTask.current}
+                            // value={defaultTask.current}
                           />
+                        </Col>
+                        <Col
+                          span={14}
+                          offset={2}
+                          // onClick={() => {
+                          //   sendMqttControl();
+                          // }}
+                          className={styles.infoTime}
+                        >
+                          执行时间:
+                          {timeInfo}
+                          {/* <button className={styles.infoButton}>自动飞行</button> */}
+                        </Col>
+                      </Row>
+                      <List
+                        dataSource={consoleInfo}
+                        renderItem={(item) => (
+                          <List.Item>
+                            <div className={styles.info}>{item}</div>
+                          </List.Item>
                         )}
-                      </Col>
-                      <Col
-                        span={14}
-                        offset={2}
-                        // onClick={() => {
-                        //   sendMqttControl();
-                        // }}
-                        className={styles.infoTime}
-                      >
-                        执行时间:
-                        {timeInfo}
-                        {/* <button className={styles.infoButton}>自动飞行</button> */}
+                      />
+                    </div>
+                  ),
+                },
+                {
+                  label: `回放画面`,
+                  key: 'drone',
+                  children: (
+                    <Row>
+                      <Col span={24} className={styles.video}>
+                        {/* @ts-ignore */}
+                        {console.log('droneinfo:', droneinfo)}
+                        <video src={videoUrl} autoPlay controls muted className={styles.video} />
+                        {/* <Player url={droneinfo.cam_url} height={'19'} width={'100'} /> */}
+                        {/* <Player url={droneinfo.cam_url} height={'19'} width={'100'} /> */}
                       </Col>
                     </Row>
-                    <List
-                      dataSource={consoleInfo}
-                      renderItem={(item) => (
-                        <List.Item>
-                          <div className={styles.info}>{item}</div>
-                        </List.Item>
-                      )}
-                    />
-                  </div>
-                ),
-              },
-              {
-                label: `回放画面`,
-                key: 'drone',
-                children: (
-                  <Row>
-                    <Col span={24} className={styles.video}>
-                      {/* @ts-ignore */}
-                      {console.log('droneinfo:', droneinfo)}
-                      <video src={videoUrl} autoPlay controls muted className={styles.video} />
-                      {/* <Player url={droneinfo.cam_url} height={'19'} width={'100'} /> */}
-                      {/* <Player url={droneinfo.cam_url} height={'19'} width={'100'} /> */}
-                    </Col>
-                  </Row>
-                ),
-              },
-            ]}
-          />
+                  ),
+                },
+              ]}
+            />
+          )}
         </div>
 
         {/*  */}

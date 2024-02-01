@@ -2,16 +2,17 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-24 18:10:03
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-28 15:59:26
+ * @LastEditTime: 2024-01-31 19:12:23
  * @FilePath: \zero-admin-ui-master\src\pages\AIrecognition\camera\components\CreateFlashForm.tsx
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Form, Input, Modal, InputNumber, Upload, Select } from 'antd';
 import type { AddCamerasReq } from '../data.d';
 import { PlusOutlined } from '@ant-design/icons';
+import { debounce } from 'lodash';
 
 export interface CreateFormProps {
   onCancel: () => void;
@@ -152,8 +153,11 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
       </>
     );
   };
-
-  const modalFooter = { okText: '保存', onOk: handleSubmit, onCancel };
+  const load = useCallback(
+    debounce(() => handleSubmit(), 500),
+    [],
+  );
+  const modalFooter = { okText: '保存', onOk: load, onCancel };
 
   return (
     <Modal

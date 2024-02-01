@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-22 11:23:45
+ * @LastEditTime: 2024-01-31 11:20:47
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\center.tsx
  * @Description:
  *
@@ -214,7 +214,8 @@ const AwarenessCenter: React.FC = () => {
     if (currentComponent == 'Awareness') {
       setTimeout(() => {
         client.current.publish('control', JSON.stringify({ cmd: 'road', data: 'on' }));
-      }, 2000);
+        client.current.publish('control', JSON.stringify({ cmd: 'state', data: 'on' }));
+      }, 3000);
     }
   }, [currentComponent]);
   return (

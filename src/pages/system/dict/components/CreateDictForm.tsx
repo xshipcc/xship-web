@@ -1,6 +1,17 @@
-import React, { useEffect } from 'react';
+/*
+ * @Author: weiaodi 1635654853@qq.com
+ * @Date: 2023-09-24 22:25:17
+ * @LastEditors: weiaodi 1635654853@qq.com
+ * @LastEditTime: 2024-01-31 19:21:41
+ * @FilePath: \zero-admin-ui-master\src\pages\system\dict\components\CreateDictForm.tsx
+ * @Description:
+ *
+ * Copyright (c) 2024 by ${git_name_email}, All Rights Reserved.
+ */
+import React, { useCallback, useEffect } from 'react';
 import { Form, Input, InputNumber, Modal, Select } from 'antd';
 import type { DictListItem } from '../data.d';
+import { debounce } from 'lodash';
 
 export interface CreateFormProps {
   onCancel: () => void;
@@ -72,8 +83,12 @@ const CreateDictForm: React.FC<CreateFormProps> = (props) => {
       </>
     );
   };
-
-  const modalFooter = { okText: '保存', onOk: handleSubmit, onCancel };
+  const load = useCallback(
+    debounce(() => handleSubmit(), 500),
+    [],
+  );
+  const modalFooter = { okText: '保存', onOk: load, onCancel };
+  // const modalFooter = { okText: '保存', onOk: handleSubmit, onCancel };
 
   return (
     <Modal forceRender destroyOnClose title="新建字典" open={createModalVisible} {...modalFooter}>

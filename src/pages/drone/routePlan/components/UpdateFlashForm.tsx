@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { DatePicker, DatePickerProps, Form, Input, Modal, Select } from 'antd';
 import { UpdateUavFlyReqType } from '../data.d';
 import moment from 'moment';
+import { debounce } from 'lodash';
 
 export interface UpdateFormProps {
   onCancel: () => void;
@@ -80,8 +81,12 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
       </>
     );
   };
-
-  const modalFooter = { okText: '保存', onOk: handleSubmit, onCancel };
+  const load = useCallback(
+    debounce(() => handleSubmit(), 500),
+    [],
+  );
+  const modalFooter = { okText: '保存', onOk: load, onCancel };
+  // const modalFooter = { okText: '保存', onOk: handleSubmit, onCancel };
 
   return (
     <Modal

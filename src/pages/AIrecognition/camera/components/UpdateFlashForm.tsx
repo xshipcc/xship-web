@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Form, Input, InputNumber, Modal, Select, Upload } from 'antd';
 import type { UpdateCamerasReq } from '../data.d';
 import { PlusOutlined } from '@ant-design/icons';
+import { debounce } from 'lodash';
 // interface UpdateCamerasReq {
 //   id: number;
 //   name: string;
@@ -159,7 +160,12 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
     );
   };
 
-  const modalFooter = { okText: '保存', onOk: handleSubmit, onCancel };
+  const load = useCallback(
+    debounce(() => handleSubmit(), 500),
+    [],
+  );
+  const modalFooter = { okText: '保存', onOk: load, onCancel };
+  // const modalFooter = { okText: '保存', onOk: handleSubmit, onCancel };
 
   return (
     <Modal

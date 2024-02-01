@@ -15,7 +15,6 @@ import CreateFlashForm from './components/CreateFlashForm';
 import UpdateFlashForm from './components/UpdateFlashForm';
 import type { ListUavFlyDataType, AddUavFlyReqType } from './data.d';
 import { updateFly, addFly, removeFly, queryFly } from './service';
-
 const { confirm } = Modal;
 
 /**

@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-24 16:38:43
+ * @LastEditTime: 2024-01-31 15:17:27
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\component\centerTab\index.tsx
  * @Description:
  *
@@ -222,14 +222,14 @@ const CenterTab: React.FC = (props: any) => {
   useEffect(() => {
     console.log('reqParams11:', currentFlyingid);
 
-    if (currentFlyingid != -1) {
-      getHistoryList({ pageSize: 10, current: 1, history_id: currentFlyingid });
-      // setreqParams((item: any) => {
-      //   item.history_id = currentFlyingid;
-      //   console.log(' reqParams11-> item:', item);
-      //   return item;
-      // });
-    }
+    // if (currentFlyingid != -1) {
+    //   getHistoryList({ pageSize: 10, current: 1, history_id: currentFlyingid });
+    //   // setreqParams((item: any) => {
+    //   //   item.history_id = currentFlyingid;
+    //   //   console.log(' reqParams11-> item:', item);
+    //   //   return item;
+    //   // });
+    // }
   }, [currentFlyingid]);
 
   const sendCircle = () => {

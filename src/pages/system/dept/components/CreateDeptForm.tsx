@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Cascader, Form, Input, InputNumber, message, Modal, Radio } from 'antd';
 import type { DeptListItem } from '../data.d';
 import { queryDept } from '@/pages/system/dept/service';
 import { tree } from '@/utils/utils';
+import { debounce } from 'lodash';
 
 export interface CreateFormProps {
   onCancel: () => void;
@@ -110,8 +111,12 @@ const CreateDeptForm: React.FC<CreateFormProps> = (props) => {
       </>
     );
   };
-
-  const modalFooter = { okText: '保存', onOk: handleSubmit, onCancel };
+  const load = useCallback(
+    debounce(() => handleSubmit(), 500),
+    [],
+  );
+  const modalFooter = { okText: '保存', onOk: load, onCancel };
+  // const modalFooter = { okText: '保存', onOk: handleSubmit, onCancel };
 
   return (
     <Modal forceRender destroyOnClose title="新建机构" open={createModalVisible} {...modalFooter}>

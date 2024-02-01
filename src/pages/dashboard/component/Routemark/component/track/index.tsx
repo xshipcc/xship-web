@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import { InputNumber, InputRef } from 'antd';
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { InputNumber, InputRef, Popconfirm } from 'antd';
 import { Button, Col, Form, Input, List, Row, Select, Table } from 'antd';
 import type { FormInstance } from 'antd/es/form';
 import styles from './index.less';
@@ -13,6 +13,7 @@ import { message, Drawer, Modal } from 'antd';
 import { useDispatch, useModel, useSelector } from 'umi';
 import { queryStatistics } from '@/pages/AIalert/service';
 import { DashboardAnalysData } from '@/pages/dashboard/typings';
+import { debounce } from 'lodash';
 
 interface DataType {
   id: number;
@@ -252,6 +253,14 @@ const App: React.FC = () => {
     }
     // updateFly(newData);
   };
+  const load = useCallback(
+    debounce(() => handleAdd(), 500),
+    [],
+  );
+  // const load = () => {
+  //   handleAdd();
+  //   // _.debounce(() => handleAdd, 500);
+  // };
 
   useEffect(() => {
     // queryReport({ current: 1, pageSize: 10 }).then((res) => {
@@ -360,6 +369,24 @@ const App: React.FC = () => {
     }
   };
 
+  const saveRoadData = () => {
+    if (!editRoadSignal) {
+      setshowList(false);
+      // @ts-ignore
+      handleSave(currentRoad);
+      // setforceSave(false);
+    } else {
+      message.warning('请先完成航线编辑');
+    }
+    // @ts-ignore
+    // handleSave(currentRoad);
+  };
+
+  const loadSave = useCallback(
+    debounce(() => saveRoadData(), 500),
+    [showDrawer],
+  );
+
   /**
    *查看当前路径
    *
@@ -394,7 +421,7 @@ const App: React.FC = () => {
     {
       title: (
         <div>
-          <Button type="primary" onClick={handleAdd}>
+          <Button type="primary" onClick={load}>
             添加
           </Button>
         </div>
@@ -453,21 +480,28 @@ const App: React.FC = () => {
             <Col
               span={5}
               className={styles.title}
-              onClick={() => {
-                if (!editRoadSignal) {
-                  setshowList(false);
-                  // @ts-ignore
-                  handleSave(currentRoad);
-                  // setforceSave(false);
-                } else {
-                  message.warning('请先完成航线编辑');
-                }
-                // @ts-ignore
-                // handleSave(currentRoad);
-              }}
+              // onClick={() => {
+              //   saveRoadData();
+              //   // loadSave();
+              // }}
             >
-              <CheckOutlined rev={undefined} />
-              保存
+              <Popconfirm
+                title={'是否保存'}
+                onConfirm={() => {
+                  // message.success('确认');
+                  saveRoadData();
+
+                  // sendCircle();
+                }}
+                onCancel={() => {
+                  message.error('取消');
+                }}
+                okText="确认"
+                cancelText="取消"
+              >
+                <CheckOutlined rev={undefined} />
+                保存
+              </Popconfirm>
             </Col>
           </Row>
           {showList && (

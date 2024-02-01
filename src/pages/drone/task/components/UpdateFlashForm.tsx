@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
   Button,
   Col,
@@ -21,6 +21,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import { ListUavFlyReqType } from '../../routePlan/data';
 import { queryFly } from '../../routePlan/service';
 import { queryDevice } from '../../device/service';
+import { debounce } from 'lodash';
 
 export interface UpdateFormProps {
   onCancel: () => void;
@@ -432,8 +433,12 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
       </>
     );
   };
-
-  const modalFooter = { okText: '保存', onOk: handleSubmit, onCancel };
+  const load = useCallback(
+    debounce(() => handleSubmit(), 500),
+    [],
+  );
+  const modalFooter = { okText: '保存', onOk: load, onCancel };
+  // const modalFooter = { okText: '保存', onOk: handleSubmit, onCancel };
 
   return (
     <Modal

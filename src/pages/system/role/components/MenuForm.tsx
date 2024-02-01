@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Form, Input, Modal, Tree } from 'antd';
 import type { RoleListItem } from '../data.d';
 import { queryMenuByRoleId } from '@/pages/system/role/service';
 import { tree as toTree } from '@/utils/utils';
+import { debounce } from 'lodash';
 
 export interface MenuFormProps {
   onCancel: () => void;
@@ -81,8 +82,12 @@ const UpdateRoleForm: React.FC<MenuFormProps> = (props) => {
       </>
     );
   };
-
-  const modalFooter = { okText: '保存', onOk: handleSubmit, onCancel };
+  const load = useCallback(
+    debounce(() => handleSubmit(), 500),
+    [],
+  );
+  const modalFooter = { okText: '保存', onOk: load, onCancel };
+  // const modalFooter = { okText: '保存', onOk: handleSubmit, onCancel };
 
   return (
     <Modal

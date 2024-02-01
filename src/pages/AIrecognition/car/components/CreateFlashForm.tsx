@@ -8,12 +8,13 @@
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import type { UploadProps, UploadFile } from 'antd';
 import { Form, Input, Modal, Upload, Select } from 'antd';
 import type { AddCarReq } from '../data.d';
 import { PlusOutlined } from '@ant-design/icons';
 import type { RcFile } from 'antd/lib/upload';
+import { debounce } from 'lodash';
 
 export interface CreateFormProps {
   onCancel: () => void;
@@ -193,8 +194,12 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
       </>
     );
   };
-
-  const modalFooter = { okText: '保存', onOk: handleSubmit, onCancel };
+  const load = useCallback(
+    debounce(() => handleSubmit(), 500),
+    [],
+  );
+  const modalFooter = { okText: '保存', onOk: load, onCancel };
+  // const modalFooter = { okText: '保存', onOk: handleSubmit, onCancel };
 
   return (
     <Modal
