@@ -164,7 +164,7 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
     { value: '4', label: '星期四' },
     { value: '5', label: '星期五' },
     { value: '6', label: '星期六' },
-    { value: '7', label: '星期天' },
+    { value: '7', label: '星期日' },
   ];
 
   const [minute, setminute] = useState('0');
