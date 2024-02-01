@@ -139,7 +139,7 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
     if (i === 0) {
       return { label: '不指定', value: '*' };
     } else {
-      return { label: i + '号', value: i + '' };
+      return { label: i + '日', value: i + '' };
     }
   });
   const hourList = new Array(25).fill(null).map((_, i) => {
@@ -158,13 +158,13 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
   });
   const weekList = [
     { value: '*', label: '不指定' },
-    { value: '1', label: '周一' },
-    { value: '2', label: '周二' },
-    { value: '3', label: '周三' },
-    { value: '4', label: '周四' },
-    { value: '5', label: '周五' },
-    { value: '6', label: '周六' },
-    { value: '7', label: '周天' },
+    { value: '1', label: '星期一' },
+    { value: '2', label: '星期二' },
+    { value: '3', label: '星期三' },
+    { value: '4', label: '星期四' },
+    { value: '5', label: '星期五' },
+    { value: '6', label: '星期六' },
+    { value: '7', label: '星期天' },
   ];
 
   const [minute, setminute] = useState('0');

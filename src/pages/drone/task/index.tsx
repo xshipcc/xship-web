@@ -211,7 +211,8 @@ const FlashPromotionList: React.FC = () => {
             case item.length - 2:
               return itemTime + '时';
             case item.length - 3:
-              return '周' + itemTime;
+              if (itemTime == 7) return '星期日';
+              else return '星期' + itemTime;
             case item.length - 4:
               return itemTime + '月';
           }
