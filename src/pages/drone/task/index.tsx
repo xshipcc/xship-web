@@ -123,7 +123,7 @@ const FlashPromotionList: React.FC = () => {
         <>
           {' 经度: ' +
             record.coord[0].toFixed(7) +
-            ' 维度: ' +
+            ' 纬度: ' +
             record.coord[1].toFixed(7) +
             ' 高度: ' +
             record.coord[2].toFixed(7)}

@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-22 14:51:44
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-28 17:25:35
+ * @LastEditTime: 2024-02-19 18:41:08
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\AlertList\history.tsx
  * @Description:
  *
@@ -181,6 +181,7 @@ export default () => {
               getList({ pageSize: 5, current: param });
             },
             total: currentListInfo.total,
+            current: currentListInfo.current,
           }}
           className={styles.list}
           dataSource={currentList}

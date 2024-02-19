@@ -93,7 +93,7 @@ export default (props: any) => {
             </Row>
             <Row>
               <Col span={5} offset={2} className={styles.dialoginfo}>
-                维度
+                纬度
               </Col>
               <Col span={15} offset={2} className={styles.dialoginfo}>
                 {/* {item?.coord[1]} */}
@@ -101,7 +101,7 @@ export default (props: any) => {
                   className={styles.inputName}
                   readOnly={false}
                   defaultValue={currentPointCache.coord[1]}
-                  placeholder="请输入维度"
+                  placeholder="请输入纬度"
                   onChange={(e) => {
                     setcurrentPointCache((data) => {
                       //@ts-ignore

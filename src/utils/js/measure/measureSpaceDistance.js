@@ -156,6 +156,73 @@ class MeasureSpaceDistance extends BaseMeasure {
         'MeasureSpaceDistance -> constructor ->  this.trackPosition:',
         that.trackPosition,
       );
+      // 笛卡尔坐标数组
+      const cartesianCoordinates = [];
+
+      // 遍历原始经纬度数组，转换为笛卡尔坐标并存储
+      for (let i = 0; i < that.trackPosition.length; i++) {
+        const coord = that.trackPosition[i];
+        const cartesianCoord = Cesium.Cartesian3.fromDegrees(coord[0], coord[1], coord[2]);
+        cartesianCoordinates.push(cartesianCoord);
+      }
+      console.log('MeasureSpaceDistance -> cartesianCoordinates:', cartesianCoordinates);
+      //////////////////获取绘制完成的线段坐标
+      cartesianCoordinates.pop(); //去除末尾重复
+      cartesianCoordinates.reduce((previousElement, currentElement) => {
+        console.log('当前元素:', currentElement);
+        console.log('上一个元素:', previousElement);
+        // 计算射线的方向
+        let direction = Cesium.Cartesian3.normalize(
+          Cesium.Cartesian3.subtract(currentElement, previousElement, new Cesium.Cartesian3()),
+          new Cesium.Cartesian3(),
+        );
+        console.log('MeasureSpaceDistance -> cartesianCoordinates.reduce -> direction:', direction);
+        // 建立射线
+        let ray = new Cesium.Ray(previousElement, direction);
+        // 计算交互点，返回第一个
+        let result = that.viewer.scene.pickFromRay(ray);
+        console.log('MeasureSpaceDistance -> cartesianCoordinates.reduce -> result:', result);
+        // console.log(result)
+        if (result?.position) {
+          console.log('没有:', result);
+
+          var Lines = that.viewer.entities.add({
+            polyline: {
+              positions: [result.position, previousElement],
+              width: 5,
+              material: Cesium.Color.GREEN,
+              depthFailMaterial: Cesium.Color.GREEN,
+            },
+          });
+          var lnglat = util.cartesianToLnglat(result.position, that.viewer);
+          var plngLat =
+            lnglat[0].toFixed(6) + ',' + lnglat[1].toFixed(6) + ',' + lnglat[2].toFixed(2);
+          that.createLabelObstacle(result.position, '阻挡点' + plngLat);
+          var Lines1 = that.viewer.entities.add({
+            polyline: {
+              positions: [result.position, currentElement],
+              width: 5,
+              material: Cesium.Color.RED,
+              depthFailMaterial: Cesium.Color.RED,
+            },
+          });
+        } else {
+          console.log('没有:', result);
+
+          var Lines = that.viewer.entities.add({
+            polyline: {
+              positions: [previousElement, currentElement],
+              width: 5,
+              material: Cesium.Color.GREEN,
+              depthFailMaterial: Cesium.Color.GREEN,
+            },
+          });
+          console.log('不在模型上');
+        }
+        return currentElement;
+      });
+
+      ////////////////////
       if (callback) callback();
     }, Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK);
   }

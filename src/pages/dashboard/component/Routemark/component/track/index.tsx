@@ -208,6 +208,10 @@ const App: React.FC = () => {
       type: 'dashboardModel/changeDestoryTackSignal',
       payload: [true],
     });
+    dispatch({
+      type: 'dashboardModel/saveCurrentFlyingRoad',
+      payload: [],
+    });
   };
   /**
    *添加新的航线,同时更新航线数据列表
@@ -394,6 +398,7 @@ const App: React.FC = () => {
   const lookCurrentRoad = () => {
     if (currentRoad.data[0]?.coord) {
       console.log('lookCurrentRoad -> currentRoad:', currentRoad);
+
       dispatch({
         type: 'dashboardModel/saveCurrentFlyingRoad',
         payload: currentRoad.data,
@@ -532,7 +537,7 @@ const App: React.FC = () => {
                   </Row>
                   <Row>
                     <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
-                      维度
+                      纬度
                     </Col>
                     <Col span={12} style={{ color: 'white' }}>
                       {/* {item?.coord[1]} */}

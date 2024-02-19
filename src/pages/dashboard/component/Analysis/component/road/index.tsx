@@ -52,7 +52,7 @@ const RadarChart = (props: any) => {
         max: 180,
       },
       yAxis3D: {
-        name: '维度',
+        name: '纬度',
         min: 30,
         max: 90,
       },
@@ -82,11 +82,11 @@ const RadarChart = (props: any) => {
             'z', //悬浮到点时弹出的显示框信息
           ],
           // encode: {
-          // x: [3, 1, 5],      // 表示维度 3、1、5 映射到 x 轴。
-          // y: 1,              // 表示维度 2 映射到 y 轴。
+          // x: [3, 1, 5],      // 表示纬度 3、1、5 映射到 x 轴。
+          // y: 1,              // 表示纬度 2 映射到 y 轴。
           // z: 3,
-          // tooltip:['a','c','b'], // 表示维度 3、2、4 会在 tooltip 中显示。
-          // label: 'a'           // 表示 label 使用维度 3。
+          // tooltip:['a','c','b'], // 表示纬度 3、2、4 会在 tooltip 中显示。
+          // label: 'a'           // 表示 label 使用纬度 3。
           // },
           data: PointsData,
           symbolSize: 5, //点的大小

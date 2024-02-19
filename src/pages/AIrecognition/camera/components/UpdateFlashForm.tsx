@@ -127,8 +127,8 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
         >
           <InputNumber id="update-title" placeholder={'请输入摄像头通道'} />
         </FormItem>
-        <FormItem name="lat" label="维度" rules={[{ required: true, message: '请输入维度!' }]}>
-          <InputNumber id="update-title" placeholder={'请输入维度'} />
+        <FormItem name="lat" label="纬度" rules={[{ required: true, message: '请输入纬度!' }]}>
+          <InputNumber id="update-title" placeholder={'请输入纬度'} />
         </FormItem>
         <FormItem name="lon" label="经度" rules={[{ required: true, message: '请输入经度!' }]}>
           <InputNumber id="update-title" placeholder={'请输入经度'} />

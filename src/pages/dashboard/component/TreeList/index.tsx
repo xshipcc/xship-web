@@ -355,7 +355,7 @@ const App = () => {
                   />
                   <Input
                     defaultValue={JSON.parse(item.coord)[1]}
-                    placeholder="请输入维度"
+                    placeholder="请输入纬度"
                     readOnly="true"
                     onChange={(e) => {
                       changelat(e, item.name);

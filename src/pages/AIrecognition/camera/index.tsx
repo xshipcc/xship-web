@@ -133,13 +133,9 @@ const FlashPromotionList: React.FC = () => {
       title: '摄像头平台',
       dataIndex: 'platform',
       hideInSearch: true,
-
       valueEnum: {
-        0: { text: '全部', color: '#282c34' },
-        1: { text: '飞机', color: '#4d78cc' },
-        2: { text: '摄像头', color: '#d4504d' },
-        3: { text: '机库', color: '#d4504d' },
-        4: { text: 'AI', color: '#d4504d' },
+        0: { text: '飞机摄像头', color: '#4d78cc' },
+        1: { text: '摄像头', color: '#d4504d' },
       },
     },
     {
@@ -163,7 +159,7 @@ const FlashPromotionList: React.FC = () => {
       hideInSearch: true,
     },
     {
-      title: '维度',
+      title: '纬度',
       dataIndex: 'lat',
       hideInSearch: true,
     },

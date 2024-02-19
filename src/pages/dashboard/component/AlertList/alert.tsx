@@ -374,7 +374,7 @@ export default () => {
           </Row>
           <Row>
             <Col span={11} offset={1} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
-              维度
+              纬度
             </Col>
             <Col span={12} style={{ color: 'white' }}>
               {drawerData.lat}

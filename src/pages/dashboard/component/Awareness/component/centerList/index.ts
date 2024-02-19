@@ -34,7 +34,7 @@ export const droneStateList = [
   },
   {
     key: `lat`,
-    value: `维度`,
+    value: `纬度`,
     unit: '°',
   },
   {
@@ -100,7 +100,7 @@ export const monitorList = [
   },
   {
     key: `lat`,
-    value: `目标维度`,
+    value: `目标纬度`,
     unit: '°',
   },
   {

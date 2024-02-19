@@ -154,7 +154,7 @@ const TableList: React.FC = () => {
       render: (text, record) => (
         <span>
           经度 {record.lon}
-          维度 {record.lat}
+          纬度 {record.lat}
           高度 {record.alt}
         </span>
       ),
