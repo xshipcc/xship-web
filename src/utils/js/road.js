@@ -2,13 +2,14 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-27 14:41:11
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-23 09:51:55
+ * @LastEditTime: 2024-02-20 12:41:51
  * @FilePath: \zero-admin-ui-master\src\utils\js\road.js
  * @Description:
  *
  * Copyright (c) 2023 by ${git_name_email}, All Rights Reserved.
  */
 import * as Cesium from 'cesium';
+import util from './util.js';
 class Road {
   constructor(viewer, options) {
     this.viewer = viewer;
@@ -72,6 +73,38 @@ class Road {
     };
 
     return canvas;
+  }
+  createLabelObstacle(c, text) {
+    if (!c) return;
+    console.log('BaseMeasure -> createLabel -> c:', c);
+    // this.viewer.entities.add({
+    //   position: c,
+    //   billboard: {
+    //     image: '/poi.png', // 指定图片的路径
+    //     scale: 0.2, // 图片的缩放比例，默认为 1.0
+    //     disableDepthTestDistance: Number.POSITIVE_INFINITY, // 确保图像在其他对象之上
+    //     verticalOrigin: Cesium.VerticalOrigin.BOTTOM, // 设置垂直对齐方式，使图像底部与 position 对应
+    //     pixelOffset: new Cesium.Cartesian2(0, -40), // 可选，指定像素偏移量
+    //   },
+    // });
+
+    return this.viewer.entities.add({
+      position: c,
+      label: {
+        text: text || '',
+        font: '15px Helvetica',
+        fillColor: Cesium.Color.BLACK,
+        outlineColor: Cesium.Color.WHITE,
+        outlineWidth: 5,
+        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+        style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+        pixelOffset: new Cesium.Cartesian2(0, 20),
+      },
+      point: {
+        pixelSize: 15,
+        color: Cesium.Color.fromCssColorString('#ff7a7a'),
+      },
+    });
   }
   TrackPath(Lines) {
     console.log('Track -> TrackPath -> Lines:', Lines);
@@ -139,22 +172,85 @@ class Road {
       lins.push(Lines[i].coord[1]);
       lins.push(Lines[i].coord[2]);
     }
-    // 添加线
-    this.dataSource.entities.add({
-      polyline: {
-        material: new Cesium.PolylineOutlineMaterialProperty({
-          color: Cesium.Color.fromCssColorString('#4daefc'),
-          outlineWidth: 2,
-          outlineColor: Cesium.Color.fromCssColorString('#4975d4'),
-        }),
-        disableDepthTestDistance: Number.POSITIVE_INFINITY,
-        width: 5,
-        // 不带箭头的直线
-        positions: new Cesium.Cartesian3.fromDegreesArrayHeights(lins),
-        // material: Cesium.Color.YELLOW,
-      },
-    });
+    // // 添加线
+    // this.dataSource.entities.add({
+    //   polyline: {
+    //     material: new Cesium.PolylineOutlineMaterialProperty({
+    //       color: Cesium.Color.fromCssColorString('#4daefc'),
+    //       outlineWidth: 2,
+    //       outlineColor: Cesium.Color.fromCssColorString('#4975d4'),
+    //     }),
+    //     disableDepthTestDistance: Number.POSITIVE_INFINITY,
+    //     width: 5,
+    //     // 不带箭头的直线
+    //     positions: new Cesium.Cartesian3.fromDegreesArrayHeights(lins),
+    //     // material: Cesium.Color.YELLOW,
+    //   },
+    // });
+    console.log('Road -> TrackPath -> lins:', lins);
+    // 添加通视检测
+    const cartesianPositions = new Cesium.Cartesian3.fromDegreesArrayHeights(lins);
+    cartesianPositions.reduce((previousElement, currentElement, index) => {
+      console.log('当前元素:', currentElement);
+      console.log('上一个元素:', previousElement);
+      // 计算射线的方向
+      let direction = Cesium.Cartesian3.normalize(
+        Cesium.Cartesian3.subtract(currentElement, previousElement, new Cesium.Cartesian3()),
+        new Cesium.Cartesian3(),
+      );
+      console.log('MeasureSpaceDistance -> cartesianCoordinates.reduce -> direction:', direction);
+      // 建立射线
+      let ray = new Cesium.Ray(previousElement, direction);
+      // 计算交互点，返回第一个
+      let result = this.viewer.scene.pickFromRay(ray);
+      console.log('MeasureSpaceDistance -> cartesianCoordinates.reduce -> result:', result);
+      // console.log(result)
+      if (result?.position) {
+        console.log('没有:', result);
 
+        var Lines = this.viewer.entities.add({
+          polyline: {
+            positions: [result.position, previousElement],
+            material: new Cesium.PolylineOutlineMaterialProperty({
+              color: Cesium.Color.fromCssColorString('#4daefc'),
+              outlineWidth: 2,
+              outlineColor: Cesium.Color.fromCssColorString('#4975d4'),
+            }),
+            disableDepthTestDistance: Number.POSITIVE_INFINITY,
+            width: 5,
+          },
+        });
+        var lnglat = util.cartesianToLnglat(result.position, this.viewer);
+        var plngLat =
+          lnglat[0].toFixed(6) + ',' + lnglat[1].toFixed(6) + ',' + lnglat[2].toFixed(2);
+        this.createLabelObstacle(result.position, '阻挡点' + index + '\n' + plngLat);
+        var Lines1 = this.viewer.entities.add({
+          polyline: {
+            positions: [result.position, currentElement],
+            width: 5,
+            material: Cesium.Color.RED,
+            depthFailMaterial: Cesium.Color.RED,
+          },
+        });
+      } else {
+        console.log('没有:', result);
+
+        var Lines = this.viewer.entities.add({
+          polyline: {
+            positions: [previousElement, currentElement],
+            material: new Cesium.PolylineOutlineMaterialProperty({
+              color: Cesium.Color.fromCssColorString('#4daefc'),
+              outlineWidth: 2,
+              outlineColor: Cesium.Color.fromCssColorString('#4975d4'),
+            }),
+            disableDepthTestDistance: Number.POSITIVE_INFINITY,
+            width: 5,
+          },
+        });
+        console.log('不在模型上');
+      }
+      return currentElement;
+    });
     this.viewer.dataSources.add(this.dataSource);
     // this.viewer.flyTo(this.dataSource, {
     //   offset: {

@@ -134,7 +134,7 @@ class BaseMeasure {
         outlineWidth: 2,
         disableDepthTestDistance: Number.POSITIVE_INFINITY,
         style: Cesium.LabelStyle.FILL_AND_OUTLINE,
-        pixelOffset: new Cesium.Cartesian2(0, -50),
+        pixelOffset: new Cesium.Cartesian2(0, 20),
       },
     });
   }
