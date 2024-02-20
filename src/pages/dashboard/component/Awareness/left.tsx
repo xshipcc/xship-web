@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-31 11:37:53
+ * @LastEditTime: 2024-02-20 15:02:53
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\left.tsx
  * @Description:
  *
@@ -39,6 +39,24 @@ const Awareness: React.FC = () => {
   const [droneinfo, setdroneinfo] = useState({ cam_url: '' });
   const [timeInfo, settimeInfo] = useState('');
   const [consoleInfo, setconsoleInfo] = useState(['控制台信息']);
+  useEffect(() => {
+    setconsoleInfo((item: any) => {
+      if (localStorage.getItem('consoleInfo')) {
+        // @ts-ignore
+        const storedStrings = JSON.parse(localStorage.getItem('consoleInfo'));
+        console.log('setconsoleInfo -> storedStrings:', storedStrings);
+        // 判断数组长度是否大于 100，如果是则弹出最前面的数，直到长度等于 100
+        while (storedStrings.length > 100) {
+          storedStrings.pop(); // 弹出数组中的第一个元素
+        }
+        console.log('setconsoleInfo -> storedStrings:', storedStrings);
+
+        return [...storedStrings];
+      } else {
+        return item;
+      }
+    });
+  }, []);
   const [videoUrl, setVideoUrl] = useState('');
   const getDroneData = async () => {
     const resp: any = await queryDevice({ pageSize: 10, current: 1 });
@@ -77,6 +95,7 @@ const Awareness: React.FC = () => {
           .map((item: any) => {
             return { value: JSON.stringify({ plan: item.plan, id: item.id }), label: item.name };
           });
+        tasks.push({ value: -1, label: '不执行' });
         taskList.current = tasks;
         // settaskList(tasks);
         console.log('resRoad.data.map -> item:', resp.data);
@@ -98,22 +117,27 @@ const Awareness: React.FC = () => {
     client.current.publish('control', JSON.stringify(controlInfo));
   };
   const handleChange = (params: any) => {
-    console.log(`handleChange ${params}`);
-    const selectData = JSON.parse(params);
-    const difference = getHoursUntilNextExecution(selectData.plan);
-    const options = {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      weekday: 'long',
-      hour: 'numeric',
-      minute: 'numeric',
-    };
-    const date = new Date(difference);
-    const chineseDate = date.toLocaleString('zh-CN', options);
-    settimeInfo(chineseDate);
-    excute(selectData.id);
-    console.log('handleChange -> difference:', difference);
+    if (params === -1) {
+      settimeInfo('无');
+      excute(-1);
+    } else {
+      console.log(`handleChange ${params}`);
+      const selectData = JSON.parse(params);
+      const difference = getHoursUntilNextExecution(selectData.plan);
+      const options = {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        weekday: 'long',
+        hour: 'numeric',
+        minute: 'numeric',
+      };
+      const date = new Date(difference);
+      const chineseDate = date.toLocaleString('zh-CN', options);
+      settimeInfo(chineseDate);
+      excute(selectData.id);
+      console.log('handleChange -> difference:', difference);
+    }
   };
 
   // mqtt消息接收
@@ -159,6 +183,8 @@ const Awareness: React.FC = () => {
         // console.log('client.current.on -> jsonObject1111:', jsonObject);
 
         setconsoleInfo((item: any) => {
+          localStorage.setItem('consoleInfo', JSON.stringify([mqttMessage.toString(), ...item]));
+          console.log('storedStrings -> item:', item);
           return [mqttMessage.toString(), ...item];
         });
         handleForceupdateMethod();

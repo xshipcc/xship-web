@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-27 14:41:11
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-02-20 12:41:51
+ * @LastEditTime: 2024-02-20 12:51:41
  * @FilePath: \zero-admin-ui-master\src\utils\js\road.js
  * @Description:
  *
@@ -187,12 +187,14 @@ class Road {
     //     // material: Cesium.Color.YELLOW,
     //   },
     // });
-    console.log('Road -> TrackPath -> lins:', lins);
     // 添加通视检测
     const cartesianPositions = new Cesium.Cartesian3.fromDegreesArrayHeights(lins);
+    console.log('Road -> 路线 -> lins:', lins);
+    console.log('Road -> 路线笛卡尔 -> lins:', cartesianPositions);
+    let ObstacleIndex = 1;
     cartesianPositions.reduce((previousElement, currentElement, index) => {
-      console.log('当前元素:', currentElement);
-      console.log('上一个元素:', previousElement);
+      console.log('当前路线元素:', currentElement);
+      console.log('上一个路线元素:', previousElement);
       // 计算射线的方向
       let direction = Cesium.Cartesian3.normalize(
         Cesium.Cartesian3.subtract(currentElement, previousElement, new Cesium.Cartesian3()),
@@ -223,7 +225,7 @@ class Road {
         var lnglat = util.cartesianToLnglat(result.position, this.viewer);
         var plngLat =
           lnglat[0].toFixed(6) + ',' + lnglat[1].toFixed(6) + ',' + lnglat[2].toFixed(2);
-        this.createLabelObstacle(result.position, '阻挡点' + index + '\n' + plngLat);
+        this.createLabelObstacle(result.position, '阻挡点' + ObstacleIndex++ + '\n' + plngLat);
         var Lines1 = this.viewer.entities.add({
           polyline: {
             positions: [result.position, currentElement],

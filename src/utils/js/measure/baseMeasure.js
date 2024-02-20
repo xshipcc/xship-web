@@ -131,10 +131,14 @@ class BaseMeasure {
         font: '15px Helvetica',
         fillColor: Cesium.Color.BLACK,
         outlineColor: Cesium.Color.WHITE,
-        outlineWidth: 2,
+        outlineWidth: 5,
         disableDepthTestDistance: Number.POSITIVE_INFINITY,
         style: Cesium.LabelStyle.FILL_AND_OUTLINE,
         pixelOffset: new Cesium.Cartesian2(0, 20),
+      },
+      point: {
+        pixelSize: 15,
+        color: Cesium.Color.fromCssColorString('#ff7a7a'),
       },
     });
   }

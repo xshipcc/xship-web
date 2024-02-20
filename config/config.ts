@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-31 21:24:18
+ * @LastEditTime: 2024-02-20 14:39:16
  * @FilePath: \zero-admin-ui-master\config\config.ts
  * @Description:
  *
@@ -47,7 +47,7 @@ export default defineConfig({
     // 部署端
     // MAP_TERRAIN_URL: '/terrain',
     // MAP_TILES_URL: '/luquantile/{z}/{x}/{y}.png',
-    MQTT_PORT: '8883/mqtt',
+    MQTT_PORT: '8083/mqtt',
 
     // 本地测试端
     // MQTT_PORT: '8083/mqtt',

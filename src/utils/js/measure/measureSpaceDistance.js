@@ -165,12 +165,15 @@ class MeasureSpaceDistance extends BaseMeasure {
         const cartesianCoord = Cesium.Cartesian3.fromDegrees(coord[0], coord[1], coord[2]);
         cartesianCoordinates.push(cartesianCoord);
       }
-      console.log('MeasureSpaceDistance -> cartesianCoordinates:', cartesianCoordinates);
+      console.log('MeasureSpaceDistance -> 路线:', cartesianCoordinates);
       //////////////////获取绘制完成的线段坐标
       cartesianCoordinates.pop(); //去除末尾重复
+      console.log('MeasureSpaceDistance -> 路线去除:', cartesianCoordinates);
+
+      let ObstacleIndex = 1;
       cartesianCoordinates.reduce((previousElement, currentElement) => {
-        console.log('当前元素:', currentElement);
-        console.log('上一个元素:', previousElement);
+        console.log('当前路线元素:', currentElement);
+        console.log('上一个路线元素:', previousElement);
         // 计算射线的方向
         let direction = Cesium.Cartesian3.normalize(
           Cesium.Cartesian3.subtract(currentElement, previousElement, new Cesium.Cartesian3()),
@@ -184,20 +187,23 @@ class MeasureSpaceDistance extends BaseMeasure {
         console.log('MeasureSpaceDistance -> cartesianCoordinates.reduce -> result:', result);
         // console.log(result)
         if (result?.position) {
-          console.log('没有:', result);
-
+          console.log('路线有阻挡:', result);
           var Lines = that.viewer.entities.add({
             polyline: {
               positions: [result.position, previousElement],
+              material: new Cesium.PolylineOutlineMaterialProperty({
+                color: Cesium.Color.fromCssColorString('#4daefc'),
+                outlineWidth: 2,
+                outlineColor: Cesium.Color.fromCssColorString('#4975d4'),
+              }),
+              disableDepthTestDistance: Number.POSITIVE_INFINITY,
               width: 5,
-              material: Cesium.Color.GREEN,
-              depthFailMaterial: Cesium.Color.GREEN,
             },
           });
           var lnglat = util.cartesianToLnglat(result.position, that.viewer);
           var plngLat =
             lnglat[0].toFixed(6) + ',' + lnglat[1].toFixed(6) + ',' + lnglat[2].toFixed(2);
-          that.createLabelObstacle(result.position, '阻挡点' + plngLat);
+          that.createLabelObstacle(result.position, '阻挡点' + ObstacleIndex++ + '\n' + plngLat);
           var Lines1 = that.viewer.entities.add({
             polyline: {
               positions: [result.position, currentElement],
@@ -207,14 +213,18 @@ class MeasureSpaceDistance extends BaseMeasure {
             },
           });
         } else {
-          console.log('没有:', result);
+          console.log('路线没有阻挡:', result);
 
           var Lines = that.viewer.entities.add({
             polyline: {
               positions: [previousElement, currentElement],
+              material: new Cesium.PolylineOutlineMaterialProperty({
+                color: Cesium.Color.fromCssColorString('#4daefc'),
+                outlineWidth: 2,
+                outlineColor: Cesium.Color.fromCssColorString('#4975d4'),
+              }),
+              disableDepthTestDistance: Number.POSITIVE_INFINITY,
               width: 5,
-              material: Cesium.Color.GREEN,
-              depthFailMaterial: Cesium.Color.GREEN,
             },
           });
           console.log('不在模型上');
