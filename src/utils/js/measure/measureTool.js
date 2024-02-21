@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-13 22:00:39
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-16 16:08:16
+ * @LastEditTime: 2024-02-21 09:02:14
  * @FilePath: \zero-admin-ui-master\src\utils\js\measure\measureTool.js
  * @Description:
  *
@@ -12,6 +12,8 @@ import MeasureSpaceDistance from './measureSpaceDistance';
 import MeasureHeight from './measureHeight';
 import MeasureLnglat from './measureLnglat';
 import * as Cesium from 'cesium';
+import util from '../util';
+
 /**
  * 量算控制类
  * @description 量算控制类，通过此类对象，可进行不同类型的量算操作，而不用多次new 不同类型的量算对象。
@@ -88,7 +90,113 @@ class MeasureTool {
       this.endEditFun = fun;
     }
   }
+  createLabelObstacle(c, text) {
+    if (!c) return;
+    console.log('BaseMeasure -> createLabel -> c:', c);
+    // this.viewer.entities.add({
+    //   position: c,
+    //   billboard: {
+    //     image: '/poi.png', // 指定图片的路径
+    //     scale: 0.2, // 图片的缩放比例，默认为 1.0
+    //     disableDepthTestDistance: Number.POSITIVE_INFINITY, // 确保图像在其他对象之上
+    //     verticalOrigin: Cesium.VerticalOrigin.BOTTOM, // 设置垂直对齐方式，使图像底部与 position 对应
+    //     pixelOffset: new Cesium.Cartesian2(0, -40), // 可选，指定像素偏移量
+    //   },
+    // });
+    return this.viewer.entities.add({
+      position: c,
+      label: {
+        text: text || '',
+        font: '15px Helvetica',
+        fillColor: Cesium.Color.BLACK,
+        outlineColor: Cesium.Color.WHITE,
+        outlineWidth: 5,
+        disableDepthTestDistance: Number.POSITIVE_INFINITY,
+        style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+        pixelOffset: new Cesium.Cartesian2(0, 20),
+      },
+      point: {
+        pixelSize: 15,
+        color: Cesium.Color.fromCssColorString('#ff7a7a'),
+      },
+    });
+  }
+  doVisibility(trackPosition) {
+    let that = this;
+    console.log('路线编辑数据', trackPosition);
+    // 笛卡尔坐标数组
+    const cartesianCoordinates = [];
 
+    // 遍历原始经纬度数组，转换为笛卡尔坐标并存储
+    for (let i = 0; i < trackPosition.length; i++) {
+      const coord = trackPosition[i];
+      const cartesianCoord = Cesium.Cartesian3.fromDegrees(coord[0], coord[1], coord[2]);
+      cartesianCoordinates.push(cartesianCoord);
+    }
+    console.log('MeasureSpaceDistance -> 路线:', cartesianCoordinates);
+    //////////////////获取绘制完成的线段坐标
+    // cartesianCoordinates.pop(); //去除末尾重复
+    // console.log('MeasureSpaceDistance -> 路线去除:', cartesianCoordinates);
+
+    let ObstacleIndex = 1;
+    cartesianCoordinates.reduce((previousElement, currentElement) => {
+      console.log('当前路线元素:', currentElement);
+      console.log('上一个路线元素:', previousElement);
+      // 计算射线的方向
+      let direction = Cesium.Cartesian3.normalize(
+        Cesium.Cartesian3.subtract(currentElement, previousElement, new Cesium.Cartesian3()),
+        new Cesium.Cartesian3(),
+      );
+      console.log('路线法向量', direction);
+      // 建立射线
+      let ray = new Cesium.Ray(previousElement, direction);
+      // 计算交互点，返回第一个
+      let result = that.viewer.scene.pickFromRay(ray);
+      if (result?.position) {
+        console.log('路线有阻挡:', result);
+        that.viewer.entities.add({
+          polyline: {
+            positions: [result.position, previousElement],
+            material: new Cesium.PolylineOutlineMaterialProperty({
+              color: Cesium.Color.fromCssColorString('#419975'),
+              outlineWidth: 2,
+              outlineColor: Cesium.Color.fromCssColorString('#4975d4'),
+            }),
+            disableDepthTestDistance: Number.POSITIVE_INFINITY,
+            width: 5,
+          },
+        });
+        that.viewer.entities.add({
+          polyline: {
+            positions: [result.position, currentElement],
+            width: 5,
+            material: Cesium.Color.RED,
+            depthFailMaterial: Cesium.Color.RED,
+          },
+        });
+        var lnglat = util.cartesianToLnglat(result.position, that.viewer);
+        var plngLat =
+          lnglat[0].toFixed(6) + ',' + lnglat[1].toFixed(6) + ',' + lnglat[2].toFixed(2);
+        that.createLabelObstacle(result.position, '阻挡点' + ObstacleIndex++ + '\n' + plngLat);
+      } else {
+        console.log('路线没有阻挡:', result);
+        that.viewer.entities.add({
+          polyline: {
+            positions: [previousElement, currentElement],
+            material: new Cesium.PolylineOutlineMaterialProperty({
+              color: Cesium.Color.fromCssColorString('#fff'),
+              outlineWidth: 2,
+              outlineColor: Cesium.Color.fromCssColorString('#4975d4'),
+            }),
+            disableDepthTestDistance: Number.POSITIVE_INFINITY,
+            width: 5,
+          },
+        });
+        console.log('不在模型上');
+      }
+      return currentElement;
+    });
+  }
   /**
    * 开始量算
    * @param {Object} opt
@@ -131,7 +239,7 @@ class MeasureTool {
           ms = new MeasureTriangle(this.viewer, opt);
           break;
         case 6: // 坐标量算
-          ms = new MeasureLnglat(this.viewer, opt);
+          new MeasureLnglat(this.viewer, opt);
           break;
         case 7: // 方位角测量
           ms = new MeasureAzimutht(this.viewer, opt);
@@ -156,7 +264,10 @@ class MeasureTool {
           if (that.endCreateFun) that.endCreateFun(ms, res);
           that.nowDrawMeasureObj = undefined;
           that.measureObjArr.push(ms);
-          that.trackPosition = ms.trackPosition;
+          console.log('MeasureTool -> that路线原始数据未去除:', ms.trackPosition);
+          ms.trackPosition.pop();
+          console.log('MeasureTool ->  that路线原始数据:', ms.trackPosition);
+          that.doVisibility(ms.trackPosition);
           resolve(ms.trackPosition);
         });
       } else {

@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-27 14:41:11
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-02-20 12:51:41
+ * @LastEditTime: 2024-02-21 08:56:16
  * @FilePath: \zero-admin-ui-master\src\utils\js\road.js
  * @Description:
  *
@@ -87,7 +87,6 @@ class Road {
     //     pixelOffset: new Cesium.Cartesian2(0, -40), // 可选，指定像素偏移量
     //   },
     // });
-
     return this.viewer.entities.add({
       position: c,
       label: {
@@ -104,6 +103,81 @@ class Road {
         pixelSize: 15,
         color: Cesium.Color.fromCssColorString('#ff7a7a'),
       },
+    });
+  }
+  doVisibility(trackPosition) {
+    let that = this;
+    console.log('路线预览数据1111', trackPosition);
+    // 笛卡尔坐标数组
+    const cartesianCoordinates = [];
+    // 遍历原始经纬度数组，转换为笛卡尔坐标并存储
+    for (let i = 0; i < trackPosition.length; i++) {
+      const coord = trackPosition[i];
+      const cartesianCoord = Cesium.Cartesian3.fromDegrees(coord[0], coord[1], coord[2]);
+      cartesianCoordinates.push(cartesianCoord);
+    }
+    console.log('MeasureSpaceDistance -> 路线:', cartesianCoordinates);
+    //////////////////获取绘制完成的线段坐标
+    // cartesianCoordinates.pop(); //去除末尾重复
+    // console.log('MeasureSpaceDistance -> 路线去除:', cartesianCoordinates);
+
+    let ObstacleIndex = 1;
+    cartesianCoordinates.reduce((previousElement, currentElement) => {
+      console.log('当前路线元素:', currentElement);
+      console.log('上一个路线元素:', previousElement);
+      // 计算射线的方向
+      let direction = Cesium.Cartesian3.normalize(
+        Cesium.Cartesian3.subtract(currentElement, previousElement, new Cesium.Cartesian3()),
+        new Cesium.Cartesian3(),
+      );
+      console.log('路线法向量', direction);
+      // 建立射线
+      let ray = new Cesium.Ray(previousElement, direction);
+      // 计算交互点，返回第一个
+      let result = that.viewer.scene.pickFromRay(ray);
+      if (result?.position) {
+        console.log('路线有阻挡:', result);
+        that.viewer.entities.add({
+          polyline: {
+            positions: [result.position, previousElement],
+            material: new Cesium.PolylineOutlineMaterialProperty({
+              color: Cesium.Color.fromCssColorString('#419975'),
+              outlineWidth: 2,
+              outlineColor: Cesium.Color.fromCssColorString('#4975d4'),
+            }),
+            disableDepthTestDistance: Number.POSITIVE_INFINITY,
+            width: 5,
+          },
+        });
+        that.viewer.entities.add({
+          polyline: {
+            positions: [result.position, currentElement],
+            width: 5,
+            material: Cesium.Color.RED,
+            depthFailMaterial: Cesium.Color.RED,
+          },
+        });
+        var lnglat = util.cartesianToLnglat(result.position, that.viewer);
+        var plngLat =
+          lnglat[0].toFixed(6) + ',' + lnglat[1].toFixed(6) + ',' + lnglat[2].toFixed(2);
+        that.createLabelObstacle(result.position, '阻挡点' + ObstacleIndex++ + '\n' + plngLat);
+      } else {
+        console.log('路线没有阻挡:', result);
+        that.viewer.entities.add({
+          polyline: {
+            positions: [previousElement, currentElement],
+            material: new Cesium.PolylineOutlineMaterialProperty({
+              color: Cesium.Color.fromCssColorString('#fff'),
+              outlineWidth: 2,
+              outlineColor: Cesium.Color.fromCssColorString('#4975d4'),
+            }),
+            disableDepthTestDistance: Number.POSITIVE_INFINITY,
+            width: 5,
+          },
+        });
+        console.log('不在模型上');
+      }
+      return currentElement;
     });
   }
   TrackPath(Lines) {
@@ -168,9 +242,9 @@ class Road {
           color: Cesium.Color.fromCssColorString('#ff0000'),
         },
       });
-      lins.push(Lines[i].coord[0]);
-      lins.push(Lines[i].coord[1]);
-      lins.push(Lines[i].coord[2]);
+      lins.push([Lines[i].coord[0], Lines[i].coord[1], Lines[i].coord[2]]);
+      // lins.push(Lines[i].coord[1]);
+      // lins.push(Lines[i].coord[2]);
     }
     // // 添加线
     // this.dataSource.entities.add({
@@ -187,81 +261,10 @@ class Road {
     //     // material: Cesium.Color.YELLOW,
     //   },
     // });
-    // 添加通视检测
-    const cartesianPositions = new Cesium.Cartesian3.fromDegreesArrayHeights(lins);
-    console.log('Road -> 路线 -> lins:', lins);
-    console.log('Road -> 路线笛卡尔 -> lins:', cartesianPositions);
-    let ObstacleIndex = 1;
-    cartesianPositions.reduce((previousElement, currentElement, index) => {
-      console.log('当前路线元素:', currentElement);
-      console.log('上一个路线元素:', previousElement);
-      // 计算射线的方向
-      let direction = Cesium.Cartesian3.normalize(
-        Cesium.Cartesian3.subtract(currentElement, previousElement, new Cesium.Cartesian3()),
-        new Cesium.Cartesian3(),
-      );
-      console.log('MeasureSpaceDistance -> cartesianCoordinates.reduce -> direction:', direction);
-      // 建立射线
-      let ray = new Cesium.Ray(previousElement, direction);
-      // 计算交互点，返回第一个
-      let result = this.viewer.scene.pickFromRay(ray);
-      console.log('MeasureSpaceDistance -> cartesianCoordinates.reduce -> result:', result);
-      // console.log(result)
-      if (result?.position) {
-        console.log('没有:', result);
-
-        var Lines = this.viewer.entities.add({
-          polyline: {
-            positions: [result.position, previousElement],
-            material: new Cesium.PolylineOutlineMaterialProperty({
-              color: Cesium.Color.fromCssColorString('#4daefc'),
-              outlineWidth: 2,
-              outlineColor: Cesium.Color.fromCssColorString('#4975d4'),
-            }),
-            disableDepthTestDistance: Number.POSITIVE_INFINITY,
-            width: 5,
-          },
-        });
-        var lnglat = util.cartesianToLnglat(result.position, this.viewer);
-        var plngLat =
-          lnglat[0].toFixed(6) + ',' + lnglat[1].toFixed(6) + ',' + lnglat[2].toFixed(2);
-        this.createLabelObstacle(result.position, '阻挡点' + ObstacleIndex++ + '\n' + plngLat);
-        var Lines1 = this.viewer.entities.add({
-          polyline: {
-            positions: [result.position, currentElement],
-            width: 5,
-            material: Cesium.Color.RED,
-            depthFailMaterial: Cesium.Color.RED,
-          },
-        });
-      } else {
-        console.log('没有:', result);
-
-        var Lines = this.viewer.entities.add({
-          polyline: {
-            positions: [previousElement, currentElement],
-            material: new Cesium.PolylineOutlineMaterialProperty({
-              color: Cesium.Color.fromCssColorString('#4daefc'),
-              outlineWidth: 2,
-              outlineColor: Cesium.Color.fromCssColorString('#4975d4'),
-            }),
-            disableDepthTestDistance: Number.POSITIVE_INFINITY,
-            width: 5,
-          },
-        });
-        console.log('不在模型上');
-      }
-      return currentElement;
-    });
     this.viewer.dataSources.add(this.dataSource);
-    // this.viewer.flyTo(this.dataSource, {
-    //   offset: {
-    //     heading: Cesium.Math.toRadians(-90),
-    //     pitch: Cesium.Math.toRadians(-15),
-    //     range: 1000,
-    //   },
-    //   duration: 1.5,
-    // });
+    this.doVisibility(lins);
+    //
+    // 添加通视检测
   }
   getLength(c1, c2) {
     if (!c1 || !c2) return 0;

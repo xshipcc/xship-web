@@ -150,8 +150,8 @@ const Map: React.FC = () => {
             });
           }
           if (trackPosition.length > 1) {
-            trackPosition.splice(-2, 1);
-            console.log('.then -> trackPosition:', trackPosition);
+            // trackPosition.splice(-2, 1);
+            console.log('.then -> 路线原始数据:', trackPosition);
             dispatch({
               type: 'dashboardModel/saveCurrentRoad',
               payload: trackPosition,
