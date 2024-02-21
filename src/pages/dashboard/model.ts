@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-16 18:32:55
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-02-21 10:33:45
+ * @LastEditTime: 2024-02-21 12:14:36
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\model.ts
  * @Description:
  *
@@ -65,6 +65,7 @@ export interface DashboardState {
   currentTab: any;
   queryAlertData: any;
   Roadvisible: boolean;
+  editRoadOver: boolean;
 }
 export interface DashboardModelType {
   namespace: 'dashboardModel';
@@ -92,6 +93,7 @@ export interface DashboardModelType {
     setHangarInfo: ImmerReducer<boolean> | any;
     changecurrentTab: ImmerReducer<boolean> | any;
     setqueryAlertData: ImmerReducer<boolean> | any;
+    changeEditRoadOver: ImmerReducer<boolean> | any;
     changeRoadvisible: ImmerReducer<boolean> | any;
   };
   effects: {
@@ -290,6 +292,7 @@ const CompanyModel: DashboardModelType = {
       currentTab: 'hangar',
     },
     Roadvisible: false,
+    editRoadOver: true,
   },
   reducers: {
     changeCurrentComponent(state: DashboardState, action: { payload: string }) {
@@ -330,6 +333,10 @@ const CompanyModel: DashboardModelType = {
     },
     changeEditRoadSignal(state: DashboardState, action: { payload: boolean }) {
       state.editRoadSignal = action.payload;
+      console.log('changeEditRoadSignal -> action.payload:', action.payload);
+    },
+    changeEditRoadOver(state: DashboardState, action: { payload: boolean }) {
+      state.editRoadOver = action.payload;
       console.log('changeEditRoadSignal -> action.payload:', action.payload);
     },
     changeEditPointSignal(state: DashboardState, action: { payload: string }) {

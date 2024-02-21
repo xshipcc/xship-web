@@ -160,6 +160,7 @@ const Map: React.FC = () => {
               type: 'dashboardModel/changeEditRoadSignal',
               payload: false,
             });
+
             // dispatch({
             //   type: 'dashboardModel/changeEditRoadSignal',
             //   payload: false,
@@ -275,11 +276,12 @@ const Map: React.FC = () => {
         roll: 0, // 翻滚角度
       },
     });
-    if (currentComponent == 'Awareness') {
-      console.log('useEffect -> currentComponent:', currentComponent);
-      viewer.current.entities.removeAll();
-      viewer.current.dataSources.removeAll();
-    }
+
+    // if (currentComponent == 'Awareness') {
+    console.log('useEffect -> currentComponent:', currentComponent);
+    viewer.current.entities.removeAll();
+    viewer.current.dataSources.removeAll();
+    // }
   }, [currentComponent]);
   // 视角归中
   const centering = useSelector((state: any) => state.dashboardModel.centering);

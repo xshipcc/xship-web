@@ -365,7 +365,7 @@ const App: React.FC = () => {
         payload: currentRoad.data,
       });
     } else {
-      message.success('请先绘制航线');
+      message.warning('请先绘制航线');
     }
   };
   useEffect(() => {
@@ -382,6 +382,10 @@ const App: React.FC = () => {
   const editRoad = (e: any) => {
     // setEditRoadSignal(e);
     // 发送编辑信号
+    dispatch({
+      type: 'dashboardModel/changeEditRoadOver',
+      payload: false,
+    });
     dispatch({
       type: 'dashboardModel/changeEditRoadSignal',
       payload: true,
@@ -402,6 +406,10 @@ const App: React.FC = () => {
         setshowList(false);
         // @ts-ignore
         handleSave(currentRoad);
+        dispatch({
+          type: 'dashboardModel/changeEditRoadOver',
+          payload: true,
+        });
         // setforceSave(false);
       } else {
         message.error('路线有遮挡');

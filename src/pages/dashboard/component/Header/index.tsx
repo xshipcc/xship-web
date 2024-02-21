@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-09 20:12:31
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-21 12:55:23
+ * @LastEditTime: 2024-02-21 12:09:16
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Header\index.tsx
  * @Description:
  *
@@ -21,6 +21,7 @@ export const Header: React.FC = () => {
   const dispatch = useDispatch();
   const currentComponent = useSelector((state: any) => state.dashboardModel.currentComponent);
   const [activeIndex, setActiveIndex] = useState(currentComponent);
+  const editRoadOver = useSelector((state: any) => state.dashboardModel.editRoadOver);
 
   const ChangeComponent = (componentName: string) => {
     dispatch({
@@ -61,7 +62,11 @@ export const Header: React.FC = () => {
               type="text"
               className={activeIndex === 'Analysis' ? styles.buttonActive : styles.button}
               onClick={() => {
-                ChangeComponent('Analysis');
+                if (editRoadOver) {
+                  ChangeComponent('Analysis');
+                } else {
+                  message.warning('请先结束编辑');
+                }
               }}
             >
               统计分析
@@ -72,7 +77,11 @@ export const Header: React.FC = () => {
               type="text"
               className={activeIndex === 'Awareness' ? styles.buttonActive : styles.button}
               onClick={() => {
-                ChangeComponent('Awareness');
+                if (editRoadOver) {
+                  ChangeComponent('Awareness');
+                } else {
+                  message.warning('请先结束编辑');
+                }
               }}
             >
               态势感知
@@ -83,7 +92,11 @@ export const Header: React.FC = () => {
               type="text"
               className={activeIndex === 'Monitor' ? styles.buttonActive : styles.button}
               onClick={() => {
-                ChangeComponent('Monitor');
+                if (editRoadOver) {
+                  ChangeComponent('Monitor');
+                } else {
+                  message.warning('请先结束编辑');
+                }
               }}
             >
               监控查看
@@ -94,7 +107,11 @@ export const Header: React.FC = () => {
               type="text"
               className={activeIndex === 'Routemark' ? styles.buttonActive : styles.button}
               onClick={() => {
-                ChangeComponent('Routemark');
+                if (editRoadOver) {
+                  ChangeComponent('Routemark');
+                } else {
+                  message.warning('请先结束编辑');
+                }
               }}
             >
               路径规划
