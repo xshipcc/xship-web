@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-16 18:32:55
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-25 15:25:44
+ * @LastEditTime: 2024-02-21 10:33:45
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\model.ts
  * @Description:
  *
@@ -64,6 +64,7 @@ export interface DashboardState {
   currentHistoryData: any;
   currentTab: any;
   queryAlertData: any;
+  Roadvisible: boolean;
 }
 export interface DashboardModelType {
   namespace: 'dashboardModel';
@@ -91,6 +92,7 @@ export interface DashboardModelType {
     setHangarInfo: ImmerReducer<boolean> | any;
     changecurrentTab: ImmerReducer<boolean> | any;
     setqueryAlertData: ImmerReducer<boolean> | any;
+    changeRoadvisible: ImmerReducer<boolean> | any;
   };
   effects: {
     fetchDashboardInfo: Effect;
@@ -287,10 +289,14 @@ const CompanyModel: DashboardModelType = {
       queryAlertData: [],
       currentTab: 'hangar',
     },
+    Roadvisible: false,
   },
   reducers: {
     changeCurrentComponent(state: DashboardState, action: { payload: string }) {
       state.currentComponent = action.payload;
+    },
+    changeRoadvisible(state: DashboardState, action: { payload: boolean }) {
+      state.Roadvisible = action.payload;
     },
     setqueryAlertData(state: DashboardState, action: { payload: string }) {
       state.queryAlertData = action.payload;

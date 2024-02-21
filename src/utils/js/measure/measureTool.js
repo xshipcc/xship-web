@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-13 22:00:39
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-02-21 09:02:14
+ * @LastEditTime: 2024-02-21 09:15:12
  * @FilePath: \zero-admin-ui-master\src\utils\js\measure\measureTool.js
  * @Description:
  *
@@ -267,7 +267,7 @@ class MeasureTool {
           console.log('MeasureTool -> that路线原始数据未去除:', ms.trackPosition);
           ms.trackPosition.pop();
           console.log('MeasureTool ->  that路线原始数据:', ms.trackPosition);
-          that.doVisibility(ms.trackPosition);
+          // that.doVisibility(ms.trackPosition);
           resolve(ms.trackPosition);
         });
       } else {

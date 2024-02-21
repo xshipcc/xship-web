@@ -242,7 +242,12 @@ const Map: React.FC = () => {
       if (isArrayWithSpecificFormat(currentFlyingRoad)) {
         viewer.current.entities.removeAll();
         viewer.current.dataSources.removeAll();
-        roaming.TrackPath(currentFlyingRoad);
+        const visible = roaming.TrackPath(currentFlyingRoad);
+        console.log('useEffect -> 路线可视化:', visible);
+        dispatch({
+          type: 'dashboardModel/changeRoadvisible',
+          payload: visible,
+        });
         message.success('加载成功');
       }
     }

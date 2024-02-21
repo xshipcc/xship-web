@@ -353,6 +353,28 @@ const App: React.FC = () => {
   }, [roadData]);
 
   /**
+   *查看当前路径
+   *
+   */
+  const lookCurrentRoad = () => {
+    if (currentRoad.data[0]?.coord) {
+      console.log('lookCurrentRoad -> currentRoad:', currentRoad);
+
+      dispatch({
+        type: 'dashboardModel/saveCurrentFlyingRoad',
+        payload: currentRoad.data,
+      });
+    } else {
+      message.success('请先绘制航线');
+    }
+  };
+  useEffect(() => {
+    if (!editRoadSignal && currentRoad.data?.length > 1) {
+      lookCurrentRoad();
+    }
+  }, [editRoadSignal]);
+
+  /**
    *路线编辑
    *
    * @param {*} e
@@ -372,13 +394,18 @@ const App: React.FC = () => {
       setshowList(true);
     }
   };
+  const Roadvisible: boolean = useSelector((state: any) => state.dashboardModel.Roadvisible);
 
   const saveRoadData = () => {
     if (!editRoadSignal) {
-      setshowList(false);
-      // @ts-ignore
-      handleSave(currentRoad);
-      // setforceSave(false);
+      if (Roadvisible) {
+        setshowList(false);
+        // @ts-ignore
+        handleSave(currentRoad);
+        // setforceSave(false);
+      } else {
+        message.error('路线有遮挡');
+      }
     } else {
       message.warning('请先完成航线编辑');
     }
@@ -391,22 +418,6 @@ const App: React.FC = () => {
     [showDrawer],
   );
 
-  /**
-   *查看当前路径
-   *
-   */
-  const lookCurrentRoad = () => {
-    if (currentRoad.data[0]?.coord) {
-      console.log('lookCurrentRoad -> currentRoad:', currentRoad);
-
-      dispatch({
-        type: 'dashboardModel/saveCurrentFlyingRoad',
-        payload: currentRoad.data,
-      });
-    } else {
-      message.success('请先绘制航线');
-    }
-  };
   ////////////////////
   const defaultColumns: any = [
     {
