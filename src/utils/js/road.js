@@ -107,7 +107,7 @@ class Road {
   }
   doVisibility(trackPosition) {
     let that = this;
-    console.log('路线预览数据1111', trackPosition);
+    console.log('路线数据预览1111', trackPosition);
     // 笛卡尔坐标数组
     const cartesianCoordinates = [];
     // 遍历原始经纬度数组，转换为笛卡尔坐标并存储

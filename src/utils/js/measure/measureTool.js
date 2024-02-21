@@ -123,7 +123,7 @@ class MeasureTool {
   }
   doVisibility(trackPosition) {
     let that = this;
-    console.log('路线编辑数据', trackPosition);
+    console.log('路线数据编辑', trackPosition);
     // 笛卡尔坐标数组
     const cartesianCoordinates = [];
 
