@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2023-11-02 10:32:56
+ * @LastEditTime: 2024-02-22 15:32:57
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\component\button\index.tsx
  * @Description:
  *
@@ -14,7 +14,7 @@ import React, { useState } from 'react';
 import styles from './index.less';
 import { LoadingOutlined } from '@ant-design/icons';
 const AwarenessButton: React.FC = (props: any) => {
-  const { name, over, url } = props;
+  const { name, over, url, disable } = props;
   // @ts-ignore
 
   const [activeIndex, setActiveIndex] = useState(0);
@@ -42,23 +42,37 @@ const AwarenessButton: React.FC = (props: any) => {
    * @end
    */
   //#endregion -----------------------------------------------------------------------
-
-  return (
-    <button
-      className={
-        activeIndex === 0 ? styles.botao : activeIndex === 1 ? styles.waiting : styles.over
-      }
-      // onClick={() => {
-      //   handleClick(1);
-      //   console.log('messagedemo', 1111);
-      // }}
-    >
-      <div className={styles.icon}>
-        <LoadingOutlined rev={undefined} />
-      </div>
-      <span className={styles.texto}>{name}</span>
-    </button>
-  );
+  if (name === '自检' || name === '自检成功') {
+    return (
+      <button
+        className={styles.botao}
+        // onClick={() => {
+        //   handleClick(1);
+        //   console.log('messagedemo', 1111);
+        // }}
+      >
+        <div className={styles.icon}>
+          <LoadingOutlined rev={undefined} />
+        </div>
+        <span className={styles.texto}>{name}</span>
+      </button>
+    );
+  } else {
+    return (
+      <button
+        className={disable ? styles.botaodisabale : styles.botao}
+        // onClick={() => {
+        //   handleClick(1);
+        //   console.log('messagedemo', 1111);
+        // }}
+      >
+        <div className={styles.icon}>
+          <LoadingOutlined rev={undefined} />
+        </div>
+        <span className={styles.texto}>{name}</span>
+      </button>
+    );
+  }
 };
 
 export default AwarenessButton;

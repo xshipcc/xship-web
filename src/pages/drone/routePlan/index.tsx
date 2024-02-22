@@ -114,9 +114,14 @@ const FlashPromotionList: React.FC = () => {
   // speed: 5;
   const TableJson = useCallback((json: any) => {
     try {
-      return JSON.parse(json);
+      const list = JSON.parse(json);
+      if (Array.isArray(list) && list.length > 0) {
+        return JSON.parse(json);
+      } else {
+        return [{ name: '数据出错', coord: [0, 0, 0], hovertime: '' }];
+      }
     } catch (error) {
-      return [{ name: '', coord: [0, 0, 0], hovertime: '' }];
+      return [{ name: '数据出错', coord: [0, 0, 0], hovertime: '' }];
     }
   }, []);
 

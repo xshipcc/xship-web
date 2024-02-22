@@ -212,6 +212,10 @@ const App: React.FC = () => {
       type: 'dashboardModel/saveCurrentFlyingRoad',
       payload: [],
     });
+    dispatch({
+      type: 'dashboardModel/changeEditRoadOver',
+      payload: true,
+    });
   };
   /**
    *添加新的航线,同时更新航线数据列表

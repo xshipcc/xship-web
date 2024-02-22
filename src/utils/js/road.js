@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-27 14:41:11
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-02-21 10:43:50
+ * @LastEditTime: 2024-02-22 09:57:35
  * @FilePath: \zero-admin-ui-master\src\utils\js\road.js
  * @Description:
  *
@@ -165,14 +165,8 @@ class Road {
           that.viewer.entities.add({
             polyline: {
               positions: [result.position, previousElement],
-              show: true,
-              material: new Cesium.PolylineOutlineMaterialProperty({
-                color: Cesium.Color.fromCssColorString('#4daefc'),
-                outlineWidth: 1,
-                outlineColor: Cesium.Color.BLACK,
-              }),
-              disableDepthTestDistance: Number.POSITIVE_INFINITY,
-              width: 5,
+              material: Cesium.Color.RED,
+              depthFailMaterial: Cesium.Color.RED,
               clampToGround: false,
             },
           });

@@ -146,7 +146,7 @@ const FlashPromotionList: React.FC = () => {
   const parseField = (field: string, unit: string) => {
     console.log('parseField -> field:', field);
     if (field === '*') {
-      return ['每'];
+      return [''];
     } else {
       const values = field.split(',');
       return values;
@@ -185,15 +185,16 @@ const FlashPromotionList: React.FC = () => {
       const cartesianData = cartesianProduct([monthStr, dayOfMonthStr, hourStr, minuteStr]);
       const arraytable = cartesianData.map((item: any) => {
         const itemModif = item.map((itemTime, index) => {
+          console.log('itemModif -> itemTime:', itemTime);
           switch (index) {
             case item.length - 1:
-              return itemTime + '分';
+              return itemTime.length > 0 ? itemTime + '分' : '每分钟';
             case item.length - 2:
-              return itemTime + '时';
+              return itemTime.length > 0 ? itemTime + '时' : '每小时';
             case item.length - 3:
-              return itemTime + '日';
+              return itemTime.length > 0 ? itemTime + '日' : '';
             case item.length - 4:
-              return itemTime + '月';
+              return itemTime.length > 0 ? itemTime + '月' : '';
           }
         });
         return { time: itemModif.join(' ') };
@@ -207,9 +208,9 @@ const FlashPromotionList: React.FC = () => {
         const itemModif = item.map((itemTime, index) => {
           switch (index) {
             case item.length - 1:
-              return itemTime + '分';
+              return itemTime.length > 0 ? itemTime + '分' : '每分';
             case item.length - 2:
-              return itemTime + '时';
+              return itemTime.length > 0 ? itemTime + '时' : '每小时';
             case item.length - 3:
               switch (index) {
                 case 1:
@@ -228,7 +229,7 @@ const FlashPromotionList: React.FC = () => {
                   return '星期日';
               }
             case item.length - 4:
-              return itemTime + '月';
+              return itemTime.length > 0 ? itemTime + '月' : '';
           }
         });
         return { time: itemModif.join(' ') };

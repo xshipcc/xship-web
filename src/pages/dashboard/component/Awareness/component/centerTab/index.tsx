@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-31 15:17:27
+ * @LastEditTime: 2024-02-22 16:40:12
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\component\centerTab\index.tsx
  * @Description:
  *
@@ -284,7 +284,11 @@ const CenterTab: React.FC = (props: any) => {
       data: 'on',
     };
     console.log('sendMqttControl -> props?.dashboardState:', props?.dashboardState);
-
+    // 测试数据
+    console.log(
+      '自检 -> props?.dashboardState.drone.check.data;:',
+      props?.dashboardState.drone.check.data,
+    );
     if (props?.dashboardState[type][param]) {
       console.log('sendMqttControl -> props?.dashboardState:', props?.dashboardState);
       console.log(
@@ -371,7 +375,15 @@ const CenterTab: React.FC = (props: any) => {
             okText="确认"
             cancelText="取消"
           >
-            <a>
+            {/* user-select: none;
+  pointer-events: none; */}
+            <a
+              className={
+                props?.dashboardState.drone.check.data === 'on' && item.key != 'check'
+                  ? styles.buttonDisable
+                  : styles.button
+              }
+            >
               {props?.dashboardState[type][item.key] ? (
                 <AwarenessButton
                   // @ts-ignore
@@ -380,6 +392,7 @@ const CenterTab: React.FC = (props: any) => {
                   }
                   over={item.over}
                   url={'/demo'}
+                  disable={props?.dashboardState.drone.check.data === 'on' ? true : false}
                 />
               ) : (
                 // @ts-ignore
