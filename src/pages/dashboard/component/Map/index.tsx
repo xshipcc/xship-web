@@ -188,6 +188,8 @@ const Map: React.FC = () => {
     }
     // 坐标点绘制
     if (editPointSignal == '1') {
+      console.log('useEffect -> 坐标测量:', editPointSignal);
+
       start({
         name: '坐标测量',
         type: '6',
@@ -231,6 +233,7 @@ const Map: React.FC = () => {
       }
     }
   }
+  const replySignal = useSelector((state: any) => state.dashboardModel.replySignal);
 
   useEffect(() => {
     console.log('roadData:', roadData);
@@ -244,6 +247,10 @@ const Map: React.FC = () => {
         viewer.current.entities.removeAll();
         viewer.current.dataSources.removeAll();
         const visible = roaming.TrackPath(currentFlyingRoad);
+        dispatch({
+          type: 'dashboardModel/changereplySignal',
+          payload: !replySignal,
+        });
         console.log('useEffect -> 路线可视化:', visible);
         dispatch({
           type: 'dashboardModel/changeRoadvisible',
@@ -575,6 +582,17 @@ const Map: React.FC = () => {
 
   // 无人机位置实时更新
   useEffect(() => {
+    client.on('message', (topic: string, mqttMessage: any) => {
+      if (topic === 'info') {
+        console.log('无人机.on -> showPlane:', currentComponent, showPlane);
+
+        // 只有mqtt数据推送才实例化飞机
+        if (!showPlane) {
+          console.log('无人机:', showPlane);
+          setShowPlane(true);
+        }
+      }
+    });
     console.log(
       'useEffect -> viewer:',
       viewer.current.scene.camera.heading,
@@ -593,9 +611,9 @@ const Map: React.FC = () => {
     //     roll: 0, // 翻滚角度
     //   },
     // });
-
+    console.log('无人机条件.on -> showPlane:', currentComponent, showPlane);
     if (currentComponent == 'Awareness' && showPlane) {
-      console.log('useEffect -> currentComponent:', currentComponent);
+      console.log('useEffect -> 无人机:', currentComponent);
       const point = new Cesium.Entity({
         position: Cesium.Cartesian3.fromDegrees(
           114.33919146 + 0.0057,
@@ -650,25 +668,14 @@ const Map: React.FC = () => {
 
       client.on('message', (topic: string, mqttMessage: any) => {
         if (topic === 'info') {
-          // 只有mqtt数据推送才实例化飞机
-          if (showPlane!) {
-            setShowPlane(true);
-          }
           const jsonObject = JSON.parse(mqttMessage);
-          console.log('1jsonObject:', jsonObject);
           if (jsonObject.type != 'drone') return;
           console.log('1jsonObject:', jsonObject);
           updatePosition(jsonObject.data);
         }
       });
     }
-    client.on('message', (topic: string, mqttMessage: any) => {
-      if (topic === 'info') {
-        // 只有mqtt数据推送才实例化飞机
-        setShowPlane(true);
-      }
-    });
-  }, [currentComponent, editRoadSignal, showPlane]);
+  }, [currentComponent, editRoadSignal, showPlane, replySignal]);
 
   return (
     <>

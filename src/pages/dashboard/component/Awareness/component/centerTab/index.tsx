@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-02-22 16:40:12
+ * @LastEditTime: 2024-02-26 11:01:32
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\component\centerTab\index.tsx
  * @Description:
  *
@@ -378,11 +378,11 @@ const CenterTab: React.FC = (props: any) => {
             {/* user-select: none;
   pointer-events: none; */}
             <a
-              className={
-                props?.dashboardState.drone.check.data === 'on' && item.key != 'check'
-                  ? styles.buttonDisable
-                  : styles.button
-              }
+            // className={
+            //   props?.dashboardState.drone.check.data === 'on' && item.key != 'check'
+            //     ? styles.buttonDisable
+            //     : styles.button
+            // }
             >
               {props?.dashboardState[type][item.key] ? (
                 <AwarenessButton
@@ -392,7 +392,7 @@ const CenterTab: React.FC = (props: any) => {
                   }
                   over={item.over}
                   url={'/demo'}
-                  disable={props?.dashboardState.drone.check.data === 'on' ? true : false}
+                  // disable={props?.dashboardState.drone.check.data === 'on' ? true : false}
                 />
               ) : (
                 // @ts-ignore
@@ -430,15 +430,23 @@ const CenterTab: React.FC = (props: any) => {
                       <Select defaultValue="default" onChange={handleChange} options={roadList} />
                     </Col>
                     <Col
+                      className={
+                        props?.dashboardState.drone.check.data === 'on'
+                          ? styles.buttonDisable
+                          : styles.button
+                      }
                       span={8}
                       offset={4}
-                      style={{ color: 'white' }}
                       onClick={() => {
                         loadCurrentRoad();
                       }}
                     >
                       {/* @ts-ignore */}
-                      <AwarenessButton name={'加载航线'} over={'成功'} />
+                      <AwarenessButton
+                        disable={props?.dashboardState.drone.check.data === 'on' ? true : false}
+                        name={'加载航线'}
+                        over={'成功'}
+                      />
                     </Col>
                   </Row>
                   {/*  */}
@@ -481,9 +489,19 @@ const CenterTab: React.FC = (props: any) => {
                         okText="确认"
                         cancelText="取消"
                       >
-                        <a>
+                        <a
+                          className={
+                            props?.dashboardState.drone.check.data === 'on'
+                              ? styles.buttonDisable
+                              : styles.button
+                          }
+                        >
                           {/* @ts-ignore */}
-                          <AwarenessButton name={'加载圈数'} over={'成功'} />
+                          <AwarenessButton
+                            disable={props?.dashboardState.drone.check.data === 'on' ? true : false}
+                            name={'加载圈数'}
+                            over={'成功'}
+                          />
                         </a>
                       </Popconfirm>
                     </Col>
@@ -508,9 +526,20 @@ const CenterTab: React.FC = (props: any) => {
                         okText="确认"
                         cancelText="取消"
                       >
-                        <a>
+                        <a
+                          className={
+                            props?.dashboardState.drone.check.data === 'on'
+                              ? styles.buttonDisable
+                              : styles.button
+                          }
+                        >
                           {/* @ts-ignore */}
-                          <AwarenessButton name={'定点悬停'} over={'over'} url={'/demo'} />
+                          <AwarenessButton
+                            disable={props?.dashboardState.drone.check.data === 'on' ? true : false}
+                            name={'定点悬停'}
+                            over={'over'}
+                            url={'/demo'}
+                          />
                         </a>
                       </Popconfirm>
                     </Col>
@@ -554,9 +583,20 @@ const CenterTab: React.FC = (props: any) => {
                         okText="确认"
                         cancelText="取消"
                       >
-                        <a>
+                        <a
+                        // className={
+                        //   props?.dashboardState.drone.check.data === 'on'
+                        //     ? styles.buttonDisable
+                        //     : styles.button
+                        // }
+                        >
                           {/* @ts-ignore */}
-                          <AwarenessButton name={'舱盖开'} over={'over'} url={'/demo'} />
+                          <AwarenessButton
+                            // disable={props?.dashboardState.drone.check.data === 'on' ? true : false}
+                            name={'舱盖开'}
+                            over={'over'}
+                            url={'/demo'}
+                          />
                         </a>
                       </Popconfirm>
                     </Col>
@@ -574,9 +614,20 @@ const CenterTab: React.FC = (props: any) => {
                         okText="确认"
                         cancelText="取消"
                       >
-                        <a>
+                        <a
+                        // className={
+                        //   props?.dashboardState.drone.check.data === 'on'
+                        //     ? styles.buttonDisable
+                        //     : styles.button
+                        // }
+                        >
                           {/* @ts-ignore */}
-                          <AwarenessButton name={'舱盖关'} over={'over'} url={'/demo'} />
+                          <AwarenessButton
+                            // disable={props?.dashboardState.drone.check.data === 'on' ? true : false}
+                            name={'舱盖关'}
+                            over={'over'}
+                            url={'/demo'}
+                          />
                         </a>
                       </Popconfirm>
                     </Col>

@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-31 20:37:28
+ * @LastEditTime: 2024-02-26 17:32:14
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\right.tsx
  * @Description:
  *
@@ -61,6 +61,8 @@ const AwarenessRight: React.FC = () => {
    *切换列表
    *false为告警  true为巡检
    */
+  const replySignal = useSelector((state: any) => state.dashboardModel.replySignal);
+
   const handleClick = () => {
     // setShowDetail(!showDetail);
     console.log('showDetail:', showDetail);
@@ -68,6 +70,10 @@ const AwarenessRight: React.FC = () => {
     dispatch({
       type: 'dashboardModel/changecurrentFlyingid',
       payload: -1,
+    });
+    dispatch({
+      type: 'dashboardModel/changereplySignal',
+      payload: !replySignal,
     });
     dispatch({
       type: 'dashboardModel/changeDestoryTackSignal',

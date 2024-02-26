@@ -190,14 +190,26 @@ const FlashPromotionList: React.FC = () => {
             case item.length - 1:
               return itemTime.length > 0 ? itemTime + '分' : '每分钟';
             case item.length - 2:
-              return itemTime.length > 0 ? itemTime + '时' : '每小时';
+              return itemTime.length > 0 ? itemTime + '时' : '每时';
             case item.length - 3:
-              return itemTime.length > 0 ? itemTime + '日' : '';
+              return itemTime.length > 0 ? itemTime + '日' : '每日';
             case item.length - 4:
-              return itemTime.length > 0 ? itemTime + '月' : '';
+              return itemTime.length > 0 ? '每年' + itemTime + '月' : '每月';
           }
         });
-        return { time: itemModif.join(' ') };
+        console.log('itemModif -> itemModif:', itemModif);
+        let arr = itemModif;
+
+        if (itemModif.includes('每月') && itemModif.includes('每日')) {
+          // console.log('有');
+
+          arr = itemModif.filter((item1: string) => item1 !== '每月');
+          if (itemModif.includes('每时') && itemModif.includes('每日')) {
+            // console.log('有');
+            arr = arr.filter((item2: string) => item2 !== '每日');
+          }
+        }
+        return { time: arr.join(' ') };
       });
       console.log('cartesianData.map -> cartesianData:', arraytable);
       return arraytable;
@@ -229,7 +241,7 @@ const FlashPromotionList: React.FC = () => {
                   return '星期日';
               }
             case item.length - 4:
-              return itemTime.length > 0 ? itemTime + '月' : '';
+              return itemTime.length > 0 ? '每年' + itemTime + '月' : '每月';
           }
         });
         return { time: itemModif.join(' ') };

@@ -1,3 +1,4 @@
+// --no-ignore
 //经纬度 测量js
 import BaseMeasure from './baseMeasure';
 import util from '../util';
@@ -51,6 +52,7 @@ class MeasureLnglat extends BaseMeasure {
         lnglat[2].toFixed(8) +
         ' m';
       that.trackPosition[0] = lnglat;
+      console.log('MeasureLnglat -> lnglat11:', lnglat);
     }, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
   }
 

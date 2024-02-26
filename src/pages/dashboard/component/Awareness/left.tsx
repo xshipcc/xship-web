@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-02-20 15:02:53
+ * @LastEditTime: 2024-02-23 17:57:48
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\left.tsx
  * @Description:
  *
@@ -228,6 +228,7 @@ const Awareness: React.FC = () => {
             const chineseDate = date.toLocaleString('zh-CN', options);
             settimeInfo(chineseDate);
             defaultTask.current = currentTask[0].value;
+            console.log('client.current.on -> defaultTask.planprocess:', defaultTask.current);
             message.success(`当前执行 ${currentTask[0].label}`);
             setshow(false);
             setTimeout(() => {
@@ -235,6 +236,7 @@ const Awareness: React.FC = () => {
             }, 200);
           } else {
             message.success('当前未执行');
+            defaultTask.current = -1;
             setshow(false);
             setTimeout(() => {
               setshow(true);
@@ -277,7 +279,7 @@ const Awareness: React.FC = () => {
                           <Select
                             onChange={handleChange}
                             options={taskList.current}
-                            defaultValue={defaultTask.current}
+                            value={defaultTask.current}
                             // value={defaultTask.current}
                           />
                         </Col>

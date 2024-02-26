@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-08 10:25:32
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-23 15:58:18
+ * @LastEditTime: 2024-02-23 18:28:28
  * @FilePath: \zero-admin-ui-master\src\pages\drone\task\components\CreateFlashForm.tsx
  * @Description:
  *
@@ -24,6 +24,7 @@ import {
   TimePicker,
   Row,
   Col,
+  message,
 } from 'antd';
 import type { AddUavPlanReqType, FlashPromotionListItem } from '../data.d';
 // import Cron from 'react-cron-antd';
@@ -261,19 +262,27 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
   const processVariable = (cornData: any[]) => {
     console.log('processVariable -> cornData:', cornData);
     let cronExpression = '';
-    cornData.forEach((variable: string | any[]) => {
-      if (typeof variable === 'object' && Array.isArray(cornData)) {
-        for (let i = 0; i < variable.length; i++) {
-          if (i === variable.length - 1) {
-            cronExpression = cronExpression + variable[i] + ' ';
-          } else {
-            cronExpression = cronExpression + variable[i] + ',';
+    try {
+      cornData.forEach((variable: string | any[]) => {
+        if (typeof variable === 'object' && Array.isArray(variable)) {
+          console.log('cornData.forEach -> variable:', variable);
+          if (variable.length === 0) throw new Error('请输入正确格式');
+          for (let i = 0; i < variable.length; i++) {
+            if (i === variable.length - 1) {
+              cronExpression = cronExpression + variable[i] + ' ';
+            } else {
+              cronExpression = cronExpression + variable[i] + ',';
+            }
           }
+        } else {
+          cronExpression = cronExpression + variable + ' ';
         }
-      } else {
-        cronExpression = cronExpression + variable + ' ';
-      }
-    });
+      });
+    } catch (error) {
+      // message.warning('请输入正确格式');
+      throw new Error('请输入正确格式');
+    }
+
     console.log('cornData.forEach -> cronExpression:', cronExpression);
     return '0 ' + cronExpression;
   };
@@ -283,23 +292,27 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
       console.log('setTimeout -> plan:', plan);
       const cronDataInfo = [];
       let planData = '';
-      if (showweek) {
-        cronDataInfo.push(minute, hour, '*', month, week);
-        planData = processVariable(cronDataInfo);
-      } else {
-        cronDataInfo.push(minute, hour, day, month, '*');
-        planData = processVariable(cronDataInfo);
+      try {
+        if (showweek) {
+          cronDataInfo.push(minute, hour, '*', month, week);
+          planData = processVariable(cronDataInfo);
+        } else {
+          cronDataInfo.push(minute, hour, day, month, '*');
+          planData = processVariable(cronDataInfo);
+        }
+        // const newStr = '0' + plan.substring(1, plan.length - 1);
+        // const newStr = str.slice(0, -1); // 去除最后一个字符
+        setTimeout(() => {
+          onSubmit({
+            ...values,
+            plan: planData,
+            uav_name: droneList.find((item: any) => item.value === values.uav_id)?.label,
+            fly_name: roadList.find((item: any) => item.value === values.fly_id)?.label,
+          });
+        }, 500);
+      } catch (error) {
+        message.warning('请输入正确格式');
       }
-      // const newStr = '0' + plan.substring(1, plan.length - 1);
-      // const newStr = str.slice(0, -1); // 去除最后一个字符
-      setTimeout(() => {
-        onSubmit({
-          ...values,
-          plan: planData,
-          uav_name: droneList.find((item: any) => item.value === values.uav_id)?.label,
-          fly_name: roadList.find((item: any) => item.value === values.fly_id)?.label,
-        });
-      }, 500);
     }
   };
   const renderContent = () => {

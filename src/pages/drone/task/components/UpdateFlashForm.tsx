@@ -7,6 +7,7 @@ import {
   Form,
   Input,
   InputNumber,
+  message,
   Modal,
   Row,
   Select,
@@ -242,27 +243,35 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
   const processVariable = (cornData: any[]) => {
     console.log('processVariable -> cornData:', cornData);
     let cronExpression = '';
-    cornData.forEach((variable: string | any[]) => {
-      if (typeof variable === 'object' && Array.isArray(cornData)) {
-        for (let i = 0; i < variable.length; i++) {
-          if (i === variable.length - 1) {
-            cronExpression = cronExpression + variable[i] + ' ';
-          } else {
-            cronExpression = cronExpression + variable[i] + ',';
+    try {
+      cornData.forEach((variable: string | any[]) => {
+        if (typeof variable === 'object' && Array.isArray(variable)) {
+          console.log('cornData.forEach -> variable:', variable);
+          if (variable.length === 0) throw new Error('请输入正确格式');
+          for (let i = 0; i < variable.length; i++) {
+            if (i === variable.length - 1) {
+              cronExpression = cronExpression + variable[i] + ' ';
+            } else {
+              cronExpression = cronExpression + variable[i] + ',';
+            }
           }
+        } else {
+          cronExpression = cronExpression + variable + ' ';
         }
-      } else {
-        cronExpression = cronExpression + variable + ' ';
-      }
-    });
+      });
+    } catch (error) {
+      // message.warning('请输入正确格式');
+      throw new Error('请输入正确格式');
+    }
+
     console.log('cornData.forEach -> cronExpression:', cronExpression);
     return '0 ' + cronExpression;
   };
   useEffect(() => {
     if (values?.plan) {
-      console.log('useEffect -> values:', values);
+      console.log('日期 -> values:', values.plan);
       const data = values.plan?.split(' ');
-      console.log('useEffect -> data:', data);
+      console.log('日期 -> data:', data);
       // @ts-ignore
       setminute(data[1]);
       // @ts-ignore
@@ -270,9 +279,9 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
       // @ts-ignore
       setday(data[3]);
       // @ts-ignore
-      setweek(data[4]);
+      setweek(data[5]);
       // @ts-ignore
-      setmonth(data[5]);
+      setmonth(data[4]);
       form.setFieldsValue({
         ...values,
       });
@@ -297,20 +306,24 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
       console.log('setTimeout -> plan:', plan);
       const cronDataInfo = [];
       let planData = '';
-      if (showweek) {
-        cronDataInfo.push(minute, hour, '*', month, week);
-        planData = processVariable(cronDataInfo);
-      } else {
-        cronDataInfo.push(minute, hour, day, month, '*');
-        planData = processVariable(cronDataInfo);
-      }
+      try {
+        if (showweek) {
+          cronDataInfo.push(minute, hour, '*', month, week);
+          planData = processVariable(cronDataInfo);
+        } else {
+          cronDataInfo.push(minute, hour, day, month, '*');
+          planData = processVariable(cronDataInfo);
+        }
 
-      setTimeout(() => {
-        onSubmit({
-          ...(item as ListUavPlanDataType),
-          plan: planData,
-        });
-      }, 500);
+        setTimeout(() => {
+          onSubmit({
+            ...(item as ListUavPlanDataType),
+            plan: planData,
+          });
+        }, 500);
+      } catch (error) {
+        message.warning('请输入正确格式');
+      }
     }
   };
 

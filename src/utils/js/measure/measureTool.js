@@ -1,8 +1,11 @@
+// --no-ignore
+
 /*
+
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-13 22:00:39
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-02-21 09:15:12
+ * @LastEditTime: 2024-02-26 10:44:03
  * @FilePath: \zero-admin-ui-master\src\utils\js\measure\measureTool.js
  * @Description:
  *
@@ -239,7 +242,7 @@ class MeasureTool {
           ms = new MeasureTriangle(this.viewer, opt);
           break;
         case 6: // 坐标量算
-          new MeasureLnglat(this.viewer, opt);
+          ms = new MeasureLnglat(this.viewer, opt);
           break;
         case 7: // 方位角测量
           ms = new MeasureAzimutht(this.viewer, opt);
@@ -264,11 +267,21 @@ class MeasureTool {
           if (that.endCreateFun) that.endCreateFun(ms, res);
           that.nowDrawMeasureObj = undefined;
           that.measureObjArr.push(ms);
-          console.log('MeasureTool -> that路线原始数据未去除:', ms.trackPosition);
-          ms.trackPosition.pop();
-          console.log('MeasureTool ->  that路线原始数据:', ms.trackPosition);
-          // that.doVisibility(ms.trackPosition);
-          resolve(ms.trackPosition);
+          if (ms.trackPosition.length === 1) {
+            console.log('MeasureTool -> that路线原始数据未去除:', ms.trackPosition);
+
+            resolve(ms.trackPosition);
+          } else {
+            console.log('MeasureTool -> that路线原始数据未去除:', ms.trackPosition);
+            ms.trackPosition.pop();
+            console.log('MeasureTool ->  that路线原始数据:', ms.trackPosition);
+            // that.doVisibility(ms.trackPosition);
+            const ThreePosition = ms.trackPosition.map((item) => {
+              item[2] = item[2] + 300;
+              return item;
+            });
+            resolve(ThreePosition);
+          }
         });
       } else {
         reject('无效的 opt.type');

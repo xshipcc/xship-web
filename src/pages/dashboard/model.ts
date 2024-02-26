@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-16 18:32:55
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-02-21 12:14:36
+ * @LastEditTime: 2024-02-26 17:30:43
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\model.ts
  * @Description:
  *
@@ -64,6 +64,7 @@ export interface DashboardState {
   currentHistoryData: any;
   currentTab: any;
   queryAlertData: any;
+  replySignal: boolean;
   Roadvisible: boolean;
   editRoadOver: boolean;
 }
@@ -95,6 +96,7 @@ export interface DashboardModelType {
     setqueryAlertData: ImmerReducer<boolean> | any;
     changeEditRoadOver: ImmerReducer<boolean> | any;
     changeRoadvisible: ImmerReducer<boolean> | any;
+    changereplySignal: ImmerReducer<boolean> | any;
   };
   effects: {
     fetchDashboardInfo: Effect;
@@ -201,6 +203,7 @@ const CompanyModel: DashboardModelType = {
       confirm: 0,
     },
     editRoadSignal: false,
+    replySignal: false,
     editPointSignal: '0', //未编辑 0   编辑地图 1   编辑地图完成 2
     isModalOpen: false,
     currentRoad: [],
@@ -297,6 +300,9 @@ const CompanyModel: DashboardModelType = {
   reducers: {
     changeCurrentComponent(state: DashboardState, action: { payload: string }) {
       state.currentComponent = action.payload;
+    },
+    changereplySignal(state: DashboardState, action: { payload: boolean }) {
+      state.replySignal = action.payload;
     },
     changeRoadvisible(state: DashboardState, action: { payload: boolean }) {
       state.Roadvisible = action.payload;
