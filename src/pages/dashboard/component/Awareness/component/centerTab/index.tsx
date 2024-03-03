@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-02-26 11:01:32
+ * @LastEditTime: 2024-02-27 10:12:24
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\component\centerTab\index.tsx
  * @Description:
  *
@@ -179,7 +179,7 @@ const CenterTab: React.FC = (props: any) => {
     operator: '',
   });
   const getHistoryList = async (params = {}) => {
-    console.log('request={ -> params:', params);
+    console.log('历史={ -> params:', params);
     console.log('reqParams11:', reqParams);
 
     const req = {
@@ -219,18 +219,18 @@ const CenterTab: React.FC = (props: any) => {
 
     // return { data: currentList };
   };
-  useEffect(() => {
-    console.log('reqParams11:', currentFlyingid);
+  // useEffect(() => {
+  //   console.log('历史:', currentFlyingid);
 
-    // if (currentFlyingid != -1) {
-    //   getHistoryList({ pageSize: 10, current: 1, history_id: currentFlyingid });
-    //   // setreqParams((item: any) => {
-    //   //   item.history_id = currentFlyingid;
-    //   //   console.log(' reqParams11-> item:', item);
-    //   //   return item;
-    //   // });
-    // }
-  }, [currentFlyingid]);
+  //   if (currentFlyingid != -1) {
+  //     getHistoryList({ pageSize: 10, current: 1, history_id: currentFlyingid });
+  //     // setreqParams((item: any) => {
+  //     //   item.history_id = currentFlyingid;
+  //     //   console.log(' reqParams11-> item:', item);
+  //     //   return item;
+  //     // });
+  //   }
+  // }, [currentFlyingid]);
 
   const sendCircle = () => {
     // const data = { data: 'on' };
@@ -430,11 +430,11 @@ const CenterTab: React.FC = (props: any) => {
                       <Select defaultValue="default" onChange={handleChange} options={roadList} />
                     </Col>
                     <Col
-                      className={
-                        props?.dashboardState.drone.check.data === 'on'
-                          ? styles.buttonDisable
-                          : styles.button
-                      }
+                      // className={
+                      //   props?.dashboardState.drone.check.data === 'on'
+                      //     ? styles.buttonDisable
+                      //     : styles.button
+                      // }
                       span={8}
                       offset={4}
                       onClick={() => {
@@ -443,7 +443,7 @@ const CenterTab: React.FC = (props: any) => {
                     >
                       {/* @ts-ignore */}
                       <AwarenessButton
-                        disable={props?.dashboardState.drone.check.data === 'on' ? true : false}
+                        // disable={props?.dashboardState.drone.check.data === 'on' ? true : false}
                         name={'加载航线'}
                         over={'成功'}
                       />
@@ -527,11 +527,11 @@ const CenterTab: React.FC = (props: any) => {
                         cancelText="取消"
                       >
                         <a
-                          className={
-                            props?.dashboardState.drone.check.data === 'on'
-                              ? styles.buttonDisable
-                              : styles.button
-                          }
+                        // className={
+                        //   props?.dashboardState.drone.check.data === 'on'
+                        //     ? styles.buttonDisable
+                        //     : styles.button
+                        // }
                         >
                           {/* @ts-ignore */}
                           <AwarenessButton

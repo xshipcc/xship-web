@@ -317,6 +317,8 @@ const FlashPromotionList: React.FC = () => {
     {
       title: '巡检路线',
       dataIndex: 'fly_name',
+      hideInSearch: true,
+
       // hideInSearch: true,
       render: (dom, entity) => {
         return (

@@ -244,6 +244,10 @@ const AwarenessRight: React.FC = () => {
                           type: 'dashboardModel/changePosition',
                           payload: 0,
                         });
+                        dispatch({
+                          type: 'dashboardModel/changecurrentFlyingid',
+                          payload: -1,
+                        });
                         message.success('播放结束');
                       }}
                     >

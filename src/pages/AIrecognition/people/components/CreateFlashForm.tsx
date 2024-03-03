@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-24 18:10:03
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-10 00:26:09
+ * @LastEditTime: 2024-02-27 15:17:09
  * @FilePath: \zero-admin-ui-master\src\pages\AIrecognition\people\components\CreateFlashForm.tsx
  * @Description:
  *
@@ -198,11 +198,7 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
             <Select.Option value={1}>启用</Select.Option>
           </Select>
         </FormItem>
-        <FormItem
-          name="gender"
-          label="账号状态"
-          rules={[{ required: true, message: '请输入账号状态!' }]}
-        >
+        <FormItem name="gender" label="性别" rules={[{ required: true, message: '请输入性别!' }]}>
           <Select id="showStatus">
             <Select.Option value={0}>未知</Select.Option>
             <Select.Option value={1}>男</Select.Option>

@@ -294,6 +294,7 @@ const Map: React.FC = () => {
   const centering = useSelector((state: any) => state.dashboardModel.centering);
   useEffect(() => {
     console.log('currentComponent:', currentComponent);
+    viewer.current.trackedEntity = null;
     viewer.current.scene.camera.setView({
       destination: new Cesium.Cartesian3.fromDegrees(
         114.33919146 + 0.0057,
@@ -448,6 +449,8 @@ const Map: React.FC = () => {
         alertData.alt,
       );
       console.log('useEffect -> destination:', destination);
+      viewer.current.trackedEntity = null;
+
       // 设置导航模式为导航到指定位置
       viewer.current.scene.camera.flyTo({
         destination: Cesium.Cartesian3.fromDegrees(

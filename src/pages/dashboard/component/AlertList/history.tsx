@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-22 14:51:44
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-02-19 18:41:08
+ * @LastEditTime: 2024-02-27 09:46:17
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\AlertList\history.tsx
  * @Description:
  *
@@ -23,7 +23,7 @@ export default () => {
   const showDetail = useSelector((state: any) => state.dashboardModel.showDetail);
 
   const openDrawer = (data: ListUavHistoryDataType) => {
-    console.log('toggleDrawer -> param2:', data);
+    console.log('历史 -> param2:', data);
     dispatch({
       type: 'dashboardModel/changeshowDetail',
       payload: false,

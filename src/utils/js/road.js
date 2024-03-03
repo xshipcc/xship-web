@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-27 14:41:11
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-02-22 09:57:35
+ * @LastEditTime: 2024-02-27 14:24:29
  * @FilePath: \zero-admin-ui-master\src\utils\js\road.js
  * @Description:
  *
@@ -128,6 +128,99 @@ class Road {
 
     return (distanceAC + distanceBC).toFixed(6) === distanceAB.toFixed(6) && d <= distanceAB;
   }
+  // doVisibility(trackPosition) {
+  //   let visible = true;
+  //   let that = this;
+  //   console.log('路线数据预览1111', trackPosition);
+  //   // 笛卡尔坐标数组
+  //   const cartesianCoordinates = [];
+  //   // 遍历原始经纬度数组，转换为笛卡尔坐标并存储
+  //   for (let i = 0; i < trackPosition.length; i++) {
+  //     const coord = trackPosition[i];
+  //     const cartesianCoord = Cesium.Cartesian3.fromDegrees(coord[0], coord[1], coord[2]);
+  //     cartesianCoordinates.push(cartesianCoord);
+  //   }
+  //   console.log('路线数据预览1111 -> 笛卡尔坐标系路线:', cartesianCoordinates);
+  //   //////////////////获取绘制完成的线段坐标
+  //   // cartesianCoordinates.pop(); //去除末尾重复
+  //   // console.log('MeasureSpaceDistance -> 路线去除:', cartesianCoordinates);
+
+  //   let ObstacleIndex = 1;
+  //   cartesianCoordinates.reduce((previousElement, currentElement) => {
+  //     console.log('路线数据预览第一个,第二个:', previousElement, currentElement);
+  //     // 计算射线的方向
+  //     let direction = Cesium.Cartesian3.normalize(
+  //       Cesium.Cartesian3.subtract(currentElement, previousElement, new Cesium.Cartesian3()),
+  //       new Cesium.Cartesian3(),
+  //     );
+  //     console.log('路线法向量', direction);
+  //     // 建立射线
+  //     let ray = new Cesium.Ray(previousElement, direction);
+  //     // 计算交互点，返回第一个
+  //     let result = that.viewer.scene.pickFromRay(ray);
+  //     if (result?.position) {
+  //       console.log('阻挡对比', result.position, currentElement);
+  //       if (that.pointInSegment(currentElement, previousElement, result.position)) {
+  //         console.log('路线有阻挡:', result);
+  //         that.viewer.entities.add({
+  //           polyline: {
+  //             positions: [result.position, previousElement],
+  //             material: Cesium.Color.RED,
+  //             depthFailMaterial: Cesium.Color.RED,
+  //             clampToGround: false,
+  //           },
+  //         });
+  //         that.viewer.entities.add({
+  //           polyline: {
+  //             positions: [result.position, currentElement],
+  //             width: 7,
+  //             material: Cesium.Color.RED,
+  //             depthFailMaterial: Cesium.Color.RED,
+  //           },
+  //         });
+  //         var lnglat = util.cartesianToLnglat(result.position, that.viewer);
+  //         var plngLat =
+  //           lnglat[0].toFixed(6) + ',' + lnglat[1].toFixed(6) + ',' + lnglat[2].toFixed(2);
+  //         that.createLabelObstacle(result.position, '阻挡点' + ObstacleIndex++ + '\n' + plngLat);
+  //         visible = false;
+  //       } else {
+  //         that.viewer.entities.add({
+  //           polyline: {
+  //             positions: [currentElement, previousElement],
+  //             show: true,
+  //             material: new Cesium.PolylineOutlineMaterialProperty({
+  //               color: Cesium.Color.fromCssColorString('#4daefc'),
+  //               outlineWidth: 1,
+  //               outlineColor: Cesium.Color.BLACK,
+  //             }),
+  //             disableDepthTestDistance: Number.POSITIVE_INFINITY,
+  //             width: 5,
+  //             clampToGround: false,
+  //           },
+  //         });
+  //       }
+  //     } else {
+  //       console.log('路线没有阻挡:', result);
+  //       that.viewer.entities.add({
+  //         polyline: {
+  //           positions: [previousElement, currentElement],
+  //           show: true,
+  //           material: new Cesium.PolylineOutlineMaterialProperty({
+  //             color: Cesium.Color.fromCssColorString('#4daefc'),
+  //             outlineWidth: 1,
+  //             outlineColor: Cesium.Color.BLACK,
+  //           }),
+  //           disableDepthTestDistance: Number.POSITIVE_INFINITY,
+  //           width: 5,
+  //           clampToGround: false,
+  //         },
+  //       });
+  //       console.log('不在模型上');
+  //     }
+  //     return currentElement;
+  //   });
+  //   return visible;
+  // }
   doVisibility(trackPosition) {
     let visible = true;
     let that = this;
@@ -147,76 +240,21 @@ class Road {
 
     let ObstacleIndex = 1;
     cartesianCoordinates.reduce((previousElement, currentElement) => {
-      console.log('路线数据预览第一个,第二个:', previousElement, currentElement);
-      // 计算射线的方向
-      let direction = Cesium.Cartesian3.normalize(
-        Cesium.Cartesian3.subtract(currentElement, previousElement, new Cesium.Cartesian3()),
-        new Cesium.Cartesian3(),
-      );
-      console.log('路线法向量', direction);
-      // 建立射线
-      let ray = new Cesium.Ray(previousElement, direction);
-      // 计算交互点，返回第一个
-      let result = that.viewer.scene.pickFromRay(ray);
-      if (result?.position) {
-        console.log('阻挡对比', result.position, currentElement);
-        if (that.pointInSegment(currentElement, previousElement, result.position)) {
-          console.log('路线有阻挡:', result);
-          that.viewer.entities.add({
-            polyline: {
-              positions: [result.position, previousElement],
-              material: Cesium.Color.RED,
-              depthFailMaterial: Cesium.Color.RED,
-              clampToGround: false,
-            },
-          });
-          that.viewer.entities.add({
-            polyline: {
-              positions: [result.position, currentElement],
-              width: 7,
-              material: Cesium.Color.RED,
-              depthFailMaterial: Cesium.Color.RED,
-            },
-          });
-          var lnglat = util.cartesianToLnglat(result.position, that.viewer);
-          var plngLat =
-            lnglat[0].toFixed(6) + ',' + lnglat[1].toFixed(6) + ',' + lnglat[2].toFixed(2);
-          that.createLabelObstacle(result.position, '阻挡点' + ObstacleIndex++ + '\n' + plngLat);
-          visible = false;
-        } else {
-          that.viewer.entities.add({
-            polyline: {
-              positions: [currentElement, previousElement],
-              show: true,
-              material: new Cesium.PolylineOutlineMaterialProperty({
-                color: Cesium.Color.fromCssColorString('#4daefc'),
-                outlineWidth: 1,
-                outlineColor: Cesium.Color.BLACK,
-              }),
-              disableDepthTestDistance: Number.POSITIVE_INFINITY,
-              width: 5,
-              clampToGround: false,
-            },
-          });
-        }
-      } else {
-        console.log('路线没有阻挡:', result);
-        that.viewer.entities.add({
-          polyline: {
-            positions: [previousElement, currentElement],
-            show: true,
-            material: new Cesium.PolylineOutlineMaterialProperty({
-              color: Cesium.Color.fromCssColorString('#4daefc'),
-              outlineWidth: 1,
-              outlineColor: Cesium.Color.BLACK,
-            }),
-            disableDepthTestDistance: Number.POSITIVE_INFINITY,
-            width: 5,
-            clampToGround: false,
-          },
-        });
-        console.log('不在模型上');
-      }
+      that.viewer.entities.add({
+        polyline: {
+          positions: [previousElement, currentElement],
+          show: true,
+          material: new Cesium.PolylineOutlineMaterialProperty({
+            color: Cesium.Color.fromCssColorString('#4daefc'),
+            outlineWidth: 1,
+            outlineColor: Cesium.Color.BLACK,
+          }),
+          disableDepthTestDistance: Number.POSITIVE_INFINITY,
+          width: 5,
+          clampToGround: false,
+        },
+      });
+      console.log('不在模型上');
       return currentElement;
     });
     return visible;
@@ -280,7 +318,7 @@ class Road {
         },
         point: {
           pixelSize: 10,
-          color: Cesium.Color.fromCssColorString('#ff0000'),
+          color: Cesium.Color.fromCssColorString('#b9ccf2'),
         },
       });
       lins.push([Lines[i].coord[0], Lines[i].coord[1], Lines[i].coord[2]]);

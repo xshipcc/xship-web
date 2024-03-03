@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-31 11:20:47
+ * @LastEditTime: 2024-02-28 18:44:15
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\center.tsx
  * @Description:
  *
@@ -17,6 +17,8 @@ import type { DashboardinfoType, dashboardStateType } from './data';
 import * as mqtt from 'mqtt';
 import { useDispatch, useSelector } from 'umi';
 import { debounce } from 'lodash';
+import { queryHistory } from '@/pages/report/service';
+import { queryFly } from '@/pages/drone/routePlan/service';
 
 function useForceUpdate() {
   const [value, setState] = useState(true);
@@ -102,21 +104,113 @@ const AwarenessCenter: React.FC = () => {
   });
   const handleForceupdateMethod = useForceUpdate();
   const dispatch = useDispatch();
-  useEffect(() => {
-    console.log('useEffect -> dashboardState111:', dashboardState);
+  const [currentRoad, setcurrentRoad] = useState<any>([]);
 
-    if (dashboardState.drone.historyid?.data !== -1) {
+  const loadCurrentRoad = (roadData: any) => {
+    // currentRoad.data
+    // lat":38.0865966192828,"lon":114.33264199360657,"alt":97.20427051352851
+    // currentRoad.push({
+    //   name: '终点',
+    //   coord: [114.33264199360657, 38.0865966192828, 111],
+    //   speed: 5,
+    //   hovertime: 10,
+    //   radius: 25,
+    //   photo: '0', //"0=不拍照;1=拍照",
+    //   heightmode: '00', //
+    //   turning: '00',
+    // });
+    dispatch({
+      type: 'dashboardModel/saveCurrentFlyingRoad',
+      payload: roadData,
+    });
+  };
+  const [reqParams, setreqParams] = useState({
+    platform: -1,
+    confirm: -1,
+    create_time: '',
+    end_time: '',
+    uav_id: -1,
+    // fly_id: currentFlyingid,
+    operator: '',
+  });
+  const getHistoryList = async (params = {}) => {
+    console.log('历史={ -> params:', params);
+    console.log('reqParams11:', reqParams);
+
+    const req = {
+      ...params,
+      ...reqParams,
+    };
+
+    const res = await queryHistory(req);
+    console.log('requestres:', res);
+    if (res?.data) {
+      console.log('requestres1111111:', res);
+      dispatch({
+        type: 'dashboardModel/changecurrentHistoryData',
+        payload: res.data[0],
+      });
+      try {
+        if (res.data[0]) {
+          console.log('res.data[0].历史点:', res.data[0].fly_data);
+          // {"coord":[114.34131048073188,38.10543924297292,403.1840782818318],"name":"0号","speed":5,"hovertime":10,"radius":25,"photo":"0","heightmode":"00","turning":"00"}
+          const historyRoad = JSON.parse(res.data[0].fly_data);
+          historyRoad.push({
+            name: '返航点',
+            coord: [res.data[0].lon, res.data[0].lat, res.data[0].alt],
+            hovertime: '',
+            photo: '0',
+            radius: 25,
+            speed: 5,
+            turning: '00',
+          });
+          // res.data[0]
+          loadCurrentRoad(historyRoad);
+        }
+      } catch (error) {}
+
+      // roadList;
+      //       roadList.map((item)=>{
+      // // if( res.data[0].uav_id)
+      //       })
+      // const resRoad = await queryFly(params);
+      // resRoad.data.map((item: any) => {
+      //   if ((item.id = res.data[0].uav_id)) {
+      //     console.log('resRoad.data.map -> item:', item);
+      //     setcurrentRoad(JSON.parse(item.data));
+      //   }
+      // });
+      // res.data[0].map(() => {
+      //   setcurrentRoad(JSON.parse(params));
+      // });
+
+      // setTimeout(() => {
+      //   loadCurrentRoad();
+      // }, 1000);
+    }
+    console.log('currentList={ -> res:', res);
+
+    // return { data: currentList };
+  };
+  const currentFlyingid = useSelector((state: any) => state.dashboardModel.currentFlyingid);
+
+  useEffect(() => {
+    console.log('useEffect -> 回放路线:', dashboardState, dashboardState.drone.historyid.data);
+
+    if (currentFlyingid !== -1) {
       console.log(
         'useEffect -> dashboardState.drone.historyid?.data:',
         dashboardState.drone.historyid?.data,
       );
+      console.log('useEffect -> 历史:', dashboardState.drone.historyid.data);
 
-      dispatch({
-        type: 'dashboardModel/changecurrentFlyingid',
-        payload: dashboardState.drone.historyid.data,
-      });
+      // dispatch({
+      //   type: 'dashboardModel/changecurrentFlyingid',
+      //   payload: dashboardState.drone.historyid.data,
+      // });
+      getHistoryList({ pageSize: 10, current: 1, history_id: currentFlyingid });
     }
-  }, [dashboardState.drone.historyid]);
+  }, [currentFlyingid]);
 
   // mqtt消息接收
   useEffect(() => {

@@ -139,6 +139,7 @@ const App: React.FC = () => {
     try {
       // @ts-ignore
       row.data = JSON.stringify(row.data);
+      console.log('handleSave -> JSON.stringify(保存.data):', row.data);
       console.log('handleSave -> row:', row);
       let response;
       if (row?.id) {
