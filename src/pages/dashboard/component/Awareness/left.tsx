@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-02-23 17:57:48
+ * @LastEditTime: 2024-03-03 15:46:00
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\left.tsx
  * @Description:
  *
@@ -67,6 +67,7 @@ const Awareness: React.FC = () => {
   };
   // const [taskList, settaskList] = useState<any>([]);
   const taskList = useRef(def);
+  const taskListCache = useRef(def);
 
   const getHoursUntilNextExecution = (cronExpression: string) => {
     const interval = cronParser.parseExpression(cronExpression);
@@ -90,13 +91,13 @@ const Awareness: React.FC = () => {
     getDroneData();
     queryPlan({ pageSize: 1000, current: 1 }).then((resp) => {
       if (resp?.data) {
-        const tasks = resp?.data
+        taskListCache.current = resp?.data
           .filter((item1: { status: number }) => item1.status === 1)
           .map((item: any) => {
             return { value: JSON.stringify({ plan: item.plan, id: item.id }), label: item.name };
           });
-        tasks.push({ value: -1, label: '不执行' });
-        taskList.current = tasks;
+        taskListCache.current.push({ value: -1, label: '不执行' });
+        taskList.current = taskListCache.current;
         // settaskList(tasks);
         console.log('resRoad.data.map -> item:', resp.data);
       }
@@ -203,17 +204,17 @@ const Awareness: React.FC = () => {
         console.log('client.current.on -> jsonObjecttask:', jsonObject);
         if (jsonObject?.drone?.planid?.data) {
           const currentTask = taskList.current.filter((item1: { value: string }) => {
-            console.log('client.current.on -> currentTask:', JSON.parse(item1.value).id);
-            console.log('currentTask -> currentTask?.drone?.planid:', jsonObject?.drone?.planid);
             return JSON.parse(item1.value).id === jsonObject?.drone?.planid.data;
           });
-          console.log('client.current.on -> currentTask当前巡检路线:', currentTask);
-          console.log('client.current.on -> currentTask:', taskList.current);
+          console.log('currentTask -> currentTask:');
+          console.log('client.current.on -> 当前执行:', taskList.current, currentTask);
 
           if (currentTask.length > 0) {
+            defaultTask.current = currentTask[0].value;
+            message.success(`当前执行 ${currentTask[0].label}`);
             // setdefaultTask(currentTask[0].value);
-            console.log('client.current.on -> currentTask:', currentTask[0].value);
             // handleChange(currentTask[0].value);
+            // 时间显示
             const selectData = JSON.parse(currentTask[0].value);
             const difference = getHoursUntilNextExecution(selectData.plan);
             const options = {
@@ -227,9 +228,7 @@ const Awareness: React.FC = () => {
             const date = new Date(difference);
             const chineseDate = date.toLocaleString('zh-CN', options);
             settimeInfo(chineseDate);
-            defaultTask.current = currentTask[0].value;
-            console.log('client.current.on -> defaultTask.planprocess:', defaultTask.current);
-            message.success(`当前执行 ${currentTask[0].label}`);
+            taskList.current = [currentTask[0], { value: -1, label: '不执行' }];
             setshow(false);
             setTimeout(() => {
               setshow(true);
@@ -237,6 +236,8 @@ const Awareness: React.FC = () => {
           } else {
             message.success('当前未执行');
             defaultTask.current = -1;
+            settimeInfo('无');
+            taskList.current = taskListCache.current;
             setshow(false);
             setTimeout(() => {
               setshow(true);

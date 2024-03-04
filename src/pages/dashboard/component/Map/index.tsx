@@ -256,7 +256,7 @@ const Map: React.FC = () => {
           type: 'dashboardModel/changeRoadvisible',
           payload: visible,
         });
-        message.success('加载成功');
+        // message.success('加载成功');
       }
     }
     // 绘制飞行路径

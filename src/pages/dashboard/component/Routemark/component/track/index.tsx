@@ -95,8 +95,8 @@ const App: React.FC = () => {
   const [showList, setshowList] = useState(false);
   const [currentRoad, setcurrentRoad] = useState<ListUavFlyDataType>({
     id: 1,
-    creator: 'default',
-    name: `default`,
+    creator: '1',
+    name: new Date() + '号',
     data: [
       {
         name: 'default',
@@ -109,7 +109,7 @@ const App: React.FC = () => {
         turning: '00',
       },
     ],
-    create_time: `default`,
+    create_time: new Date() + '日',
   });
   // {
   //   "coord": [114.34485589209454, 38.076836312345094, 105.75749666860541],
@@ -150,19 +150,60 @@ const App: React.FC = () => {
       }
       // console.log('*fetchDashboardInfo -> response:', response);
       const { code, result } = response;
-      console.log('getData', code);
       if (code === '000000') {
         message.success('修改成功');
         fetchFlyData({ pageSize: 10, current: 1 });
       }
+      setcurrentRoad({
+        id: 1,
+        creator: 'default',
+        name: `default`,
+        data: [
+          {
+            name: 'default',
+            coord: [111, 37, 111],
+            speed: 5,
+            hovertime: 10,
+            radius: 25,
+            photo: '0', //1拍照  ,0不拍照
+            heightmode: '00', //
+            turning: '00',
+          },
+        ],
+        create_time: `default`,
+      });
       dispatch({
         type: 'dashboardModel/changeDestoryTackSignal',
         payload: [true],
       });
       setShowDrawer(false);
     } catch (error) {
-      message.success('修改失败');
-      console.log('catch getData:', error);
+      fetchFlyData({ pageSize: 10, current: 1 });
+      message.error('修改失败');
+      setcurrentRoad({
+        id: 1,
+        creator: 'default',
+        name: `default`,
+        data: [
+          {
+            name: 'default',
+            coord: [111, 37, 111],
+            speed: 5,
+            hovertime: 10,
+            radius: 25,
+            photo: '0', //1拍照  ,0不拍照
+            heightmode: '00', //
+            turning: '00',
+          },
+        ],
+        create_time: `default`,
+      });
+      dispatch({
+        type: 'dashboardModel/changeDestoryTackSignal',
+        payload: [true],
+      });
+      setShowDrawer(false);
+      console.log('catch get添加路线Data:', error);
     }
   };
   function isJSON(jsonString: any) {
@@ -186,7 +227,7 @@ const App: React.FC = () => {
       type: 'dashboardModel/changeDestoryTackSignal',
       payload: [true],
     });
-    console.log('toggleDrawer -> item:', item);
+    console.log('路线 -> item:', item);
     // isJSON(item.data);
     let parsedArray;
     if (isJSON(item.data)) {
@@ -205,27 +246,47 @@ const App: React.FC = () => {
   const closeDrawer = async (data: any) => {
     setShowDrawer(false);
     setshowList(false);
+    setcurrentRoad({
+      id: 1,
+      creator: 'default',
+      name: `default`,
+      data: [
+        {
+          name: 'default',
+          coord: [111, 37, 111],
+          speed: 5,
+          hovertime: 10,
+          radius: 25,
+          photo: '0', //1拍照  ,0不拍照
+          heightmode: '00', //
+          turning: '00',
+        },
+      ],
+      create_time: `default`,
+    });
     dispatch({
       type: 'dashboardModel/changeDestoryTackSignal',
       payload: [true],
     });
     dispatch({
-      type: 'dashboardModel/saveCurrentFlyingRoad',
-      payload: [],
-    });
-    dispatch({
       type: 'dashboardModel/changeEditRoadOver',
       payload: true,
     });
+    fetchFlyData({ pageSize: 10, current: 1 });
   };
   /**
    *添加新的航线,同时更新航线数据列表
    *
    */
   const handleAdd = async () => {
+    const today = new Date();
+    const currentMonth = today.getMonth() + 1; // 月份是从 0 开始计数的，所以要加 1
+    const currentDay = today.getDate();
+    const currentHour = today.getHours();
+
     const newData = {
       creator: initialState?.currentUser?.name,
-      name: `default`,
+      name: currentMonth + ' 月 ' + currentDay + ' 日 ' + currentHour + ' 时',
       data: [
         {
           name: 'default',
@@ -238,7 +299,7 @@ const App: React.FC = () => {
           turning: '00',
         },
       ],
-      create_time: `default`,
+      create_time: new Date(),
     };
     try {
       // @ts-ignore
@@ -362,13 +423,21 @@ const App: React.FC = () => {
    *
    */
   const lookCurrentRoad = () => {
+    console.log('lookCurrentRoad -> 预览路线:', currentRoad.data);
+
     if (currentRoad.data[0]?.coord) {
-      console.log('lookCurrentRoad -> currentRoad:', currentRoad);
+      console.log('lookCurrentRoad -> 预览路线:', currentRoad.data);
 
       dispatch({
         type: 'dashboardModel/saveCurrentFlyingRoad',
-        payload: currentRoad.data,
+        payload: [],
       });
+      setTimeout(() => {
+        dispatch({
+          type: 'dashboardModel/saveCurrentFlyingRoad',
+          payload: currentRoad.data,
+        });
+      }, 100);
     } else {
       message.warning('请先绘制航线');
     }
@@ -403,22 +472,17 @@ const App: React.FC = () => {
       setshowList(true);
     }
   };
-  const Roadvisible: boolean = useSelector((state: any) => state.dashboardModel.Roadvisible);
 
   const saveRoadData = () => {
     if (!editRoadSignal) {
-      if (Roadvisible) {
-        setshowList(false);
-        // @ts-ignore
-        handleSave(currentRoad);
-        dispatch({
-          type: 'dashboardModel/changeEditRoadOver',
-          payload: true,
-        });
-        // setforceSave(false);
-      } else {
-        message.error('路线有遮挡');
-      }
+      setshowList(false);
+      // @ts-ignore
+      handleSave(currentRoad);
+      dispatch({
+        type: 'dashboardModel/changeEditRoadOver',
+        payload: true,
+      });
+      // setforceSave(false);
     } else {
       message.warning('请先完成航线编辑');
     }

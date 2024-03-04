@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-02-27 10:12:24
+ * @LastEditTime: 2024-03-04 09:28:39
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\component\centerTab\index.tsx
  * @Description:
  *
@@ -283,12 +283,7 @@ const CenterTab: React.FC = (props: any) => {
       cmd: 'default',
       data: 'on',
     };
-    console.log('sendMqttControl -> props?.dashboardState:', props?.dashboardState);
-    // 测试数据
-    console.log(
-      '自检 -> props?.dashboardState.drone.check.data;:',
-      props?.dashboardState.drone.check.data,
-    );
+
     if (props?.dashboardState[type][param]) {
       console.log('sendMqttControl -> props?.dashboardState:', props?.dashboardState);
       console.log(
@@ -378,11 +373,14 @@ const CenterTab: React.FC = (props: any) => {
             {/* user-select: none;
   pointer-events: none; */}
             <a
-            // className={
-            //   props?.dashboardState.drone.check.data === 'on' && item.key != 'check'
-            //     ? styles.buttonDisable
-            //     : styles.button
-            // }
+              className={
+                (props?.dashboardState.drone.check.data === 'on' &&
+                  item.key != 'check' &&
+                  type === 'drone') ||
+                props?.dashboardState.drone.planid.data != -1
+                  ? styles.buttonDisable
+                  : styles.button
+              }
             >
               {props?.dashboardState[type][item.key] ? (
                 <AwarenessButton
@@ -392,7 +390,14 @@ const CenterTab: React.FC = (props: any) => {
                   }
                   over={item.over}
                   url={'/demo'}
-                  // disable={props?.dashboardState.drone.check.data === 'on' ? true : false}
+                  disable={
+                    (props?.dashboardState.drone.check.data === 'on' &&
+                      item.key != 'check' &&
+                      type === 'drone') ||
+                    props?.dashboardState.drone.planid.data != -1
+                      ? true
+                      : false
+                  }
                 />
               ) : (
                 // @ts-ignore
@@ -458,7 +463,7 @@ const CenterTab: React.FC = (props: any) => {
                           value={circleValue}
                           onChange={(event) => {
                             // @ts-ignore
-                            setcircleValue(event.target.value);
+                            setcircleValue(parseFloat(event.target.value));
                             console.log(
                               'RenderComponent -> event.target.value:',
                               event.target.value,
@@ -527,11 +532,11 @@ const CenterTab: React.FC = (props: any) => {
                         cancelText="取消"
                       >
                         <a
-                        // className={
-                        //   props?.dashboardState.drone.check.data === 'on'
-                        //     ? styles.buttonDisable
-                        //     : styles.button
-                        // }
+                          className={
+                            props?.dashboardState.drone.check.data === 'on'
+                              ? styles.buttonDisable
+                              : styles.button
+                          }
                         >
                           {/* @ts-ignore */}
                           <AwarenessButton

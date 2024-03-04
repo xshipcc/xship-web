@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-02-28 18:44:15
+ * @LastEditTime: 2024-03-04 09:11:50
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\center.tsx
  * @Description:
  *
@@ -84,6 +84,7 @@ const AwarenessCenter: React.FC = () => {
       return: { data: 'on' },
       lock: { data: 'on' },
       historyid: { data: -1 },
+      planid: { data: -1 },
       mode: { data: 'on' },
       light: { data: 'on' },
     },

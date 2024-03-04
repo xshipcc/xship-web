@@ -299,8 +299,10 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
         'handleFinish -> droneList.find((subItem: any) => subItem.value === values.uav_id)?.label:',
         droneList.find((subItem: any) => subItem.value === item.uav_id)?.label,
       );
+
       item.fly_name = roadList.find((subItem: any) => subItem.value === item.fly_id)?.label;
-      console.log('handleFinish -> item:', item);
+
+      console.log('handleFin路线sh -> item:', roadList, item);
 
       console.log('onChangeminute -> time:', minute, hour, day, week, month, showweek);
       console.log('setTimeout -> plan:', plan);
@@ -316,10 +318,14 @@ const UpdateFlashForm: React.FC<UpdateFormProps> = (props) => {
         }
 
         setTimeout(() => {
-          onSubmit({
-            ...(item as ListUavPlanDataType),
-            plan: planData,
-          });
+          if (item?.fly_name) {
+            onSubmit({
+              ...(item as ListUavPlanDataType),
+              plan: planData,
+            });
+          } else {
+            message.warning('路线不存在');
+          }
         }, 500);
       } catch (error) {
         message.warning('请输入正确格式');
