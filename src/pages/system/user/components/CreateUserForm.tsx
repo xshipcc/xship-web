@@ -33,7 +33,7 @@ const CreateUserForm: React.FC<CreateFormProps> = (props) => {
     } else {
       querySelectAllData({ pageSize: 100, current: 1 }).then((res) => {
         console.log('querySelectAllData -> res:', res);
-        setRoleConf(res.roleAll);
+        setRoleConf(res.roleAll.filter((item: any) => item.id != 1));
         setJobConf(res.jobAll);
         setDeptConf(tree(res.deptAll, 0, 'parentId'));
       });

@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-03-04 09:11:50
+ * @LastEditTime: 2024-03-05 11:36:11
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\center.tsx
  * @Description:
  *
@@ -120,9 +120,17 @@ const AwarenessCenter: React.FC = () => {
     //   heightmode: '00', //
     //   turning: '00',
     // });
+    const currentRoadoffset = roadData.map((item: any) => {
+      item.coord[0] = item.coord[0] + 0.0062;
+      item.coord[1] = item.coord[1] + 0.0019;
+
+      return item;
+    });
+    console.log('currentRoadoffset -> 偏移对比:', roadData, currentRoadoffset);
+
     dispatch({
       type: 'dashboardModel/saveCurrentFlyingRoad',
-      payload: roadData,
+      payload: currentRoadoffset,
     });
   };
   const [reqParams, setreqParams] = useState({

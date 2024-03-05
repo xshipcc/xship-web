@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-03-04 09:28:39
+ * @LastEditTime: 2024-03-05 11:40:05
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\component\centerTab\index.tsx
  * @Description:
  *
@@ -137,7 +137,6 @@ const CenterTab: React.FC = (props: any) => {
 
   const loadCurrentRoad = () => {
     // currentRoad.data
-    console.log('loadCurrentRoad -> 无人机状态state11111:', currentRoad);
     // lat":38.0865966192828,"lon":114.33264199360657,"alt":97.20427051352851
     // currentRoad.push({
     //   name: '终点',
@@ -149,11 +148,20 @@ const CenterTab: React.FC = (props: any) => {
     //   heightmode: '00', //
     //   turning: '00',
     // });
+    // coord.lon + 0.0062,
+    // coord.lat + 0.0019,
+    const currentRoadoffset = currentRoad.map((item: any) => {
+      item.coord[0] = item.coord[0] + 0.0062;
+      item.coord[1] = item.coord[1] + 0.0019;
+
+      return item;
+    });
+    console.log('currentRoadoffset -> 偏移对比mq:', currentRoadoffset);
+
     dispatch({
       type: 'dashboardModel/saveCurrentFlyingRoad',
-      payload: currentRoad,
+      payload: currentRoadoffset,
     });
-    console.log('loadCurrentRoad -> currentRoad:', currentRoad);
 
     // const data = { data: 'on' };
     const controlInfo = {
@@ -178,47 +186,7 @@ const CenterTab: React.FC = (props: any) => {
     // fly_id: currentFlyingid,
     operator: '',
   });
-  const getHistoryList = async (params = {}) => {
-    console.log('历史={ -> params:', params);
-    console.log('reqParams11:', reqParams);
 
-    const req = {
-      ...params,
-      ...reqParams,
-    };
-
-    const res = await queryHistory(req);
-    console.log('requestres:', res);
-    if (res?.data) {
-      console.log('requestres1111111:', res);
-      dispatch({
-        type: 'dashboardModel/changecurrentHistoryData',
-        payload: res.data[0],
-      });
-      // roadList;
-      //       roadList.map((item)=>{
-      // // if( res.data[0].uav_id)
-      //       })
-      const resRoad = await queryFly(params);
-      resRoad.data.map((item: any) => {
-        if ((item.id = res.data[0].uav_id)) {
-          console.log('resRoad.data.map -> item:', item);
-          setcurrentRoad(JSON.parse(item.data));
-        }
-      });
-      // res.data[0].map(() => {
-      //   setcurrentRoad(JSON.parse(params));
-      // });
-      loadCurrentRoad();
-
-      // setTimeout(() => {
-      //   loadCurrentRoad();
-      // }, 1000);
-    }
-    console.log('currentList={ -> res:', res);
-
-    // return { data: currentList };
-  };
   // useEffect(() => {
   //   console.log('历史:', currentFlyingid);
 
@@ -496,14 +464,20 @@ const CenterTab: React.FC = (props: any) => {
                       >
                         <a
                           className={
-                            props?.dashboardState.drone.check.data === 'on'
+                            props?.dashboardState.drone.check.data === 'on' ||
+                            props?.dashboardState.drone.planid.data != -1
                               ? styles.buttonDisable
                               : styles.button
                           }
                         >
                           {/* @ts-ignore */}
                           <AwarenessButton
-                            disable={props?.dashboardState.drone.check.data === 'on' ? true : false}
+                            disable={
+                              props?.dashboardState.drone.check.data === 'on' ||
+                              props?.dashboardState.drone.planid.data != -1
+                                ? true
+                                : false
+                            }
                             name={'加载圈数'}
                             over={'成功'}
                           />
@@ -533,14 +507,20 @@ const CenterTab: React.FC = (props: any) => {
                       >
                         <a
                           className={
-                            props?.dashboardState.drone.check.data === 'on'
+                            props?.dashboardState.drone.check.data === 'on' ||
+                            props?.dashboardState.drone.planid.data != -1
                               ? styles.buttonDisable
                               : styles.button
                           }
                         >
                           {/* @ts-ignore */}
                           <AwarenessButton
-                            disable={props?.dashboardState.drone.check.data === 'on' ? true : false}
+                            disable={
+                              props?.dashboardState.drone.check.data === 'on' ||
+                              props?.dashboardState.drone.planid.data != -1
+                                ? true
+                                : false
+                            }
                             name={'定点悬停'}
                             over={'over'}
                             url={'/demo'}

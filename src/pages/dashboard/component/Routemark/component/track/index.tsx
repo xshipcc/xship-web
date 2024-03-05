@@ -283,10 +283,13 @@ const App: React.FC = () => {
     const currentMonth = today.getMonth() + 1; // 月份是从 0 开始计数的，所以要加 1
     const currentDay = today.getDate();
     const currentHour = today.getHours();
+    const currentMin = today.getMinutes();
+    const currentSec = today.getSeconds();
 
     const newData = {
       creator: initialState?.currentUser?.name,
-      name: currentMonth + ' 月 ' + currentDay + ' 日 ' + currentHour + ' 时',
+      name:
+        currentMonth + '.' + currentDay + ' ' + currentHour + ':' + currentMin + '.' + currentSec,
       data: [
         {
           name: 'default',

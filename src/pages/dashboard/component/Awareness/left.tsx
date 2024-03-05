@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-03-03 15:46:00
+ * @LastEditTime: 2024-03-05 12:14:21
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\left.tsx
  * @Description:
  *
@@ -211,7 +211,7 @@ const Awareness: React.FC = () => {
 
           if (currentTask.length > 0) {
             defaultTask.current = currentTask[0].value;
-            message.success(`当前执行 ${currentTask[0].label}`);
+            // message.success(`当前执行 ${currentTask[0].label}`);
             // setdefaultTask(currentTask[0].value);
             // handleChange(currentTask[0].value);
             // 时间显示
@@ -234,7 +234,7 @@ const Awareness: React.FC = () => {
               setshow(true);
             }, 200);
           } else {
-            message.success('当前未执行');
+            // message.success('当前未执行');
             defaultTask.current = -1;
             settimeInfo('无');
             taskList.current = taskListCache.current;
