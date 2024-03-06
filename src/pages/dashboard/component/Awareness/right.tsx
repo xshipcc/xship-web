@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-02-26 17:32:14
+ * @LastEditTime: 2024-03-06 13:55:41
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\right.tsx
  * @Description:
  *
@@ -179,6 +179,10 @@ const AwarenessRight: React.FC = () => {
                         if (playsignal) {
                           setpause(!pause);
                           sendMqttControl('pause', 'player', pause ? 'on' : 'off');
+                          dispatch({
+                            type: 'dashboardModel/changePlayer',
+                            payload: { data: pause ? true : false, key: 'pause' },
+                          });
                         } else {
                           setplaysignal(true);
                           sendMqttControl('play', 'player', currentFlyingid);
@@ -189,7 +193,7 @@ const AwarenessRight: React.FC = () => {
                         }
                       }}
                     >
-                      {playsignal ? (pause ? '暂停' : '继续') : '播放'}
+                      {playsignal ? (pause ? '继续' : '暂停') : '播放'}
                     </Button>
                   </Col>
                   {/* <Col span={8}>
@@ -215,7 +219,11 @@ const AwarenessRight: React.FC = () => {
                           return item;
                         });
                         // message.success('播放倍速' + speed);
-
+                        const s = speed === 1 ? 2 : speed === 2 ? 4 : 1;
+                        dispatch({
+                          type: 'dashboardModel/changePlayer',
+                          payload: { data: s, key: 'speed' },
+                        });
                         sendMqttControl('speed', 'player', speed);
                       }}
                     >

@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-03-05 11:40:05
+ * @LastEditTime: 2024-03-06 09:45:37
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\component\centerTab\index.tsx
  * @Description:
  *
@@ -342,10 +342,9 @@ const CenterTab: React.FC = (props: any) => {
   pointer-events: none; */}
             <a
               className={
-                (props?.dashboardState.drone.check.data === 'on' &&
-                  item.key != 'check' &&
-                  type === 'drone') ||
-                props?.dashboardState.drone.planid.data != -1
+                props?.dashboardState.drone.check.data === 'on' &&
+                item.key != 'check' &&
+                type === 'drone'
                   ? styles.buttonDisable
                   : styles.button
               }
@@ -359,10 +358,9 @@ const CenterTab: React.FC = (props: any) => {
                   over={item.over}
                   url={'/demo'}
                   disable={
-                    (props?.dashboardState.drone.check.data === 'on' &&
-                      item.key != 'check' &&
-                      type === 'drone') ||
-                    props?.dashboardState.drone.planid.data != -1
+                    props?.dashboardState.drone.check.data === 'on' &&
+                    item.key != 'check' &&
+                    type === 'drone'
                       ? true
                       : false
                   }
@@ -404,7 +402,7 @@ const CenterTab: React.FC = (props: any) => {
                     </Col>
                     <Col
                       // className={
-                      //   props?.dashboardState.drone.check.data === 'on'
+                      //   props?.dashboardState.drone.planid.data != -1
                       //     ? styles.buttonDisable
                       //     : styles.button
                       // }
@@ -416,7 +414,7 @@ const CenterTab: React.FC = (props: any) => {
                     >
                       {/* @ts-ignore */}
                       <AwarenessButton
-                        // disable={props?.dashboardState.drone.check.data === 'on' ? true : false}
+                        // disable={props?.dashboardState.drone.planid.data != -1 ? true : false}
                         name={'加载航线'}
                         over={'成功'}
                       />
@@ -464,20 +462,14 @@ const CenterTab: React.FC = (props: any) => {
                       >
                         <a
                           className={
-                            props?.dashboardState.drone.check.data === 'on' ||
-                            props?.dashboardState.drone.planid.data != -1
+                            props?.dashboardState.drone.check.data === 'on'
                               ? styles.buttonDisable
                               : styles.button
                           }
                         >
                           {/* @ts-ignore */}
                           <AwarenessButton
-                            disable={
-                              props?.dashboardState.drone.check.data === 'on' ||
-                              props?.dashboardState.drone.planid.data != -1
-                                ? true
-                                : false
-                            }
+                            disable={props?.dashboardState.drone.check.data === 'on' ? true : false}
                             name={'加载圈数'}
                             over={'成功'}
                           />
@@ -507,20 +499,14 @@ const CenterTab: React.FC = (props: any) => {
                       >
                         <a
                           className={
-                            props?.dashboardState.drone.check.data === 'on' ||
-                            props?.dashboardState.drone.planid.data != -1
+                            props?.dashboardState.drone.check.data === 'on'
                               ? styles.buttonDisable
                               : styles.button
                           }
                         >
                           {/* @ts-ignore */}
                           <AwarenessButton
-                            disable={
-                              props?.dashboardState.drone.check.data === 'on' ||
-                              props?.dashboardState.drone.planid.data != -1
-                                ? true
-                                : false
-                            }
+                            disable={props?.dashboardState.drone.check.data === 'on' ? true : false}
                             name={'定点悬停'}
                             over={'over'}
                             url={'/demo'}

@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-25 16:23:19
+ * @LastEditTime: 2024-03-06 12:38:35
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Analysis\left.tsx
  * @Description:
  *
@@ -100,10 +100,10 @@ const Analysis: React.FC = (props) => {
     });
     // 进入页面  提醒更新 当前状态和路线信息
     // client.current.publish('control', JSON.stringify({ cmd: 'state', data: 'on' }));
-    setTimeout(() => {
-      client.current.publish('control', JSON.stringify({ cmd: 'road', data: 'on' }));
-      client.current.publish('control', JSON.stringify({ cmd: 'state', data: 'on' }));
-    }, 5000);
+    // setTimeout(() => {
+    //   client.current.publish('control', JSON.stringify({ cmd: 'road', data: 'on' }));
+    //   client.current.publish('control', JSON.stringify({ cmd: 'state', data: 'on' }));
+    // }, 5000);
     return () => {
       if (client.current) client.current.end();
     };

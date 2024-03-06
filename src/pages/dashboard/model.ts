@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-16 18:32:55
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-02-26 17:30:43
+ * @LastEditTime: 2024-03-06 13:08:22
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\model.ts
  * @Description:
  *
@@ -67,6 +67,7 @@ export interface DashboardState {
   replySignal: boolean;
   Roadvisible: boolean;
   editRoadOver: boolean;
+  player: any;
 }
 export interface DashboardModelType {
   namespace: 'dashboardModel';
@@ -97,6 +98,7 @@ export interface DashboardModelType {
     changeEditRoadOver: ImmerReducer<boolean> | any;
     changeRoadvisible: ImmerReducer<boolean> | any;
     changereplySignal: ImmerReducer<boolean> | any;
+    changePlayer: ImmerReducer<any> | any;
   };
   effects: {
     fetchDashboardInfo: Effect;
@@ -296,8 +298,16 @@ const CompanyModel: DashboardModelType = {
     },
     Roadvisible: false,
     editRoadOver: true,
+    player: {
+      pause: false,
+      speed: 1,
+    },
   },
   reducers: {
+    changePlayer(state: DashboardState, action: { payload: any }) {
+      state.player[action.payload.key] = action.payload.data;
+      console.log('changePlayer -> 播放.player:', state.player);
+    },
     changeCurrentComponent(state: DashboardState, action: { payload: string }) {
       state.currentComponent = action.payload;
     },

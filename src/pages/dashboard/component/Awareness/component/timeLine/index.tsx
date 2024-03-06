@@ -3,7 +3,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-18 15:51:21
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-25 16:02:28
+ * @LastEditTime: 2024-03-06 13:31:02
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\component\timeLine\index.tsx
  * @Description:
  *
@@ -20,7 +20,7 @@ const LineChart = (props: any) => {
   const currentFlyingid = useSelector((state: any) => state.dashboardModel.currentFlyingid);
   const position = useSelector((state: any) => state.dashboardModel.position);
   console.log('LineChart -> position:', position);
-  const [process, setprocess] = useState(10);
+  const [process, setprocess] = useState(0);
   const [drag, setdrag] = useState(true);
 
   useEffect(() => {
@@ -29,41 +29,6 @@ const LineChart = (props: any) => {
     // console.log('LineChart -> currentHistoryData:', currentHistoryData);
   }, [position]);
 
-  useEffect(() => {
-    if (currentFlyingid != -1) {
-      setdrag(false);
-    } else {
-      setdrag(true);
-    }
-  }, [currentFlyingid]);
-  const sendMqttControl = (param: any, type: string, data: any) => {
-    let controlInfo = {
-      cmd: 'default',
-      data: 'on',
-    };
-
-    controlInfo = {
-      cmd: type + '/' + param,
-      data: data,
-    };
-
-    console.log('sendMqttControl -> controlInfo:', controlInfo);
-    console.log('sendMqttControl -> controlInfo:', JSON.stringify(controlInfo));
-    client.current.publish('control', JSON.stringify(controlInfo));
-  };
-
-  const onChange = (value: number | number[]) => {
-    sendMqttControl('seek', 'player', value);
-    // setprocess(value);
-    // message.success('进度' + value);
-  };
-  // useEffect(() => {
-  //   setInterval(function () {
-  //     setprocess((item) => {
-  //       return item + 1;
-  //     });
-  //   }, 1000);
-  // }, []);
-  return <Slider step={0.5} value={process} onChange={onChange} disabled={false} />;
+  return <Slider step={0.1} value={process} disabled={true} />;
 };
 export default LineChart;

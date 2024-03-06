@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-03-05 12:14:21
+ * @LastEditTime: 2024-03-06 12:58:22
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\left.tsx
  * @Description:
  *
@@ -104,7 +104,7 @@ const Awareness: React.FC = () => {
       setshow(false);
       setTimeout(() => {
         setshow(true);
-      }, 200);
+      }, 100);
     });
   }, []);
   const excute = (data: any) => {
@@ -229,19 +229,23 @@ const Awareness: React.FC = () => {
             const chineseDate = date.toLocaleString('zh-CN', options);
             settimeInfo(chineseDate);
             taskList.current = [currentTask[0], { value: -1, label: '不执行' }];
-            setshow(false);
-            setTimeout(() => {
-              setshow(true);
-            }, 200);
+            if (jsonObject?.drone?.play?.historyid === -1) {
+              setshow(false);
+              setTimeout(() => {
+                setshow(true);
+              }, 100);
+            }
           } else {
             // message.success('当前未执行');
             defaultTask.current = -1;
             settimeInfo('无');
             taskList.current = taskListCache.current;
-            setshow(false);
-            setTimeout(() => {
-              setshow(true);
-            }, 200);
+            if (jsonObject?.drone?.play?.historyid === -1) {
+              setshow(false);
+              setTimeout(() => {
+                setshow(true);
+              }, 100);
+            }
           }
         }
       }
@@ -255,6 +259,39 @@ const Awareness: React.FC = () => {
       if (client.current) client.current.end();
     };
   }, []);
+  const player = useSelector((state: any) => state.dashboardModel.player);
+
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    console.log('useEffect ->  播放暂停.current:', videoRef.current, player);
+
+    const playVideo = () => {
+      videoRef.current.play();
+    };
+
+    const pauseVideo = () => {
+      videoRef.current.pause();
+    };
+    if (videoRef.current != null) {
+      if (player.pause) {
+        pauseVideo();
+      } else {
+        playVideo();
+      }
+    }
+  }, [player.pause]);
+
+  useEffect(() => {
+    console.log('useEffect ->  播放速度.current:', videoRef.current, player);
+
+    const speedUpVideo = () => {
+      console.log('speedUpVideo ->  播放速度.speed:', player.speed);
+
+      videoRef.current.playbackRate = player.speed;
+    };
+    if (videoRef.current != null) speedUpVideo();
+  }, [player.speed]);
 
   /**
    * @end
@@ -311,12 +348,20 @@ const Awareness: React.FC = () => {
                 {
                   label: `回放画面`,
                   key: 'drone',
+                  disabled: true,
                   children: (
                     <Row>
                       <Col span={24} className={styles.video}>
                         {/* @ts-ignore */}
                         {console.log('droneinfo:', droneinfo)}
-                        <video src={videoUrl} autoPlay controls muted className={styles.video} />
+                        <video
+                          src={videoUrl}
+                          ref={videoRef}
+                          autoPlay
+                          muted
+                          controls
+                          className={styles.video}
+                        />
                         {/* <Player url={droneinfo.cam_url} height={'19'} width={'100'} /> */}
                         {/* <Player url={droneinfo.cam_url} height={'19'} width={'100'} /> */}
                       </Col>

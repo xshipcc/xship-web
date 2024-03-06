@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-03-05 11:36:11
+ * @LastEditTime: 2024-03-06 12:38:12
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\center.tsx
  * @Description:
  *
@@ -296,9 +296,15 @@ const AwarenessCenter: React.FC = () => {
         const jsonObject = JSON.parse(mqttMessage);
         console.log('client.current.on -> 无人机状态state11111:', jsonObject);
         if (jsonObject?.road) {
+          const currentRoadoffset = jsonObject.road.map((item: any) => {
+            item.coord[0] = item.coord[0] + 0.0062;
+            item.coord[1] = item.coord[1] + 0.0019;
+
+            return item;
+          });
           dispatch({
             type: 'dashboardModel/saveCurrentFlyingRoad',
-            payload: jsonObject.road,
+            payload: currentRoadoffset,
           });
         } else {
           setdashboardState(jsonObject);
@@ -316,9 +322,9 @@ const AwarenessCenter: React.FC = () => {
   useEffect(() => {
     if (currentComponent == 'Awareness') {
       setTimeout(() => {
-        client.current.publish('control', JSON.stringify({ cmd: 'road', data: 'on' }));
         client.current.publish('control', JSON.stringify({ cmd: 'state', data: 'on' }));
-      }, 3000);
+        client.current.publish('control', JSON.stringify({ cmd: 'road', data: 'on' }));
+      }, 2000);
     }
   }, [currentComponent]);
   return (
