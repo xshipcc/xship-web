@@ -43,7 +43,6 @@ const CenterTab: React.FC = (props: any) => {
   const [ValueFocus, setValueFocus] = useState(1);
   const [roadList, setroadList] = useState([{ value: 'demo', label: 'demo' }]);
   const [currentRoad, setcurrentRoad] = useState<any>([]);
-  const currentFlyingid = useSelector((state: any) => state.dashboardModel.currentFlyingid);
   const dashboardinfoMqtt = useSelector((state: any) => state.dashboardModel.dashboardinfoMqtt);
 
   useEffect(() => {
@@ -148,11 +147,11 @@ const CenterTab: React.FC = (props: any) => {
     //   heightmode: '00', //
     //   turning: '00',
     // });
-    // coord.lon + 0.0062,
-    // coord.lat + 0.0019,
+    // coord.lon + 0.0063375,
+    // coord.lat +  0.00077765,
     const currentRoadoffset = currentRoad.map((item: any) => {
-      item.coord[0] = item.coord[0] + 0.0062;
-      item.coord[1] = item.coord[1] + 0.0019;
+      item.coord[0] = item.coord[0] + 0.0063375;
+      item.coord[1] = item.coord[1] + 0.00077765;
 
       return item;
     });
@@ -183,22 +182,8 @@ const CenterTab: React.FC = (props: any) => {
     create_time: '',
     end_time: '',
     uav_id: 0,
-    // fly_id: currentFlyingid,
     operator: '',
   });
-
-  // useEffect(() => {
-  //   console.log('历史:', currentFlyingid);
-
-  //   if (currentFlyingid != -1) {
-  //     getHistoryList({ pageSize: 10, current: 1, history_id: currentFlyingid });
-  //     // setreqParams((item: any) => {
-  //     //   item.history_id = currentFlyingid;
-  //     //   console.log(' reqParams11-> item:', item);
-  //     //   return item;
-  //     // });
-  //   }
-  // }, [currentFlyingid]);
 
   const sendCircle = () => {
     // const data = { data: 'on' };

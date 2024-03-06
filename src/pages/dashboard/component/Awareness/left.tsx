@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-03-06 12:58:22
+ * @LastEditTime: 2024-03-06 19:13:38
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\left.tsx
  * @Description:
  *
@@ -37,7 +37,8 @@ const Awareness: React.FC = () => {
   const currentTab = useSelector((state: any) => state.dashboardModel.currentTab);
 
   const [droneinfo, setdroneinfo] = useState({ cam_url: '' });
-  const [timeInfo, settimeInfo] = useState('');
+  const [timeInfo, settimeInfo] = useState('无');
+  const [timeInfoInselect, settimeInfoInselect] = useState('无');
   const [consoleInfo, setconsoleInfo] = useState(['控制台信息']);
   useEffect(() => {
     setconsoleInfo((item: any) => {
@@ -75,7 +76,7 @@ const Awareness: React.FC = () => {
     return nextDate;
   };
   // const [defaultTask, setdefaultTask] = useState<any>(null);
-  const defaultTask = useRef(def);
+  const defaultTask = useRef(-1);
 
   const [show, setshow] = useState<any>(true);
   // useEffect(() => {
@@ -87,6 +88,16 @@ const Awareness: React.FC = () => {
   //   // }
   //   console.log('defaultTask.current:', defaultTask.current);
   // }, [defaultTask.current]);
+  const currentComponent = useSelector((state: any) => state.dashboardModel.currentComponent);
+
+  useEffect(() => {
+    if (currentComponent == 'Awareness') {
+      setTimeout(() => {
+        client.current.publish('control', JSON.stringify({ cmd: 'state', data: 'on' }));
+        client.current.publish('control', JSON.stringify({ cmd: 'road', data: 'on' }));
+      }, 2000);
+    }
+  }, [currentComponent]);
   useEffect(() => {
     getDroneData();
     queryPlan({ pageSize: 1000, current: 1 }).then((resp) => {
@@ -211,6 +222,8 @@ const Awareness: React.FC = () => {
 
           if (currentTask.length > 0) {
             defaultTask.current = currentTask[0].value;
+            console.log('client.current.on -> 当前执行:', taskList.current, defaultTask.current);
+
             // message.success(`当前执行 ${currentTask[0].label}`);
             // setdefaultTask(currentTask[0].value);
             // handleChange(currentTask[0].value);
@@ -228,23 +241,27 @@ const Awareness: React.FC = () => {
             const date = new Date(difference);
             const chineseDate = date.toLocaleString('zh-CN', options);
             settimeInfo(chineseDate);
+            settimeInfoInselect(chineseDate);
             taskList.current = [currentTask[0], { value: -1, label: '不执行' }];
             if (jsonObject?.drone?.play?.historyid === -1) {
               setshow(false);
               setTimeout(() => {
                 setshow(true);
-              }, 100);
+              }, 200);
             }
           } else {
             // message.success('当前未执行');
             defaultTask.current = -1;
             settimeInfo('无');
+            settimeInfoInselect('无');
+            console.log('client.current.on -> 当前执行不:', defaultTask.current);
+
             taskList.current = taskListCache.current;
             if (jsonObject?.drone?.play?.historyid === -1) {
               setshow(false);
               setTimeout(() => {
                 setshow(true);
-              }, 100);
+              }, 200);
             }
           }
         }
@@ -330,7 +347,7 @@ const Awareness: React.FC = () => {
                           className={styles.infoTime}
                         >
                           执行时间:
-                          {timeInfo}
+                          {timeInfoInselect}
                           {/* <button className={styles.infoButton}>自动飞行</button> */}
                         </Col>
                       </Row>

@@ -16,12 +16,9 @@ import { useSelector, useDispatch } from 'umi';
 import { Button, Col, Row, message, Slider } from 'antd';
 import { useState } from 'react';
 const LineChart = (props: any) => {
-  const client = props.client;
-  const currentFlyingid = useSelector((state: any) => state.dashboardModel.currentFlyingid);
   const position = useSelector((state: any) => state.dashboardModel.position);
   console.log('LineChart -> position:', position);
   const [process, setprocess] = useState(0);
-  const [drag, setdrag] = useState(true);
 
   useEffect(() => {
     setprocess(position * 100);

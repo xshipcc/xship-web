@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-03-06 13:55:41
+ * @LastEditTime: 2024-03-06 19:53:33
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\right.tsx
  * @Description:
  *
@@ -15,11 +15,19 @@ import AlertList from '@/pages/dashboard/component/AlertList/alert';
 import HistoryList from '@/pages/dashboard/component/AlertList/history';
 import Title from '../common/Title';
 import TimeLine from './component/timeLine';
-import { FastForwardOutlined, SwapOutlined } from '@ant-design/icons';
+import {
+  FastForwardOutlined,
+  SwapOutlined,
+  CaretRightOutlined,
+  PauseOutlined,
+} from '@ant-design/icons';
 import { useDispatch, useSelector } from 'umi';
 import * as mqtt from 'mqtt';
 
 const AwarenessRight: React.FC = () => {
+  const [pause, setpause] = useState(false);
+  const [speed, setspeed] = useState(1);
+
   const def: any = '';
   const client = useRef(def);
   /**
@@ -67,6 +75,9 @@ const AwarenessRight: React.FC = () => {
     // setShowDetail(!showDetail);
     console.log('showDetail:', showDetail);
     sendMqttControl('stop', 'player', 'on');
+    setpause(true);
+    setspeed(1);
+
     dispatch({
       type: 'dashboardModel/changecurrentFlyingid',
       payload: -1,
@@ -82,6 +93,18 @@ const AwarenessRight: React.FC = () => {
     dispatch({
       type: 'dashboardModel/changeshowDetail',
       payload: !showDetail,
+    });
+    dispatch({
+      type: 'dashboardModel/changecurrentTab',
+      payload: 'hangar',
+    });
+    dispatch({
+      type: 'dashboardModel/changePosition',
+      payload: 0,
+    });
+    dispatch({
+      type: 'dashboardModel/changecurrentFlyingid',
+      payload: -1,
     });
   };
 
@@ -136,9 +159,7 @@ const AwarenessRight: React.FC = () => {
       if (client.current) client.current.end();
     };
   }, []);
-  const [pause, setpause] = useState(true);
   const [playsignal, setplaysignal] = useState(false);
-  const [speed, setspeed] = useState(1);
   const [showButton, setshowButton] = useState(false);
   const currentFlyingid = useSelector((state: any) => state.dashboardModel.currentFlyingid);
   console.log('ChangeComponent -> currentFlyingid:', currentFlyingid);
@@ -193,7 +214,15 @@ const AwarenessRight: React.FC = () => {
                         }
                       }}
                     >
-                      {playsignal ? (pause ? '继续' : '暂停') : '播放'}
+                      {playsignal ? (
+                        pause ? (
+                          <PauseOutlined rev={undefined} />
+                        ) : (
+                          <CaretRightOutlined rev={undefined} />
+                        )
+                      ) : (
+                        '播放'
+                      )}
                     </Button>
                   </Col>
                   {/* <Col span={8}>
@@ -257,6 +286,8 @@ const AwarenessRight: React.FC = () => {
                           payload: -1,
                         });
                         message.success('播放结束');
+                        setpause(true);
+                        setspeed(1);
                       }}
                     >
                       结束

@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-03-06 12:38:12
+ * @LastEditTime: 2024-03-06 17:52:19
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\center.tsx
  * @Description:
  *
@@ -75,7 +75,6 @@ const AwarenessCenter: React.FC = () => {
   //   },
   // };
   // 菜单相关信号切换
-  const currentComponent = useSelector((state: any) => state.dashboardModel.currentComponent);
   const [dashboardState, setdashboardState] = useState({
     drone: {
       check: { data: 'on' },
@@ -121,8 +120,8 @@ const AwarenessCenter: React.FC = () => {
     //   turning: '00',
     // });
     const currentRoadoffset = roadData.map((item: any) => {
-      item.coord[0] = item.coord[0] + 0.0062;
-      item.coord[1] = item.coord[1] + 0.0019;
+      item.coord[0] = item.coord[0] + 0.0063375;
+      item.coord[1] = item.coord[1] + 0.00077765;
 
       return item;
     });
@@ -297,8 +296,8 @@ const AwarenessCenter: React.FC = () => {
         console.log('client.current.on -> 无人机状态state11111:', jsonObject);
         if (jsonObject?.road) {
           const currentRoadoffset = jsonObject.road.map((item: any) => {
-            item.coord[0] = item.coord[0] + 0.0062;
-            item.coord[1] = item.coord[1] + 0.0019;
+            item.coord[0] = item.coord[0] + 0.0063375;
+            item.coord[1] = item.coord[1] + 0.00077765;
 
             return item;
           });
@@ -319,21 +318,25 @@ const AwarenessCenter: React.FC = () => {
       if (client.current) client.current.end();
     };
   }, []);
-  useEffect(() => {
-    if (currentComponent == 'Awareness') {
-      setTimeout(() => {
-        client.current.publish('control', JSON.stringify({ cmd: 'state', data: 'on' }));
-        client.current.publish('control', JSON.stringify({ cmd: 'road', data: 'on' }));
-      }, 2000);
-    }
-  }, [currentComponent]);
+
   return (
     <div className={Collapase ? styles.contentCollapse : styles.content}>
       <div className={Collapase ? styles.collapaseButtonClose : styles.collapaseButton}>
         <Button
           type="text"
           icon={<ControlOutlined rev={undefined} />}
-          onClick={() => (Collapase ? setCollapase(false) : setCollapase(true))}
+          onClick={() => {
+            client.current.publish('control', JSON.stringify({ cmd: 'state', data: 'on' }));
+            if (Collapase) {
+              setTimeout(() => {
+                setCollapase(false);
+              }, 200);
+            } else {
+              setTimeout(() => {
+                setCollapase(true);
+              }, 200);
+            }
+          }}
         />
       </div>
 

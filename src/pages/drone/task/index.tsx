@@ -46,10 +46,13 @@ const handleAdd = async (fields: AddUavPlanReqType) => {
 const handleUpdate = async (fields: UpdateUavPlanReqType) => {
   const hide = message.loading('正在更新');
   try {
-    await updatePlan(fields);
+    const resp = await updatePlan(fields);
     hide();
-
-    message.success('更新成功');
+    if (resp.code === '-1') {
+      message.error('航线正在执行中');
+    } else {
+      message.success('更新成功');
+    }
     return true;
   } catch (error) {
     hide();
@@ -66,11 +69,15 @@ const handleRemove = async (selectedRows: ListUavPlanDataType[]) => {
   const hide = message.loading('正在删除');
   if (!selectedRows) return true;
   try {
-    await removePlan({
+    const resp = await removePlan({
       ids: selectedRows.map((row) => row.id),
     });
     hide();
-    message.success('删除成功，即将刷新');
+    if (resp.code === '-1') {
+      message.error('航线正在执行中');
+    } else {
+      message.success('删除成功，即将刷新');
+    }
     return true;
   } catch (error) {
     hide();

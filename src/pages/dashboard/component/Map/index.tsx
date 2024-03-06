@@ -378,7 +378,11 @@ const Map: React.FC = () => {
         }
 
         const billboard = new Cesium.Entity({
-          position: Cesium.Cartesian3.fromDegrees(demo.lon, demo.lat, demo.alt),
+          position: Cesium.Cartesian3.fromDegrees(
+            demo.lon + 0.0063375,
+            demo.lat + 0.00077765,
+            demo.alt,
+          ),
           // position: Cesium.Cartesian3.fromDegrees(114.40856, 38.03867, 2000.56),
           billboard: {
             image: image,
@@ -450,12 +454,13 @@ const Map: React.FC = () => {
       );
       console.log('useEffect -> destination:', destination);
       viewer.current.trackedEntity = null;
-
+      // element.lon + 0.0063375,
+      // element.lat +  0.00077765,
       // 设置导航模式为导航到指定位置
       viewer.current.scene.camera.flyTo({
         destination: Cesium.Cartesian3.fromDegrees(
-          alertData.lon,
-          alertData.lat,
+          alertData.lon + 0.0063375,
+          alertData.lat + 0.00077765,
           alertData.alt + 500,
         ),
         maximumHeight: 2000,
@@ -531,7 +536,11 @@ const Map: React.FC = () => {
         }
         const billboard = new Cesium.Entity({
           name: 'alert', // 设置实体的唯一ID
-          position: Cesium.Cartesian3.fromDegrees(element.lon, element.lat, element.alt),
+          position: Cesium.Cartesian3.fromDegrees(
+            element.lon + 0.0063375,
+            element.lat + 0.00077765,
+            element.alt,
+          ),
           // position: Cesium.Cartesian3.fromDegrees(114.40856, 38.03867, 2000.56),
           billboard: {
             image: image,
@@ -655,8 +664,8 @@ const Map: React.FC = () => {
       function updatePosition(coord) {
         console.log('updatePosition -> coord:', coord);
         const Degrees = Cesium.Cartesian3.fromDegrees(
-          coord.lon + 0.0062,
-          coord.lat + 0.0019,
+          coord.lon + 0.0063375,
+          coord.lat + 0.00077765,
           coord.height,
         );
         console.log('updatePosition -> Degrees:', Degrees);

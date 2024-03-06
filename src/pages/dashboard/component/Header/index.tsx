@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-09 20:12:31
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-02-21 12:09:16
+ * @LastEditTime: 2024-03-06 19:46:38
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Header\index.tsx
  * @Description:
  *
@@ -30,6 +30,7 @@ export const Header: React.FC = () => {
     });
     setActiveIndex(componentName);
   };
+  const currentFlyingid = useSelector((state: any) => state.dashboardModel.currentFlyingid);
 
   return (
     <div>
@@ -62,10 +63,10 @@ export const Header: React.FC = () => {
               type="text"
               className={activeIndex === 'Analysis' ? styles.buttonActive : styles.button}
               onClick={() => {
-                if (editRoadOver) {
+                if (editRoadOver && currentFlyingid === -1) {
                   ChangeComponent('Analysis');
                 } else {
-                  message.warning('请先结束编辑');
+                  message.warning('请先完成当前操作');
                 }
               }}
             >
@@ -77,10 +78,10 @@ export const Header: React.FC = () => {
               type="text"
               className={activeIndex === 'Awareness' ? styles.buttonActive : styles.button}
               onClick={() => {
-                if (editRoadOver) {
+                if (editRoadOver && currentFlyingid === -1) {
                   ChangeComponent('Awareness');
                 } else {
-                  message.warning('请先结束编辑');
+                  message.warning('请先完成当前操作');
                 }
               }}
             >
@@ -92,10 +93,10 @@ export const Header: React.FC = () => {
               type="text"
               className={activeIndex === 'Monitor' ? styles.buttonActive : styles.button}
               onClick={() => {
-                if (editRoadOver) {
+                if (editRoadOver && currentFlyingid === -1) {
                   ChangeComponent('Monitor');
                 } else {
-                  message.warning('请先结束编辑');
+                  message.warning('请先完成当前操作');
                 }
               }}
             >
@@ -107,10 +108,10 @@ export const Header: React.FC = () => {
               type="text"
               className={activeIndex === 'Routemark' ? styles.buttonActive : styles.button}
               onClick={() => {
-                if (editRoadOver) {
+                if (editRoadOver && currentFlyingid === -1) {
                   ChangeComponent('Routemark');
                 } else {
-                  message.warning('请先结束编辑');
+                  message.warning('请先完成当前操作');
                 }
               }}
             >
