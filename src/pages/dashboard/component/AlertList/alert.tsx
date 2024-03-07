@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-22 14:51:44
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-30 16:40:05
+ * @LastEditTime: 2024-03-07 17:49:58
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\AlertList\alert.tsx
  * @Description:
  *
@@ -237,22 +237,34 @@ export default () => {
         console.log('client.current.on -> demo:', demo);
         demo.id = currentList.length;
         demo.name = currentList.length;
+        demo.note = '即时发现';
+        const now = new Date();
+
+        const year = now.getFullYear();
+        const month = ('0' + (now.getMonth() + 1)).slice(-2);
+        const day = ('0' + now.getDate()).slice(-2);
+        const hours = ('0' + now.getHours()).slice(-2);
+        const minutes = ('0' + now.getMinutes()).slice(-2);
+        const seconds = ('0' + now.getSeconds()).slice(-2);
+
+        const formattedTime =
+          year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds;
+
+        demo.start_time = formattedTime;
         console.log('client.current.on -> demo:', demo);
-        setTimeout(() => {
-          // @ts-ignore
-          setcurrentList((item) => {
-            console.log('client -> item:', item);
-            return [...item, demo];
-          });
-          setcurrentListInfo((info) => {
-            info.total += 1;
-            return info;
-          });
-          setShowElement(false);
-          setTimeout(() => {
-            setShowElement(true);
-          }, 100);
-        }, 200);
+        // @ts-ignore
+        setcurrentList((item) => {
+          console.log('client -> item:', item);
+          return [demo, ...item];
+        });
+        setcurrentListInfo((info) => {
+          info.total += 1;
+          return info;
+        });
+        // setShowElement(false);
+        // setTimeout(() => {
+        //   setShowElement(true);
+        // }, 100);
       }
     });
 
@@ -477,63 +489,61 @@ export default () => {
             </Col>
           </Row>
           {/*  */}
-          {showElement && (
-            <List
-              pagination={{
-                pageSize: 7,
-                showSizeChanger: false,
-                current: currentListInfo.current,
-                onChange: (param) => {
-                  console.log('param:', param);
-                  getList({ pageSize: 7, current: param });
-                  return {};
-                },
-                total: currentListInfo.total,
-              }}
-              className={styles.list}
-              dataSource={currentList}
-              renderItem={(item: ListAlertHistoryData) => (
-                <List.Item>
-                  <Row
-                    className={styles.listinfo}
-                    onClick={() => {
-                      console.log('client:', item);
-                      openDrawer(item);
-                      showAlertPosition(item);
-                    }}
-                  >
-                    <Col span={7} className={styles.alertImage}>
-                      <Image preview={false} src={item.image} />
-                    </Col>
-                    <Col span={17} className={styles.alertcontent}>
-                      <p className={styles.alertTitle}>
-                        <Badge
-                          status={item.confirm ? 'success' : 'error'}
-                          text={TypeList[item.type] + '告警'}
-                        />
-                      </p>
-                      <Row>
-                        <Col span={9} className={styles.alertInfoTitle}>
-                          发现时间 :
-                        </Col>
-                        <Col span={15} className={styles.alertInfo}>
-                          {item.start_time}
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col span={9} className={styles.alertInfoTitle}>
-                          报警内容 :
-                        </Col>
-                        <Col span={15} className={styles.alertInfo}>
-                          {item.note}
-                        </Col>
-                      </Row>
-                    </Col>
-                  </Row>
-                </List.Item>
-              )}
-            />
-          )}
+          <List
+            pagination={{
+              pageSize: 7,
+              showSizeChanger: false,
+              current: currentListInfo.current,
+              onChange: (param) => {
+                console.log('param:', param);
+                getList({ pageSize: 7, current: param });
+                return {};
+              },
+              total: currentListInfo.total,
+            }}
+            className={styles.list}
+            dataSource={currentList}
+            renderItem={(item: ListAlertHistoryData) => (
+              <List.Item>
+                <Row
+                  className={styles.listinfo}
+                  onClick={() => {
+                    console.log('client:', item);
+                    openDrawer(item);
+                    showAlertPosition(item);
+                  }}
+                >
+                  <Col span={7} className={styles.alertImage}>
+                    <Image preview={false} src={item.image} />
+                  </Col>
+                  <Col span={17} className={styles.alertcontent}>
+                    <p className={styles.alertTitle}>
+                      <Badge
+                        status={item.confirm ? 'success' : 'error'}
+                        text={TypeList[item.type] + '告警'}
+                      />
+                    </p>
+                    <Row>
+                      <Col span={9} className={styles.alertInfoTitle}>
+                        发现时间 :
+                      </Col>
+                      <Col span={15} className={styles.alertInfo}>
+                        {item.start_time}
+                      </Col>
+                    </Row>
+                    <Row>
+                      <Col span={9} className={styles.alertInfoTitle}>
+                        报警内容 :
+                      </Col>
+                      <Col span={15} className={styles.alertInfo}>
+                        {item.note}
+                      </Col>
+                    </Row>
+                  </Col>
+                </Row>
+              </List.Item>
+            )}
+          />
         </div>
       )}
     </div>

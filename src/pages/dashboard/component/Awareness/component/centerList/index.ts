@@ -175,12 +175,7 @@ export const hangarButtonList1 = [
     button: '连接',
     over: '断开',
   },
-  {
-    key: `mechanism`,
-    info: '归位机构',
-    button: '锁定',
-    over: '解锁',
-  },
+
   // {
   //   key: `hatch`,
   //   info: '舱盖',

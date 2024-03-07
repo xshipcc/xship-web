@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-10-22 14:51:44
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-03-06 09:12:23
+ * @LastEditTime: 2024-03-07 18:29:35
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\AlertList\history.tsx
  * @Description:
  *
@@ -47,17 +47,6 @@ export default () => {
   });
   const [currentListInfo, setcurrentListInfo] = useState({ total: 10, current: 1, pageSize: 5 });
   const [showElement, setShowElement] = useState(false);
-
-  // const getList = async (params = {}) => {
-  //   console.log('request={ -> params:', params);
-  //   const req = {
-  //     ...params,
-  //     ...reqParams,
-  //   };
-  //   // @ts-ignore
-  //   const res = await queryHistory(req);
-  //   if (res?.data) setcurrentList(res.data);
-  // };
 
   const getList = async (params: any) => {
     console.log('request={ -> params:', params);
@@ -142,15 +131,15 @@ export default () => {
           <Button
             type="text"
             onClick={() => {
-              setbuttonShow(false);
+              // setbuttonShow(false);
               // 默认查询结果
               setreqParams({
                 create_time: '',
                 status: 0,
               });
-              setTimeout(() => {
-                setbuttonShow(true);
-              }, 100);
+              // setTimeout(() => {
+              //   setbuttonShow(true);
+              // }, 100);
               message.success('双击重置');
               getList({ current: 1, pageSize: 5 });
             }}
@@ -170,55 +159,54 @@ export default () => {
         </Col>
       </Row>
       {/*  */}
-      {showElement && (
-        <List
-          pagination={{
-            pageSize: 5,
-            showSizeChanger: false,
-            defaultCurrent: 1,
-            onChange: (param) => {
-              console.log('param:', param);
-              getList({ pageSize: 5, current: param });
-            },
-            total: currentListInfo.total,
-            current: currentListInfo.current,
-          }}
-          className={styles.list}
-          dataSource={currentList}
-          renderItem={(item: ListUavHistoryDataType) => (
-            <List.Item>
-              <div
-                className={styles.listinfo}
-                onClick={() => {
-                  openDrawer(item);
-                }}
-              >
-                <Row>
-                  <Col span={6} className={styles.historyInfo}>
-                    历史编号:{item.id}
-                  </Col>
-                  <Col span={6} className={styles.historyInfoTitle}>
-                    巡检路线id:
-                  </Col>
-                  <Col span={3} className={styles.historyInfo}>
-                    {item.fly_id}
-                  </Col>
-                  <Col span={6} className={styles.historyInfoTitle}>
-                    无人机id:
-                  </Col>
-                  <Col span={3} className={styles.historyInfo}>
-                    {item.uav_id}
-                  </Col>
-                </Row>
-                <Row>
-                  <Col span={6} className={styles.historyInfoTitle}>
-                    执行时间:
-                  </Col>
-                  <Col span={18} className={styles.historyInfo}>
-                    {item.create_time + '-' + item.end_time}
-                  </Col>
-                </Row>
-                {/* <Row>
+      <List
+        pagination={{
+          pageSize: 5,
+          showSizeChanger: false,
+          defaultCurrent: 1,
+          onChange: (param) => {
+            console.log('param:', param);
+            getList({ pageSize: 5, current: param });
+          },
+          total: currentListInfo.total,
+          current: currentListInfo.current,
+        }}
+        className={styles.list}
+        dataSource={currentList}
+        renderItem={(item: ListUavHistoryDataType) => (
+          <List.Item>
+            <div
+              className={styles.listinfo}
+              onClick={() => {
+                openDrawer(item);
+              }}
+            >
+              <Row>
+                <Col span={6} className={styles.historyInfo}>
+                  历史编号:{item.id}
+                </Col>
+                <Col span={6} className={styles.historyInfoTitle}>
+                  巡检路线id:
+                </Col>
+                <Col span={3} className={styles.historyInfo}>
+                  {item.fly_id}
+                </Col>
+                <Col span={6} className={styles.historyInfoTitle}>
+                  无人机id:
+                </Col>
+                <Col span={3} className={styles.historyInfo}>
+                  {item.uav_id}
+                </Col>
+              </Row>
+              <Row>
+                <Col span={6} className={styles.historyInfoTitle}>
+                  执行时间:
+                </Col>
+                <Col span={18} className={styles.historyInfo}>
+                  {item.create_time + '-' + item.end_time}
+                </Col>
+              </Row>
+              {/* <Row>
                   <Col span={9} className={styles.historyInfoTitle}>
                     操作者 :
                   </Col>
@@ -226,11 +214,10 @@ export default () => {
                     {item.operator}
                   </Col>
                 </Row> */}
-              </div>
-            </List.Item>
-          )}
-        />
-      )}
+            </div>
+          </List.Item>
+        )}
+      />
     </div>
   );
 };
