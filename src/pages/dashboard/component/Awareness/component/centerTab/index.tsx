@@ -150,9 +150,8 @@ const CenterTab: React.FC = (props: any) => {
     // coord.lon + 0.0063375,
     // coord.lat +  0.00077765,
     const currentRoadoffset = currentRoad.map((item: any) => {
-      item.coord[0] = item.coord[0] + 0.0063375;
-      item.coord[1] = item.coord[1] + 0.00077765;
-
+      // item.coord[0] = item.coord[0] + 0.0063375;
+      // item.coord[1] = item.coord[1] + 0.00077765;
       return item;
     });
     console.log('currentRoadoffset -> 偏移对比mq:', currentRoadoffset);
