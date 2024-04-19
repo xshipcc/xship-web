@@ -187,6 +187,30 @@ const FlashPromotionList: React.FC = () => {
       },
     },
     {
+      title: '经度',
+      dataIndex: 'lon',
+      hideInSearch: true,
+    },
+    {
+      title: '纬度',
+      dataIndex: 'lat',
+      hideInSearch: true,
+    },
+    {
+      title: '高度',
+      dataIndex: 'alt',
+      hideInSearch: true,
+    },
+    {
+      title: '舱盖设置',
+      dataIndex: 'close_door',
+      valueEnum: {
+        1: { text: '开盖', color: 'green' },
+        0: { text: '关盖', color: 'red' },
+      },
+      hideInSearch: true,
+    },
+    {
       title: '无人机库ip',
       dataIndex: 'hangar_ip',
       hideInSearch: true,

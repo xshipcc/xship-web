@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-07 13:46:28
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-03-06 19:13:38
+ * @LastEditTime: 2024-04-15 12:02:10
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\left.tsx
  * @Description:
  *
@@ -276,39 +276,39 @@ const Awareness: React.FC = () => {
       if (client.current) client.current.end();
     };
   }, []);
-  const player = useSelector((state: any) => state.dashboardModel.player);
+  // const player = useSelector((state: any) => state.dashboardModel.player);
 
-  const videoRef = useRef(null);
+  // const videoRef = useRef(null);
 
-  useEffect(() => {
-    console.log('useEffect ->  播放暂停.current:', videoRef.current, player);
+  // useEffect(() => {
+  //   console.log('useEffect ->  播放暂停.current:', videoRef.current, player);
 
-    const playVideo = () => {
-      videoRef.current.play();
-    };
+  //   const playVideo = () => {
+  //     videoRef.current.play();
+  //   };
 
-    const pauseVideo = () => {
-      videoRef.current.pause();
-    };
-    if (videoRef.current != null) {
-      if (player.pause) {
-        pauseVideo();
-      } else {
-        playVideo();
-      }
-    }
-  }, [player.pause]);
+  //   const pauseVideo = () => {
+  //     videoRef.current.pause();
+  //   };
+  //   if (videoRef.current != null) {
+  //     if (player.pause) {
+  //       pauseVideo();
+  //     } else {
+  //       playVideo();
+  //     }
+  //   }
+  // }, [player.pause]);
 
-  useEffect(() => {
-    console.log('useEffect ->  播放速度.current:', videoRef.current, player);
+  // useEffect(() => {
+  //   console.log('useEffect ->  播放速度.current:', videoRef.current, player);
 
-    const speedUpVideo = () => {
-      console.log('speedUpVideo ->  播放速度.speed:', player.speed);
+  //   const speedUpVideo = () => {
+  //     console.log('speedUpVideo ->  播放速度.speed:', player.speed);
 
-      videoRef.current.playbackRate = player.speed;
-    };
-    if (videoRef.current != null) speedUpVideo();
-  }, [player.speed]);
+  //     videoRef.current.playbackRate = player.speed;
+  //   };
+  //   if (videoRef.current != null) speedUpVideo();
+  // }, [player.speed]);
 
   /**
    * @end
@@ -321,7 +321,7 @@ const Awareness: React.FC = () => {
           {show && (
             <Tabs
               tabPosition={'left'}
-              activeKey={currentTab}
+              activeKey={'hangar'}
               items={[
                 {
                   label: `控制台信息`,
@@ -362,29 +362,29 @@ const Awareness: React.FC = () => {
                     </div>
                   ),
                 },
-                {
-                  label: `回放画面`,
-                  key: 'drone',
-                  disabled: true,
-                  children: (
-                    <Row>
-                      <Col span={24} className={styles.video}>
-                        {/* @ts-ignore */}
-                        {console.log('droneinfo:', droneinfo)}
-                        <video
-                          src={videoUrl}
-                          ref={videoRef}
-                          autoPlay
-                          muted
-                          controls
-                          className={styles.video}
-                        />
-                        {/* <Player url={droneinfo.cam_url} height={'19'} width={'100'} /> */}
-                        {/* <Player url={droneinfo.cam_url} height={'19'} width={'100'} /> */}
-                      </Col>
-                    </Row>
-                  ),
-                },
+                // {
+                //   label: `回放画面`,
+                //   key: 'drone',
+                //   disabled: true,
+                //   children: (
+                //     <Row>
+                //       <Col span={24} className={styles.video}>
+                //         {/* @ts-ignore */}
+                //         {console.log('droneinfo:', droneinfo)}
+                //         <video
+                //           src={videoUrl}
+                //           ref={videoRef}
+                //           autoPlay
+                //           muted
+                //           controls
+                //           className={styles.video}
+                //         />
+                //         {/* <Player url={droneinfo.cam_url} height={'19'} width={'100'} /> */}
+                //         {/* <Player url={droneinfo.cam_url} height={'19'} width={'100'} /> */}
+                //       </Col>
+                //     </Row>
+                //   ),
+                // },
               ]}
             />
           )}

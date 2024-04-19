@@ -110,8 +110,7 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
           rules={[{ required: true, message: '请输入摄像头平台!' }]}
         >
           <Select id="showStatus">
-            <Select.Option value={0}>飞机摄像头</Select.Option>
-            <Select.Option value={1}>摄像头</Select.Option>
+            <Select.Option value={1}>普通摄像头</Select.Option>
           </Select>
         </FormItem>
         <FormItem

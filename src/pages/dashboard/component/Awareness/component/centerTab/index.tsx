@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-03-07 11:59:46
+ * @LastEditTime: 2024-04-10 12:06:34
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\component\centerTab\index.tsx
  * @Description:
  *
@@ -91,10 +91,10 @@ const CenterTab: React.FC = (props: any) => {
   const RenderList = (params: any[], type: string) =>
     params?.map((item: any) => (
       <Row key={item.value}>
-        <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
+        <Col span={12} className={styles.listInfo}>
           {item.value}
         </Col>
-        <Col span={12} style={{ color: 'white' }}>
+        <Col span={12} className={styles.listInfo2}>
           {/* {dashboardinfoMqtt.data[item.key]} */}
           {Info(type, item.key)}
           {item.unit}
@@ -311,7 +311,7 @@ const CenterTab: React.FC = (props: any) => {
   const RenderButtonList = (params: any[], type: string) =>
     params?.map((item: any) => (
       <Row key={item.key}>
-        <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
+        <Col span={12} className={styles.listInfo}>
           {item.info}
         </Col>
         <Col
@@ -474,7 +474,7 @@ const CenterTab: React.FC = (props: any) => {
                   </Row>
                   {/*  */}
                   <Row>
-                    <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
+                    <Col span={12} className={styles.listInfo}>
                       定点悬停
                     </Col>
                     <Col span={12} style={{ color: 'turquoise' }}>
@@ -532,7 +532,7 @@ const CenterTab: React.FC = (props: any) => {
                   {RenderButtonList(hangarButtonList1, 'hangar')}
 
                   <Row>
-                    <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
+                    <Col span={12} className={styles.listInfo}>
                       归位机构
                     </Col>
                     <Col span={6} style={{ color: 'turquoise' }}>
@@ -601,7 +601,7 @@ const CenterTab: React.FC = (props: any) => {
                     {/*  */}
                   </Row>
                   <Row>
-                    <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
+                    <Col span={12} className={styles.listInfo}>
                       舱盖控制
                     </Col>
                     <Col span={6} style={{ color: 'turquoise' }}>
@@ -680,10 +680,12 @@ const CenterTab: React.FC = (props: any) => {
             <div className={styles.board}>
               <Row>
                 {/*  */}
+                <Col span={5}>{RenderList(monitorList, 'monitor')}</Col>
+                {/*  */}
                 <Col span={5}>
-                  {RenderList(monitorList, 'monitor')}
+                  {RenderButtonList(monitorButtonList2, 'monitor')}
                   <Row>
-                    <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
+                    <Col span={12} className={styles.listInfo}>
                       视场变倍
                     </Col>
                     <Col span={12} style={{ color: 'white' }}>
@@ -736,7 +738,7 @@ const CenterTab: React.FC = (props: any) => {
                     </Col>
                   </Row>
                   <Row>
-                    <Col span={12} style={{ color: 'white', fontFamily: 'YouSheBiaoTiHei' }}>
+                    <Col span={12} className={styles.listInfo}>
                       焦距设置
                     </Col>
                     <Col span={12} style={{ color: 'white' }}>
@@ -776,11 +778,6 @@ const CenterTab: React.FC = (props: any) => {
                       </div>
                     </Col>
                   </Row>
-                </Col>
-                {/*  */}
-                <Col span={5}>
-                  {RenderList(monitorTFList, 'monitor')}
-                  {RenderButtonList(monitorButtonList2, 'monitor')}
                 </Col>
                 {/*  */}
                 <Col span={5} offset={1}>

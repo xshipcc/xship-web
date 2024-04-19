@@ -129,15 +129,14 @@ const FlashPromotionList: React.FC = () => {
     //   dataIndex: 'ip',
     //   hideInSearch: true,
     // },
-    {
-      title: '摄像头平台',
-      dataIndex: 'platform',
-      hideInSearch: true,
-      valueEnum: {
-        0: { text: '飞机摄像头', color: '#4d78cc' },
-        1: { text: '摄像头', color: '#d4504d' },
-      },
-    },
+    // {
+    //   title: '摄像头平台',
+    //   dataIndex: 'platform',
+    //   hideInSearch: true,
+    //   valueEnum: {
+    //     1: { text: '摄像头', color: '#d4504d' },
+    //   },
+    // },
     {
       title: '摄像头通道',
       dataIndex: 'tunnel',

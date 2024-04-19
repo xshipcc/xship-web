@@ -12,7 +12,7 @@ import Tool from '@/utils/js/measure/measureTool';
 import { useSelector, useDispatch } from 'umi';
 import { message } from 'antd';
 import type { ListAlertHistoryData } from '@/pages/AIalert/data';
-
+import { queryDevice } from '../../../drone/device/service';
 const clientId = 'mapAlert' + Math.random().toString(16).substring(2, 8);
 const username = 'emqx_test';
 const password = 'emqx_test';
@@ -271,17 +271,26 @@ const Map: React.FC = () => {
   const currentComponent = useSelector((state: any) => state.dashboardModel.currentComponent);
   useEffect(() => {
     console.log('currentComponent:', currentComponent);
-    viewer.current.scene.camera.setView({
-      destination: new Cesium.Cartesian3.fromDegrees(
-        114.33919146 + 0.0057,
-        38.07525226 + 0.0011,
-        1033.45,
-      ), // 目标位置
-      orientation: {
-        heading: 0, // 水平角度，正东方向为0
-        pitch: -0.3, // 俯仰角度
-        roll: 0, // 翻滚角度
-      },
+    queryDevice({ pageSize: 1000, current: 1 }).then((resp) => {
+      if (resp?.data) {
+        const drone = resp?.data.filter((item1: { status: number }) => item1.status === 1);
+        console.log('11111111 -> drone:', drone);
+        //  114.33919146 + 0.0057,
+        //    38.07525226 + 0.0011,
+        //    1033.45,
+        viewer.current.scene.camera.setView({
+          destination: new Cesium.Cartesian3.fromDegrees(
+            drone[0].lon + 0.0057,
+            drone[0].lat + 0.0011,
+            drone[0].alt,
+          ), // 目标位置
+          orientation: {
+            heading: 0, // 水平角度，正东方向为0
+            pitch: -0.3, // 俯仰角度
+            roll: 0, // 翻滚角度
+          },
+        });
+      }
     });
 
     // if (currentComponent == 'Awareness') {

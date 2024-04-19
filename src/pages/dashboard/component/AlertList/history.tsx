@@ -131,15 +131,15 @@ export default () => {
           <Button
             type="text"
             onClick={() => {
-              // setbuttonShow(false);
+              setbuttonShow(false);
               // 默认查询结果
               setreqParams({
                 create_time: '',
-                status: 0,
+                status: -1,
               });
-              // setTimeout(() => {
-              //   setbuttonShow(true);
-              // }, 100);
+              setTimeout(() => {
+                setbuttonShow(true);
+              }, 100);
               message.success('双击重置');
               getList({ current: 1, pageSize: 5 });
             }}

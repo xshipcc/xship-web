@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-14 08:59:17
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-03-08 10:14:18
+ * @LastEditTime: 2024-03-08 11:03:02
  * @FilePath: \zero-admin-ui-master\src\pages\dashboard\component\Awareness\center.tsx
  * @Description:
  *
@@ -298,23 +298,47 @@ const AwarenessCenter: React.FC = () => {
         const jsonObject = JSON.parse(mqttMessage);
         console.log('client.current.on -> 无人机状态state11111:', jsonObject);
         if (jsonObject?.road) {
-          // const currentRoadoffset = jsonObject.road.map((item: any) => {
-          //   item.coord[0] = item.coord[0] + 0.0063375;
-          //   item.coord[1] = item.coord[1] + 0.00077765;
-          //   return item;
-          // });
-          const backPoint = jsonObject.road[jsonObject.road.length - 1];
-          backPoint.coord[0] = backPoint.coord[0] + 0.0063375;
-          backPoint.coord[1] = backPoint.coord[1] + 0.00077765;
-          console.log('client.current.on -> 单独点偏移.road:', jsonObject.road, backPoint);
+          if (jsonObject?.road.length === 0) {
+            const endPoint = [
+              {
+                name: '结束点',
+                coord: [0, 0, 0],
+                hovertime: '',
+                photo: '0',
+                radius: 25,
+                speed: 5,
+                turning: '00',
+              },
+            ];
+            dispatch({
+              type: 'dashboardModel/saveCurrentFlyingRoad',
+              payload: endPoint,
+            });
+            console.log('client.current.on -> 无人机状态state11111:', jsonObject);
+          } else {
+            console.log('client.current.on -> 无人机状态state11111:', jsonObject);
 
-          jsonObject.road[jsonObject.road.length - 1] = backPoint;
-          console.log('client.current.on -> 单独点偏移.road:', jsonObject.road);
+            // const currentRoadoffset = jsonObject.road.map((item: any) => {
+            //   item.coord[0] = item.coord[0] + 0.0063375;
+            //   item.coord[1] = item.coord[1] + 0.00077765;
+            //   return item;
+            // });
+            const backPoint = jsonObject.road[jsonObject.road.length - 1];
+            backPoint.coord[0] = backPoint.coord[0] + 0.0063375;
+            backPoint.coord[1] = backPoint.coord[1] + 0.00077765;
+            console.log(
+              'client.current.on -> 无人机状态state11111.road:',
+              jsonObject.road,
+              backPoint,
+            );
 
-          dispatch({
-            type: 'dashboardModel/saveCurrentFlyingRoad',
-            payload: jsonObject.road,
-          });
+            jsonObject.road[jsonObject.road.length - 1] = backPoint;
+            console.log('client.current.on -> 无人机状态state11111.road:', jsonObject.road);
+            dispatch({
+              type: 'dashboardModel/saveCurrentFlyingRoad',
+              payload: jsonObject.road,
+            });
+          }
         } else {
           setdashboardState(jsonObject);
           handleForceupdateMethod();

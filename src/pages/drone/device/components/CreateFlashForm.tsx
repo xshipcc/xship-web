@@ -2,7 +2,7 @@
  * @Author: weiaodi 1635654853@qq.com
  * @Date: 2023-09-24 18:10:03
  * @LastEditors: weiaodi 1635654853@qq.com
- * @LastEditTime: 2024-01-10 20:21:59
+ * @LastEditTime: 2024-04-15 12:43:05
  * @FilePath: \zero-admin-ui-master\src\pages\drone\device\components\CreateFlashForm.tsx
  * @Description:
  *
@@ -154,6 +154,21 @@ const CreateFlashForm: React.FC<CreateFormProps> = (props) => {
           </Select>
         </FormItem>
 
+        <FormItem name="close_door" label="舱盖设置" initialValue={0}>
+          <Select id="showStatus" defaultValue={0}>
+            <Select.Option value={0}>关舱</Select.Option>
+            <Select.Option value={1}>开舱</Select.Option>
+          </Select>
+        </FormItem>
+        <FormItem name="lon" label="经度" rules={[{ required: true, message: '经度!' }]}>
+          <InputNumber id="update-title" placeholder={'经度'} />
+        </FormItem>
+        <FormItem name="lat" label="纬度" rules={[{ required: true, message: '纬度!' }]}>
+          <InputNumber id="update-title" placeholder={'纬度'} />
+        </FormItem>
+        <FormItem name="alt" label="高度" rules={[{ required: true, message: '高度!' }]}>
+          <InputNumber id="update-title" placeholder={'高度'} />
+        </FormItem>
         <FormItem
           name="cam_ip"
           label="摄像头ip"

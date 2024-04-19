@@ -83,12 +83,12 @@ export const hangarInfoList2 = [
   },
   {
     key: `homing`,
-    value: `归位机构状态`,
+    value: `归位机构`,
     unit: ' ',
   },
   {
     key: `uavpower_status`,
-    value: `无人机电源状态`,
+    value: `电源状态`,
     unit: '',
   },
 ];
@@ -108,8 +108,6 @@ export const monitorList = [
     value: `目标高度`,
     unit: 'm',
   },
-];
-export const monitorTFList = [
   {
     key: `tf_total`,
     value: `TF总容量`,
@@ -121,6 +119,7 @@ export const monitorTFList = [
     unit: '%',
   },
 ];
+export const monitorTFList = [];
 // 面板控制加载
 export const droneButtonList1 = [
   {
