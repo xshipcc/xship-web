@@ -73,61 +73,6 @@ The **Universal Unmanned Equipment Operation Platform** is not just a control ce
 
 ## Requirements Table
 
-| Drone Automatic Patrol Platform |  |  |  |
-| --- | --- | --- | --- | --- |
-| **Specific Requirement List** | **Description of Specific Requirement List** | Function Scope | **Requirement List Remarks** |
-| Drone Management | Enter IP address to bind devices, the 甲方 needs to provide controllable drones, data link permits, establish drone numbers, unaccessed devices will not be able to control | 2\. Drone Management |  |
-| Data System | Based on iFlytek features, design, and establish historical data playback system | 4\. Comprehensive Monitoring |  |
-| Administrator Management | Super administrator management, only super administrators can add people | 1\. System Management |  |
-|  | Operator Administrator (current, reports, statistics, history, alarms) | 1\. System Management |  |
-|  | Visitor (current flight status, cannot view alarms) | 1\. System Management |  |
-| Visitor Role | Allow super administrator, switch can be, add time limit | 1\. System Management |  |
-| Operator Management | Can manage drone operators | 1\. System Management |  |
-| Operation Log | All operation histories, keep logs (view) | 1\. System Management |  |
-| Role Permission Management | Comprehensive, data view permissions, control permissions, add permissions, | 1\. System Management |  |
-|  | Add management role for control permission of a unit | 1\. System Management |  |
-| Comprehensive Monitoring | Drone status display | 4\. Comprehensive Monitoring | Drone status display, including drone battery level, navigation strength, drone attitude, heading, position, etc.; Device 3: Flight Control Device |
-| Payload Status Display | Includes payload attitude, zoom ratio, working mode, etc.; | 4\. Comprehensive Monitoring |  |
-|  | Camera, first use RTSP protocol, how to control positioning Device 4: Controllable Camera Protocol | 4\. Comprehensive Monitoring |  |
-| Communication Link Status Display | Includes signal strength, communication frequency band, etc. Device 2: Data Link Device: Read data packets | 4\. Comprehensive Monitoring |  |
-| Airport Status Display | Includes weather, charging and discharging status, hangar open/close status, etc.; Does the airport need additional docking? Device 1: Hangar System | 4\. Comprehensive Monitoring |  |
-| Drone Flight Control | Includes automatic drone dispatch, search flight tasks, takeoff, landing, return, switch to manual control, etc. Device 3: Flight Control Device | 2\. Drone Management |  |
-| Payload Control | First with a set of camera control channel commands. Simultaneously load 6 clear protocol commands | 4\. Comprehensive Monitoring |  |
-| Airport Control | a) Includes opening and closing the cover remotely; | 2\. Drone Management |  |
-|  | Subsequent debugging and docking | 2\. Drone Management |  |
-| Link Control | Includes frequency band switching, remote power on and off, etc. | 2\. Drone Management |  |
-| Alert and Emergency Return | Has a voltage alert value preset function, monitors the aircraft battery throughout the flight, has obvious sound and light alarm prompts when the voltage is lower than the preset voltage value, the drone can automatically return when the voltage is low to the set alarm pressure value, has navigation signal, communication link interruption detection function, when the control link is interrupted, the drone can automatically return; | 4\. Comprehensive Monitoring |  |
-|  | (Countdown 15 seconds automatic return) Determine the return standard. |  |  |
-| Hikvision Camera Access | j) Can access multiple Hikvision monitoring data, support split-screen display; Are our heads Hikvision? | 4\. Comprehensive Monitoring |  |
-| Task Management | Task Creation | 2\. Drone Management | Includes multi-drone patrol routes, flight tasks, duty operators, task start time, etc., for multi-drone assignment of timing tasks |
-| Task Editing | Can detailed edit flight tasks such as waypoint locations, payload attitudes, execution algorithms, etc.; | 2\. Drone Management |  |
-| Historical Task Viewing | Can view historical task records and detection results | 2\. Drone Management |  |
-| Task Library Management | Can create, store, delete, view flight task libraries, create flight tasks through map drawing, manual entry, etc., to form a task library; | 2\. Drone Management |  |
-| Route Planning | Manually plan routes on satellite maps, display the distance of the route from the starting point, the route can be dragged and edited; Can overlay payload scanning routes on waypoints; Path planning is first sent to the flight control software | 2\. Drone Management |  |
-| Automatic Patrol Tasks | Drones can autonomously perform alert patrols based on edited tasks, alert when problems are found, then pop up prompts, operators manually operate to observe anomalies | 2\. Drone Management |  |
-|  | AI Custom Algorithm | 3\. Intelligent Alerting | Personnel Detection |
-|  | Vehicle Detection | 3\. Intelligent Alerting |  |
-|  | Intrusion Detection | 3\. Intelligent Alerting |  |
-|  | Flame Smoke Detection | 3\. Intelligent Alerting |  |
-|  | Facial Recognition | 3\. Intelligent Alerting |  |
-|  | Difference Comparison? | 3\. Intelligent Alerting |  |
-| AI Intelligent Hardware and Software Integration Platform | Based on NVIDIA Jetson series board or NVIDIA GPU server, one, 8G memory, temporarily used as a data server, if capacity problems, then separate another independent system | 3\. Intelligent Alerting |  |
-| Alert PDF Generation | Query alert webpage generates PDF, support image-text generation | 3\. Intelligent Alerting | 1 |
-| Alert Classification | Support hierarchical intelligent alerts, can intelligently alert based on time, space, target attributes, etc. | 3\. Intelligent Alerting | 1 |
-| Playback | Multi-channel video playback, drone data playback, alarms, synchronized playback | 4\. Comprehensive Monitoring |  |
-| Integration of Third-Party NVR Services | Need to develop integration unique NVR support NVR video display and storage, monitoring and playback functions: time period, synchronized playback (camera, aircraft data) selectable playback. | 4\. Comprehensive Monitoring | 1 |
-| Hikvision NVR | Deploy a set of recording equipment (Hikvision, Dahua) to achieve recording playback, connect to the monitoring screen | 4\. Comprehensive Monitoring | 0 |
-| Drone Flight Control System Debugging | Drone control system | 2\. Drone Management | At least support 10 commands, drone remote control system. Based on server time. |
-| Drone Takeoff | Hangar opens, powers on, self-checks, transmits route, route successful, unlocks, takes off, moves 5 meters, closes | 2\. Drone Management | 1 |
-| Drone Return | Drone loses connection | 2\. Drone Management | Normally returns, cover automatically opens, stops (locks), returns to position, powers off, closes | 1 |
-| Visual Platform | Patrol Visualization Platform | 2\. Drone Management | Patrol results visualization, drone flight time, total time, mileage, total mileage, number of abnormal events detected, etc., results information statistics chart visualization. |
-|  | Map anomaly point location | 2\. Drone Management |  |
-| Map Real-time Situation Display | Map real-time display of drone position situation, real-time communication drone position and photos | 2\. Drone Management | 1 |
-| Map Data | Use our purchased data for data labeling | 2\. Drone Management | 1 |
-| Real-time Video Monitoring Platform | Use NVR output for monitoring, WEB supports up to 6 video channels on the screen at the same time | 4\. Comprehensive Monitoring | 1 |
-| Historical Playback | Time-aligned storage, store payload telemetry, flight control telemetry by time alignment, can review historical data through playback. Need to display flight route, flight photos for each time period and alarms on the route | 4\. Comprehensive Monitoring | 1 |
-|  |  |  |  |
-
 1. Statistical Analysis
 
    1. Visualize statistical charts of results information such as flight time, total time, mileage, total mileage, number of abnormal events detected, etc.
